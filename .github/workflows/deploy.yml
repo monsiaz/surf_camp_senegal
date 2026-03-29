@@ -1,7 +1,4 @@
-name: Pre-build check
-
-# Vercel deploys automatically via its GitHub integration on every push to main.
-# This workflow only runs build.py as a sanity check — Vercel does the actual deploy.
+name: Build & Deploy to Vercel
 
 on:
   push:
@@ -9,9 +6,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-check:
+  deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
 
     steps:
       - name: Checkout code
@@ -22,13 +19,38 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install Python deps
-        run: pip install requests
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
 
-      - name: Run build.py (sanity check)
+      - name: Install deps
+        run: |
+          pip install requests
+          npm install
+          npm install -g vercel
+
+      - name: Restore Vercel project link
+        env:
+          VERCEL_ORG_ID:     ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: |
+          mkdir -p .vercel
+          echo '{"projectId":"'"$VERCEL_PROJECT_ID"'","orgId":"'"$VERCEL_ORG_ID"'"}' > .vercel/project.json
+
+      - name: Build site (python)
         run: python3 build.py
 
-      - name: Confirm output directory exists
-        run: |
-          echo "cloudflare-demo pages: $(find cloudflare-demo -name '*.html' | wc -l)"
-          echo "Build OK ✅"
+      - name: Vercel build (prebuilt output)
+        env:
+          VERCEL_TOKEN:      ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID:     ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: vercel build --prod --token "$VERCEL_TOKEN" --yes
+
+      - name: Deploy to Vercel Production
+        env:
+          VERCEL_TOKEN:      ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID:     ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: vercel deploy --prebuilt --prod --token "$VERCEL_TOKEN" --yes
