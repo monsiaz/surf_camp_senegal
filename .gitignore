@@ -1,4 +1,4 @@
-# Generated site — tracked so GitHub Actions can deploy the full site
+# Static site output (folder name is legacy; deployed on Vercel, not Cloudflare)
 # cloudflare-demo/ is committed (HTML + optimised assets only, no raw PNG sources)
 
 # Secrets

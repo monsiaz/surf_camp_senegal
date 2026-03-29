@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """
 Ngor Surfcamp Teranga — Single Source of Truth Build Script
-Usage: python3 build.py [--deploy]
+Usage: python3 build.py
 
-Builds ALL pages fresh. Run this instead of any of the old scripts.
+Output: cloudflare-demo/ (historical folder name) → deployed via Vercel.
+Set PUBLIC_SITE_URL for canonical / hreflang / JSON-LD (default: production Vercel URL).
 """
 import html as html_module
 import importlib.util
@@ -29,9 +30,22 @@ SURF_HOUSE_FEATS = _surf_house_mod.SURF_HOUSE_FEATS
 
 DEMO_DIR  = os.path.join(_BASE_DIR, "cloudflare-demo")
 CONTENT   = os.path.join(_BASE_DIR, "content")
-SITE_URL  = "https://ngor-surfcamp-demo.pages.dev"
+# Absolute production origin (no trailing slash). Override for custom domain.
+_SITE_RAW = (os.environ.get("PUBLIC_SITE_URL") or "https://surf-camp-senegal.vercel.app").strip().rstrip("/")
+if _SITE_RAW.startswith("http://"):
+    SITE_URL = _SITE_RAW
+elif _SITE_RAW.startswith("https://"):
+    SITE_URL = _SITE_RAW
+else:
+    SITE_URL = "https://" + _SITE_RAW.lstrip("/")
 # Bump after CSS/JS changes so browsers fetch fresh assets (query string cache bust).
-ASSET_VERSION = "20260329a"
+ASSET_VERSION = "20260329b"
+
+# Legacy hosts replaced in patch_legacy_public_host_all() after each build
+LEGACY_PUBLIC_HOSTS = (
+    "https://ngor-surfcamp-demo.pages.dev",
+    "http://ngor-surfcamp-demo.pages.dev",
+)
 
 # ════════════════════════════════════════════════════════════════
 # CONSTANTS
@@ -738,6 +752,32 @@ Sitemap: {base}/sitemap-index.xml
         "  SEO: robots.txt + sitemap-index.xml + "
         + ", ".join(f"{lg}={len(entries[lg])}" for lg in LANGS)
     )
+
+
+def patch_legacy_public_host_all():
+    """Rewrite old Cloudflare Pages host → SITE_URL in HTML/XML/txt (canonical, hreflang, og, JSON-LD)."""
+    from pathlib import Path as _Path
+
+    new = SITE_URL.rstrip("/")
+    exts = {".html", ".xml", ".txt"}
+    n = 0
+    for p in _Path(DEMO_DIR).rglob("*"):
+        if not p.is_file() or p.suffix.lower() not in exts:
+            continue
+        try:
+            t = p.read_text(encoding="utf-8", errors="replace")
+        except OSError:
+            continue
+        t2 = t
+        for old in LEGACY_PUBLIC_HOSTS:
+            if old in t2:
+                t2 = t2.replace(old, new)
+        if t2 != t:
+            p.write_text(t2, encoding="utf-8")
+            n += 1
+    if n:
+        print(f"  SEO: migrated legacy host in {n} files → {new}")
+
 
 def write_page(rel_path, html):
     """Write a page to the correct location."""
@@ -4522,7 +4562,7 @@ patch_home_blog_preview_all()
 def patch_head_all_pages():
     """Update <head> on ALL HTML pages: asset version, async fonts, preconnects."""
     import re as _re
-    old_versions = ["20260327f","20260328a","20260328b","20260328c","20260328d"]
+    old_versions = ["20260327f","20260328a","20260328b","20260328c","20260328d","20260329a"]
     new_v = ASSET_VERSION
     FONT_URL = ("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,700;"
                 "0,800;0,900;1,400&family=Inter:wght@400;500;600&display=swap")
@@ -4709,6 +4749,7 @@ print("Injecting CMP (Google Consent Mode V2) site-wide…")
 patch_cmp_all_pages()
 
 write_sitemaps_and_robots()
+patch_legacy_public_host_all()
 
 # Copy static/ folder (CMS admin, etc.) into the output
 _static_src = os.path.join(_BASE_DIR, "static")
@@ -4722,11 +4763,9 @@ if os.path.isdir(_static_src):
             shutil.copy2(_src_path, _dst_path)
     print(f"✓ static/ copied to {DEMO_DIR}")
 
-# Deploy if requested
-if '--deploy' in sys.argv:
-    print("\nDeploying to Cloudflare Pages...")
-    result = subprocess.run(
-        ['wrangler', 'pages', 'deploy', '.', '--project-name', 'ngor-surfcamp-demo', '--branch', 'main'],
-        cwd=DEMO_DIR, capture_output=True, text=True
+if "--deploy" in sys.argv:
+    print(
+        "\n[!] --deploy (Cloudflare) removed. Push to main → GitHub Actions → Vercel, "
+        "or: vercel build --prod && vercel deploy --prebuilt --prod"
     )
-    print(result.stdout[-500:] if result.stdout else result.stderr[-300:])
+    sys.exit(2)

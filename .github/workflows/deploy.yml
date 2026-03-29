@@ -39,6 +39,9 @@ jobs:
           echo '{"projectId":"'"$VERCEL_PROJECT_ID"'","orgId":"'"$VERCEL_ORG_ID"'"}' > .vercel/project.json
 
       - name: Build site (python)
+        env:
+          # Canonical / hreflang / sitemap / JSON-LD — set to your final domain when you add one
+          PUBLIC_SITE_URL: https://surf-camp-senegal.vercel.app
         run: python3 build.py
 
       - name: Vercel build (prebuilt output)

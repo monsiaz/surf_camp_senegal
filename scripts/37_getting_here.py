@@ -10,7 +10,7 @@ Features:
 import os, re
 
 DEMO     = "/Users/simonazoulay/SurfCampSenegal/cloudflare-demo"
-SITE_URL = "https://ngor-surfcamp-demo.pages.dev"
+SITE_URL = (os.environ.get("PUBLIC_SITE_URL") or "https://surf-camp-senegal.vercel.app").strip().rstrip("/")
 LANGS    = ["en","fr","es","it","de"]
 LANG_PFX = {"en":"","fr":"/fr","es":"/es","it":"/it","de":"/de"}
 LANG_LOCALE = {"en":"en","fr":"fr-FR","es":"es-ES","it":"it-IT","de":"de-DE"}

@@ -7,7 +7,7 @@ import json, os, re
 CONTENT  = "/Users/simonazoulay/SurfCampSenegal/content"
 PAGES_D  = f"{CONTENT}/pages"
 DEMO_DIR = "/Users/simonazoulay/SurfCampSenegal/cloudflare-demo"
-SITE_URL = "https://ngor-surfcamp-demo.pages.dev"
+SITE_URL = (os.environ.get("PUBLIC_SITE_URL") or "https://surf-camp-senegal.vercel.app").strip().rstrip("/")
 
 WIX  = "https://static.wixstatic.com/media"
 LOGO = f"{WIX}/c2467f_a31779010ce34c4c8c61cc5868d81f31~mv2.png"

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://ngor-surfcamp-demo.pages.dev/sitemap-index.xml
+Sitemap: https://surf-camp-senegal.vercel.app/sitemap-index.xml

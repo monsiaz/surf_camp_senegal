@@ -11,7 +11,7 @@ V2_LANGS  = ["en","fr","es","it","de","nl","ar"]
 V1_DIR   = f"{CONTENT}/articles"
 PAGES_D  = f"{CONTENT}/pages"
 DEMO_DIR = "/Users/simonazoulay/SurfCampSenegal/cloudflare-demo"
-SITE_URL = "https://ngor-surfcamp-demo.pages.dev"
+SITE_URL = (os.environ.get("PUBLIC_SITE_URL") or "https://surf-camp-senegal.vercel.app").strip().rstrip("/")
 
 LANGS       = ["en","fr","es","it","de","nl","ar"]
 LANG_NAMES  = {"en":"English","fr":"Français","es":"Español","it":"Italiano","de":"Deutsch","nl":"Nederlands","ar":"العربية"}
