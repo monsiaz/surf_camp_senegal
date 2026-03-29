@@ -10,7 +10,14 @@
  *   NOTIFY_EMAIL         — email address to receive booking alerts (e.g. info@surfcampsenegal.com)
  */
 
-import { sql } from '@vercel/postgres';
+// @vercel/postgres is optional — if POSTGRES_URL is not set the booking is
+// still logged and WhatsApp flow continues normally on the client side.
+let sql;
+try {
+  ({ sql } = await import('@vercel/postgres'));
+} catch (_) {
+  sql = null;
+}
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
@@ -54,7 +61,12 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Invalid email address' });
     }
 
-    // Save to Postgres
+    // Save to Postgres (skipped gracefully if DB not yet connected)
+    if (!sql || !process.env.POSTGRES_URL) {
+      console.log('DB not configured — booking logged only:', { first_name, email, arrival, departure });
+      return res.status(200).json({ ok: true, bookingId: null, message: 'Received (DB pending setup)' });
+    }
+
     const { rows } = await sql`
       INSERT INTO bookings
         (first_name, email, phone, country, arrival, departure, guests, level, message, lang, page_url)

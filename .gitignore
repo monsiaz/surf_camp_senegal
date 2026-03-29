@@ -3,6 +3,8 @@
 
 # Secrets
 clesapi.txt
+.admin_api_key
+.vercel/
 *.json.bak
 leafy-brace-*.json
 
