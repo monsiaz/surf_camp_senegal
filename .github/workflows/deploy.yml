@@ -9,6 +9,9 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    permissions:
+      contents: read
+      id-token: write
 
     steps:
       - name: Checkout code
@@ -40,3 +43,17 @@ jobs:
           wrangler pages deploy cloudflare-demo \
             --project-name ngor-surfcamp-demo \
             --branch main
+
+      - name: Refresh GitHub secret with new tokens
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT_SECRETS }}
+        run: |
+          if [ -n "$GH_TOKEN" ]; then
+            NEW_TOML=$(cat "$HOME/.config/.wrangler/config/default.toml")
+            printf '%s' "$NEW_TOML" | gh secret set WRANGLER_CONFIG_TOML \
+              --repo monsiaz/surf_camp_senegal
+            echo "Tokens refreshed in GitHub Secrets"
+          else
+            echo "GH_PAT_SECRETS not set – skipping token refresh"
+          fi
