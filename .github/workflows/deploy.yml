@@ -29,8 +29,8 @@ jobs:
 
       - name: Restore Wrangler auth
         run: |
-          mkdir -p "$HOME/.config/wrangler/config"
-          printf '%s' '${{ secrets.WRANGLER_CONFIG_TOML }}' > "$HOME/.config/wrangler/config/default.toml"
+          mkdir -p "$HOME/.config/.wrangler/config"
+          printf '%s' '${{ secrets.WRANGLER_CONFIG_TOML }}' > "$HOME/.config/.wrangler/config/default.toml"
 
       - name: Build site
         run: python3 build.py
