@@ -1,5 +1,6 @@
 -- Neon Postgres schema for Ngor Surfcamp
--- Run once: Vercel Dashboard → Storage → your DB → Query tab → paste & run
+-- Run once in Neon: console.neon.tech → your branch → SQL Editor → paste & run
+-- (or Vercel → Storage → your Postgres → Query)
 
 CREATE TABLE IF NOT EXISTS bookings (
   id          SERIAL PRIMARY KEY,

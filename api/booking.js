@@ -3,13 +3,13 @@
  *
  * Saves booking form data to Neon Postgres and sends an email notification.
  *
- * Required env vars (Vercel Dashboard → Settings → Environment Variables):
- *   POSTGRES_URL    — auto-set when you connect a Neon DB in Vercel Storage tab
- *   RESEND_API_KEY  — optional, from resend.com (free tier: 3 000 emails/month)
- *   NOTIFY_EMAIL    — e.g. info@surfcampsenegal.com
+ * Env (Vercel auto-injects one of these when Neon is connected):
+ *   POSTGRES_URL | DATABASE_URL | POSTGRES_PRISMA_URL
+ * Optional:
+ *   RESEND_API_KEY, NOTIFY_EMAIL
  */
 
-import { sql } from '@vercel/postgres';
+import { sql, hasDb } from './_db.js';
 
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -46,13 +46,12 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Invalid email address' });
     }
 
-    // If DB not connected yet, acknowledge gracefully so WhatsApp flow still works
-    if (!process.env.POSTGRES_URL) {
-      console.log('[booking] POSTGRES_URL not set — logging only:', { first_name, email });
+    if (!hasDb || !sql) {
+      console.log('[booking] No DATABASE_URL / POSTGRES_URL — logging only:', { first_name, email });
       return res.status(200).json({ ok: true, bookingId: null, message: 'Received (DB not yet connected)' });
     }
 
-    const { rows } = await sql`
+    const rows = await sql`
       INSERT INTO bookings
         (first_name, email, phone, country, arrival, departure, guests, level, message, lang, page_url)
       VALUES
@@ -64,7 +63,6 @@ export default async function handler(req, res) {
 
     const booking = rows[0];
 
-    // Optional Resend email notification
     if (process.env.RESEND_API_KEY && process.env.NOTIFY_EMAIL) {
       fetch('https://api.resend.com/emails', {
         method: 'POST',
