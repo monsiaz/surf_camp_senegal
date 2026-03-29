@@ -2,27 +2,32 @@
 <meta http-equiv="refresh" content="0;url=https://ngor-surfcamp-demo.pages.dev/it/isola/">
 <link rel="canonical" href="https://ngor-surfcamp-demo.pages.dev/it/isola/">
 <title>Redirecting...</title>
+
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css">
 </head><body>
 <script>location.href="https://ngor-surfcamp-demo.pages.dev/it/isola/";</script>
-<script defer
-  src="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.umd.js"
-  onload="(function(){
-  var lang=(document.documentElement.lang||'en').split('-')[0].split('_')[0];
-  var T={
-    en:{title:'Cookie notice',desc:'This site uses strictly necessary cookies to function. No tracking or advertising cookies.',accept:'Accept',reject:'Necessary only',manage:'Manage'},
-    fr:{title:'Avis sur les cookies',desc:'Ce site utilise uniquement des cookies strictement nécessaires. Aucun cookie de suivi ou publicitaire.',accept:'Accepter',reject:'Nécessaires seulement',manage:'Gérer'},
-    es:{title:'Aviso de cookies',desc:'Este sitio usa solo cookies estrictamente necesarias. Sin cookies de seguimiento ni publicidad.',accept:'Aceptar',reject:'Solo necesarias',manage:'Gestionar'},
-    it:{title:'Informativa sui cookie',desc:'Questo sito usa solo cookie strettamente necessari. Nessun cookie di tracciamento o pubblicità.',accept:'Accetta',reject:'Solo necessari',manage:'Gestisci'},
-    de:{title:'Cookie-Hinweis',desc:'Diese Website verwendet nur technisch notwendige Cookies. Keine Tracking- oder Werbe-Cookies.',accept:'Akzeptieren',reject:'Nur notwendige',manage:'Verwalten'},
-    nl:{title:'Cookiemelding',desc:'Deze site gebruikt alleen strikt noodzakelijke cookies. Geen tracking- of advertentiecookies.',accept:'Accepteren',reject:'Alleen noodzakelijk',manage:'Beheren'},
-    ar:{title:'إشعار الكوكيز',desc:'يستخدم هذا الموقع ملفات تعريف الارتباط الضرورية فقط. لا يوجد تتبع أو إعلانات.',accept:'قبول',reject:'الضرورية فقط',manage:'إدارة'}
-  };
-  var t=T[lang]||T.en;
-  CookieConsent.run({
-    guiOptions:{consentModal:{layout:'cloud',position:'bottom center',equalWeightButtons:false,flipButtons:false}},
-    categories:{necessary:{enabled:true,readOnly:true},analytics:{enabled:false}},
-    language:{default:lang,translations:{[lang]:{consentModal:{title:t.title,description:t.desc,acceptAllBtn:t.accept,acceptNecessaryBtn:t.reject,showPreferencesBtn:t.manage},preferencesModal:{title:t.manage,acceptAllBtn:t.accept,acceptNecessaryBtn:t.reject,savePreferencesBtn:t.accept,sections:[{title:t.title,linkedCategory:'necessary'}]}}}}}
-  });
-})()"></script>
+
+<script type="module">
+import CookieConsent from 'https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.esm.js';
+var lang=(document.documentElement.lang||'en').split('-')[0].split('_')[0];
+var T={
+  en:{title:'We use cookies',desc:'This site only uses strictly necessary cookies to function. No tracking or advertising.',accept:'Got it',reject:'Necessary only',manage:'Manage'},
+  fr:{title:'Utilisation des cookies',desc:'Ce site utilise uniquement des cookies strictement nécessaires. Aucun cookie de suivi ou publicitaire.',accept:'Accepter',reject:'Nécessaires seulement',manage:'Gérer'},
+  es:{title:'Uso de cookies',desc:'Este sitio usa solo cookies estrictamente necesarias. Sin seguimiento ni publicidad.',accept:'Aceptar',reject:'Solo necesarias',manage:'Gestionar'},
+  it:{title:'Utilizzo dei cookie',desc:'Questo sito usa solo cookie strettamente necessari. Nessun tracciamento o pubblicità.',accept:'Accetta',reject:'Solo necessari',manage:'Gestisci'},
+  de:{title:'Cookie-Hinweis',desc:'Diese Website verwendet nur technisch notwendige Cookies. Kein Tracking, keine Werbung.',accept:'Akzeptieren',reject:'Nur notwendige',manage:'Verwalten'},
+  nl:{title:'Cookiemelding',desc:'Deze site gebruikt alleen strikt noodzakelijke cookies. Geen tracking of reclame.',accept:'Akkoord',reject:'Alleen noodzakelijk',manage:'Beheren'},
+  ar:{title:'إشعار الكوكيز',desc:'يستخدم هذا الموقع ملفات تعريف الارتباط الضرورية فقط. لا تتبع ولا إعلانات.',accept:'موافق',reject:'الضرورية فقط',manage:'إدارة'}
+};
+var t=T[lang]||T.en;
+CookieConsent.run({
+  guiOptions:{consentModal:{layout:'cloud',position:'bottom center',equalWeightButtons:false,flipButtons:false}},
+  categories:{necessary:{enabled:true,readOnly:true},analytics:{enabled:false}},
+  language:{default:lang,translations:{[lang]:{
+    consentModal:{title:t.title,description:t.desc,acceptAllBtn:t.accept,acceptNecessaryBtn:t.reject,showPreferencesBtn:t.manage},
+    preferencesModal:{title:t.manage,acceptAllBtn:t.accept,acceptNecessaryBtn:t.reject,savePreferencesBtn:t.accept,
+      sections:[{title:t.title,linkedCategory:'necessary'}]}
+  }}}
+});
+</script>
 </body></html>
