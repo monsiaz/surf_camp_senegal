@@ -31,7 +31,7 @@ DEMO_DIR  = os.path.join(_BASE_DIR, "cloudflare-demo")
 CONTENT   = os.path.join(_BASE_DIR, "content")
 SITE_URL  = "https://ngor-surfcamp-demo.pages.dev"
 # Bump after CSS/JS changes so browsers fetch fresh assets (query string cache bust).
-ASSET_VERSION = "20260328d"
+ASSET_VERSION = "20260329a"
 
 # ════════════════════════════════════════════════════════════════
 # CONSTANTS
@@ -1819,6 +1819,227 @@ def patch_home_static_text_all():
                 f.write(h)
             n += 1
     print(f"  Static home text patches: {n} pages")
+
+
+def patch_home_nav_footer_all():
+    """Replace nav and footer on ALL home pages with correctly-translated versions from build_nav/build_footer."""
+    import re as _re
+    NAV_RE    = _re.compile(r'<nav\s+id="nav".*?</nav>', _re.DOTALL)
+    FOOTER_RE = _re.compile(r'<footer>.*?</footer>', _re.DOTALL)
+    n = 0
+    for rel in HOME_PAGES:
+        lang = "en"
+        if "/" in rel:
+            lang = rel.split("/")[0]
+        path = os.path.join(DEMO_DIR, rel)
+        if not os.path.isfile(path):
+            continue
+        with open(path, encoding="utf-8") as f:
+            h = f.read()
+        # Build correct href map (home links for all languages)
+        home_hrefs = {lg: (LANG_PFX[lg] + "/") for lg in LANGS}
+        new_nav    = build_nav("", lang, home_hrefs)
+        new_footer = build_footer(lang)
+        h2 = NAV_RE.sub(new_nav, h, count=1)
+        h2 = FOOTER_RE.sub(new_footer, h2, count=1)
+        if h2 != h:
+            with open(path, "w", encoding="utf-8") as f:
+                f.write(h2)
+            n += 1
+    print(f"  home nav+footer rebuilt: {n} pages")
+
+
+def patch_home_discover_section_all():
+    """Translate the 'Discover' section (heading + 3 cards) on non-EN home pages."""
+    DISC_L = {
+        "fr": {"lbl":"Découvrir","h2":"Tout au Ngor Surfcamp",
+               "c1_t":"La Surf House","c1_d":"Chambres cosy, piscine, vue mer, repas sénégalais. Votre maison au bord de l'océan.","c1_btn":"Découvrir",
+               "c2_t":"L'Île de Ngor","c2_d":"Pas de voitures, vagues de classe mondiale, héritage de The Endless Summer. Une perle au large de Dakar.","c2_btn":"Découvrir",
+               "c3_t":"Le Surf","c3_d":"Analyse vidéo professionnelle, sessions personnalisées, tous niveaux. Coachs agréés.","c3_btn":"Découvrir"},
+        "es": {"lbl":"Descubrir","h2":"Todo en Ngor Surfcamp",
+               "c1_t":"La Surf House","c1_d":"Habitaciones acogedoras, piscina, vistas al mar, comidas senegalesas. Tu hogar junto al océano.","c1_btn":"Descubrir",
+               "c2_t":"Isla de Ngor","c2_d":"Sin coches, olas de clase mundial, legado de The Endless Summer. Una joya frente a Dakar.","c2_btn":"Descubrir",
+               "c3_t":"El Surf","c3_d":"Análisis de video profesional, sesiones personalizadas, todos los niveles. Entrenadores certificados.","c3_btn":"Descubrir"},
+        "it": {"lbl":"Scoprire","h2":"Tutto al Ngor Surfcamp",
+               "c1_t":"La Surf House","c1_d":"Camere accoglienti, piscina, vista mare, pasti senegalesi. La tua casa sull'oceano.","c1_btn":"Scopri",
+               "c2_t":"Isola di Ngor","c2_d":"Niente macchine, onde di livello mondiale, eredità di The Endless Summer. Un gioiello al largo di Dakar.","c2_btn":"Scopri",
+               "c3_t":"Il Surf","c3_d":"Analisi video professionale, sessioni personalizzate, tutti i livelli. Coach abilitati.","c3_btn":"Scopri"},
+        "de": {"lbl":"Entdecken","h2":"Alles im Ngor Surfcamp",
+               "c1_t":"Das Surf House","c1_d":"Gemütliche Zimmer, Pool, Meerblick, tägliche senegalesische Mahlzeiten. Ihr Zuhause am Ozean.","c1_btn":"Entdecken",
+               "c2_t":"Ngor Island","c2_d":"Keine Autos, Weltklasse-Wellen, das Erbe von The Endless Summer. Ein Juwel vor Dakar.","c2_btn":"Entdecken",
+               "c3_t":"Surfen","c3_d":"Professionelle Videoanalyse, personalisierte Sessions, alle Level. Lizenzierte Coaches.","c3_btn":"Entdecken"},
+        "nl": {"lbl":"Ontdek","h2":"Alles bij Ngor Surfcamp",
+               "c1_t":"De Surf House","c1_d":"Gezellige kamers, zwembad, zeezicht, dagelijkse Senegalese maaltijden. Jouw thuis aan de oceaan.","c1_btn":"Ontdekken",
+               "c2_t":"Ngor Eiland","c2_d":"Geen auto's, wereldklasse golven, erfenis van The Endless Summer. Een juweel voor de kust van Dakar.","c2_btn":"Ontdekken",
+               "c3_t":"Surfen","c3_d":"Professionele video-analyse, gepersonaliseerde sessies, alle niveaus. Erkende coaches.","c3_btn":"Ontdekken"},
+        "ar": {"lbl":"اكتشف","h2":"كل شيء في نغور سيرف كامب",
+               "c1_t":"بيت الأمواج","c1_d":"غرف مريحة، مسبح، إطلالة على البحر، وجبات سنغالية يومية. منزلك بجانب المحيط.","c1_btn":"اكتشف",
+               "c2_t":"جزيرة نغور","c2_d":"لا سيارات، أمواج عالمية المستوى، إرث The Endless Summer. جوهرة قبالة داكار.","c2_btn":"اكتشف",
+               "c3_t":"ركوب الأمواج","c3_d":"تحليل فيديو احترافي، جلسات مخصصة، جميع المستويات. مدربون معتمدون.","c3_btn":"اكتشف"},
+    }
+    # Map lang → (slug key, localized slug)
+    PAGE_SLUGS = {
+        lg: {
+            "surf-house": SLUG[lg].get("surf-house", "surf-house"),
+            "island":     SLUG[lg].get("island", "island"),
+            "surfing":    SLUG[lg].get("surfing", "surfing"),
+        }
+        for lg in LANGS
+    }
+    n = 0
+    for lang, L in DISC_L.items():
+        rel  = f"{lang}/index.html"
+        path = os.path.join(DEMO_DIR, rel)
+        if not os.path.isfile(path): continue
+        with open(path, encoding="utf-8") as f:
+            h = f.read()
+        pfx = LANG_PFX[lang]
+        sh_href   = f"{pfx}/{PAGE_SLUGS[lang]['surf-house']}/"
+        isl_href  = f"{pfx}/{PAGE_SLUGS[lang]['island']}/"
+        surf_href = f"{pfx}/{PAGE_SLUGS[lang]['surfing']}/"
+        new_heading = (
+            f'<div class="reveal" style="text-align:center;margin-bottom:60px">\n'
+            f'        <span class="s-label">{L["lbl"]}</span>\n'
+            f'        <h2 class="s-title">{L["h2"]}</h2>\n'
+            f'      </div>'
+        )
+        new_grid = (
+            f'<div class="grid-3 reveal">\n'
+            f'        <a href="{sh_href}" class="card">\n'
+            f'          <img src="https://static.wixstatic.com/media/df99f9_eba4c24ec6a746b58d60a975b8d20946~mv2.jpg" alt="{L["c1_t"]}" class="card-img" loading="lazy">\n'
+            f'          <div class="card-body">\n'
+            f'            <h3 class="card-h3">{L["c1_t"]}</h3>\n'
+            f'            <p class="card-text">{L["c1_d"]}</p>\n'
+            f'            <span class="btn btn-deep btn-sm" style="margin-top:14px">{L["c1_btn"]}</span>\n'
+            f'          </div>\n'
+            f'        </a>\n'
+            f'        <a href="{isl_href}" class="card">\n'
+            f'          <img src="https://static.wixstatic.com/media/b28af82dbec544138f16e2bc5a85f2cb.jpg" alt="{L["c2_t"]}" class="card-img" loading="lazy">\n'
+            f'          <div class="card-body">\n'
+            f'            <h3 class="card-h3">{L["c2_t"]}</h3>\n'
+            f'            <p class="card-text">{L["c2_d"]}</p>\n'
+            f'            <span class="btn btn-deep btn-sm" style="margin-top:14px">{L["c2_btn"]}</span>\n'
+            f'          </div>\n'
+            f'        </a>\n'
+            f'        <a href="{surf_href}" class="card">\n'
+            f'          <img src="https://static.wixstatic.com/media/11062b_89a070321f814742a620b190592d51ad~mv2.jpg" alt="{L["c3_t"]}" class="card-img" loading="lazy">\n'
+            f'          <div class="card-body">\n'
+            f'            <h3 class="card-h3">{L["c3_t"]}</h3>\n'
+            f'            <p class="card-text">{L["c3_d"]}</p>\n'
+            f'            <span class="btn btn-deep btn-sm" style="margin-top:14px">{L["c3_btn"]}</span>\n'
+            f'          </div>\n'
+            f'        </a>\n'
+            f'      </div>'
+        )
+        old_heading = (
+            '<div class="reveal" style="text-align:center;margin-bottom:60px">\n'
+            '        <span class="s-label">Discover</span>\n'
+            '        <h2 class="s-title">Everything at Ngor Surfcamp</h2>\n'
+            '      </div>'
+        )
+        old_grid_start = '<div class="grid-3 reveal">\n        <a href="/surf-house/" class="card">'
+        changed = False
+        if old_heading in h:
+            h = h.replace(old_heading, new_heading, 1)
+            changed = True
+        elif '<span class="s-label">Discover</span>' in h:
+            import re as _re2
+            h = _re2.sub(
+                r'<span class="s-label">Discover</span>',
+                f'<span class="s-label">{L["lbl"]}</span>',
+                h, count=1
+            )
+            h = _re2.sub(
+                r'<h2 class="s-title">(?:Everything at Ngor Surfcamp|Alles im Ngor Surfcamp|Alles bij Ngor Surfcamp)</h2>',
+                f'<h2 class="s-title">{L["h2"]}</h2>',
+                h, count=1
+            )
+            changed = True
+        if old_grid_start in h:
+            # Replace the entire 3-card grid
+            import re as _re3
+            grid_pattern = _re3.compile(
+                r'<div class="grid-3 reveal">\s*<a href="/surf-house/".*?</div>\s*</div>',
+                _re3.DOTALL
+            )
+            m = grid_pattern.search(h)
+            if m:
+                h = h[:m.start()] + new_grid + h[m.end():]
+                changed = True
+        if changed:
+            with open(path, "w", encoding="utf-8") as f:
+                f.write(h)
+            n += 1
+    print(f"  home Discover section translated: {n} pages")
+
+
+def patch_home_reviews_labels_all():
+    """Translate 'View all on Google' and 'Leave a review' on non-EN home pages."""
+    REVIEW_L = {
+        "fr": {"view_all": "Voir tous sur Google", "leave": "Laisser un avis"},
+        "es": {"view_all": "Ver todos en Google",  "leave": "Dejar una reseña"},
+        "it": {"view_all": "Vedi tutti su Google", "leave": "Lascia una recensione"},
+        "de": {"view_all": "Alle auf Google sehen","leave": "Bewertung schreiben"},
+        "nl": {"view_all": "Bekijk alles op Google","leave": "Schrijf een recensie"},
+        "ar": {"view_all": "عرض الكل على Google", "leave": "اترك تقييماً"},
+    }
+    n = 0
+    for lang, L in REVIEW_L.items():
+        rel  = f"{lang}/index.html"
+        path = os.path.join(DEMO_DIR, rel)
+        if not os.path.isfile(path): continue
+        with open(path, encoding="utf-8") as f:
+            h = f.read()
+        changed = False
+        for eng, translated in [("View all on Google", L["view_all"]), ("Leave a review", L["leave"])]:
+            if eng in h:
+                h = h.replace(eng, translated)
+                changed = True
+        if changed:
+            with open(path, "w", encoding="utf-8") as f:
+                f.write(h)
+            n += 1
+    print(f"  home reviews labels translated: {n} pages")
+
+
+def patch_author_bios_all():
+    """Replace truncated author bios ([:180]) with full bios in all pre-built blog HTML pages."""
+    import json as _json
+    from pathlib import Path as _Path
+    _authors_path = os.path.join(os.path.dirname(_BASE_DIR), "SurfCampSenegal", "content", "authors", "authors.json")
+    # Try relative path first
+    _authors_path2 = os.path.join(_BASE_DIR, "content", "authors", "authors.json")
+    _ap = _authors_path2 if os.path.isfile(_authors_path2) else _authors_path
+    if not os.path.isfile(_ap):
+        print("  author bios: authors.json not found, skipping")
+        return
+    with open(_ap, encoding="utf-8") as _f:
+        _authors = _json.load(_f)
+    n = 0
+    for _html_path in _Path(DEMO_DIR).rglob("*.html"):
+        try:
+            with open(_html_path, encoding="utf-8", errors="replace") as _f:
+                _h = _f.read()
+            if 'author-bio-text' not in _h:
+                continue
+            _changed = False
+            for _aid, _a in _authors.items():
+                for _lang in list(_a.get("bio", {}).keys()):
+                    _full_bio = _a["bio"][_lang]
+                    _truncated = _full_bio[:180]
+                    if len(_full_bio) > 180 and _truncated in _h:
+                        _h = _h.replace(
+                            f'<div class="author-bio-text">{_truncated}</div>',
+                            f'<div class="author-bio-text">{_full_bio}</div>'
+                        )
+                        _changed = True
+            if _changed:
+                with open(_html_path, "w", encoding="utf-8") as _f:
+                    _f.write(_h)
+                n += 1
+        except Exception as _e:
+            pass
+    print(f"  author bios: fixed in {n} pages")
 
 
 def patch_home_getting_here_teaser():
@@ -4251,6 +4472,18 @@ patch_footer_bottom_pp_all()
 print("Patching language switcher sitewide…")
 patch_lang_switcher_all()
 
+print("Translating home page nav + footer (AR/NL)…")
+patch_home_nav_footer_all()
+
+print("Translating home page Discover section (AR/NL)…")
+patch_home_discover_section_all()
+
+print("Translating home reviews labels (AR/NL)…")
+patch_home_reviews_labels_all()
+
+print("Fixing author bio truncation…")
+patch_author_bios_all()
+
 print("Patching wave dividers sitewide…")
 patch_waves_all_pages()
 
@@ -4269,7 +4502,7 @@ patch_home_blog_preview_all()
 def patch_head_all_pages():
     """Update <head> on ALL HTML pages: asset version, async fonts, preconnects."""
     import re as _re
-    old_versions = ["20260327f","20260328a","20260328b","20260328c"]
+    old_versions = ["20260327f","20260328a","20260328b","20260328c","20260328d"]
     new_v = ASSET_VERSION
     FONT_URL = ("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,700;"
                 "0,800;0,900;1,400&family=Inter:wght@400;500;600&display=swap")
@@ -4318,6 +4551,55 @@ def patch_head_all_pages():
             print(f"  head patch error {html_path}: {e}")
     print(f"  head: updated {n_updated} HTML pages")
 
+
+def patch_cmp_all_pages():
+    """Inject CookieConsent v3 (Google Consent Mode V2 ready) into every HTML page."""
+    CMP_CSS = (
+        '<link rel="stylesheet" '
+        'href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css">'
+    )
+    CMP_JS = r"""<script defer
+  src="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.umd.js"
+  onload="(function(){
+  var lang=(document.documentElement.lang||'en').split('-')[0].split('_')[0];
+  var T={
+    en:{title:'Cookie notice',desc:'This site uses strictly necessary cookies to function. No tracking or advertising cookies.',accept:'Accept',reject:'Necessary only',manage:'Manage'},
+    fr:{title:'Avis sur les cookies',desc:'Ce site utilise uniquement des cookies strictement nécessaires. Aucun cookie de suivi ou publicitaire.',accept:'Accepter',reject:'Nécessaires seulement',manage:'Gérer'},
+    es:{title:'Aviso de cookies',desc:'Este sitio usa solo cookies estrictamente necesarias. Sin cookies de seguimiento ni publicidad.',accept:'Aceptar',reject:'Solo necesarias',manage:'Gestionar'},
+    it:{title:'Informativa sui cookie',desc:'Questo sito usa solo cookie strettamente necessari. Nessun cookie di tracciamento o pubblicità.',accept:'Accetta',reject:'Solo necessari',manage:'Gestisci'},
+    de:{title:'Cookie-Hinweis',desc:'Diese Website verwendet nur technisch notwendige Cookies. Keine Tracking- oder Werbe-Cookies.',accept:'Akzeptieren',reject:'Nur notwendige',manage:'Verwalten'},
+    nl:{title:'Cookiemelding',desc:'Deze site gebruikt alleen strikt noodzakelijke cookies. Geen tracking- of advertentiecookies.',accept:'Accepteren',reject:'Alleen noodzakelijk',manage:'Beheren'},
+    ar:{title:'إشعار الكوكيز',desc:'يستخدم هذا الموقع ملفات تعريف الارتباط الضرورية فقط. لا يوجد تتبع أو إعلانات.',accept:'قبول',reject:'الضرورية فقط',manage:'إدارة'}
+  };
+  var t=T[lang]||T.en;
+  CookieConsent.run({
+    guiOptions:{consentModal:{layout:'cloud',position:'bottom center',equalWeightButtons:false,flipButtons:false}},
+    categories:{necessary:{enabled:true,readOnly:true},analytics:{enabled:false}},
+    language:{default:lang,translations:{[lang]:{consentModal:{title:t.title,description:t.desc,acceptAllBtn:t.accept,acceptNecessaryBtn:t.reject,showPreferencesBtn:t.manage},preferencesModal:{title:t.manage,acceptAllBtn:t.accept,acceptNecessaryBtn:t.reject,savePreferencesBtn:t.accept,sections:[{title:t.title,linkedCategory:'necessary'}]}}}}}
+  });
+})()"></script>"""
+    MARKER = "cookieconsent"
+    n = 0
+    from pathlib import Path as _Path
+    for html_path in _Path(DEMO_DIR).rglob("*.html"):
+        try:
+            with open(html_path, encoding="utf-8", errors="replace") as f:
+                h = f.read()
+            if MARKER in h:
+                continue  # already has CMP
+            if '</head>' not in h:
+                continue
+            # Add CSS in head, JS before </body>
+            h = h.replace('</head>', CMP_CSS + '\n</head>', 1)
+            if '</body>' in h:
+                h = h.replace('</body>', CMP_JS + '\n</body>', 1)
+            with open(html_path, "w", encoding="utf-8") as f:
+                f.write(h)
+            n += 1
+        except Exception as e:
+            print(f"  CMP patch error {html_path}: {e}")
+    print(f"  CMP injected into {n} HTML pages")
+
 print("Patching <head> sitewide (asset version, async fonts, preconnects)…")
 patch_head_all_pages()
 
@@ -4330,6 +4612,10 @@ for lang in LANGS:
     spfx = f"/{lang}" if lang != "en" else ""
     slug = SLUG[lang]["surfing"]
     wp(f"{spfx}/{slug}/", build_surfing(lang))
+    # Create redirect from /xx/surfing/ → /xx/{slug}/ for langs with different slug
+    _old_surfing_slug = "surfing"
+    if slug != _old_surfing_slug and lang != "en":
+        wp(f"{spfx}/{_old_surfing_slug}/", make_redirect(f"{pfx}/{slug}/"))
     print(f"  ✅ {lang}: /{spfx}/{slug}/")
 
 print("Building gallery pages…")
@@ -4389,6 +4675,9 @@ form_cards = h.count('form-card')
 divs_open  = h.count('<div')
 divs_close = h.count('</div>')
 print(f"\nEN booking verification: scripts={scripts} form-card={form_cards} divs={divs_open}/{divs_close}")
+
+print("Injecting CMP (Google Consent Mode V2) site-wide…")
+patch_cmp_all_pages()
 
 write_sitemaps_and_robots()
 

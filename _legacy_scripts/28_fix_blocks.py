@@ -673,7 +673,7 @@ def author_card(en_art, lang):
     a = authors.get(aid,{})
     if not a: return ""
     name = a.get("name",""); role = a.get("role",{}).get(lang, a.get("role",{}).get("en",""))
-    bio = a.get("bio",{}).get(lang, a.get("bio",{}).get("en",""))[:180]
+    bio = a.get("bio",{}).get(lang, a.get("bio",{}).get("en",""))
     img_ok = os.path.exists(f"{DEMO_DIR}/assets/images/author-{aid}.webp")
     img_tag = f'<img src="/assets/images/author-{aid}.webp" alt="{name}" class="author-avatar" loading="lazy" width="64" height="64">' if img_ok else f'<div class="author-av-ph">{name[0]}</div>'
     BY = {"en":"Written by","fr":"Écrit par","es":"Escrito por","it":"Scritto da","de":"Geschrieben von","nl":"Geschreven door","ar":"كتبه"}

@@ -1,0 +1,187 @@
+backend:
+  name: github
+  repo: monsiaz/surf_camp_senegal
+  branch: main
+
+# Dossier pour les images uploadées via le CMS
+media_folder: content/images
+public_folder: /assets/images
+
+# Langue de l'interface CMS
+locale: fr
+
+# Afficher les brouillons (commits sans rebuild)
+publish_mode: simple
+
+collections:
+
+  # ──────────────────────────────────────────────
+  # ARTICLES DE BLOG (Anglais — source principale)
+  # ──────────────────────────────────────────────
+  - name: articles_en
+    label: "📝 Articles (EN)"
+    label_singular: "Article"
+    folder: content/articles_v2/en
+    create: true
+    format: json
+    slug: "{{slug}}"
+    summary: "{{title}} — {{category}}"
+    sortable_fields: ["title", "category", "reading_time"]
+    view_filters:
+      - label: "Surf & Spots"
+        field: category
+        pattern: "Surf Conditions & Spots"
+      - label: "Coaching & Progression"
+        field: category
+        pattern: "Coaching & Progression"
+      - label: "Island Life"
+        field: category
+        pattern: "Island Life & Surf Camp"
+    fields:
+      - label: "Titre"
+        name: title
+        widget: string
+        hint: "Titre SEO de l'article (ex: Best Time to Surf Senegal)"
+
+      - label: "Slug (URL)"
+        name: slug
+        widget: string
+        hint: "URL de l'article, sans espaces ni majuscules (ex: best-time-to-surf-senegal)"
+        pattern: ['^[a-z0-9-]+$', "Minuscules, chiffres et tirets uniquement"]
+
+      - label: "Catégorie"
+        name: category
+        widget: select
+        options:
+          - "Surf Conditions & Spots"
+          - "Coaching & Progression"
+          - "Island Life & Surf Camp"
+
+      - label: "Mot-clé principal (SEO)"
+        name: focus_keyword
+        widget: string
+        hint: "Ex: best time to surf senegal"
+
+      - label: "Mots-clés secondaires"
+        name: secondary_keywords
+        widget: list
+        field:
+          label: Mot-clé
+          name: keyword
+          widget: string
+        required: false
+
+      - label: "Meta description"
+        name: meta_description
+        widget: text
+        hint: "Description pour Google (max 160 caractères)"
+        pattern: ['^.{10,165}$', "Entre 10 et 165 caractères"]
+
+      - label: "Temps de lecture (minutes)"
+        name: reading_time
+        widget: string
+        default: "10"
+
+      - label: "Contenu de l'article"
+        name: content_markdown
+        widget: markdown
+        hint: "Rédigez l'article en Markdown. Utilisez # pour les titres, ** pour le gras, etc."
+        buttons:
+          - bold
+          - italic
+          - link
+          - heading-one
+          - heading-two
+          - heading-three
+          - quote
+          - bulleted-list
+          - numbered-list
+
+      - label: "Langue"
+        name: lang
+        widget: hidden
+        default: "en"
+
+      - label: "Type"
+        name: type
+        widget: hidden
+        default: "seo"
+
+  # ──────────────────────────────────────────────
+  # ARTICLES DE BLOG (Français)
+  # ──────────────────────────────────────────────
+  - name: articles_fr
+    label: "📝 Articles (FR)"
+    label_singular: "Article"
+    folder: content/articles_v2/fr
+    create: true
+    format: json
+    slug: "{{slug}}"
+    summary: "{{title}} — {{category}}"
+    fields:
+      - {label: "Titre", name: title, widget: string}
+      - {label: "Slug (URL)", name: slug, widget: string}
+      - label: "Catégorie"
+        name: category
+        widget: select
+        options:
+          - "Surf Conditions & Spots"
+          - "Coaching & Progression"
+          - "Island Life & Surf Camp"
+      - {label: "Meta description", name: meta_description, widget: text}
+      - {label: "Temps de lecture", name: reading_time, widget: string, default: "10"}
+      - {label: "Contenu", name: content_markdown, widget: markdown}
+      - {label: "Langue", name: lang, widget: hidden, default: "fr"}
+      - {label: "Type", name: type, widget: hidden, default: "seo"}
+
+  # ──────────────────────────────────────────────
+  # PAGES DU SITE (Homepage, Island, Surfing…)
+  # ──────────────────────────────────────────────
+  - name: pages
+    label: "🌐 Pages du site"
+    label_singular: "Page"
+    files:
+
+      - label: "Homepage (EN)"
+        name: homepage_en
+        file: content/pages/en_homepage.json
+        format: json
+        fields:
+          - {label: "Title tag", name: title_tag, widget: string}
+          - {label: "Meta description", name: meta_description, widget: text}
+          - {label: "H1", name: h1, widget: string}
+          - {label: "Sous-titre hero", name: hero_subtitle, widget: string}
+          - {label: "Introduction", name: intro, widget: text}
+          - {label: "Langue", name: lang, widget: hidden, default: "en"}
+
+      - label: "Homepage (FR)"
+        name: homepage_fr
+        file: content/pages/fr_homepage.json
+        format: json
+        fields:
+          - {label: "Title tag", name: title_tag, widget: string}
+          - {label: "Meta description", name: meta_description, widget: text}
+          - {label: "H1", name: h1, widget: string}
+          - {label: "Sous-titre hero", name: hero_subtitle, widget: string}
+          - {label: "Introduction", name: intro, widget: text}
+          - {label: "Langue", name: lang, widget: hidden, default: "fr"}
+
+      - label: "Page Surfing (EN)"
+        name: surfing_en
+        file: content/pages/en_surfing.json
+        format: json
+        fields:
+          - {label: "Title tag", name: title_tag, widget: string}
+          - {label: "Meta description", name: meta_description, widget: text}
+          - {label: "H1", name: h1, widget: string}
+          - {label: "Langue", name: lang, widget: hidden, default: "en"}
+
+      - label: "Page Island (EN)"
+        name: island_en
+        file: content/pages/en_island.json
+        format: json
+        fields:
+          - {label: "Title tag", name: title_tag, widget: string}
+          - {label: "Meta description", name: meta_description, widget: text}
+          - {label: "H1", name: h1, widget: string}
+          - {label: "Langue", name: lang, widget: hidden, default: "en"}

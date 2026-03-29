@@ -92,6 +92,7 @@ document.addEventListener('click',e=>{const nl=document.getElementById('nav-link
 document.querySelectorAll('.faq-q').forEach(q=>q.addEventListener('click',()=>{const it=q.closest('.faq-item');it.classList.toggle('open');}));
 const lb=document.getElementById('lb'),lbImg=document.getElementById('lb-img'),lbCls=document.getElementById('lb-close');
 if(lb){document.querySelectorAll('.gallery-item').forEach(i=>i.addEventListener('click',()=>{lbImg.src=i.querySelector('img').src;lb.classList.add('open');}));lb.addEventListener('click',e=>{if(e.target===lb)lb.classList.remove('open');});lbCls&&lbCls.addEventListener('click',()=>lb.classList.remove('open'));document.addEventListener('keydown',e=>{if(e.key==='Escape')lb.classList.remove('open');});}
+document.querySelectorAll('.gallery-item img').forEach(img=>{if(img.complete&&img.naturalWidth>0)img.classList.add('is-loaded');else img.addEventListener('load',()=>img.classList.add('is-loaded'));});
 </script>"""
 
 def nav_html(active, lang, pfx, page_slug=""):

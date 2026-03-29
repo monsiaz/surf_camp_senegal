@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Wie kommt man nach Ngor Island, Senegal</title>
+<meta name="description" content="Schritt-für-Schritt-Anleitung nach Ngor Island, Dakar, Senegal. Flüge, Transfers, Piroge — alles was Sie für Ihre Reiseplanung benötigen.">
+<meta property="og:title" content="Wie kommt man nach Ngor Island, Senegal">
+<meta property="og:description" content="Schritt-für-Schritt-Anleitung nach Ngor Island, Dakar, Senegal. Flüge, Transfers, Piroge — alles was Sie für Ihre Reiseplanung benötigen.">
+<meta property="og:image" content="https://static.wixstatic.com/media/df99f9_56b9af6efe2841eea44109b3b08b7da1~mv2.jpg">
+<meta property="og:type" content="website">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://ngor-surfcamp-demo.pages.dev/de/anreise/">
+<link rel="alternate" hreflang="x-default" href="https://ngor-surfcamp-demo.pages.dev/getting-here/">
+<link rel="alternate" hreflang="en" href="https://ngor-surfcamp-demo.pages.dev/getting-here/">
+<link rel="alternate" hreflang="fr-FR" href="https://ngor-surfcamp-demo.pages.dev//fr/comment-venir/">
+<link rel="alternate" hreflang="es-ES" href="https://ngor-surfcamp-demo.pages.dev//es/como-llegar/">
+<link rel="alternate" hreflang="it-IT" href="https://ngor-surfcamp-demo.pages.dev//it/come-arrivare/">
+<link rel="alternate" hreflang="de-DE" href="https://ngor-surfcamp-demo.pages.dev//de/anreise/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,700;0,800;0,900;1,400&family=Inter:wght@400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,700;0,800;0,900;1,400&family=Inter:wght@400;500;600&display=swap"></noscript>
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+<link rel="stylesheet" href="/assets/css/style.css?v=20260329a">
+<script src="/assets/js/animations.js?v=20260329a" defer></script>
+<style>
+/* ── Getting Here Page ─────────────────────────────── */
+.gh-hero { background: linear-gradient(160deg,#070f1c,#0a2540 50%,#071826); color:#fff; padding:140px 28px 80px; text-align:center; position:relative; overflow:hidden; }
+.gh-hero::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 50% 80%,rgba(255,90,31,0.12) 0%,transparent 55%); }
+.gh-hero h1 { font-size:clamp(32px,5vw,58px); margin-bottom:16px; position:relative; z-index:1; }
+.gh-hero p { font-size:18px; opacity:0.78; max-width:600px; margin:0 auto; position:relative; z-index:1; line-height:1.7; }
+/* Journey stats — light neutral strip */
+.journey-stats { display:flex; justify-content:center; flex-wrap:wrap; gap:40px; padding:48px 28px; background:linear-gradient(180deg,#f4f6f9 0%,#eef1f5 100%); border-top:1px solid rgba(10,37,64,0.06); border-bottom:1px solid rgba(10,37,64,0.06); }
+.journey-stat { text-align:center; }
+.js-num { font-family:var(--fh); font-size:clamp(34px,5vw,48px); font-weight:900; color:var(--navy); display:block; line-height:1; }
+.js-lbl { font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:#64748b; margin-top:8px; display:block; font-weight:600; }
+/* Map */
+.map-section { padding:80px 0 0; }
+#ngor-map { height:480px; border-radius:0; position:relative; z-index:1; }
+.leaflet-container { background:#e8eaed; }
+/* Custom marker */
+.ngor-marker-icon { background:var(--fire,#ff5a1f); width:44px; height:44px; border-radius:50%; border:4px solid #fff; display:flex; align-items:center; justify-content:center; box-shadow:0 3px 14px rgba(10,37,64,0.18); font-size:20px; }
+/* Steps */
+.steps-section { padding:80px 0; background:#f8fafd; }
+.step-item { display:flex; align-items:flex-start; gap:20px; padding:24px; background:#fff; border-radius:16px; margin-bottom:16px; box-shadow:0 2px 12px rgba(10,37,64,0.06); transition:transform 0.2s,box-shadow 0.2s; }
+.step-item:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(10,37,64,0.12); }
+.step-num { width:36px; height:36px; border-radius:50%; background:linear-gradient(135deg,var(--fire),#e04a10); color:#fff; display:flex; align-items:center; justify-content:center; font-family:var(--fh); font-weight:800; font-size:15px; flex-shrink:0; }
+.step-icon { font-size:28px; flex-shrink:0; width:44px; text-align:center; }
+.step-title { font-weight:700; font-size:16px; color:var(--navy); margin-bottom:6px; }
+.step-desc { font-size:14.5px; color:#4b5563; line-height:1.7; margin:0; }
+/* Flights */
+.flights-section { padding:80px 0; }
+.country-tabs { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:28px; }
+.tab-btn { display:inline-flex; align-items:center; gap:8px; padding:10px 18px; border-radius:50px; background:#f3f4f6; border:2px solid transparent; color:#374151; font-weight:600; font-size:13px; cursor:pointer; transition:all 0.2s; }
+.tab-btn:hover { background:var(--navy); color:#fff; }
+.tab-btn.active { background:var(--navy); color:#fff; border-color:var(--navy); }
+.flight-panel { background:#fff; border-radius:20px; padding:28px; box-shadow:0 4px 24px rgba(10,37,64,0.08); border:1px solid rgba(10,37,64,0.06); }
+.flight-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; flex-wrap:wrap; gap:12px; }
+.flight-meta { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:16px; background:#f8fafd; border-radius:12px; padding:16px; }
+.flight-meta-item { display:flex; flex-direction:column; gap:3px; }
+.fmi-label { font-size:11px; text-transform:uppercase; letter-spacing:0.1em; color:#9ca3af; font-weight:600; }
+.fmi-value { font-size:15px; font-weight:700; color:var(--navy); }
+/* Practical */
+.practical-section { padding:80px 0; background:#f8fafd; }
+.practical-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:20px; }
+.practical-item { background:#fff; border-radius:16px; padding:22px; display:flex; gap:16px; align-items:flex-start; box-shadow:0 2px 12px rgba(10,37,64,0.05); }
+.practical-icon { font-size:26px; flex-shrink:0; width:40px; text-align:center; }
+.practical-title { font-weight:700; font-size:15px; color:var(--navy); margin-bottom:6px; }
+.practical-desc { font-size:14px; color:#4b5563; line-height:1.68; margin:0; }
+/* Map section label */
+.map-label-wrap { padding:40px 28px 0; text-align:center; }
+.map-label-wrap h2 { font-size:clamp(24px,4vw,40px); margin-bottom:10px; }
+.map-label-wrap p { font-size:16px; color:#5b6b7c; max-width:600px; margin:0 auto 32px; }
+/* Responsive */
+@media(max-width:640px) {
+  .flight-meta { grid-template-columns:1fr 1fr; }
+  .country-tabs { gap:6px; }
+  .tab-btn { padding:8px 12px; font-size:12px; }
+  #ngor-map { height:320px; }
+  .step-item { flex-direction:column; gap:12px; }
+  .journey-stats { gap:24px; padding:40px 20px; }
+}
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css">
+</head>
+<body>
+<div id="scroll-progress"></div>
+<nav id="nav"><div class="nav-inner"><a href="/de/" class="nav-logo"><img src="https://static.wixstatic.com/media/c2467f_a31779010ce34c4c8c61cc5868d81f31~mv2.png" alt="Ngor Surfcamp Teranga" width="130" height="44" loading="eager"></a><div class="nav-links" id="nav-links"><a href="/de/" class="nav-link">Start</a><a href="/de/surf-house/" class="nav-link">Surf House</a><a href="/de/insel/" class="nav-link">Insel</a><a href="/de/surfen/" class="nav-link">Surfen</a><a href="/de/blog/" class="nav-link">Blog</a><a href="/de/galerie/" class="nav-link">Galerie</a><a href="/de/buchen/" class="nav-link nav-cta">Buchen</a><a href="/de/anreise/" class="nav-link active">Anreise</a></div><div class="nav-right"><div class="lang-dd" id="lang-dd"><button class="lang-dd-btn" onclick="toggleLangDD(event)"><span style="width:20px;height:13px;display:inline-flex;border-radius:3px;overflow:hidden;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.22)"><svg viewBox="0 0 60 40"><rect width="60" height="13" fill="#000"/><rect y="13" width="60" height="14" fill="#DD0000"/><rect y="27" width="60" height="13" fill="#FFCE00"/></svg></span> DE <span style="display:inline-flex"><svg viewBox="0 0 16 16" fill="none" width="14" height="14"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button><div class="lang-dd-menu" role="menu"><a class="lang-dd-item" href="/getting-here/" hreflang="en"><span style="width:18px;height:12px;display:inline-flex;border-radius:3px;overflow:hidden;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.22)"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#fff" stroke-width="8"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#C8102E" stroke-width="5"/><path d="M30,0 V40 M0,20 H60" stroke="#fff" stroke-width="12"/><path d="M30,0 V40 M0,20 H60" stroke="#C8102E" stroke-width="8"/></svg></span> English</a><a class="lang-dd-item" href="/fr/comment-venir/" hreflang="fr-FR"><span style="width:18px;height:12px;display:inline-flex;border-radius:3px;overflow:hidden;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.22)"><svg viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></span> Français</a><a class="lang-dd-item" href="/es/como-llegar/" hreflang="es-ES"><span style="width:18px;height:12px;display:inline-flex;border-radius:3px;overflow:hidden;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.22)"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#c60b1e"/><rect y="10" width="60" height="20" fill="#ffc400"/></svg></span> Español</a><a class="lang-dd-item" href="/it/come-arrivare/" hreflang="it-IT"><span style="width:18px;height:12px;display:inline-flex;border-radius:3px;overflow:hidden;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.22)"><svg viewBox="0 0 60 40"><rect width="20" height="40" fill="#009246"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#CE2B37"/></svg></span> Italiano</a></div></div><a href="https://wa.me/221789257025" target="_blank" rel="noopener" class="nav-wa" aria-label="WhatsApp"><span style="display:inline-flex"><svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></span><span class="nav-wa-label">WhatsApp</span></a><button class="nav-toggle" id="nav-toggle" aria-label="Menu" onclick="toggleMenu()"><span style="display:inline-flex;color:#fff"><svg viewBox="0 0 24 24" fill="none" width="22" height="22"><path d="M3 7h18M3 12h18M3 17h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></button></div></div></nav>
+
+<main>
+  <!-- Hero -->
+  <div class="gh-hero">
+    <h1>Anreise nach Ngor Island</h1>
+    <p>Vom Flughafen ins Paradies — Ihr vollständiger Reiseführer nach Ngor Island, Dakar, Senegal.</p>
+  </div>
+
+  <!-- Quick stats -->
+  <div class="journey-stats">
+    <div class="journey-stat"><span class="js-num">20 min</span><span class="js-lbl">vom Flughafen</span></div><div class="journey-stat"><span class="js-num">800m</span><span class="js-lbl">vom Festland</span></div><div class="journey-stat"><span class="js-num">5 min</span><span class="js-lbl">Pirogenfahrt</span></div><div class="journey-stat"><span class="js-num"><1€</span><span class="js-lbl">um die Insel zu erreichen</span></div>
+  </div>
+
+  <!-- Map -->
+  <section class="map-section">
+    <div class="map-label-wrap">
+      <span class="s-label">Wo liegt Ngor Island?</span>
+      <h2 class="s-title">Wo liegt Ngor Island?</h2>
+      <p>Ngor Island liegt 800 Meter vor der Cap-Vert-Halbinsel in Dakar, nur 20 Minuten vom internationalen Flughafen entfernt.</p>
+    </div>
+    <div id="ngor-map"></div>
+  </section>
+
+  <!-- Steps -->
+  <section class="steps-section">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:48px">
+        <span class="s-label">Schritt für Schritt: Vom Flughafen zur Insel</span>
+        <h2 class="s-title">Schritt für Schritt: Vom Flughafen zur Insel</h2>
+      </div>
+      <div class="step-item reveal">
+  <div class="step-num">1</div>
+  <div class="step-icon">✈️</div>
+  <div class="step-content">
+    <div class="step-title">Landung am Flughafen Blaise Diagne (DSS)</div>
+    <p class="step-desc">Der internationale Flughafen Dakar, Blaise Diagne (DSS), liegt etwa 45km östlich der Stadt. Er bedient Flüge aus Europa, Afrika und Nordamerika.</p>
+  </div>
+</div><div class="step-item reveal">
+  <div class="step-num">2</div>
+  <div class="step-icon">🚕</div>
+  <div class="step-content">
+    <div class="step-title">Taxi oder Uber zum Ngor-Strand</div>
+    <p class="step-desc">Nehmen Sie ein Taxi oder Uber vom Flughafen zum Ngor-Strand. Die Fahrt dauert 20–30 Minuten und kostet ca. 5.000–8.000 CFA (8–12€). Buchen Sie das Taxi im Ankunftsbereich.</p>
+  </div>
+</div><div class="step-item reveal">
+  <div class="step-num">3</div>
+  <div class="step-icon">🚢</div>
+  <div class="step-content">
+    <div class="step-title">Piroge nach Ngor Island</div>
+    <p class="step-desc">Am Ngor-Strand gehen Sie zum kleinen Pier und nehmen eine traditionelle Piroge nach Ngor Island. Die 5-minütige Überfahrt kostet weniger als 500 CFA (unter 1€). Piroge fahren bis ca. 22 Uhr.</p>
+  </div>
+</div><div class="step-item reveal">
+  <div class="step-num">4</div>
+  <div class="step-icon">🏄</div>
+  <div class="step-content">
+    <div class="step-title">Willkommen im Ngor Surfcamp Teranga</div>
+    <p class="step-desc">Auf der Insel ist das Ngor Surfcamp Teranga 3 Gehminuten vom Anleger entfernt. Schreiben Sie uns einfach auf WhatsApp mit Ihrer Ankunftszeit!</p>
+  </div>
+</div>
+    </div>
+  </section>
+
+  <!-- Flights -->
+  <section class="flights-section">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:40px">
+        <span class="s-label">Flüge aus Ihrem Land</span>
+        <h2 class="s-title">Flüge aus Ihrem Land</h2>
+        <p class="s-sub" style="margin:0 auto">Wählen Sie Ihr Abflugland</p>
+      </div>
+      <div class="country-tabs"><button class="tab-btn active" onclick="switchCountry('de_country')" data-country="de_country"><span style="width:20px;height:13px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="13" fill="#000"/><rect y="13" width="60" height="14" fill="#DD0000"/><rect y="27" width="60" height="13" fill="#FFCE00"/></svg></span> <span style="font-size:13px">Frankreich</span></button><button class="tab-btn" onclick="switchCountry('fr')" data-country="fr"><span style="width:20px;height:13px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></span> <span style="font-size:13px">Frankreich</span></button><button class="tab-btn" onclick="switchCountry('uk')" data-country="uk"><span style="width:20px;height:13px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#fff" stroke-width="8"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#C8102E" stroke-width="5"/><path d="M30,0 V40 M0,20 H60" stroke="#fff" stroke-width="12"/><path d="M30,0 V40 M0,20 H60" stroke="#C8102E" stroke-width="8"/></svg></span> <span style="font-size:13px">Vereinigtes Königreich</span></button><button class="tab-btn" onclick="switchCountry('us')" data-country="us"><span style="width:20px;height:13px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#B22234"/><rect y="3" width="60" height="3" fill="#fff"/><rect y="9" width="60" height="3" fill="#fff"/><rect y="15" width="60" height="3" fill="#fff"/><rect y="21" width="60" height="3" fill="#fff"/><rect y="27" width="60" height="3" fill="#fff"/><rect y="33" width="60" height="3" fill="#fff"/><rect width="24" height="21" fill="#3C3B6E"/></svg></span> <span style="font-size:13px">USA</span></button><button class="tab-btn" onclick="switchCountry('ca')" data-country="ca"><span style="width:20px;height:13px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="15" height="40" fill="#FF0000"/><rect x="15" width="30" height="40" fill="#fff"/><rect x="45" width="15" height="40" fill="#FF0000"/><text x="30" y="28" text-anchor="middle" font-size="20" fill="#FF0000">🍁</text></svg></span> <span style="font-size:13px">Kanada</span></button><button class="tab-btn" onclick="switchCountry('au')" data-country="au"><span style="width:20px;height:13px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#00008B"/><path d="M0,0 L30,20 M30,0 L0,20" stroke="#fff" stroke-width="4"/><path d="M0,0 L30,20 M30,0 L0,20" stroke="#C8102E" stroke-width="2.5"/><path d="M15,0 V20 M0,10 H30" stroke="#fff" stroke-width="6"/><path d="M15,0 V20 M0,10 H30" stroke="#C8102E" stroke-width="4"/></svg></span> <span style="font-size:13px">Australien</span></button></div>
+      <div id="flight-panels"><div class="flight-panel" data-country="de_country" style="display:block">
+  <div class="flight-header">
+    <div style="display:flex;align-items:center;gap:12px">
+      <span style="width:22px;height:15px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="13" fill="#000"/><rect y="13" width="60" height="14" fill="#DD0000"/><rect y="27" width="60" height="13" fill="#FFCE00"/></svg></span>
+      <div>
+        <div style="font-weight:700;font-size:17px;color:var(--navy)">Frankreich</div>
+        <div style="font-size:13px;color:var(--muted);margin-top:2px">Frankfurt FRA / Munich MUC / Berlin BER</div>
+      </div>
+    </div>
+    <span style="padding:3px 10px;border-radius:20px;background:rgba(255,90,31,0.12);color:var(--fire);font-size:11px;font-weight:700">Via: Paris or Brussels</span>
+  </div>
+  <div class="flight-meta">
+    <div class="flight-meta-item">
+      <span class="fmi-label">Flugzeit</span>
+      <span class="fmi-value">~7h</span>
+    </div>
+    <div class="flight-meta-item">
+      <span class="fmi-label">Ab</span>
+      <span class="fmi-value">€250–650</span>
+    </div>
+    <div class="flight-meta-item">
+      <span class="fmi-label">Airlines</span>
+      <span class="fmi-value">Lufthansa, Air France, Eurowings</span>
+    </div>
+  </div>
+  <p style="font-size:15px;color:#374151;line-height:1.75;margin:16px 0">Von Deutschland sind die besten Verbindungen nach Dakar via Paris (Air France) oder Brüssel (Brussels Airlines). Auch Lufthansa-Codeshares via Paris oder Casablanca sind möglich.</p>
+  <a href="https://www.google.com/travel/flights/search?q=Frankfurt+to+Dakar+flights" target="_blank" rel="noopener" class="btn btn-deep btn-sm" style="display:inline-flex;align-items:center;gap:8px">
+    <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
+    Flüge suchen
+  </a>
+</div><div class="flight-panel" data-country="fr" style="display:none">
+  <div class="flight-header">
+    <div style="display:flex;align-items:center;gap:12px">
+      <span style="width:22px;height:15px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></span>
+      <div>
+        <div style="font-weight:700;font-size:17px;color:var(--navy)">Frankreich</div>
+        <div style="font-size:13px;color:var(--muted);margin-top:2px">Paris CDG / ORY</div>
+      </div>
+    </div>
+    <span style="padding:3px 10px;border-radius:20px;background:rgba(34,197,94,0.15);color:#22c55e;font-size:11px;font-weight:700">Direkt</span>
+  </div>
+  <div class="flight-meta">
+    <div class="flight-meta-item">
+      <span class="fmi-label">Flugzeit</span>
+      <span class="fmi-value">~6h</span>
+    </div>
+    <div class="flight-meta-item">
+      <span class="fmi-label">Ab</span>
+      <span class="fmi-value">€200–600</span>
+    </div>
+    <div class="flight-meta-item">
+      <span class="fmi-label">Airlines</span>
+      <span class="fmi-value">Air France, Transavia, Air Sénégal</span>
+    </div>
+  </div>
+  <p style="font-size:15px;color:#374151;line-height:1.75;margin:16px 0">Die bestverbundene Route. Air France und Transavia fliegen direkt Paris → Dakar. 2–3 Monate im Voraus buchen für die besten Preise.</p>
+  <a href="https://www.google.com/travel/flights/search?q=Paris+to+Dakar+flights" target="_blank" rel="noopener" class="btn btn-deep btn-sm" style="display:inline-flex;align-items:center;gap:8px">
+    <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
+    Flüge suchen
+  </a>
+</div><div class="flight-panel" data-country="uk" style="display:none">
+  <div class="flight-header">
+    <div style="display:flex;align-items:center;gap:12px">
+      <span style="width:22px;height:15px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#fff" stroke-width="8"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#C8102E" stroke-width="5"/><path d="M30,0 V40 M0,20 H60" stroke="#fff" stroke-width="12"/><path d="M30,0 V40 M0,20 H60" stroke="#C8102E" stroke-width="8"/></svg></span>
+      <div>
+        <div style="font-weight:700;font-size:17px;color:var(--navy)">Vereinigtes Königreich</div>
+        <div style="font-size:13px;color:var(--muted);margin-top:2px">London LHR / LGW / STN</div>
+      </div>
+    </div>
+    <span style="padding:3px 10px;border-radius:20px;background:rgba(255,90,31,0.12);color:var(--fire);font-size:11px;font-weight:700">Via: Brussels, Paris, Amsterdam or Casablanca</span>
+  </div>
+  <div class="flight-meta">
+    <div class="flight-meta-item">
+      <span class="fmi-label">Flugzeit</span>
+      <span class="fmi-value">~8–10h</span>
+    </div>
+    <div class="flight-meta-item">
+      <span class="fmi-label">Ab</span>
+      <span class="fmi-value">£350–700</span>
+    </div>
+    <div class="flight-meta-item">
+      <span class="fmi-label">Airlines</span>
+      <span class="fmi-value">Brussels Airlines, Air France, KLM</span>
+    </div>
+  </div>
+  <p style="font-size:15px;color:#374151;line-height:1.75;margin:16px 0">Keine Direktflüge aus dem UK. Beste Optionen: Brussels Airlines über Brüssel oder Air France über Paris.</p>
+  <a href="https://www.google.com/travel/flights/search?q=London+to+Dakar+flights" target="_blank" rel="noopener" class="btn btn-deep btn-sm" style="display:inline-flex;align-items:center;gap:8px">
+    <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
+    Flüge suchen
+  </a>
+</div><div class="flight-panel" data-country="us" style="display:none">
+  <div class="flight-header">
+    <div style="display:flex;align-items:center;gap:12px">
+      <span style="width:22px;height:15px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#B22234"/><rect y="3" width="60" height="3" fill="#fff"/><rect y="9" width="60" height="3" fill="#fff"/><rect y="15" width="60" height="3" fill="#fff"/><rect y="21" width="60" height="3" fill="#fff"/><rect y="27" width="60" height="3" fill="#fff"/><rect y="33" width="60" height="3" fill="#fff"/><rect width="24" height="21" fill="#3C3B6E"/></svg></span>
+      <div>
+        <div style="font-weight:700;font-size:17px;color:var(--navy)">USA</div>
+        <div style="font-size:13px;color:var(--muted);margin-top:2px">New York JFK / Washington IAD / Atlanta ATL</div>
+      </div>
+    </div>
+    <span style="padding:3px 10px;border-radius:20px;background:rgba(255,90,31,0.12);color:var(--fire);font-size:11px;font-weight:700">Via: Paris, Brussels, Casablanca or Istanbul</span>
+  </div>
+  <div class="flight-meta">
+    <div class="flight-meta-item">
+      <span class="fmi-label">Flugzeit</span>
+      <span class="fmi-value">~12–15h</span>
+    </div>
+    <div class="flight-meta-item">
+      <span class="fmi-label">Ab</span>
+      <span class="fmi-value">$600–1,300</span>
+    </div>
+    <div class="flight-meta-item">
+      <span class="fmi-label">Airlines</span>
+      <span class="fmi-value">Delta, Air France, Brussels Airlines</span>
+    </div>
+  </div>
+  <p style="font-size:15px;color:#374151;line-height:1.75;margin:16px 0">Die meisten US-Reisenden reisen über Paris, Brüssel oder Casablanca. Von der Ostküste ca. 12–14h gesamt.</p>
+  <a href="https://www.google.com/travel/flights/search?q=New+York+to+Dakar+flights" target="_blank" rel="noopener" class="btn btn-deep btn-sm" style="display:inline-flex;align-items:center;gap:8px">
+    <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
+    Flüge suchen
+  </a>
+</div><div class="flight-panel" data-country="ca" style="display:none">
+  <div class="flight-header">
+    <div style="display:flex;align-items:center;gap:12px">
+      <span style="width:22px;height:15px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="15" height="40" fill="#FF0000"/><rect x="15" width="30" height="40" fill="#fff"/><rect x="45" width="15" height="40" fill="#FF0000"/><text x="30" y="28" text-anchor="middle" font-size="20" fill="#FF0000">🍁</text></svg></span>
+      <div>
+        <div style="font-weight:700;font-size:17px;color:var(--navy)">Kanada</div>
+        <div style="font-size:13px;color:var(--muted);margin-top:2px">Toronto YYZ / Montréal YUL / Vancouver YVR</div>
+      </div>
+    </div>
+    <span style="padding:3px 10px;border-radius:20px;background:rgba(255,90,31,0.12);color:var(--fire);font-size:11px;font-weight:700">Via: Paris, Brussels, or Casablanca</span>
+  </div>
+  <div class="flight-meta">
+    <div class="flight-meta-item">
+      <span class="fmi-label">Flugzeit</span>
+      <span class="fmi-value">~14–18h</span>
+    </div>
+    <div class="flight-meta-item">
+      <span class="fmi-label">Ab</span>
+      <span class="fmi-value">CAD 900–1,800</span>
+    </div>
+    <div class="flight-meta-item">
+      <span class="fmi-label">Airlines</span>
+      <span class="fmi-value">Air France, Brussels Airlines, Air Canada</span>
+    </div>
+  </div>
+  <p style="font-size:15px;color:#374151;line-height:1.75;margin:16px 0">Ab Montreal ist Air France via Paris die beste Verbindung. Ab Toronto bietet Brussels Airlines via Brüssel eine gute Option.</p>
+  <a href="https://www.google.com/travel/flights/search?q=Toronto+to+Dakar+flights" target="_blank" rel="noopener" class="btn btn-deep btn-sm" style="display:inline-flex;align-items:center;gap:8px">
+    <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
+    Flüge suchen
+  </a>
+</div><div class="flight-panel" data-country="au" style="display:none">
+  <div class="flight-header">
+    <div style="display:flex;align-items:center;gap:12px">
+      <span style="width:22px;height:15px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#00008B"/><path d="M0,0 L30,20 M30,0 L0,20" stroke="#fff" stroke-width="4"/><path d="M0,0 L30,20 M30,0 L0,20" stroke="#C8102E" stroke-width="2.5"/><path d="M15,0 V20 M0,10 H30" stroke="#fff" stroke-width="6"/><path d="M15,0 V20 M0,10 H30" stroke="#C8102E" stroke-width="4"/></svg></span>
+      <div>
+        <div style="font-weight:700;font-size:17px;color:var(--navy)">Australien</div>
+        <div style="font-size:13px;color:var(--muted);margin-top:2px">Sydney SYD / Melbourne MEL / Brisbane BNE</div>
+      </div>
+    </div>
+    <span style="padding:3px 10px;border-radius:20px;background:rgba(255,90,31,0.12);color:var(--fire);font-size:11px;font-weight:700">Via: Dubai, Doha or European hub</span>
+  </div>
+  <div class="flight-meta">
+    <div class="flight-meta-item">
+      <span class="fmi-label">Flugzeit</span>
+      <span class="fmi-value">~24–30h</span>
+    </div>
+    <div class="flight-meta-item">
+      <span class="fmi-label">Ab</span>
+      <span class="fmi-value">AUD 1,800–3,500</span>
+    </div>
+    <div class="flight-meta-item">
+      <span class="fmi-label">Airlines</span>
+      <span class="fmi-value">Emirates, Qatar Airways, Air France</span>
+    </div>
+  </div>
+  <p style="font-size:15px;color:#374151;line-height:1.75;margin:16px 0">Australien nach Senegal ist eine lange Reise — 24–30 Stunden mit 2 Verbindungen. Emirates via Dubai oder Qatar Airways via Doha sind die komfortabelsten Optionen.</p>
+  <a href="https://www.google.com/travel/flights/search?q=Sydney+to+Dakar+flights" target="_blank" rel="noopener" class="btn btn-deep btn-sm" style="display:inline-flex;align-items:center;gap:8px">
+    <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
+    Flüge suchen
+  </a>
+</div></div>
+    </div>
+  </section>
+
+  <!-- Practical Info -->
+  <section class="practical-section">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:48px">
+        <span class="s-label">Praktische Informationen</span>
+        <h2 class="s-title">Praktische Informationen</h2>
+      </div>
+      <div class="practical-grid"><div class="practical-item reveal">
+  <div class="practical-icon">🛂</div>
+  <div>
+    <div class="practical-title">Visum</div>
+    <p class="practical-desc">Bürger der EU, UK, USA, Kanada und der meisten westlichen Länder benötigen kein Visum für Senegal. Sie erhalten einen kostenlosen 90-Tage-Stempel bei der Einreise.</p>
+  </div>
+</div><div class="practical-item reveal">
+  <div class="practical-icon">💱</div>
+  <div>
+    <div class="practical-title">Währung</div>
+    <p class="practical-desc">Senegal verwendet den westafrikanischen CFA-Franc (XOF). 1 EUR ≈ 655 CFA. Heben Sie Bargeld von Geldautomaten in Dakar ab — die meisten Transaktionen auf Ngor Island sind nur in bar möglich.</p>
+  </div>
+</div><div class="practical-item reveal">
+  <div class="practical-icon">📱</div>
+  <div>
+    <div class="practical-title">SIM-Karte</div>
+    <p class="practical-desc">Kostenlose Orange-SIM-Karten am Flughafen erhältlich. Datenpakete ab 5€/Woche. WhatsApp funktioniert in ganz Dakar und auf Ngor Island einwandfrei.</p>
+  </div>
+</div><div class="practical-item reveal">
+  <div class="practical-icon">🕐</div>
+  <div>
+    <div class="practical-title">Beste Reisezeit zum Fliegen</div>
+    <p class="practical-desc">6–12 Wochen im Voraus buchen für beste Preise. Dienstags und mittwochs fliegen ist oft günstiger.</p>
+  </div>
+</div><div class="practical-item reveal">
+  <div class="practical-icon">🧳</div>
+  <div>
+    <div class="practical-title">Gepäck</div>
+    <p class="practical-desc">Die meisten Surfer reisen mit wenig Gepäck. Surfboards können im Camp gemietet werden.</p>
+  </div>
+</div><div class="practical-item reveal">
+  <div class="practical-icon">🏥</div>
+  <div>
+    <div class="practical-title">Gesundheit</div>
+    <p class="practical-desc">Keine Pflichtimpfungen für Senegal. Malaria-Prophylaxe wird empfohlen. 4–6 Wochen vor der Abreise beim Arzt nachfragen.</p>
+  </div>
+</div></div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+
+<div class="wave-bottom" style="background:#ffffff" aria-hidden="true"><svg viewBox="0 0 1440 52" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0 26 C240 2,480 50,720 24 C960 -2,1200 48,1440 26 L1440 52 L0 52Z" fill="#07192e"/></svg></div>
+<div class="cta-band">
+    <div class="container">
+      <h2>Aufenthalt buchen</h2>
+      <p>Fragen? Schreiben Sie uns auf WhatsApp.</p>
+      <div class="cta-btns">
+        <a href="/de/buchen/" class="btn btn-fire btn-lg">Aufenthalt buchen</a>
+        <a href="https://wa.me/221789257025" target="_blank" rel="noopener" class="btn btn-glass btn-lg"><span style="display:inline-flex"><svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></span> WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Footer -->
+
+<div class="wave-bottom" style="background:#ffffff" aria-hidden="true"><svg viewBox="0 0 1440 52" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0 26 C240 2,480 50,720 24 C960 -2,1200 48,1440 26 L1440 52 L0 52Z" fill="#07192e"/></svg></div>
+<div class="footer-quotes" id="fq-quotes-block" aria-label="Surf quotes" aria-live="polite">
+  <div class="footer-quotes-inner">
+    <div class="fq-text-wrap" id="fq-wrap-de"></div>
+  </div>
+</div>
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/de/" class="footer-brand-mark" aria-label="Ngor Surfcamp Teranga home">
+          <img src="https://static.wixstatic.com/media/c2467f_a31779010ce34c4c8c61cc5868d81f31~mv2.png" alt="" width="152" height="52" class="footer-brand-logo" loading="lazy">
+        </a>
+        <p class="footer-brand-text">Premium Surfcamp auf Ngor Island, Dakar, Senegal. Alle Level. Lizenziert.</p>
+        <div class="footer-social">
+          <a href="https://wa.me/221789257025" target="_blank" class="soc-btn wa" aria-label="WhatsApp"><span style="display:inline-flex"><svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></span></a>
+          <a href="https://www.instagram.com/ngorsurfcampteranga" target="_blank" class="soc-btn ig" aria-label="Instagram"><span style="display:inline-flex"><svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></span></a>
+          <a href="https://www.tiktok.com/@ngorsurfcampteranga" target="_blank" class="soc-btn tt" aria-label="TikTok"><span style="display:inline-flex"><svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.28 6.28 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.22 8.22 0 004.84 1.56V6.79a4.85 4.85 0 01-1.07-.1z"/></svg></span></a>
+        </div>
+      </div>
+      <div class="footer-col"><h4>Erkunden</h4><a href="/de/surf-house/">Surf House</a>
+<a href="/de/insel/">Insel</a>
+<a href="/de/surfen/">Surfen</a>
+<a href="/de/blog/">Blog</a>
+<a href="/de/galerie/">Galerie</a>
+<a href="/de/faq/">FAQ</a>
+<a href="/de/buchen/">Buchen</a>
+<a href="/de/anreise/">Anreise</a></div>
+      <div class="footer-col">
+        <h4>Kontakt</h4>
+        <a href="https://wa.me/221789257025" target="_blank">WhatsApp: +221 78 925 70 25</a>
+        <a href="mailto:info@surfcampsenegal.com">info@surfcampsenegal.com</a>
+      </div>
+      <div class="footer-col">
+        <h4>Folgen</h4>
+        <a href="https://www.instagram.com/ngorsurfcampteranga" target="_blank">Instagram</a>
+        <a href="https://www.tiktok.com/@ngorsurfcampteranga" target="_blank">TikTok</a>
+        <a href="https://wa.me/221789257025" target="_blank">WhatsApp</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Ngor Surfcamp Teranga. Alle Rechte vorbehalten. &nbsp;·&nbsp; <a href="/de/datenschutzrichtlinie/" class="footer-pp-link">Datenschutzrichtlinie</a></p>
+      <div class="footer-flags" aria-label="Language versions"><a href="/getting-here/" class="footer-flag-link" hreflang="en" title="English"><span style="width:22px;height:15px;display:inline-flex;border-radius:3px;overflow:hidden;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.22)"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#fff" stroke-width="8"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#C8102E" stroke-width="5"/><path d="M30,0 V40 M0,20 H60" stroke="#fff" stroke-width="12"/><path d="M30,0 V40 M0,20 H60" stroke="#C8102E" stroke-width="8"/></svg></span></a> <a href="/fr/comment-venir/" class="footer-flag-link" hreflang="fr-FR" title="Français"><span style="width:22px;height:15px;display:inline-flex;border-radius:3px;overflow:hidden;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.22)"><svg viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></span></a> <a href="/es/como-llegar/" class="footer-flag-link" hreflang="es-ES" title="Español"><span style="width:22px;height:15px;display:inline-flex;border-radius:3px;overflow:hidden;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.22)"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#c60b1e"/><rect y="10" width="60" height="20" fill="#ffc400"/></svg></span></a> <a href="/it/come-arrivare/" class="footer-flag-link" hreflang="it-IT" title="Italiano"><span style="width:22px;height:15px;display:inline-flex;border-radius:3px;overflow:hidden;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.22)"><svg viewBox="0 0 60 40"><rect width="20" height="40" fill="#009246"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#CE2B37"/></svg></span></a> <a href="/de/anreise/" class="footer-flag-link" hreflang="de-DE" title="Deutsch"><span style="width:22px;height:15px;display:inline-flex;border-radius:3px;overflow:hidden;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.22)"><svg viewBox="0 0 60 40"><rect width="60" height="13" fill="#000"/><rect y="13" width="60" height="14" fill="#DD0000"/><rect y="27" width="60" height="13" fill="#FFCE00"/></svg></span></a></div>
+    </div>
+  </div>
+</footer>
+
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+
+<script>
+/* ── Leaflet Map ─────────────────────────────────────── */
+(function(){
+  // Coordinates
+  var NGOR_ISLAND  = [14.7497, -17.5218];
+  var NGOR_BEACH   = [14.7458, -17.5141];
+  var DAKAR_CITY   = [14.7167, -17.4677];
+  var DSS_AIRPORT  = [14.6708, -17.0726];
+
+  var map = L.map('ngor-map', {
+    center: [14.7400, -17.4800],
+    zoom: 12,
+    zoomControl: true,
+    attributionControl: true,
+  });
+
+  // CARTO Positron-style light tiles (neutral, high readability — no API key)
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    subdomains: 'abcd',
+    maxZoom: 20,
+  }).addTo(map);
+
+  // Custom icon factory
+  function makeIcon(color, emoji, size) {
+    return L.divIcon({
+      html: '<div style="width:' + size + 'px;height:' + size + 'px;border-radius:50%;background:' + color + ';border:3px solid #fff;display:flex;align-items:center;justify-content:center;font-size:' + Math.round(size*0.45) + 'px;box-shadow:0 2px 12px rgba(10,37,64,0.2)">' + emoji + '</div>',
+      className: '',
+      iconSize: [size, size],
+      iconAnchor: [size/2, size/2],
+      popupAnchor: [0, -(size/2+4)],
+    });
+  }
+
+  // Surf camp marker (main — fire orange, large)
+  L.marker(NGOR_ISLAND, { icon: makeIcon('#ff5a1f','🏄',52) })
+    .addTo(map)
+    .bindPopup('<div style="font-family:Raleway,sans-serif;text-align:center;padding:6px 2px"><strong style="color:#0a2540;font-size:15px">Ngor Surfcamp Teranga</strong><br><span style="color:#6b7280;font-size:12px">Ngor Island, Dakar, Senegal</span><br><a href="https://wa.me/221789257025" target="_blank" style="color:#ff5a1f;font-weight:600;font-size:12px">📱 WhatsApp us</a></div>', { maxWidth:200 })
+    .openPopup();
+
+  // Ngor beach marker
+  L.marker(NGOR_BEACH, { icon: makeIcon('#334155','🚢',38) })
+    .addTo(map)
+    .bindPopup('<div style="font-family:Raleway,sans-serif;padding:4px"><strong style="color:#0a2540">Ngor Beach</strong><br><span style="color:#6b7280;font-size:12px">Pirogue departure point</span></div>');
+
+  // Dakar city
+  L.marker(DAKAR_CITY, { icon: makeIcon('#475569','🏙',34) })
+    .addTo(map)
+    .bindPopup('<div style="font-family:Raleway,sans-serif;padding:4px"><strong style="color:#0a2540">Dakar</strong><br><span style="color:#6b7280;font-size:12px">Capital city</span></div>');
+
+  // Airport
+  L.marker(DSS_AIRPORT, { icon: makeIcon('#64748b','✈️',38) })
+    .addTo(map)
+    .bindPopup('<div style="font-family:Raleway,sans-serif;padding:4px"><strong style="color:#0a2540">Blaise Diagne Airport (DSS)</strong><br><span style="color:#6b7280;font-size:12px">~20min from Ngor Beach</span></div>');
+
+  // Route line: Airport → Ngor Beach (muted on light basemap)
+  L.polyline([DSS_AIRPORT, NGOR_BEACH], {
+    color: '#64748b', weight: 2.5, opacity: 0.45, dashArray: '8 6',
+  }).addTo(map);
+
+  // Pirogue route: Ngor Beach → Ngor Island
+  L.polyline([NGOR_BEACH, NGOR_ISLAND], {
+    color: '#475569', weight: 2.5, opacity: 0.55, dashArray: '6 5',
+  }).addTo(map);
+
+  // Scale
+  L.control.scale({ imperial: false }).addTo(map);
+})();
+
+/* ── Country tabs ────────────────────────────────────── */
+function switchCountry(key) {
+  document.querySelectorAll('.flight-panel').forEach(p => p.style.display = 'none');
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  var panel = document.querySelector('[data-country="' + key + '"].flight-panel');
+  var btn   = document.querySelector('[data-country="' + key + '"].tab-btn');
+  if(panel) panel.style.display = 'block';
+  if(btn)   btn.classList.add('active');
+}
+
+/* ── Animations ──────────────────────────────────────── */
+function toggleLangDD(e) { e.stopPropagation(); document.getElementById('lang-dd').classList.toggle('open'); }
+document.addEventListener('click', e => { var d=document.getElementById('lang-dd'); if(d&&!d.contains(e.target)) d.classList.remove('open'); });
+function toggleMenu() { document.getElementById('nav-links').classList.toggle('open'); }
+document.addEventListener('DOMContentLoaded', () => {
+  const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('up');}),{threshold:0.08});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+  const nav=document.getElementById('nav');
+  if(nav) window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>30),{passive:true});
+});
+</script>
+<script defer
+  src="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.umd.js"
+  onload="(function(){
+  var lang=(document.documentElement.lang||'en').split('-')[0].split('_')[0];
+  var T={
+    en:{title:'Cookie notice',desc:'This site uses strictly necessary cookies to function. No tracking or advertising cookies.',accept:'Accept',reject:'Necessary only',manage:'Manage'},
+    fr:{title:'Avis sur les cookies',desc:'Ce site utilise uniquement des cookies strictement nécessaires. Aucun cookie de suivi ou publicitaire.',accept:'Accepter',reject:'Nécessaires seulement',manage:'Gérer'},
+    es:{title:'Aviso de cookies',desc:'Este sitio usa solo cookies estrictamente necesarias. Sin cookies de seguimiento ni publicidad.',accept:'Aceptar',reject:'Solo necesarias',manage:'Gestionar'},
+    it:{title:'Informativa sui cookie',desc:'Questo sito usa solo cookie strettamente necessari. Nessun cookie di tracciamento o pubblicità.',accept:'Accetta',reject:'Solo necessari',manage:'Gestisci'},
+    de:{title:'Cookie-Hinweis',desc:'Diese Website verwendet nur technisch notwendige Cookies. Keine Tracking- oder Werbe-Cookies.',accept:'Akzeptieren',reject:'Nur notwendige',manage:'Verwalten'},
+    nl:{title:'Cookiemelding',desc:'Deze site gebruikt alleen strikt noodzakelijke cookies. Geen tracking- of advertentiecookies.',accept:'Accepteren',reject:'Alleen noodzakelijk',manage:'Beheren'},
+    ar:{title:'إشعار الكوكيز',desc:'يستخدم هذا الموقع ملفات تعريف الارتباط الضرورية فقط. لا يوجد تتبع أو إعلانات.',accept:'قبول',reject:'الضرورية فقط',manage:'إدارة'}
+  };
+  var t=T[lang]||T.en;
+  CookieConsent.run({
+    guiOptions:{consentModal:{layout:'cloud',position:'bottom center',equalWeightButtons:false,flipButtons:false}},
+    categories:{necessary:{enabled:true,readOnly:true},analytics:{enabled:false}},
+    language:{default:lang,translations:{[lang]:{consentModal:{title:t.title,description:t.desc,acceptAllBtn:t.accept,acceptNecessaryBtn:t.reject,showPreferencesBtn:t.manage},preferencesModal:{title:t.manage,acceptAllBtn:t.accept,acceptNecessaryBtn:t.reject,savePreferencesBtn:t.accept,sections:[{title:t.title,linkedCategory:'necessary'}]}}}}}
+  });
+})()"></script>
+</body>
+</html>

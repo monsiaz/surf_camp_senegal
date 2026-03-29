@@ -1,5 +1,5 @@
-# Generated site (rebuilded via build.py — ne pas versionner)
-cloudflare-demo/
+# Generated site — tracked so GitHub Actions can deploy the full site
+# cloudflare-demo/ is committed (HTML + optimised assets only, no raw PNG sources)
 
 # Secrets
 clesapi.txt
