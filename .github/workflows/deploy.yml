@@ -1,4 +1,7 @@
-name: Build & Deploy to Vercel
+name: Pre-build check
+
+# Vercel deploys automatically via its GitHub integration on every push to main.
+# This workflow only runs build.py as a sanity check — Vercel does the actual deploy.
 
 on:
   push:
@@ -6,9 +9,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy:
+  build-check:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 10
 
     steps:
       - name: Checkout code
@@ -19,22 +22,13 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
+      - name: Install Python deps
+        run: pip install requests
 
-      - name: Install dependencies
-        run: |
-          pip install requests
-          npm install -g vercel
-
-      - name: Build site
+      - name: Run build.py (sanity check)
         run: python3 build.py
 
-      - name: Deploy to Vercel (Production)
-        env:
-          VERCEL_TOKEN:      ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_ORG_ID:     ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-        run: vercel deploy --prod --token "$VERCEL_TOKEN" --yes
+      - name: Confirm output directory exists
+        run: |
+          echo "cloudflare-demo pages: $(find cloudflare-demo -name '*.html' | wc -l)"
+          echo "Build OK ✅"

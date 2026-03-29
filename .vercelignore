@@ -1,0 +1,13 @@
+node_modules/
+__pycache__/
+*.pyc
+*.pyo
+.env
+output/
+.DS_Store
+clesapi.txt
+.admin_api_key
+*.json.bak
+leafy-brace-*.json
+_legacy_scripts/
+scripts/
