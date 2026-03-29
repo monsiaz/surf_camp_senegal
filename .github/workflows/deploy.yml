@@ -1,0 +1,42 @@
+name: Build & Deploy to Cloudflare Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Wrangler
+        run: npm install -g wrangler
+
+      - name: Restore Wrangler auth
+        run: |
+          mkdir -p "$HOME/.config/wrangler/config"
+          printf '%s' '${{ secrets.WRANGLER_CONFIG_TOML }}' > "$HOME/.config/wrangler/config/default.toml"
+
+      - name: Build site
+        run: python3 build.py
+
+      - name: Deploy to Cloudflare Pages
+        run: |
+          wrangler pages deploy cloudflare-demo \
+            --project-name ngor-surfcamp-demo \
+            --branch main

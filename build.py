@@ -27,8 +27,8 @@ _surf_house_spec.loader.exec_module(_surf_house_mod)
 SURF_HOUSE_PAGE = _surf_house_mod.SURF_HOUSE_PAGE
 SURF_HOUSE_FEATS = _surf_house_mod.SURF_HOUSE_FEATS
 
-DEMO_DIR  = "/Users/simonazoulay/SurfCampSenegal/cloudflare-demo"
-CONTENT   = "/Users/simonazoulay/SurfCampSenegal/content"
+DEMO_DIR  = os.path.join(_BASE_DIR, "cloudflare-demo")
+CONTENT   = os.path.join(_BASE_DIR, "content")
 SITE_URL  = "https://ngor-surfcamp-demo.pages.dev"
 # Bump after CSS/JS changes so browsers fetch fresh assets (query string cache bust).
 ASSET_VERSION = "20260328d"
