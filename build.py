@@ -4392,6 +4392,18 @@ print(f"\nEN booking verification: scripts={scripts} form-card={form_cards} divs
 
 write_sitemaps_and_robots()
 
+# Copy static/ folder (CMS admin, etc.) into the output
+_static_src = os.path.join(_BASE_DIR, "static")
+if os.path.isdir(_static_src):
+    for _root, _dirs, _files in os.walk(_static_src):
+        for _fname in _files:
+            _src_path = os.path.join(_root, _fname)
+            _rel = os.path.relpath(_src_path, _static_src)
+            _dst_path = os.path.join(DEMO_DIR, _rel)
+            os.makedirs(os.path.dirname(_dst_path), exist_ok=True)
+            shutil.copy2(_src_path, _dst_path)
+    print(f"✓ static/ copied to {DEMO_DIR}")
+
 # Deploy if requested
 if '--deploy' in sys.argv:
     print("\nDeploying to Cloudflare Pages...")
