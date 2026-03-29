@@ -10,6 +10,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@vercel/postgres": "^0.10.0",
     "@wix/blog": "^1.0.589",
     "@wix/data": "^1.0.430",
     "@wix/sdk": "^1.21.5"

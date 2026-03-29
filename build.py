@@ -3174,7 +3174,27 @@ def build_booking(lang):
     if(arrive)   msg += ' Arrival: ' + arrive + '.';
     if(leave)    msg += ' Departure: ' + leave + '.';
     if(goal)     msg += ' Goal: ' + goal;
-    window.open('https://wa.me/221789257025?text=' + encodeURIComponent(msg), '_blank');
+    var guests = ((document.getElementById('f-guests')||{{}}).value||'1');
+    var btn = form.querySelector('button[type=submit]');
+    if(btn){{ btn.disabled=true; btn.textContent='Sending…'; }}
+    fetch('/api/booking', {{
+      method:'POST',
+      headers:{{'Content-Type':'application/json'}},
+      body: JSON.stringify({{
+        firstName: fname, email: email,
+        phone: (cc?cc+' ':'')+phone,
+        arrival: arrive, departure: leave,
+        guests: guests, level: levelText,
+        message: goal,
+        lang: (document.documentElement.lang||'en').split('-')[0],
+        pageUrl: location.href
+      }})
+    }}).then(function(r){{ return r.json(); }})
+      .catch(function(){{ return {{ok:false}}; }})
+      .finally(function(){{
+        if(btn){{ btn.disabled=false; btn.textContent='Check Availability & Prices'; }}
+        window.open('https://wa.me/221789257025?text=' + encodeURIComponent(msg), '_blank');
+      }});
   }});
 }})();
 </script>"""

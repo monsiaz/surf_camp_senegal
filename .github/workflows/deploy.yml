@@ -1,4 +1,4 @@
-name: Build & Deploy to Cloudflare Pages
+name: Build & Deploy to Vercel
 
 on:
   push:
@@ -9,9 +9,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    permissions:
-      contents: read
-      id-token: write
 
     steps:
       - name: Checkout code
@@ -27,33 +24,17 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Install Wrangler
-        run: npm install -g wrangler
-
-      - name: Restore Wrangler auth
+      - name: Install dependencies
         run: |
-          mkdir -p "$HOME/.config/.wrangler/config"
-          printf '%s' '${{ secrets.WRANGLER_CONFIG_TOML }}' > "$HOME/.config/.wrangler/config/default.toml"
+          pip install requests
+          npm install -g vercel
 
       - name: Build site
         run: python3 build.py
 
-      - name: Deploy to Cloudflare Pages
-        run: |
-          wrangler pages deploy cloudflare-demo \
-            --project-name ngor-surfcamp-demo \
-            --branch main
-
-      - name: Refresh GitHub secret with new tokens
-        if: success()
+      - name: Deploy to Vercel (Production)
         env:
-          GH_TOKEN: ${{ secrets.GH_PAT_SECRETS }}
-        run: |
-          if [ -n "$GH_TOKEN" ]; then
-            NEW_TOML=$(cat "$HOME/.config/.wrangler/config/default.toml")
-            printf '%s' "$NEW_TOML" | gh secret set WRANGLER_CONFIG_TOML \
-              --repo monsiaz/surf_camp_senegal
-            echo "Tokens refreshed in GitHub Secrets"
-          else
-            echo "GH_PAT_SECRETS not set – skipping token refresh"
-          fi
+          VERCEL_TOKEN:      ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID:     ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: vercel deploy --prod --token "$VERCEL_TOKEN" --yes
