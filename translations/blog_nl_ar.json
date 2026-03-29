@@ -1,0 +1,94 @@
+{
+  "BLOG_28": {
+    "nl": {
+      "lbl_blog": "Blog",
+      "lbl_read": "Lees meer",
+      "lbl_back_blog": "← Terug naar blog",
+      "lbl_related": "Gerelateerde artikelen",
+      "lbl_cat": "Categorie",
+      "lbl_min": "min leestijd",
+      "lbl_prev": "← Vorige",
+      "lbl_next": "Volgende →",
+      "lbl_browse": "Blader op categorie",
+      "lbl_all": "Alle artikelen",
+      "lbl_surf_journal": "Surfjournaal",
+      "lbl_stories": "Verhalen, gidsen en tips van experts vanaf Île de Ngor, Senegal.",
+      "lbl_cat_intro": "Ontdek artikelen in deze categorie",
+      "lbl_back_island": "← Terug naar eiland",
+      "breadcrumb_home": "Home",
+      "breadcrumb_blog": "Blog",
+      "author_ben": "Benoit Azoulay — Ngor Surfcamp Teranga",
+      "toc_title": "Inhoudsopgave",
+      "toc_title_ar": "فهرس المحتويات"
+    },
+    "ar": {
+      "lbl_blog": "المدونة",
+      "lbl_read": "اقرأ المزيد",
+      "lbl_back_blog": "← العودة إلى المدونة",
+      "lbl_related": "مقالات ذات صلة",
+      "lbl_cat": "الفئة",
+      "lbl_min": "دقائق قراءة",
+      "lbl_prev": "← السابق",
+      "lbl_next": "التالي →",
+      "lbl_browse": "تصفح حسب الفئة",
+      "lbl_all": "جميع المقالات",
+      "lbl_surf_journal": "يوميات ركوب الأمواج",
+      "lbl_stories": "قصص وأدلة ونصائح من خبراء من جزيرة نغور، السنغال.",
+      "lbl_cat_intro": "استكشف المقالات في هذه الفئة",
+      "lbl_back_island": "← العودة إلى الجزيرة",
+      "breadcrumb_home": "الرئيسية",
+      "breadcrumb_blog": "المدونة",
+      "author_ben": "بنوا أزولاي — مخيم نغور تيرانغا لركوب الأمواج",
+      "toc_title": "جدول المحتويات",
+      "toc_title_ar": "فهرس المحتويات"
+    }
+  },
+  "CAT_SLUGS": {
+    "nl": {
+      "island-life": "eilandleven-surfkamp",
+      "surf-conditions": "surfomstandigheden-spots",
+      "coaching": "coaching-progressie",
+      "cat_island_name": "Eilandleven & Surfkamp",
+      "cat_surf_name": "Surfomstandigheden & Spots",
+      "cat_coaching_name": "Coaching & Progressie"
+    },
+    "ar": {
+      "island-life": "حياة-الجزيرة-ومعسكر-ركوب-الأمواج",
+      "surf-conditions": "ظروف-ركوب-الأمواج-والأماكن",
+      "coaching": "التدريب-والتطور",
+      "cat_island_name": "حياة الجزيرة ومعسكر ركوب الأمواج",
+      "cat_surf_name": "ظروف ركوب الأمواج والأماكن",
+      "cat_coaching_name": "التدريب والتطور"
+    }
+  },
+  "SURFING_FAQ_28": {
+    "nl": {
+      "faq_section_title": "Veelgestelde vragen",
+      "surfing_breadcrumb": "Surfen",
+      "faq_breadcrumb": "FAQ",
+      "cta_book": "Boek je verblijf",
+      "cta_whatsapp": "Stuur ons een WhatsApp-bericht",
+      "cta_h": "Klaar om te surfen op Ngor Island?",
+      "cta_p": "Boek je verblijf en wij regelen de rest. Stuur ons op elk moment een WhatsApp-bericht."
+    },
+    "ar": {
+      "faq_section_title": "الأسئلة الشائعة",
+      "surfing_breadcrumb": "ركوب الأمواج",
+      "faq_breadcrumb": "الأسئلة الشائعة",
+      "cta_book": "احجز إقامتك",
+      "cta_whatsapp": "راسلنا على واتساب",
+      "cta_h": "هل أنت مستعد لركوب الأمواج في جزيرة نغور؟",
+      "cta_p": "احجز إقامتك وسنتولى نحن الباقي. راسلنا على واتساب في أي وقت."
+    }
+  },
+  "PP_SLUGS": {
+    "nl": {
+      "slug": "privacy-policy",
+      "label": "Privacybeleid"
+    },
+    "ar": {
+      "slug": "privacy-policy",
+      "label": "سياسة الخصوصية"
+    }
+  }
+}

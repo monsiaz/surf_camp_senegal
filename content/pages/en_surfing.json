@@ -1,0 +1,58 @@
+{
+  "slug": "/surfing",
+  "lang": "en",
+  "page_name": "Surfing",
+  "title_tag": "Surfing in Senegal | Ngor Surfcamp Teranga",
+  "meta_description": "Discover surfing in Senegal with Ngor Surfcamp Teranga: warm water, world-class waves, local guides and sessions for all levels.",
+  "h1": "Surfing in Senegal",
+  "hero_subtitle": "Ride warm-water waves year-round from Ngor Island, one of West Africa’s most iconic surf destinations.",
+  "intro": "Senegal is one of West Africa’s best-kept surf secrets, offering warm water, consistent swell and a wide variety of waves for beginners, improvers and experienced surfers alike. From the legendary breaks around Ngor Island to nearby beach and reef setups, Ngor Surfcamp Teranga puts you close to the action with local knowledge, easy access and a relaxed island atmosphere.",
+  "sections": [
+    {
+      "h2": "A Surf Destination with Variety and Character",
+      "content": "Surfing in Senegal combines quality waves, tropical light and a laid-back rhythm that makes every session memorable. Around Ngor, surfers can find different types of breaks depending on the swell, tide and wind, making the area suitable for a wide range of abilities and surf goals.",
+      "bullets": [
+        "Warm water and year-round surf potential",
+        "A mix of reef breaks and beach breaks nearby"
+      ]
+    },
+    {
+      "h2": "Surf the Waves Around Ngor Island",
+      "content": "Ngor Island is famous for its surf history and remains one of the top places to surf in Senegal. Staying at Ngor Surfcamp Teranga means you are based close to the island’s best-known spots, with quick boat access and guidance to help you make the most of the conditions.",
+      "bullets": [
+        "Easy access to the main surf spots around Ngor",
+        "Local insight on the best tides, swell and wind"
+      ]
+    },
+    {
+      "h2": "For Beginners, Intermediates and Advanced Surfers",
+      "content": "Whether you are catching your first green wave or looking for more powerful, technical surf, Senegal offers options for different levels. The variety of nearby waves allows beginners to build confidence while more experienced surfers can enjoy faster, more challenging sections when the conditions line up.",
+      "bullets": [
+        "Suitable surf options for all levels",
+        "Progress at your own pace in warm, inviting conditions"
+      ]
+    },
+    {
+      "h2": "A Relaxed Surf Experience in Dakar",
+      "content": "What makes surfing in Senegal special is not only the quality of the waves, but also the atmosphere around them. Based near Dakar and Ngor, you can combine surf sessions with island life, local culture, good food and the welcoming spirit of Teranga that Senegal is known for.",
+      "bullets": [
+        "Surf close to Dakar while enjoying an island setting",
+        "Combine waves with culture, sunshine and local hospitality"
+      ]
+    }
+  ],
+  "cta_heading": "Ready to Surf Senegal?",
+  "cta_text": "Stay at Ngor Surfcamp Teranga and enjoy easy access to some of Senegal’s best waves. Get in touch to plan your surf trip and find the right setup for your level.",
+  "cta_button": "Book Your Surf Stay",
+  "og_title": "Surfing in Senegal | Ngor Surfcamp Teranga",
+  "og_description": "Explore warm-water surf in Senegal from Ngor Island. Discover local waves, all-level sessions and the relaxed spirit of Ngor Surfcamp Teranga.",
+  "focus_keyword": "surfing in Senegal",
+  "schema_type": "LodgingBusiness",
+  "hreflang_urls": {
+    "en": "https://www.surfcampsenegal.com/surfing",
+    "fr": "https://www.surfcampsenegal.com/fr-fr/surfing",
+    "es": "https://www.surfcampsenegal.com/es-es/surfing",
+    "it": "https://www.surfcampsenegal.com/it-it/surfing",
+    "de": "https://www.surfcampsenegal.com/de-de/surfing"
+  }
+}

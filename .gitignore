@@ -1,0 +1,22 @@
+# Generated site (rebuilded via build.py — ne pas versionner)
+cloudflare-demo/
+
+# Secrets
+clesapi.txt
+*.json.bak
+leafy-brace-*.json
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.env
+
+# Node
+node_modules/
+
+# Output / screenshots
+output/
+
+# macOS
+.DS_Store

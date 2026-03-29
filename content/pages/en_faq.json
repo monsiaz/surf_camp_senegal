@@ -1,0 +1,58 @@
+{
+  "slug": "/faq",
+  "lang": "en",
+  "page_name": "FAQ",
+  "title_tag": "FAQ | Ngor Surf Camp Senegal",
+  "meta_description": "Find answers about surf holidays in Senegal, Ngor Island stays, lessons, rooms, food, transport and booking at Ngor Surf Camp.",
+  "h1": "Frequently Asked Questions",
+  "hero_subtitle": "Everything you need to know before booking your surf holiday in Senegal.",
+  "intro": "Planning a stay at Ngor Surf Camp Teranga? This FAQ page brings together the essential information about your surf camp experience in Senegal, from accommodation and surf lessons to meals, transport and booking details. Whether you are travelling solo, with friends or as a couple, you will find clear answers to help you prepare for an easy, unforgettable trip to Ngor Island.",
+  "sections": [
+    {
+      "h2": "About Your Stay at Ngor Surf Camp",
+      "content": "Ngor Surf Camp Teranga is designed for travellers looking for a relaxed surf holiday in Senegal with easy access to the waves around Ngor Island and Dakar. The camp combines comfortable accommodation, a friendly atmosphere and local knowledge to help guests enjoy both the surf and the culture. If you are visiting for the first time, this page is here to answer the most common questions before you book.",
+      "bullets": [
+        "Surf camp accommodation on Ngor Island, Senegal",
+        "Ideal for solo travellers, couples and groups"
+      ]
+    },
+    {
+      "h2": "Surf, Lessons and Experience Level",
+      "content": "Guests often ask about the surf conditions, the best season to visit and whether the camp is suitable for beginners or more experienced surfers. Ngor is known for its variety of surf spots, giving visitors access to waves that can suit different levels depending on the season and swell. If you are unsure which package or surf setup is right for you, the team can help guide you before arrival.",
+      "bullets": [
+        "Suitable for beginner, intermediate and advanced surfers",
+        "Advice available on surf lessons, guiding and local conditions"
+      ]
+    },
+    {
+      "h2": "Rooms, Food and Camp Facilities",
+      "content": "Many travellers want to know what is included in their stay, what the rooms are like and how meals work at the surf camp. The aim is to offer a simple, welcoming and comfortable base close to the ocean, where guests can rest well between surf sessions and enjoy the laid-back island atmosphere. You can also expect practical amenities that make your stay smooth and stress-free.",
+      "bullets": [
+        "Comfortable rooms and shared camp spaces",
+        "Information available on meals, amenities and what to bring"
+      ]
+    },
+    {
+      "h2": "Transport, Booking and Travel Planning",
+      "content": "Before travelling to Senegal, it is normal to have questions about airport transfers, how to reach Ngor Island, payment details and how to confirm your booking. This FAQ section is meant to make trip planning easier, so you can arrive with confidence and focus on enjoying your surf holiday. If you need anything more specific, the camp team is always happy to help directly.",
+      "bullets": [
+        "Helpful guidance on booking and arrival logistics",
+        "Support available for transport and travel questions"
+      ]
+    }
+  ],
+  "cta_heading": "Still Have Questions?",
+  "cta_text": "Get in touch with Ngor Surf Camp Teranga and we will help you plan the right surf trip in Senegal. We are happy to answer questions about rooms, surf lessons, packages and travel details.",
+  "cta_button": "Contact Us",
+  "og_title": "FAQ | Ngor Surf Camp Teranga Senegal",
+  "og_description": "Read the most common questions about staying, surfing and booking at Ngor Surf Camp Teranga in Senegal.",
+  "focus_keyword": "Senegal surf camp FAQ",
+  "schema_type": "LodgingBusiness",
+  "hreflang_urls": {
+    "en": "https://www.surfcampsenegal.com/faq",
+    "fr": "https://www.surfcampsenegal.com/fr-fr/faq",
+    "es": "https://www.surfcampsenegal.com/es-es/faq",
+    "it": "https://www.surfcampsenegal.com/it-it/faq",
+    "de": "https://www.surfcampsenegal.com/de-de/faq"
+  }
+}

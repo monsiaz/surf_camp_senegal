@@ -1,0 +1,67 @@
+{
+  "maya-beginner": {
+    "id": "maya-beginner",
+    "name": "Maya",
+    "type": "The Curious Beginner",
+    "color": "#29b6f6",
+    "description": {
+      "en": "Perfect for complete beginners planning their first surf trip",
+      "fr": "Parfait pour les débutants qui planifient leur premier voyage surf",
+      "es": "Perfecto para principiantes planeando su primer viaje surf",
+      "it": "Perfetto per principianti che pianificano il loro primo viaggio surf",
+      "de": "Perfekt für komplette Anfänger, die ihre erste Surfreise planen"
+    }
+  },
+  "jake-weekend": {
+    "id": "jake-weekend",
+    "name": "Jake",
+    "type": "The Weekend Warrior",
+    "color": "#ff6b35",
+    "description": {
+      "en": "Great if you surf a few times a year and want real progression",
+      "fr": "Idéal si vous surfez quelques fois par an et voulez progresser vraiment",
+      "es": "Genial si surfeas algunas veces al año y quieres progresar de verdad",
+      "it": "Ottimo se surfi poche volte all anno e vuoi una vera progressione",
+      "de": "Toll wenn du ein paar Mal im Jahr surfst und echte Fortschritte willst"
+    }
+  },
+  "lena-committed": {
+    "id": "lena-committed",
+    "name": "Lena",
+    "type": "The Committed Improver",
+    "color": "#9c27b0",
+    "description": {
+      "en": "Ideal for surfers serious about video coaching and technique",
+      "fr": "Idéal pour les surfeurs sérieux dans le coaching vidéo et la technique",
+      "es": "Ideal para surfistas serios en coaching de vídeo y técnica",
+      "it": "Ideale per surfisti seri nel coaching video e nella tecnica",
+      "de": "Ideal für Surfer, die es mit Video-Coaching und Technik ernst meinen"
+    }
+  },
+  "carlos-globetrotter": {
+    "id": "carlos-globetrotter",
+    "name": "Carlos",
+    "type": "The Globe-Trotter",
+    "color": "#0a2540",
+    "description": {
+      "en": "For experienced surfers seeking world-class new destinations",
+      "fr": "Pour les surfeurs expérimentés qui cherchent de nouvelles destinations de classe mondiale",
+      "es": "Para surfistas experimentados que buscan nuevos destinos de clase mundial",
+      "it": "Per surfisti esperti alla ricerca di nuove destinazioni di classe mondiale",
+      "de": "Für erfahrene Surfer, die nach neuen Weltklasse-Zielen suchen"
+    }
+  },
+  "amara-soul": {
+    "id": "amara-soul",
+    "name": "Amara",
+    "type": "The Soul Surfer",
+    "color": "#e91e63",
+    "description": {
+      "en": "Perfect if you surf for lifestyle, culture and connection",
+      "fr": "Parfait si vous surfez pour le style de vie, la culture et la connexion",
+      "es": "Perfecto si surfeas por lifestyle, cultura y conexión",
+      "it": "Perfetto se surfi per lifestyle, cultura e connessione",
+      "de": "Perfekt wenn du für Lifestyle, Kultur und Verbindung surfst"
+    }
+  }
+}

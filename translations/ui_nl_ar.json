@@ -1,0 +1,507 @@
+{
+  "SLUG": {
+    "surf-house": {
+      "en": "surf-house",
+      "nl": "surfhuis",
+      "ar": "بيت ركوب الأمواج"
+    },
+    "island": {
+      "en": "island",
+      "nl": "eiland",
+      "ar": "جزيرة"
+    },
+    "surfing": {
+      "en": "surfing",
+      "nl": "surfen",
+      "ar": "ركوب الأمواج"
+    },
+    "booking": {
+      "en": "booking",
+      "nl": "boeken",
+      "ar": "الحجز"
+    },
+    "gallery": {
+      "en": "gallery",
+      "nl": "galerij",
+      "ar": "معرض الصور"
+    },
+    "faq": {
+      "en": "faq",
+      "nl": "faq",
+      "ar": "الأسئلة الشائعة"
+    },
+    "blog": {
+      "en": "blog",
+      "nl": "blog",
+      "ar": "المدونة"
+    },
+    "privacy-policy": {
+      "en": "privacy-policy",
+      "nl": "privacybeleid",
+      "ar": "سياسة الخصوصية"
+    },
+    "category": {
+      "en": "category",
+      "nl": "categorie",
+      "ar": "الفئة"
+    }
+  },
+  "NAV": {
+    "home": {
+      "en": "Home",
+      "nl": "Home",
+      "ar": "الرئيسية"
+    },
+    "surf_house": {
+      "en": "Surf House",
+      "nl": "Surfhuis",
+      "ar": "بيت ركوب الأمواج"
+    },
+    "island": {
+      "en": "Island",
+      "nl": "Eiland",
+      "ar": "الجزيرة"
+    },
+    "surfing": {
+      "en": "Surfing",
+      "nl": "Surfen",
+      "ar": "ركوب الأمواج"
+    },
+    "blog": {
+      "en": "Blog",
+      "nl": "Blog",
+      "ar": "المدونة"
+    },
+    "gallery": {
+      "en": "Gallery",
+      "nl": "Galerij",
+      "ar": "معرض الصور"
+    },
+    "faq": {
+      "en": "FAQ",
+      "nl": "FAQ",
+      "ar": "الأسئلة الشائعة"
+    },
+    "book_now": {
+      "en": "Book Now",
+      "nl": "Boek nu",
+      "ar": "احجز الآن"
+    },
+    "getting_here": {
+      "en": "Getting here",
+      "nl": "Hoe kom je hier",
+      "ar": "كيفية الوصول إلى هنا"
+    }
+  },
+  "BOOKING_SOCIAL": {
+    "google_lbl": {
+      "en": "Google rating",
+      "nl": "Google-beoordeling",
+      "ar": "تقييم Google"
+    },
+    "count": {
+      "en": "64 Google reviews",
+      "nl": "64 Google-reviews",
+      "ar": "64 مراجعة على Google"
+    },
+    "maps": {
+      "en": "View on Google Maps",
+      "nl": "Bekijk op Google Maps",
+      "ar": "عرض على خرائط Google"
+    },
+    "leave": {
+      "en": "Leave a review",
+      "nl": "Laat een review achter",
+      "ar": "اترك مراجعة"
+    },
+    "rv_eyebrow": {
+      "en": "Social proof",
+      "nl": "Social proof",
+      "ar": "الدليل الاجتماعي"
+    },
+    "rv_h": {
+      "en": "What guests say",
+      "nl": "Wat gasten zeggen",
+      "ar": "ماذا يقول الضيوف"
+    },
+    "rc_tip": {
+      "en": "Click to read more",
+      "nl": "Klik om meer te lezen",
+      "ar": "انقر لقراءة المزيد"
+    }
+  },
+  "HOME_PROOF": {
+    "aria": {
+      "en": "Camp highlights",
+      "nl": "Hoogtepunten van het camp",
+      "ar": "أبرز ما يميز المخيم"
+    },
+    "eyebrow": {
+      "en": "The essentials",
+      "nl": "De essentials",
+      "ar": "الأساسيات"
+    },
+    "f1_n": {
+      "en": "2×",
+      "nl": "2×",
+      "ar": "2×"
+    },
+    "f1_t": {
+      "en": "daily surf sessions",
+      "nl": "dagelijkse surfsessies",
+      "ar": "حصص ركوب أمواج يومية"
+    },
+    "f1_d": {
+      "en": "Morning & afternoon — spots chosen by forecast",
+      "nl": "Ochtend & namiddag — spots gekozen op basis van de forecast",
+      "ar": "صباحًا وبعد الظهر — نختار المواقع حسب التوقعات"
+    },
+    "f2_n": {
+      "en": "1964",
+      "nl": "1964",
+      "ar": "1964"
+    },
+    "f2_t": {
+      "en": "Endless Summer",
+      "nl": "Endless Summer",
+      "ar": "الصيف الذي لا ينتهي"
+    },
+    "f2_d": {
+      "en": "The film that put Ngor on the map",
+      "nl": "De film die Ngor op de kaart zette",
+      "ar": "الفيلم الذي وضع نغور على الخريطة"
+    },
+    "f3_n": {
+      "en": "All",
+      "nl": "Alle",
+      "ar": "جميع"
+    },
+    "f3_t": {
+      "en": "levels",
+      "nl": "niveaus",
+      "ar": "المستويات"
+    },
+    "f3_d": {
+      "en": "Beginner to advanced — Abu, best surf guide in Dakar",
+      "nl": "Van beginner tot gevorderd — Abu, de beste surfgids van Dakar",
+      "ar": "من المبتدئ إلى المتقدم — أبو، أفضل دليل لركوب الأمواج في داكار"
+    }
+  },
+  "HOME_GALLERY": {
+    "lbl": {
+      "en": "Gallery",
+      "nl": "Galerij",
+      "ar": "معرض الصور"
+    },
+    "h2": {
+      "en": "Island Life in Pictures",
+      "nl": "Eilandleven in beeld",
+      "ar": "الحياة في الجزيرة بالصور"
+    },
+    "cta": {
+      "en": "View all photos",
+      "nl": "Bekijk alle foto's",
+      "ar": "شاهد جميع الصور"
+    }
+  },
+  "GALLERY_PAGE": {
+    "title": {
+      "en": "Surf Camp Senegal Gallery | Ngor Island Photos",
+      "nl": "Surfkamp Senegal Galerij | Foto’s van Ngor Island",
+      "ar": "معرض مخيم ركوب الأمواج في السنغال | صور جزيرة نغور"
+    },
+    "meta": {
+      "en": "Discover Ngor Surfcamp Teranga through photos: surf sessions, island life, rooms, food and sunsets on Ngor Island, Dakar.",
+      "nl": "Ontdek Ngor Surfcamp Teranga in foto’s: surfsessies, eilandleven, kamers, eten en zonsondergangen op Ngor Island, Dakar.",
+      "ar": "اكتشفوا نغور سورفكامب تيرانغا من خلال الصور: جلسات ركوب الأمواج، حياة الجزيرة، الغرف، الطعام وغروب الشمس في جزيرة نغور، داكار."
+    },
+    "h1": {
+      "en": "Our Gallery",
+      "nl": "Onze galerij",
+      "ar": "معرضنا"
+    },
+    "intro": {
+      "en": "A glimpse of life at Ngor Surfcamp Teranga — waves, smiles, sunsets and surf.",
+      "nl": "Een kijkje in het leven bij Ngor Surfcamp Teranga — golven, glimlachen, zonsondergangen en surf.",
+      "ar": "لمحة عن الحياة في نغور سورفكامب تيرانغا — أمواج، ابتسامات، غروب الشمس وركوب الأمواج."
+    },
+    "lb_close": {
+      "en": "Close gallery",
+      "nl": "Galerij sluiten",
+      "ar": "إغلاق المعرض"
+    },
+    "lb_prev": {
+      "en": "Previous photo",
+      "nl": "Vorige foto",
+      "ar": "الصورة السابقة"
+    },
+    "lb_next": {
+      "en": "Next photo",
+      "nl": "Volgende foto",
+      "ar": "الصورة التالية"
+    },
+    "lb_counter": {
+      "en": "of",
+      "nl": "van",
+      "ar": "من"
+    }
+  },
+  "ISLAND_GUIDE_UI": {
+    "eyebrow": {
+      "en": "Island Guide",
+      "nl": "Eilandgids",
+      "ar": "دليل الجزيرة"
+    },
+    "back": {
+      "en": "← Back to Island",
+      "nl": "← Terug naar het eiland",
+      "ar": "← العودة إلى الجزيرة"
+    },
+    "related": {
+      "en": "More island guides",
+      "nl": "Meer eilandgidsen",
+      "ar": "المزيد من أدلة الجزيرة"
+    },
+    "hub_eyebrow": {
+      "en": "Explore the island",
+      "nl": "Ontdek het eiland",
+      "ar": "اكتشف الجزيرة"
+    },
+    "hub_h2": {
+      "en": "Island Guides",
+      "nl": "Eilandgidsen",
+      "ar": "أدلة الجزيرة"
+    },
+    "hub_sub": {
+      "en": "Everything you need to know about Ngor Island",
+      "nl": "Alles wat je moet weten over Île de Ngor",
+      "ar": "كل ما تحتاج إلى معرفته عن جزيرة نغور"
+    }
+  },
+  "ISLAND_HUB": {
+    "eyebrow": {
+      "en": "All guides",
+      "nl": "Alle gidsen",
+      "ar": "جميع الأدلة"
+    },
+    "h2": {
+      "en": "Explore Ngor Island",
+      "nl": "Ontdek het eiland Ngor",
+      "ar": "استكشف جزيرة نغور"
+    },
+    "sub": {
+      "en": "Practical guides and local insight for your surf stay",
+      "nl": "Praktische gidsen en lokale tips voor je surfverblijf",
+      "ar": "أدلة عملية ونصائح محلية لإقامتك الخاصة بركوب الأمواج"
+    }
+  },
+  "BOOK_FOOTER": {
+    "label": {
+      "en": "Book your stay",
+      "nl": "Boek je verblijf",
+      "ar": "احجز إقامتك"
+    },
+    "sub": {
+      "en": "Message us on WhatsApp or fill in the form — we reply within 24h.",
+      "nl": "Stuur ons een bericht op WhatsApp of vul het formulier in — we reageren binnen 24 uur.",
+      "ar": "راسلنا عبر واتساب أو املأ الاستمارة — نرد عليك خلال 24 ساعة."
+    }
+  },
+  "GETTING_HERE": {
+    "label": {
+      "en": "Getting here",
+      "nl": "Hier kom je er",
+      "ar": "الوصول إلى هنا"
+    },
+    "title": {
+      "en": "How to get to Ngor Island",
+      "nl": "Hoe je op Île de Ngor komt",
+      "ar": "كيفية الوصول إلى جزيرة نغور"
+    },
+    "desc": {
+      "en": "From Dakar airport, take a taxi to the Almadies jetty, then a short pirogue crossing to the island.",
+      "nl": "Vanaf de luchthaven van Dakar neem je een taxi naar de steiger van Almadies, en daarna een korte overtocht met een pirogue naar het eiland.",
+      "ar": "من مطار داكار، استقل سيارة أجرة إلى رصيف ألمادي، ثم اعبر في رحلة قصيرة بقارب بيروغ إلى الجزيرة."
+    }
+  },
+  "PP": {
+    "title": {
+      "en": "Privacy Policy",
+      "nl": "Privacybeleid",
+      "ar": "سياسة الخصوصية"
+    },
+    "meta": {
+      "en": "Privacy policy for Ngor Surfcamp Teranga surf camp in Senegal.",
+      "nl": "Privacybeleid voor surfkamp Ngor Surfcamp Teranga in Senegal.",
+      "ar": "سياسة الخصوصية لمخيم ركوب الأمواج Ngor Surfcamp Teranga في السنغال."
+    },
+    "slug": {
+      "en": "privacy-policy",
+      "nl": "privacy-policy",
+      "ar": "privacy-policy"
+    },
+    "label": {
+      "en": "Privacy Policy",
+      "nl": "Privacybeleid",
+      "ar": "سياسة الخصوصية"
+    },
+    "copyright": {
+      "en": "© NGOR SURFCAMP TERANGA. All rights reserved.",
+      "nl": "© NGOR SURFCAMP TERANGA. Alle rechten voorbehouden.",
+      "ar": "© NGOR SURFCAMP TERANGA. جميع الحقوق محفوظة."
+    },
+    "copyright_short": {
+      "en": "© NGOR SURFCAMP TERANGA",
+      "nl": "© NGOR SURFCAMP TERANGA",
+      "ar": "© NGOR SURFCAMP TERANGA"
+    }
+  },
+  "BLOG_CATS": {
+    "Island Life & Surf Camp": {
+      "en": "Island Life & Surf Camp",
+      "nl": "Eilandleven & Surfcamp",
+      "ar": "حياة الجزيرة ومخيم ركوب الأمواج"
+    },
+    "Surf Conditions & Spots": {
+      "en": "Surf Conditions & Spots",
+      "nl": "Surfomstandigheden & Spots",
+      "ar": "ظروف ركوب الأمواج والمواقع"
+    },
+    "Coaching & Progression": {
+      "en": "Coaching & Progression",
+      "nl": "Coaching & Vooruitgang",
+      "ar": "التدريب والتطور"
+    }
+  },
+  "BLOG_UI": {
+    "eyebrow": {
+      "en": "Blog",
+      "nl": "Blog",
+      "ar": "المدونة"
+    },
+    "h1": {
+      "en": "Surf Journal",
+      "nl": "Surfjournal",
+      "ar": "مذكّرات ركوب الأمواج"
+    },
+    "intro": {
+      "en": "Stories, guides and expert tips from Ngor Island, Senegal.",
+      "nl": "Verhalen, gidsen en tips van experts vanaf Ngor Island, Senegal.",
+      "ar": "قصص وأدلة ونصائح من خبراء من جزيرة نغور، السنغال."
+    },
+    "filter_all": {
+      "en": "All articles",
+      "nl": "Alle artikelen",
+      "ar": "جميع المقالات"
+    },
+    "browse_cats": {
+      "en": "Browse by category",
+      "nl": "Bladeren per categorie",
+      "ar": "تصفّح حسب الفئة"
+    },
+    "read_more": {
+      "en": "Read more",
+      "nl": "Lees meer",
+      "ar": "اقرأ المزيد"
+    },
+    "back_blog": {
+      "en": "← Back to Blog",
+      "nl": "← Terug naar Blog",
+      "ar": "← العودة إلى المدونة"
+    },
+    "prev": {
+      "en": "Previous",
+      "nl": "Vorige",
+      "ar": "السابق"
+    },
+    "next": {
+      "en": "Next",
+      "nl": "Volgende",
+      "ar": "التالي"
+    },
+    "related": {
+      "en": "Related articles",
+      "nl": "Gerelateerde artikelen",
+      "ar": "مقالات ذات صلة"
+    },
+    "min_read": {
+      "en": "min read",
+      "nl": "min lezen",
+      "ar": "دقائق للقراءة"
+    }
+  },
+  "FAQ_UI": {
+    "title": {
+      "en": "Surf Camp Senegal FAQ | Ngor Surfcamp Teranga",
+      "nl": "Surfkamp Senegal FAQ | Ngor Surfcamp Teranga",
+      "ar": "الأسئلة الشائعة حول معسكر ركوب الأمواج في السنغال | Ngor Surfcamp Teranga"
+    },
+    "h1": {
+      "en": "Frequently Asked Questions",
+      "nl": "Veelgestelde vragen",
+      "ar": "الأسئلة الشائعة"
+    },
+    "meta": {
+      "en": "All your questions about Ngor Surfcamp Teranga answered: accommodation, surf levels, packages, transfers and more.",
+      "nl": "Al je vragen over Ngor Surfcamp Teranga beantwoord: accommodatie, surfniveaus, pakketten, transfers en meer.",
+      "ar": "إجابات على جميع أسئلتكم حول Ngor Surfcamp Teranga: الإقامة، مستويات ركوب الأمواج، الباقات، التنقلات والمزيد."
+    }
+  },
+  "MISC": {
+    "home": {
+      "en": "Home",
+      "nl": "Home",
+      "ar": "الرئيسية"
+    },
+    "article_eyebrow": {
+      "en": "Article",
+      "nl": "Artikel",
+      "ar": "مقال"
+    },
+    "share": {
+      "en": "Share",
+      "nl": "Delen",
+      "ar": "مشاركة"
+    },
+    "or_contact": {
+      "en": "Or contact us directly:",
+      "nl": "Of neem direct contact met ons op:",
+      "ar": "أو تواصلوا معنا مباشرةً:"
+    },
+    "no_spam": {
+      "en": "No spam",
+      "nl": "Geen spam",
+      "ar": "بدون رسائل مزعجة"
+    },
+    "reply_24h": {
+      "en": "Reply in 24h",
+      "nl": "Antwoord binnen 24 uur",
+      "ar": "الرد خلال 24 ساعة"
+    },
+    "free_cancel": {
+      "en": "Free cancellation",
+      "nl": "Gratis annuleren",
+      "ar": "إلغاء مجاني"
+    },
+    "verified_review": {
+      "en": "Verified review",
+      "nl": "Geverifieerde beoordeling",
+      "ar": "تقييم موثّق"
+    },
+    "isa_cert": {
+      "en": "ISA certified",
+      "nl": "ISA-gecertificeerd",
+      "ar": "معتمد من ISA"
+    },
+    "fed_senegal": {
+      "en": "Senegalese Federation",
+      "nl": "Senegalese Federatie",
+      "ar": "الاتحاد السنغالي"
+    },
+    "local_knowledge": {
+      "en": "Local knowledge",
+      "nl": "Lokale kennis",
+      "ar": "معرفة محلية"
+    }
+  }
+}

@@ -1,0 +1,504 @@
+{
+  "categories": [
+    {
+      "name": "Surf Conditions & Spots",
+      "slug": "surf-conditions-spots",
+      "description": "Wave forecasts, seasonal conditions, and local guides to Ngor Island’s iconic surf spots including Ngor Right and Ngor Left.",
+      "color": "#0E7490"
+    },
+    {
+      "name": "Island Life & Surf Camp",
+      "slug": "island-life-surf-camp",
+      "description": "Stories and practical tips about the premium surf camp experience on car-free Ngor Island, from sea views and poolside downtime to Dakar culture.",
+      "color": "#F59E0B"
+    },
+    {
+      "name": "Coaching & Progression",
+      "slug": "coaching-progression",
+      "description": "Advice for beginners to advanced surfers on technique, mindset, video analysis, and how to improve faster with professional coaching in Senegal.",
+      "color": "#22C55E"
+    }
+  ],
+  "articles": [
+    {
+      "id": 1,
+      "title": "Why Choose a Surf Camp in Senegal for Your Next Surf Trip",
+      "slug": "why-choose-surf-camp-senegal",
+      "category": "Island Life & Surf Camp",
+      "type": "hero",
+      "focus_keyword": "surf camp senegal",
+      "secondary_keywords": [
+        "senegal surf camp",
+        "surf trip senegal"
+      ],
+      "target_audience": "International surfers from France, Germany, Spain, Italy, UK, USA, and Belgium comparing warm-water surf destinations",
+      "intent": "informational",
+      "hero_image_prompt": "Golden sunrise over Ngor Island surf camp, surfers carrying boards along sandy lane, sea-view terrace, pool shimmering, no cars, Atlantic waves beyond, relaxed premium African surf travel mood, cinematic light, authentic Senegal atmosphere, editorial travel photography style.",
+      "brief": "Create a flagship destination article explaining why Senegal stands out for surf travel: warm water, consistent waves, easy access via Dakar, rich culture, and uncrowded island life. Position Ngor Surfcamp Teranga as the premium, licensed surf camp on Ngor Island with coaching, video analysis, sea views, and a peaceful car-free setting."
+    },
+    {
+      "id": 2,
+      "title": "The Complete Guide to Surf Camp Dakar: Stay on Ngor Island",
+      "slug": "complete-guide-surf-camp-dakar-ngor-island",
+      "category": "Island Life & Surf Camp",
+      "type": "hero",
+      "focus_keyword": "surf camp dakar",
+      "secondary_keywords": [
+        "dakar surf camp",
+        "ngor island surf camp"
+      ],
+      "target_audience": "Travelers searching for a surf camp near Dakar who want convenience, quality accommodation, and access to top waves",
+      "intent": "informational",
+      "hero_image_prompt": "Aerial view of Ngor Island near Dakar, turquoise water, surf breaking at Ngor Right and Left, elegant surf camp with pool and sea views, pirogue boats, vibrant coastal city backdrop, premium adventure travel magazine aesthetic.",
+      "brief": "Build a comprehensive guide for people searching specifically for a surf camp in Dakar, clarifying why Ngor Island offers the best balance of access and surf quality. Explain transport from the airport, island atmosphere, nearby breaks, camp amenities, and who the experience suits from beginners to advanced surfers."
+    },
+    {
+      "id": 3,
+      "title": "Senegal Surf Camp for Beginners: Learn Faster in Warm Water",
+      "slug": "senegal-surf-camp-beginners-learn-faster",
+      "category": "Coaching & Progression",
+      "type": "hero",
+      "focus_keyword": "senegal surf camp",
+      "secondary_keywords": [
+        "beginner surf camp senegal",
+        "learn to surf senegal"
+      ],
+      "target_audience": "First-time and beginner surfers looking for a safe, supportive, warm-water surf camp experience",
+      "intent": "informational",
+      "hero_image_prompt": "Beginner surfer smiling on soft rolling wave near Ngor Island, coach guiding from water, warm tropical light, clear Atlantic blue, supportive lesson atmosphere, premium surf camp branding, diverse travelers, authentic Senegal coastline, action-focused editorial realism.",
+      "brief": "Explain why Senegal is ideal for beginners, emphasizing warm water, approachable waves on the right days, and the confidence boost of learning in a beautiful setting. Highlight professional coaching, structured lessons, video feedback, and the comfort of returning to a premium camp with pool and sea views."
+    },
+    {
+      "id": 4,
+      "title": "Advanced Surf Coaching in Senegal: Video Analysis on World-Class Waves",
+      "slug": "advanced-surf-coaching-senegal-video-analysis",
+      "category": "Coaching & Progression",
+      "type": "hero",
+      "focus_keyword": "surf camp senegal",
+      "secondary_keywords": [
+        "surf coaching senegal",
+        "video analysis surf camp"
+      ],
+      "target_audience": "Intermediate to advanced surfers who want technical progression, better wave selection, and performance coaching",
+      "intent": "informational",
+      "hero_image_prompt": "Advanced surfer carving on clean Ngor Right wall, coach reviewing footage on laptop terrace overlooking ocean, golden afternoon light, premium surf training environment, focused athletic energy, sea-view camp architecture, high-end editorial sports travel photography.",
+      "brief": "Position the camp as more than accommodation by detailing how coaching and video analysis help surfers improve faster. Cover what intermediate and advanced guests can expect: surf assessment, spot selection, tactical feedback, and progression on iconic Dakar-area waves."
+    },
+    {
+      "id": 5,
+      "title": "Ngor Surf Guide: Understanding Ngor Right and Ngor Left",
+      "slug": "ngor-surf-guide-right-left",
+      "category": "Surf Conditions & Spots",
+      "type": "hero",
+      "focus_keyword": "ngor surf",
+      "secondary_keywords": [
+        "Ngor Right",
+        "Ngor Left"
+      ],
+      "target_audience": "Surfers researching Ngor Island waves before booking a trip to Dakar or Senegal",
+      "intent": "informational",
+      "hero_image_prompt": "Split-scene surf panorama of Ngor Right peeling clean and Ngor Left breaking powerfully near island reef, surfers waiting in lineup, deep blue Atlantic, rocky shoreline, dramatic clouds, iconic Senegal surf destination, crisp magazine-style action landscape.",
+      "brief": "Create an authoritative guide to the two legendary waves that define the destination, including how they break, ideal swell and wind conditions, level suitability, and what makes each wave memorable. Mention the camp’s local knowledge and licensed coaching support for choosing the right session safely."
+    },
+    {
+      "id": 6,
+      "title": "Best Time to Book a Surf Camp in Senegal",
+      "slug": "best-time-book-surf-camp-senegal",
+      "category": "Surf Conditions & Spots",
+      "type": "hero",
+      "focus_keyword": "surf camp senegal",
+      "secondary_keywords": [
+        "best time to surf Senegal",
+        "Senegal surf seasons"
+      ],
+      "target_audience": "Travel planners comparing months, swell windows, weather, and crowd levels for a Senegal surf holiday",
+      "intent": "informational",
+      "hero_image_prompt": "Seasonal collage of Senegal surf conditions: sunny offshore mornings, clean reef waves, travelers relaxing by pool, tropical Atlantic coastline, surfboards stacked on terrace, calendar-inspired travel concept, bright natural colors, premium destination editorial composition.",
+      "brief": "Answer the timing question clearly by breaking down surf seasons, swell patterns, water temperature, and which months suit beginners versus advanced surfers. Tie each season back to the camp experience on Ngor Island, including comfort, atmosphere, and likely wave opportunities."
+    },
+    {
+      "id": 7,
+      "title": "What a Week at a Premium Surf Camp on Ngor Island Looks Like",
+      "slug": "week-at-premium-surf-camp-ngor-island",
+      "category": "Island Life & Surf Camp",
+      "type": "hero",
+      "focus_keyword": "surf camp dakar",
+      "secondary_keywords": [
+        "premium surf camp Senegal",
+        "Ngor Island stay"
+      ],
+      "target_audience": "Travelers who want to visualize the daily experience before booking a surf camp near Dakar",
+      "intent": "informational",
+      "hero_image_prompt": "Lifestyle scene at premium Ngor Island surf camp: breakfast with ocean view, surfers heading to boat, poolside recovery, sunset terrace gathering, no cars, relaxed luxury, warm Senegal colors, immersive boutique travel storytelling photography.",
+      "brief": "Walk readers through a sample 7-day stay, from airport arrival and island transfer to surf sessions, coaching, meals, downtime, and sunset routines. Use the article to sell the full experience: car-free calm, premium comfort, local hospitality, and easy access to world-class waves."
+    },
+    {
+      "id": 8,
+      "title": "Surf, Culture, and Island Life: Why Ngor Is More Than a Surf Spot",
+      "slug": "surf-culture-island-life-ngor",
+      "category": "Island Life & Surf Camp",
+      "type": "hero",
+      "focus_keyword": "senegal surf camp",
+      "secondary_keywords": [
+        "Ngor Island Senegal",
+        "surf and culture Senegal"
+      ],
+      "target_audience": "Experience-driven travelers who want culture, authenticity, and relaxation alongside surfing",
+      "intent": "informational",
+      "hero_image_prompt": "Colorful Ngor Island street by the sea, locals and surfers mingling, pirogue boats, fresh food, ocean breeze, no-car tranquility, warm sunset tones, culturally rich surf travel atmosphere, authentic Senegal lifestyle, documentary-meets-luxury editorial style.",
+      "brief": "Show that the destination offers more than waves by exploring Ngor Island’s rhythm, hospitality, food, scenery, and peaceful atmosphere. Connect the camp’s setting to a deeper travel experience that blends surf progression with culture and restorative island living."
+    },
+    {
+      "id": 9,
+      "title": "From The Endless Summer to Today: The Legacy of Surfing in Ngor",
+      "slug": "endless-summer-legacy-surfing-ngor",
+      "category": "Surf Conditions & Spots",
+      "type": "hero",
+      "focus_keyword": "ngor surf",
+      "secondary_keywords": [
+        "The Endless Summer Senegal",
+        "surf history Ngor"
+      ],
+      "target_audience": "Surf travelers inspired by iconic surf history and looking for legendary destinations with real heritage",
+      "intent": "informational",
+      "hero_image_prompt": "Vintage-inspired modern scene of surfer at Ngor point with classic longboard silhouette, island reef wave glowing at sunset, subtle nod to 1960s surf cinema, timeless adventure mood, Senegal coastline, nostalgic yet premium editorial travel imagery.",
+      "brief": "Use the camp’s connection to a legendary surf destination to tell the story of Ngor’s place in global surf culture. Reference The Endless Summer, explain why the wave became iconic, and show how today’s visitors can experience that heritage with modern comfort and coaching."
+    },
+    {
+      "id": 10,
+      "title": "How to Improve Faster at a Surf Camp: Coaching, Repetition, and Better Waves",
+      "slug": "improve-faster-at-surf-camp",
+      "category": "Coaching & Progression",
+      "type": "hero",
+      "focus_keyword": "surf camp senegal",
+      "secondary_keywords": [
+        "surf progression camp",
+        "surf coaching holiday"
+      ],
+      "target_audience": "Beginner to intermediate surfers who want measurable progress from a dedicated surf holiday",
+      "intent": "informational",
+      "hero_image_prompt": "Dynamic training sequence: surfer paddling, popping up, then reviewing technique with coach beside pool overlooking ocean, bright Senegal light, boards nearby, focused progression theme, premium surf holiday setting, clean editorial sports-lifestyle photography.",
+      "brief": "Explain the mechanics of rapid surf improvement during a camp stay: daily repetition, immediate feedback, better wave access, and reduced life distractions. Make the case that Ngor Surfcamp Teranga combines all of these with licensed coaching, video analysis, and a high-comfort environment that supports recovery and consistency."
+    },
+    {
+      "id": 11,
+      "title": "Best Time to Surf Senegal: Seasons, Swell, and Wind Guide",
+      "slug": "best-time-to-surf-senegal",
+      "category": "Surf Conditions & Spots",
+      "type": "seo",
+      "focus_keyword": "best time to surf senegal",
+      "secondary_keywords": [
+        "senegal surf season",
+        "when to surf dakar"
+      ],
+      "target_audience": "Intermediate travelers and first-time surf trip planners comparing West Africa surf seasons",
+      "intent": "informational",
+      "hero_image_prompt": "Golden sunrise over Ngor Island point break, clean peeling wave, surfers paddling into position, Atlantic spray glowing, tropical dry-season light, Dakar skyline distant, premium surf camp atmosphere, cinematic travel realism, vibrant blues and warm sand tones",
+      "brief": "Explain Senegal’s surf seasons month by month, including swell consistency, wind patterns, water temperature, and who each period suits best. Highlight why Ngor Island works across different skill levels and position the camp as a strong base for scoring Dakar’s best windows."
+    },
+    {
+      "id": 12,
+      "title": "Surf Camp Senegal: What to Expect on a Premium Stay at Ngor Island",
+      "slug": "surf-camp-senegal-what-to-expect",
+      "category": "Island Life & Surf Camp",
+      "type": "seo",
+      "focus_keyword": "surf camp senegal",
+      "secondary_keywords": [
+        "senegal surf camp",
+        "premium surf camp senegal"
+      ],
+      "target_audience": "Travelers researching surf accommodation, coaching quality, and trip comfort in Senegal",
+      "intent": "informational",
+      "hero_image_prompt": "Elegant surf camp terrace on Ngor Island overlooking ocean, surfboards stacked beside pool, relaxed guests in warm evening light, sea-view rooms, barefoot island mood, no cars, premium Senegal surf travel aesthetic, inviting documentary style",
+      "brief": "Describe the full surf camp experience: accommodation, coaching, video analysis, island atmosphere, and daily rhythm. Emphasize the unique advantages of staying on car-free Ngor Island near world-class waves like Ngor Right and Ngor Left."
+    },
+    {
+      "id": 13,
+      "title": "Surf Camp Dakar: Why Ngor Island Is the Best Base for Your Trip",
+      "slug": "surf-camp-dakar-ngor-island-base",
+      "category": "Island Life & Surf Camp",
+      "type": "seo",
+      "focus_keyword": "surf camp dakar",
+      "secondary_keywords": [
+        "dakar surf camp",
+        "where to stay for surfing in dakar"
+      ],
+      "target_audience": "International surfers searching for the best area to stay near Dakar’s surf breaks",
+      "intent": "informational",
+      "hero_image_prompt": "Aerial view of Ngor Island and Dakar coastline, turquoise Atlantic wrapping rocky point breaks, small boats crossing channel, surf camp nestled by sea, bright midday clarity, adventurous premium travel mood, detailed coastal geography, realistic editorial style",
+      "brief": "Show why Ngor Island offers the most practical and atmospheric surf base in Dakar, combining wave access, calm island living, and proximity to the city. Compare convenience, surf quality, and overall experience with staying on the mainland."
+    },
+    {
+      "id": 14,
+      "title": "Ngor Island Waves Explained: Ngor Right, Ngor Left, and Nearby Options",
+      "slug": "ngor-island-waves-explained",
+      "category": "Surf Conditions & Spots",
+      "type": "seo",
+      "focus_keyword": "ngor island waves",
+      "secondary_keywords": [
+        "ngor right",
+        "ngor left"
+      ],
+      "target_audience": "Surfers wanting a clear overview of wave types and skill-level suitability around Ngor Island",
+      "intent": "informational",
+      "hero_image_prompt": "Split-scene lineup at Ngor Island showing right-hand point and left-breaking section, surfers taking off on glassy Atlantic waves, volcanic rock foreground, clear tropical sky, dynamic motion, educational surf geography feel, high-detail travel magazine realism",
+      "brief": "Break down the main characteristics of Ngor Right and Ngor Left, including swell direction, tide sensitivity, ideal conditions, and surfer level. Add context on nearby Dakar options so readers understand why Ngor is such a legendary and versatile zone."
+    },
+    {
+      "id": 15,
+      "title": "Learn to Surf in Dakar: Beginner-Friendly Waves and Coaching on Ngor",
+      "slug": "learn-to-surf-dakar",
+      "category": "Coaching & Progression",
+      "type": "seo",
+      "focus_keyword": "learn to surf dakar",
+      "secondary_keywords": [
+        "beginner surf dakar",
+        "surf lessons senegal"
+      ],
+      "target_audience": "Beginners and early intermediates looking for safe, structured surf lessons in Dakar",
+      "intent": "informational",
+      "hero_image_prompt": "Beginner surfer standing on small clean wave near Ngor, coach guiding from water, warm African sunlight, supportive lesson atmosphere, sandy shoreline and island backdrop, joyful progression moment, realistic action photography, bright inviting ocean colors",
+      "brief": "Explain how beginners can learn safely in Dakar with qualified coaching, wave selection, and step-by-step progression. Highlight the camp’s professional instruction, federation licensing, and supportive environment for first-time surfers."
+    },
+    {
+      "id": 16,
+      "title": "Senegal Surf Camp for Beginners: Is Ngor Island a Good Choice?",
+      "slug": "senegal-surf-camp-for-beginners",
+      "category": "Coaching & Progression",
+      "type": "seo",
+      "focus_keyword": "senegal surf camp for beginners",
+      "secondary_keywords": [
+        "beginner surf camp senegal",
+        "learn surfing in senegal"
+      ],
+      "target_audience": "Complete beginners comparing beginner-friendly surf destinations outside Europe",
+      "intent": "informational",
+      "hero_image_prompt": "Friendly surf camp scene with novice guests carrying softboards along Ngor Island shore, coach smiling, calm blue water, palm-fringed village details, premium yet relaxed atmosphere, confidence-building travel energy, natural light, authentic documentary realism",
+      "brief": "Answer common beginner concerns about safety, wave difficulty, coaching quality, and daily structure in Senegal. Position Ngor Surfcamp Teranga as a premium but approachable option for learning in warm water and uncrowded settings."
+    },
+    {
+      "id": 17,
+      "title": "Advanced Surf in Senegal: When Ngor Right Turns On",
+      "slug": "advanced-surf-senegal-ngor-right",
+      "category": "Surf Conditions & Spots",
+      "type": "seo",
+      "focus_keyword": "advanced surf senegal",
+      "secondary_keywords": [
+        "ngor right surf guide",
+        "senegal advanced surf trip"
+      ],
+      "target_audience": "Experienced surfers seeking performance waves and trip timing advice for Dakar",
+      "intent": "informational",
+      "hero_image_prompt": "Powerful overhead right-hand wave wrapping along Ngor reef, advanced surfer carving high line, offshore spray, deep cobalt Atlantic, dramatic cloud texture, Dakar horizon faintly visible, elite surf travel energy, crisp action realism, magazine-cover composition",
+      "brief": "Detail the conditions that make Ngor Right shine for experienced surfers, including swell size, direction, tide, and wind. Explain how advanced guests can combine coaching, video analysis, and local knowledge to maximize performance sessions."
+    },
+    {
+      "id": 18,
+      "title": "Surfing Ngor Right: A Complete Spot Guide for Visiting Surfers",
+      "slug": "surfing-ngor-right-guide",
+      "category": "Surf Conditions & Spots",
+      "type": "seo",
+      "focus_keyword": "ngor right",
+      "secondary_keywords": [
+        "surfing ngor right",
+        "ngor surf spot guide"
+      ],
+      "target_audience": "Traveling surfers specifically researching Ngor Right before booking a Senegal trip",
+      "intent": "informational",
+      "hero_image_prompt": "Iconic Ngor Right point break peeling perfectly beside rocky island edge, surfer dropping into long wall, fishing pirogues nearby, warm Atlantic light, legendary surf destination mood, highly detailed coastal realism, adventurous editorial travel photography",
+      "brief": "Create a practical guide to Ngor Right covering wave shape, entry, sections, ideal conditions, and etiquette. Include historical context tied to Senegal surf culture and why staying nearby improves strike rate and flexibility."
+    },
+    {
+      "id": 19,
+      "title": "Surfing Ngor Left: When to Go and Who It Suits Best",
+      "slug": "surfing-ngor-left-guide",
+      "category": "Surf Conditions & Spots",
+      "type": "seo",
+      "focus_keyword": "ngor left",
+      "secondary_keywords": [
+        "surfing ngor left",
+        "left-hand wave dakar"
+      ],
+      "target_audience": "Intermediate and advanced surfers evaluating left-hand options around Dakar",
+      "intent": "informational",
+      "hero_image_prompt": "Clean left-hand wave breaking near Ngor Island rocks, surfer trimming down open face, tropical Atlantic sparkle, textured reef detail, balanced composition, authentic Senegal surf setting, bright marine palette, realistic motion, premium destination storytelling",
+      "brief": "Explain how Ngor Left works, what swell and tide it needs, and which surfers will enjoy it most. Compare its feel and challenge level with Ngor Right to help readers choose the best sessions for their ability."
+    },
+    {
+      "id": 20,
+      "title": "Senegal Surf Season by Month: Weather, Water Temperature, and Crowds",
+      "slug": "senegal-surf-season-by-month",
+      "category": "Surf Conditions & Spots",
+      "type": "seo",
+      "focus_keyword": "senegal surf season",
+      "secondary_keywords": [
+        "surf senegal by month",
+        "senegal water temperature surf"
+      ],
+      "target_audience": "Trip planners wanting a practical month-by-month overview before booking flights",
+      "intent": "informational",
+      "hero_image_prompt": "Calendar-inspired collage of Senegal surf seasons, alternating sunny dry-season skies and moody swell days over Ngor Island, surfers in varied conditions, ocean textures, travel-planning mood, vivid infographic-meets-editorial realism, clean composition, premium coastal storytelling",
+      "brief": "Provide a month-by-month breakdown of surf consistency, weather, water temperature, and crowd levels in Senegal. Help readers match travel dates to their goals, whether they want beginner-friendly conditions, stronger swells, or quieter periods."
+    },
+    {
+      "id": 21,
+      "title": "How Video Analysis Helps You Progress Faster at a Senegal Surf Camp",
+      "slug": "video-analysis-surf-camp-senegal",
+      "category": "Coaching & Progression",
+      "type": "seo",
+      "focus_keyword": "video analysis surf camp",
+      "secondary_keywords": [
+        "surf coaching video analysis",
+        "surf progression camp"
+      ],
+      "target_audience": "Beginners to advanced surfers interested in measurable improvement during a surf trip",
+      "intent": "informational",
+      "hero_image_prompt": "Surf coach reviewing wave footage with guests on shaded terrace, laptop screen showing turns and takeoffs, ocean visible behind, focused yet relaxed atmosphere, premium coaching environment, warm natural light, authentic progression storytelling, documentary realism",
+      "brief": "Show how video analysis turns surf sessions into faster learning by identifying timing, positioning, and technique issues. Connect this to the camp’s professional coaching approach and explain why it benefits all levels, not just advanced surfers."
+    },
+    {
+      "id": 22,
+      "title": "What Makes a Licensed Surf Camp in Senegal Different?",
+      "slug": "licensed-surf-camp-senegal",
+      "category": "Coaching & Progression",
+      "type": "seo",
+      "focus_keyword": "licensed surf camp senegal",
+      "secondary_keywords": [
+        "senegalese federation of surfing",
+        "certified surf camp senegal"
+      ],
+      "target_audience": "Safety-conscious travelers and parents looking for credible surf coaching providers",
+      "intent": "informational",
+      "hero_image_prompt": "Professional surf instruction scene on Senegal beach, coach with students and boards, subtle official credentials theme, organized lesson setup, clear ocean backdrop, trustworthy premium travel mood, natural African coastal light, realistic editorial photography style",
+      "brief": "Explain why official licensing and federation recognition matter for safety, coaching standards, and traveler confidence. Use the article to build trust around professionalism, structured instruction, and quality assurance at the camp."
+    },
+    {
+      "id": 23,
+      "title": "Where to Stay for Surfing in Dakar: Ngor Island vs Mainland",
+      "slug": "where-to-stay-for-surfing-in-dakar",
+      "category": "Island Life & Surf Camp",
+      "type": "seo",
+      "focus_keyword": "where to stay for surfing in dakar",
+      "secondary_keywords": [
+        "ngor island accommodation surf",
+        "dakar surf stay"
+      ],
+      "target_audience": "Travelers deciding between city hotels, apartments, and surf camps near Dakar waves",
+      "intent": "informational",
+      "hero_image_prompt": "Side-by-side contrast of peaceful Ngor Island surf camp and busy Dakar mainland street, ocean-facing lodging versus urban traffic, surfers carrying boards, no-car island charm highlighted, vibrant West African setting, realistic travel editorial composition",
+      "brief": "Compare Ngor Island and mainland Dakar as surf-trip bases in terms of access, atmosphere, noise, logistics, and overall experience. Make the case for island living by emphasizing proximity to waves, sea views, and the no-car environment."
+    },
+    {
+      "id": 24,
+      "title": "No Cars, More Ocean: The Unique Appeal of Staying on Ngor Island",
+      "slug": "no-cars-ngor-island-surf-stay",
+      "category": "Island Life & Surf Camp",
+      "type": "seo",
+      "focus_keyword": "ngor island surf stay",
+      "secondary_keywords": [
+        "no cars ngor island",
+        "ngor island accommodation"
+      ],
+      "target_audience": "Lifestyle-focused travelers seeking a calm, authentic surf destination with character",
+      "intent": "informational",
+      "hero_image_prompt": "Quiet sandy lane on Ngor Island leading to oceanfront surf camp, surfers walking barefoot with boards, colorful village homes, no cars anywhere, peaceful sea breeze atmosphere, intimate island charm, warm sunset tones, realistic travel storytelling",
+      "brief": "Focus on the lifestyle benefits of staying on a car-free island: quieter mornings, easy walks to the water, and a stronger connection to local rhythm. Position Ngor as a rare blend of serenity, authenticity, and direct surf access."
+    },
+    {
+      "id": 25,
+      "title": "The Endless Summer in Senegal: Why Ngor Became Surfing History",
+      "slug": "endless-summer-senegal-ngor",
+      "category": "Island Life & Surf Camp",
+      "type": "seo",
+      "focus_keyword": "the endless summer senegal",
+      "secondary_keywords": [
+        "ngor endless summer",
+        "surf history senegal"
+      ],
+      "target_audience": "Surf travelers, culture enthusiasts, and film fans interested in iconic surf heritage",
+      "intent": "informational",
+      "hero_image_prompt": "Nostalgic cinematic scene of Ngor Island surf lineup with retro longboard vibe, golden light, classic travel adventure mood, Atlantic perfection, subtle 1960s inspiration, timeless Senegal surf heritage, richly textured editorial realism, evocative storytelling composition",
+      "brief": "Tell the story of Ngor’s appearance in The Endless Summer and why it still matters to surfers today. Connect the destination’s heritage to its present-day appeal as a premium surf camp location with enduring world-class waves."
+    },
+    {
+      "id": 26,
+      "title": "Surf Trip to Senegal: What to Pack for Waves Around Dakar",
+      "slug": "surf-trip-to-senegal-what-to-pack",
+      "category": "Island Life & Surf Camp",
+      "type": "seo",
+      "focus_keyword": "surf trip to senegal",
+      "secondary_keywords": [
+        "what to pack for surfing senegal",
+        "dakar surf travel tips"
+      ],
+      "target_audience": "International visitors preparing for their first surf holiday in Senegal",
+      "intent": "informational",
+      "hero_image_prompt": "Open travel bag packed with surf essentials beside pool and ocean-view terrace on Ngor Island, boards, reef booties, sunscreen, light clothing, passport, tropical premium surf holiday mood, crisp natural light, practical editorial realism",
+      "brief": "Give readers a practical packing list for a surf trip to Senegal, including boards, clothing, sun protection, travel documents, and useful extras. Tailor advice to Dakar’s climate, wave types, and the comfort level of a premium island camp."
+    },
+    {
+      "id": 27,
+      "title": "Beginner to Advanced: How Surf Coaching Is Structured at Ngor Surfcamp",
+      "slug": "surf-coaching-structured-ngor-surfcamp",
+      "category": "Coaching & Progression",
+      "type": "seo",
+      "focus_keyword": "surf coaching senegal",
+      "secondary_keywords": [
+        "all levels surf camp",
+        "surf lessons ngor island"
+      ],
+      "target_audience": "Mixed-ability travelers wanting to understand how coaching adapts to their level",
+      "intent": "informational",
+      "hero_image_prompt": "Multi-level surf coaching montage on Ngor Island: beginner popup practice, intermediate trimming, advanced turn analysis, coaches guiding each stage, premium training environment, ocean backdrop, energetic progression theme, realistic action-documentary style, vivid coastal light",
+      "brief": "Outline how coaching differs for beginners, intermediates, and advanced surfers, from fundamentals to performance refinement. Show that the camp can support progression at every stage through tailored sessions, spot choice, and feedback."
+    },
+    {
+      "id": 28,
+      "title": "Why Senegal Is an Underrated Surf Destination for European Travelers",
+      "slug": "why-senegal-is-an-underrated-surf-destination",
+      "category": "Island Life & Surf Camp",
+      "type": "seo",
+      "focus_keyword": "senegal surf destination",
+      "secondary_keywords": [
+        "surfing in senegal",
+        "west africa surf trip"
+      ],
+      "target_audience": "European surfers looking for alternatives to Morocco, Portugal, and the Canaries",
+      "intent": "informational",
+      "hero_image_prompt": "European travelers arriving at vibrant Senegal surf coast, boards in hand, Ngor Island and Atlantic waves ahead, warm welcoming atmosphere, rich cultural detail, premium adventure energy, bright coastal colors, realistic destination marketing photography",
+      "brief": "Position Senegal as a compelling alternative for European surfers seeking warm weather, quality waves, and cultural depth. Address accessibility, variety of conditions, and the unique appeal of Ngor Island compared with more crowded destinations."
+    },
+    {
+      "id": 29,
+      "title": "Dakar Surf Spots for Every Level: Where Ngor Fits In",
+      "slug": "dakar-surf-spots-for-every-level",
+      "category": "Surf Conditions & Spots",
+      "type": "seo",
+      "focus_keyword": "dakar surf spots",
+      "secondary_keywords": [
+        "surf spots dakar senegal",
+        "best waves in dakar"
+      ],
+      "target_audience": "Surfers planning a Dakar trip and comparing breaks by ability and conditions",
+      "intent": "informational",
+      "hero_image_prompt": "Map-like coastal panorama of Dakar surf spots with Ngor highlighted, multiple lineups under Atlantic light, surfers of different levels, rocky points and beaches, informative travel-editorial style, vivid blues, realistic geography, premium adventure feel",
+      "brief": "Provide an overview of Dakar’s main surf spots and classify them by level, wave type, and best conditions. Use Ngor as the anchor point, showing how staying there gives access to both iconic waves and flexible daily options."
+    },
+    {
+      "id": 30,
+      "title": "How to Choose the Best Surf Camp in Senegal",
+      "slug": "how-to-choose-best-surf-camp-in-senegal",
+      "category": "Coaching & Progression",
+      "type": "seo",
+      "focus_keyword": "best surf camp in senegal",
+      "secondary_keywords": [
+        "choose a surf camp senegal",
+        "senegal surf camp reviews"
+      ],
+      "target_audience": "Travelers comparing camps based on coaching, comfort, credibility, and location",
+      "intent": "informational",
+      "hero_image_prompt": "Confident traveler comparing surf camp options on laptop beside ocean-view breakfast table at Ngor Island, boards and pool nearby, premium decision-making moment, warm coastal light, aspirational yet practical travel mood, realistic editorial photography",
+      "brief": "Help readers evaluate surf camps using clear criteria such as location, coaching quality, licensing, accommodation, and atmosphere. Naturally demonstrate how Ngor Surfcamp Teranga meets those standards through premium comfort, expert coaching, and unmatched island access."
+    }
+  ]
+}

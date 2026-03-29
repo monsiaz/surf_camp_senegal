@@ -1,0 +1,65 @@
+{
+  "kofi-mensah": {
+    "id": "kofi-mensah",
+    "name": "Kofi Mensah",
+    "role": {
+      "en": "Surf Instructor & Local Guide",
+      "fr": "Instructeur Surf & Guide Local",
+      "es": "Instructor Surf & Guía Local",
+      "it": "Istruttore Surf & Guida Locale",
+      "de": "Surf-Instruktor & Ortskundiger"
+    },
+    "bio": {
+      "en": "Born and raised in Dakar, Kofi has been surfing Ngor's waves since age 10. Licensed by the Senegalese Federation of Surfing, he brings 15 years of coaching experience and intimate knowledge of every break around the island.",
+      "fr": "Né et élevé à Dakar, Kofi surfe les vagues de Ngor depuis l'âge de 10 ans. Agréé par la Fédération Sénégalaise de Surf, il apporte 15 ans d'expérience en coaching.",
+      "es": "Nacido y criado en Dakar, Kofi surfea las olas de Ngor desde los 10 años. Licenciado por la Federación Senegalesa de Surf.",
+      "it": "Nato e cresciuto a Dakar, Kofi surfa le onde di Ngor dall'età di 10 anni. Autorizzato dalla Federazione Senegalese di Surf.",
+      "de": "In Dakar geboren und aufgewachsen, surft Kofi seit seinem 10. Lebensjahr die Wellen von Ngor. Lizenziert vom senegalesischen Surfverband."
+    },
+    "categories": [
+      "Surf Conditions & Spots"
+    ]
+  },
+  "sophie-renard": {
+    "id": "sophie-renard",
+    "name": "Sophie Renard",
+    "role": {
+      "en": "Surf Travel Writer",
+      "fr": "Rédactrice Voyage Surf",
+      "es": "Escritora de Viajes Surf",
+      "it": "Scrittrice di Viaggi Surf",
+      "de": "Surf-Reiseredakteurin"
+    },
+    "bio": {
+      "en": "A freelance surf journalist from Bordeaux, France, Sophie has spent eight years chasing waves across Africa, Europe and Indonesia. She first visited Ngor in 2019 and has been returning ever since.",
+      "fr": "Journaliste surf freelance de Bordeaux, Sophie a passé huit ans à chasser les vagues en Afrique, Europe et Indonésie.",
+      "es": "Periodista surf freelance de Burdeos, Sophie ha pasado ocho años persiguiendo olas por África, Europa e Indonesia.",
+      "it": "Giornalista surf freelance di Bordeaux, Sophie ha trascorso otto anni a inseguire le onde in Africa, Europa e Indonesia.",
+      "de": "Als freie Surf-Journalistin aus Bordeaux verbrachte Sophie acht Jahre damit, Wellen in Afrika, Europa und Indonesien zu jagen."
+    },
+    "categories": [
+      "Island Life & Surf Camp"
+    ]
+  },
+  "luca-ferretti": {
+    "id": "luca-ferretti",
+    "name": "Luca Ferretti",
+    "role": {
+      "en": "ISA Surf Coach",
+      "fr": "Coach Surf ISA",
+      "es": "Coach Surf ISA",
+      "it": "Coach Surf ISA",
+      "de": "ISA Surf-Coach"
+    },
+    "bio": {
+      "en": "An ISA-certified surf coach from Sardinia, Luca specializes in video analysis and progression methodology. With 12 years of professional coaching across Europe and West Africa, he joined Ngor Surfcamp's team in 2022.",
+      "fr": "Coach surf certifié ISA de Sardaigne, Luca se spécialise dans l'analyse vidéo et la méthodologie de progression.",
+      "es": "Coach surf certificado ISA de Cerdeña, Luca se especializa en análisis de vídeo y metodología de progresión.",
+      "it": "Coach surf certificato ISA dalla Sardegna, Luca è specializzato in analisi video e metodologia di progressione.",
+      "de": "Ein ISA-zertifizierter Surf-Coach aus Sardinien, Luca spezialisiert sich auf Videoanalyse und Progressionsmethodik."
+    },
+    "categories": [
+      "Coaching & Progression"
+    ]
+  }
+}

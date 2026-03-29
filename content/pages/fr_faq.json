@@ -1,0 +1,49 @@
+{
+  "slug": "/faq",
+  "lang": "fr",
+  "page_name": "FAQ",
+  "title_tag": "FAQ | Ngor Surf Camp Sénégal",
+  "meta_description": "Trouvez des réponses sur les séjours surf au Sénégal, Ngor Island, cours, chambres, repas, transport et réservation.",
+  "h1": "Questions fréquentes",
+  "hero_subtitle": "Tout ce qu’il faut savoir avant de réserver votre séjour surf au Sénégal.",
+  "intro": "Vous préparez un séjour à Ngor Surf Camp Teranga ? Cette page FAQ rassemble les informations essentielles sur votre expérience en surf camp au Sénégal, de l’hébergement et des cours de surf aux repas, au transport et aux détails de réservation. Que vous voyagiez seul, entre amis ou en couple, vous y trouverez des réponses claires pour préparer facilement un voyage inoubliable sur l’île de Ngor.",
+  "sections": [
+    {
+      "h2": "À propos de votre séjour à Ngor Surf Camp",
+      "content": "Ngor Surf Camp Teranga est conçu pour les voyageurs à la recherche de vacances surf détendues au Sénégal, avec un accès facile aux vagues autour de l’île de Ngor et de Dakar. Le camp combine un hébergement confortable, une ambiance conviviale et une connaissance locale pour aider les hôtes à profiter à la fois du surf et de la culture. Si vous venez pour la première fois, cette page est là pour répondre aux questions les plus fréquentes avant votre réservation.",
+      "bullets": [
+        "Hébergement en surf camp sur l’île de Ngor, Sénégal",
+        "Idéal pour les voyageurs solo, les couples et les groupes"
+      ]
+    },
+    {
+      "h2": "Surf, cours et niveau d’expérience",
+      "content": "Les hôtes posent souvent des questions sur les conditions de surf, la meilleure saison pour venir et si le camp convient aux débutants comme aux surfeurs plus expérimentés. Ngor est réputé pour la variété de ses spots de surf, offrant aux visiteurs l’accès à des vagues adaptées à différents niveaux selon la saison et la houle. Si vous ne savez pas quel forfait ou quelle formule surf vous convient, l’équipe peut vous guider avant votre arrivée.",
+      "bullets": [
+        "Adapté aux surfeurs débutants, intermédiaires et avancés",
+        "Conseils disponibles sur les cours de surf, le guiding et les conditions locales"
+      ]
+    },
+    {
+      "h2": "Chambres, repas et équipements du camp",
+      "content": "De nombreux voyageurs veulent savoir ce qui est inclus dans leur séjour, à quoi ressemblent les chambres et comment fonctionnent les repas au surf camp. L’objectif est d’offrir une base simple, accueillante et confortable près de l’océan, où les hôtes peuvent bien se reposer entre les sessions de surf et profiter de l’atmosphère décontractée de l’île. Vous pouvez aussi compter sur des équipements pratiques qui rendent votre séjour fluide et sans stress.",
+      "bullets": [
+        "Chambres confortables et espaces communs du camp",
+        "Informations disponibles sur les repas, les équipements et ce qu’il faut apporter"
+      ]
+    },
+    {
+      "h2": "Transport, réservation et préparation du voyage",
+      "content": "Avant de voyager au Sénégal, il est normal d’avoir des questions sur les transferts depuis l’aéroport, comment rejoindre l’île de Ngor, les détails de paiement et la manière de confirmer votre réservation. Cette section FAQ a pour but de rendre l’organisation du voyage",
+      "bullets": []
+    }
+  ],
+  "cta_heading": "Vous avez encore des questions ?",
+  "cta_text": "Contactez Ngor Surf Camp Teranga et nous vous aiderons à organiser le séjour surf idéal au Sénégal. Nous serons ravis de répondre à vos questions sur les chambres, les cours de surf, les forfaits et les détails du voyage.",
+  "cta_button": "Contactez-nous",
+  "og_title": "FAQ | Ngor Surf Camp Sénégal",
+  "og_description": "Réponses sur les séjours surf au Sénégal, l’île de Ngor, les cours, chambres, repas, transport et réservations chez Ngor Surf Camp.",
+  "focus_keyword": "faq surf camp sénégal",
+  "hreflang": "fr-FR",
+  "canonical_url": "https://www.surfcampsenegal.com/fr-Fr/faq"
+}

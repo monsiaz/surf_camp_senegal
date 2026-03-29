@@ -1,0 +1,17 @@
+{
+  "name": "surfcampsenegal",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@wix/blog": "^1.0.589",
+    "@wix/data": "^1.0.430",
+    "@wix/sdk": "^1.21.5"
+  }
+}

@@ -1,0 +1,92 @@
+
+/* ── Ngor Surfcamp Teranga – Improved DA ──────────────────────────────────
+   Typography: Sharper, premium feel
+   Colors: Deeper ocean blues + warm sand tones
+   Spacing: More breathing room
+   Mobile: Better responsive behavior
+────────────────────────────────────────────────────────────────────────── */
+
+/* Google Fonts: Raleway (headings) + Inter (body) */
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap');
+
+/* ── Global typography ── */
+body, p, span, div {
+  font-family: 'Inter', sans-serif !important;
+  letter-spacing: 0.01em;
+  line-height: 1.7;
+}
+
+h1, h2, h3, h4, h5, h6,
+[data-hook="header"],
+[class*="heading"],
+[class*="title"] {
+  font-family: 'Raleway', sans-serif !important;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+/* ── Color palette ── */
+:root {
+  --color-ocean:    #0a2540;
+  --color-wave:     #1565c0;
+  --color-surf:     #29b6f6;
+  --color-sand:     #f5e6c8;
+  --color-sunset:   #ff6b35;
+  --color-white:    #ffffff;
+  --color-text:     #1a1a2e;
+  --color-muted:    #6b7280;
+  --radius-card:    12px;
+  --shadow-card:    0 4px 24px rgba(10,37,64,0.10);
+  --transition:     all 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* ── Buttons – more premium ── */
+button, [role="button"], a[class*="btn"], [class*="button"],
+[class*="StylableButton"] {
+  border-radius: 50px !important;
+  font-family: 'Raleway', sans-serif !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  font-size: 13px !important;
+  transition: var(--transition) !important;
+  padding: 14px 32px !important;
+}
+
+/* ── Cards / sections ── */
+[class*="card"], [class*="Card"],
+[class*="container"], [class*="section"] {
+  border-radius: var(--radius-card) !important;
+}
+
+/* ── Hero section ── */
+[data-mesh-id*="SITE_HEADER"],
+[class*="header"], [class*="Header"] {
+  backdrop-filter: blur(8px) !important;
+}
+
+/* ── Better image aspect ratios ── */
+[class*="media"], [class*="Media"],
+img[class*="image"], img[class*="Image"] {
+  object-fit: cover !important;
+  border-radius: 8px;
+}
+
+/* ── Smooth scroll ── */
+html { scroll-behavior: smooth; }
+
+/* ── Better mobile header ── */
+@media (max-width: 768px) {
+  h1, [class*="heading1"] { font-size: clamp(28px, 7vw, 48px) !important; }
+  h2, [class*="heading2"] { font-size: clamp(22px, 5vw, 36px) !important; }
+}
+
+/* ── Blog improvements ── */
+[class*="blog"], [class*="Blog"],
+[class*="post"], [class*="Post"] {
+  font-family: 'Inter', sans-serif !important;
+}
+[class*="blog"] h1, [class*="blog"] h2,
+[class*="post"] h1, [class*="post"] h2 {
+  font-family: 'Raleway', sans-serif !important;
+}

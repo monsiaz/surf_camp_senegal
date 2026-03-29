@@ -1,0 +1,42 @@
+{
+  "slug": "/gallery",
+  "lang": "en",
+  "page_name": "Gallery",
+  "title_tag": "Surf Camp Senegal Gallery | Ngor Teranga",
+  "meta_description": "Browse the Ngor Surfcamp Teranga gallery and discover surf sessions, rooms, island life and the atmosphere of our surf camp in Senegal.",
+  "h1": "Gallery",
+  "hero_subtitle": "Take a closer look at the waves, accommodation and laid-back spirit of Ngor Surfcamp Teranga in Senegal.",
+  "intro": "Explore the gallery of Ngor Surfcamp Teranga and get a feel for life at our surf camp in Senegal. From warm Atlantic waves and surf sessions around Ngor Island to cozy rooms and shared spaces, these images capture the experience, comfort and local atmosphere that make a stay here so special.",
+  "sections": [
+    {
+      "h2": "Discover the Surf Camp Experience in Pictures",
+      "content": "Our gallery brings together the highlights of a stay at Ngor Surfcamp Teranga, from surfing in Senegal’s most iconic spots to relaxing moments at the camp. Browse through the images to see the accommodation, common areas, ocean views and the unique energy of Ngor. It is the best way to picture your next surf trip before you arrive.",
+      "bullets": [
+        "Surf sessions and waves around Ngor Island",
+        "Rooms, shared spaces and surf camp atmosphere"
+      ]
+    },
+    {
+      "h2": "See the Waves, Rooms and Island Lifestyle",
+      "content": "Whether you are planning your first surf holiday in Senegal or returning for another stay, the gallery gives you a real sense of what to expect. You will find inspiration in the scenery, the surf conditions and the welcoming environment that defines Ngor Surfcamp Teranga. Every image reflects the balance of adventure, comfort and local charm.",
+      "bullets": [
+        "Authentic surf travel experience in Senegal",
+        "A visual preview of the camp, the coast and daily life"
+      ]
+    }
+  ],
+  "cta_heading": "Ready to Experience It for Yourself?",
+  "cta_text": "If the gallery inspires your next surf escape, get in touch and start planning your stay at Ngor Surfcamp Teranga. We would love to welcome you for an unforgettable surf trip in Senegal.",
+  "cta_button": "Book Your Stay",
+  "og_title": "Ngor Surfcamp Teranga Gallery | Surf Camp Senegal",
+  "og_description": "View photos of surf sessions, accommodation and island life at Ngor Surfcamp Teranga in Senegal.",
+  "focus_keyword": "surf camp Senegal gallery",
+  "schema_type": "LodgingBusiness",
+  "hreflang_urls": {
+    "en": "https://www.surfcampsenegal.com/gallery",
+    "fr": "https://www.surfcampsenegal.com/fr-fr/gallery",
+    "es": "https://www.surfcampsenegal.com/es-es/gallery",
+    "it": "https://www.surfcampsenegal.com/it-it/gallery",
+    "de": "https://www.surfcampsenegal.com/de-de/gallery"
+  }
+}
