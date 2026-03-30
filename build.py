@@ -3763,6 +3763,8 @@ def build_booking(lang):
               </div>
             </div>
 
+            <div id="price-summary" style="display:none;margin-bottom:20px;padding:16px 20px;border-radius:14px;background:linear-gradient(135deg,#f0fdf4 0%,#ecfdf5 100%);border:1px solid #bbf7d0"></div>
+
             <div class="form-group">
               <label class="form-check">
                 <input type="checkbox" id="f-flex" style="accent-color:var(--fire);width:17px;height:17px">
@@ -3867,6 +3869,70 @@ def build_booking(lang):
   var fLeave = document.getElementById('f-leave');
   var topAlert = document.getElementById('booking-form-alert');
   var overlay = document.getElementById('booking-success-overlay');
+  var priceSummary = document.getElementById('price-summary');
+
+  /* ── Price summary: fetch and display when dates change ─── */
+  var _priceL = {{
+    nights: {json.dumps({"en":"nights","fr":"nuits","es":"noches","it":"notti","de":"Nächte","nl":"nachten","ar":"ليالي"}.get(lang,"nights"), ensure_ascii=False)},
+    from: {json.dumps({"en":"From","fr":"Dès","es":"Desde","it":"Da","de":"Ab","nl":"Vanaf","ar":"من"}.get(lang,"From"), ensure_ascii=False)},
+    perNight: {json.dumps({"en":"/night","fr":"/nuit","es":"/noche","it":"/notte","de":"/Nacht","nl":"/nacht","ar":"/ليلة"}.get(lang,"/night"), ensure_ascii=False)},
+    total: {json.dumps({"en":"Estimated total","fr":"Total estimé","es":"Total estimado","it":"Totale stimato","de":"Geschätzt","nl":"Geschat totaal","ar":"المجموع التقديري"}.get(lang,"Estimated total"), ensure_ascii=False)},
+    avail: {json.dumps({"en":"places available","fr":"places dispo","es":"plazas disponibles","it":"posti disponibili","de":"Plätze frei","nl":"plaatsen beschikbaar","ar":"أماكن متاحة"}.get(lang,"places available"), ensure_ascii=False)},
+    full: {json.dumps({"en":"Fully booked on some dates","fr":"Complet sur certaines dates","es":"Completo en algunas fechas","it":"Completo in alcune date","de":"An manchen Tagen ausgebucht","nl":"Volgeboekt op sommige dagen","ar":"محجوز بالكامل في بعض التواريخ"}.get(lang,"Fully booked"), ensure_ascii=False)},
+    dorm: {json.dumps({"en":"Dormitory","fr":"Dortoir","es":"Dormitorio","it":"Dormitorio","de":"Schlafsaal","nl":"Slaapzaal","ar":"مهجع"}.get(lang,"Dormitory"), ensure_ascii=False)},
+    single: {json.dumps({"en":"Single Room","fr":"Chambre Single","es":"Single","it":"Camera Singola","de":"Einzelzimmer","nl":"Eenpersoonskamer","ar":"غرفة فردية"}.get(lang,"Single"), ensure_ascii=False)},
+    double: {json.dumps({"en":"Double Room","fr":"Chambre Double","es":"Doble","it":"Camera Doppia","de":"Doppelzimmer","nl":"Tweepersoonskamer","ar":"غرفة مزدوجة"}.get(lang,"Double"), ensure_ascii=False)}
+  }};
+  var _priceCache = {{}};
+  function updatePriceSummary() {{
+    if (!fArrive.value || !fLeave.value || !priceSummary) return;
+    var ci = new Date(fArrive.value), co = new Date(fLeave.value);
+    if (co <= ci) {{ priceSummary.style.display='none'; return; }}
+    var nights = Math.round((co - ci) / 86400000);
+    var key = fArrive.value + '_' + fLeave.value;
+    if (_priceCache[key]) {{ renderPriceSummary(_priceCache[key], nights); return; }}
+    fetch('/api/availability?from=' + fArrive.value + '&to=' + fLeave.value)
+      .then(function(r){{ return r.json(); }})
+      .then(function(d){{ _priceCache[key] = d.days || {{}}; renderPriceSummary(_priceCache[key], nights); }})
+      .catch(function(){{ priceSummary.style.display='none'; }});
+  }}
+  function renderPriceSummary(days, nights) {{
+    var rooms = ['dormitory','single','double'];
+    var labels = [_priceL.dorm, _priceL.single, _priceL.double];
+    var html = '<div style="font-weight:800;font-size:15px;color:#0a2540;margin-bottom:12px">' + nights + ' ' + _priceL.nights + '</div>';
+    html += '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">';
+    for (var i = 0; i < rooms.length; i++) {{
+      var rt = rooms[i], total = 0, minAvail = 999, allOk = true;
+      var d = new Date(fArrive.value);
+      for (var n = 0; n < nights; n++) {{
+        var ds = d.toISOString().slice(0,10);
+        var info = days[ds] && days[ds][rt];
+        if (info && info.available > 0) {{ total += info.price; if (info.available < minAvail) minAvail = info.available; }}
+        else allOk = false;
+        d.setDate(d.getDate() + 1);
+      }}
+      var avgPrice = nights > 0 ? Math.round(total / nights) : 0;
+      var bgColor = allOk ? '#dcfce7' : '#fee2e2';
+      var borderColor = allOk ? '#86efac' : '#fca5a5';
+      var textColor = allOk ? '#15803d' : '#991b1b';
+      html += '<div style="padding:12px;border-radius:10px;background:' + bgColor + ';border:1px solid ' + borderColor + ';text-align:center">';
+      html += '<div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;margin-bottom:4px">' + labels[i] + '</div>';
+      if (allOk) {{
+        html += '<div style="font-size:22px;font-weight:900;color:' + textColor + '">' + total + ' €</div>';
+        html += '<div style="font-size:11px;color:#6b7280">' + avgPrice + '€' + _priceL.perNight + '</div>';
+        html += '<div style="font-size:10px;color:#16a34a;margin-top:4px">' + minAvail + ' ' + _priceL.avail + '</div>';
+      }} else {{
+        html += '<div style="font-size:13px;font-weight:600;color:' + textColor + '">' + _priceL.full + '</div>';
+      }}
+      html += '</div>';
+    }}
+    html += '</div>';
+    priceSummary.innerHTML = html;
+    priceSummary.style.display = 'block';
+  }}
+  if (fArrive) fArrive.addEventListener('change', updatePriceSummary);
+  if (fLeave) fLeave.addEventListener('change', updatePriceSummary);
+  setTimeout(updatePriceSummary, 500);
 
   function clearFieldErrors() {{
     ['f-fname','f-email','f-level','f-arrive','f-leave'].forEach(function(id) {{
