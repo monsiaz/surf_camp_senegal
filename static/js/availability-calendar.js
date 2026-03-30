@@ -17,6 +17,7 @@
   var roomFilter = 'dormitory';
   var container = null;
   var onDatesSelected = null;
+  var onRoomChange = null;
 
   var MONTH_NAMES = {
     en: ['January','February','March','April','May','June','July','August','September','October','November','December'],
@@ -213,6 +214,7 @@
       btn.onclick = function () {
         hovDate = null;
         roomFilter = btn.dataset.room;
+        if (onRoomChange) onRoomChange(roomFilter);
         ensureDataAndRender();
       };
     });
@@ -269,7 +271,14 @@
     container = typeof el === 'string' ? document.getElementById(el) : el;
     if (!container) return;
     if (opts && opts.onDatesSelected) onDatesSelected = opts.onDatesSelected;
+    if (opts && opts.onRoomChange) onRoomChange = opts.onRoomChange;
     if (opts && opts.room) roomFilter = opts.room;
+    window.__ngorAcSetRoomType = function (rt) {
+      if (!container || ['dormitory', 'single', 'double'].indexOf(rt) < 0) return;
+      roomFilter = rt;
+      hovDate = null;
+      ensureDataAndRender();
+    };
     container.innerHTML = '<div class="ac-loading">Loading…</div>';
     var today = new Date(); today.setDate(1);
     fetchAvailability(today, function (days) { render(days); });

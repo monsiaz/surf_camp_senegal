@@ -3769,10 +3769,11 @@ def build_booking(lang):
               <div id="avail-calendar" class="ac-wrap" style="max-width:100%"></div>
               <input type="hidden" id="f-arrive" class="f-arrive">
               <input type="hidden" id="f-leave" class="f-leave">
+              <input type="hidden" id="f-room" name="room_preference" value="dormitory">
               <div id="err-date" class="booking-field-error" style="display:none" role="status">{g("err_dt")}</div>
             </div>
 
-            <div id="price-summary" style="display:none;margin-bottom:20px;padding:16px 20px;border-radius:14px;background:linear-gradient(135deg,#f0fdf4 0%,#ecfdf5 100%);border:1px solid #bbf7d0"></div>
+            <div id="price-summary" class="bp-sum-box" style="display:none" hidden></div>
 
             <div class="form-group">
               <label class="form-check">
@@ -3862,6 +3863,7 @@ def build_booking(lang):
             "guestsLbl": {"en": "Guests", "fr": "Personnes", "es": "Personas", "it": "Ospiti", "de": "Gäste", "nl": "Gasten", "ar": "الضيوف"}.get(lang, "Guests"),
             "arrLbl": {"en": "Arrival", "fr": "Arrivée", "es": "Llegada", "it": "Arrivo", "de": "Anreise", "nl": "Aankomst", "ar": "الوصول"}.get(lang, "Arrival"),
             "depLbl": {"en": "Departure", "fr": "Départ", "es": "Salida", "it": "Partenza", "de": "Abreise", "nl": "Vertrek", "ar": "المغادرة"}.get(lang, "Departure"),
+            "roomLbl": {"en": "Room", "fr": "Chambre", "es": "Habitación", "it": "Camera", "de": "Zimmer", "nl": "Kamer", "ar": "الغرفة"}.get(lang, "Room"),
             "goalLbl": {"en": "Notes", "fr": "Objectif", "es": "Objetivo", "it": "Obiettivo", "de": "Ziel", "nl": "Doel", "ar": "ملاحظات"}.get(lang, "Notes"),
             "sending": {"en": "Sending…", "fr": "Envoi…", "es": "Enviando…", "it": "Invio…", "de": "Wird gesendet…", "nl": "Verzenden…", "ar": "جاري الإرسال…"}.get(lang, "Sending…"),
             "cta": g("cta"),
@@ -3890,26 +3892,50 @@ def build_booking(lang):
     full: {json.dumps({"en":"Fully booked on some dates","fr":"Complet sur certaines dates","es":"Completo en algunas fechas","it":"Completo in alcune date","de":"An manchen Tagen ausgebucht","nl":"Volgeboekt op sommige dagen","ar":"محجوز بالكامل في بعض التواريخ"}.get(lang,"Fully booked"), ensure_ascii=False)},
     dorm: {json.dumps({"en":"Dormitory","fr":"Dortoir","es":"Dormitorio","it":"Dormitorio","de":"Schlafsaal","nl":"Slaapzaal","ar":"مهجع"}.get(lang,"Dormitory"), ensure_ascii=False)},
     single: {json.dumps({"en":"Single Room","fr":"Chambre Single","es":"Single","it":"Camera Singola","de":"Einzelzimmer","nl":"Eenpersoonskamer","ar":"غرفة فردية"}.get(lang,"Single"), ensure_ascii=False)},
-    double: {json.dumps({"en":"Double Room","fr":"Chambre Double","es":"Doble","it":"Camera Doppia","de":"Doppelzimmer","nl":"Tweepersoonskamer","ar":"غرفة مزدوجة"}.get(lang,"Double"), ensure_ascii=False)}
+    double: {json.dumps({"en":"Double Room","fr":"Chambre Double","es":"Doble","it":"Camera Doppia","de":"Doppelzimmer","nl":"Tweepersoonskamer","ar":"غرفة مزدوجة"}.get(lang,"Double"), ensure_ascii=False)},
+    selBadge: {json.dumps({"en":"Selected","fr":"Sélectionné","es":"Seleccionado","it":"Selezionato","de":"Ausgewählt","nl":"Gekozen","ar":"محدد"}.get(lang,"Selected"), ensure_ascii=False)}
   }};
   var _priceCache = {{}};
+  function rerenderPriceSummaryFromCache() {{
+    if (!fArrive || !fLeave || !fArrive.value || !fLeave.value || !priceSummary) return;
+    var ci = new Date(fArrive.value), co = new Date(fLeave.value);
+    if (co <= ci) return;
+    var nights = Math.round((co - ci) / 86400000);
+    var key = fArrive.value + '_' + fLeave.value;
+    if (_priceCache[key]) renderPriceSummary(_priceCache[key], nights);
+  }}
+  if (priceSummary && !priceSummary.dataset.bpDeleg) {{
+    priceSummary.dataset.bpDeleg = '1';
+    priceSummary.addEventListener('click', function(ev) {{
+      var card = ev.target.closest('.bp-sum-card--ok');
+      if (!card || !priceSummary.contains(card)) return;
+      var rt = card.getAttribute('data-room');
+      if (!rt) return;
+      var fr = document.getElementById('f-room');
+      if (fr) fr.value = rt;
+      if (typeof window.__ngorAcSetRoomType === 'function') window.__ngorAcSetRoomType(rt);
+      rerenderPriceSummaryFromCache();
+    }});
+  }}
   function updatePriceSummary() {{
     if (!fArrive.value || !fLeave.value || !priceSummary) return;
     var ci = new Date(fArrive.value), co = new Date(fLeave.value);
-    if (co <= ci) {{ priceSummary.style.display='none'; return; }}
+    if (co <= ci) {{ priceSummary.style.display='none'; priceSummary.setAttribute('hidden',''); return; }}
     var nights = Math.round((co - ci) / 86400000);
     var key = fArrive.value + '_' + fLeave.value;
     if (_priceCache[key]) {{ renderPriceSummary(_priceCache[key], nights); return; }}
     fetch('/api/availability?from=' + fArrive.value + '&to=' + fLeave.value)
       .then(function(r){{ return r.json(); }})
       .then(function(d){{ _priceCache[key] = d.days || {{}}; renderPriceSummary(_priceCache[key], nights); }})
-      .catch(function(){{ priceSummary.style.display='none'; }});
+      .catch(function(){{ priceSummary.style.display='none'; priceSummary.setAttribute('hidden',''); }});
   }}
   function renderPriceSummary(days, nights) {{
+    var fRoomEl = document.getElementById('f-room');
+    var sel = (fRoomEl && fRoomEl.value) ? fRoomEl.value : 'dormitory';
     var rooms = ['dormitory','single','double'];
     var labels = [_priceL.dorm, _priceL.single, _priceL.double];
-    var html = '<div style="font-weight:800;font-size:15px;color:#0a2540;margin-bottom:12px">' + nights + ' ' + _priceL.nights + '</div>';
-    html += '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">';
+    var html = '<div class="bp-sum-title">' + nights + ' ' + _priceL.nights + '</div>';
+    html += '<div class="bp-sum-grid">';
     for (var i = 0; i < rooms.length; i++) {{
       var rt = rooms[i], total = 0, minAvail = 999, allOk = true;
       var d = new Date(fArrive.value);
@@ -3921,23 +3947,26 @@ def build_booking(lang):
         d.setDate(d.getDate() + 1);
       }}
       var avgPrice = nights > 0 ? Math.round(total / nights) : 0;
-      var bgColor = allOk ? '#dcfce7' : '#fee2e2';
-      var borderColor = allOk ? '#86efac' : '#fca5a5';
-      var textColor = allOk ? '#15803d' : '#991b1b';
-      html += '<div style="padding:12px;border-radius:10px;background:' + bgColor + ';border:1px solid ' + borderColor + ';text-align:center">';
-      html += '<div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;margin-bottom:4px">' + labels[i] + '</div>';
+      var isSel = (sel === rt);
+      var cls = 'bp-sum-card' + (allOk ? ' bp-sum-card--ok' : ' bp-sum-card--disabled');
+      if (isSel) cls += ' bp-sum-card--selected';
+      html += '<div class="' + cls + '" data-room="' + rt + '" tabindex="' + (allOk ? '0' : '-1') + '" role="button" aria-pressed="' + (isSel ? 'true' : 'false') + '">';
+      html += '<div class="bp-sum-card-head"><span class="bp-sum-card-label">' + labels[i] + '</span>';
+      if (isSel && allOk) html += '<span class="bp-sum-badge">' + _priceL.selBadge + '</span>';
+      html += '</div>';
       if (allOk) {{
-        html += '<div style="font-size:22px;font-weight:900;color:' + textColor + '">' + total + ' €</div>';
-        html += '<div style="font-size:11px;color:#6b7280">' + avgPrice + '€' + _priceL.perNight + '</div>';
-        html += '<div style="font-size:10px;color:#16a34a;margin-top:4px">' + minAvail + ' ' + _priceL.avail + '</div>';
+        html += '<div class="bp-sum-total">' + total + ' €</div>';
+        html += '<div class="bp-sum-avg">' + avgPrice + '€' + _priceL.perNight + '</div>';
+        html += '<div class="bp-sum-avail">' + minAvail + ' ' + _priceL.avail + '</div>';
       }} else {{
-        html += '<div style="font-size:13px;font-weight:600;color:' + textColor + '">' + _priceL.full + '</div>';
+        html += '<div class="bp-sum-unavail">' + _priceL.full + '</div>';
       }}
       html += '</div>';
     }}
     html += '</div>';
     priceSummary.innerHTML = html;
     priceSummary.style.display = 'block';
+    priceSummary.removeAttribute('hidden');
   }}
   if (fArrive) fArrive.addEventListener('change', updatePriceSummary);
   if (fLeave) fLeave.addEventListener('change', updatePriceSummary);
@@ -3947,10 +3976,17 @@ def build_booking(lang):
     if(typeof initAvailabilityCalendar==='undefined'){{setTimeout(_initCal,100);return;}}
     initAvailabilityCalendar('avail-calendar',{{
       room:'dormitory',
-      onDatesSelected:function(ci,co){{
+      onDatesSelected:function(ci,co,room){{
         if(fArrive){{ fArrive.value=ci; fArrive.dispatchEvent(new Event('change',{{bubbles:true}})); }}
         if(fLeave){{ fLeave.value=co; fLeave.dispatchEvent(new Event('change',{{bubbles:true}})); }}
+        var fr = document.getElementById('f-room');
+        if (fr && room) fr.value = room;
         updatePriceSummary();
+      }},
+      onRoomChange:function(room){{
+        var fr = document.getElementById('f-room');
+        if (fr && room) fr.value = room;
+        rerenderPriceSummaryFromCache();
       }}
     }});
   }})();
@@ -4081,11 +4117,14 @@ def build_booking(lang):
     var cc = ((document.getElementById('f-cc') || {{}}).value || '');
     var phone = ((document.getElementById('f-phone') || {{}}).value || '').trim();
     var goal = ((document.getElementById('f-goal') || {{}}).value || '').trim();
+    var roomType = ((document.getElementById('f-room') || {{}}).value || '').trim();
+    var roomNames = {{ dormitory: _priceL.dorm, single: _priceL.single, double: _priceL.double }};
     var msg = J.waIntro;
     if (fname) msg += ' ' + J.nameLbl + ': ' + fname + '.';
     if (email) msg += ' ' + J.emailLbl + ': ' + email + '.';
     if (cc && phone) msg += ' ' + J.phoneLbl + ': ' + cc + ' ' + phone + '.';
     if (levelText) msg += ' ' + J.levelLbl + ': ' + levelText + '.';
+    if (roomType && roomNames[roomType]) msg += ' ' + J.roomLbl + ': ' + roomNames[roomType] + '.';
     if (arrive) msg += ' ' + J.arrLbl + ': ' + arrive + '.';
     if (leave) msg += ' ' + J.depLbl + ': ' + leave + '.';
     var guests = ((document.getElementById('f-guests') || {{}}).value || '1');
@@ -4103,6 +4142,7 @@ def build_booking(lang):
         phone: (cc ? cc + ' ' : '') + phone,
         arrival: arrive, departure: leave,
         guests: guests, level: levelText,
+        roomType: roomType || null,
         message: goal,
         lang: (document.documentElement.lang || 'en').split('-')[0],
         pageUrl: location.href

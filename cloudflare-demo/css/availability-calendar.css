@@ -52,3 +52,23 @@
   .ac-num{font-size:13px}
   .ac-price{font-size:9px}
 }
+
+/* Booking page — room price row (neutral; selected = brand accent, not “cheap=green / pricey=red”) */
+.bp-sum-box{background:#f1f5f9;border:1px solid #e2e8f0;border-radius:14px;padding:16px 18px;margin-bottom:20px}
+.bp-sum-title{font-weight:800;font-size:15px;color:#0f172a;margin-bottom:12px;letter-spacing:-0.02em}
+.bp-sum-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media(max-width:520px){.bp-sum-grid{grid-template-columns:1fr}}
+.bp-sum-card{text-align:center;border-radius:12px;padding:12px 10px;border:1px solid #e2e8f0;background:#fff;transition:box-shadow .15s,border-color .15s,background .15s;min-width:0}
+.bp-sum-card--ok{cursor:pointer}
+.bp-sum-card--ok:hover{border-color:#cbd5e1;background:#f8fafc}
+.bp-sum-card--ok:focus{outline:2px solid #ff5a1f;outline-offset:2px}
+.bp-sum-card--disabled{opacity:.72;cursor:default;background:#f8fafc;border-color:#e5e7eb}
+.bp-sum-card--selected.bp-sum-card--ok{border-color:#ff5a1f;background:rgba(255,90,31,0.07);box-shadow:0 0 0 1px rgba(255,90,31,0.35)}
+.bp-sum-card--disabled.bp-sum-card--selected{border-style:dashed;border-color:#fdba74;background:rgba(255,90,31,0.04);opacity:1}
+.bp-sum-card-head{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;margin-bottom:6px;min-height:22px}
+.bp-sum-card-label{font-size:10px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.04em}
+.bp-sum-badge{font-size:9px;font-weight:800;color:#c2410c;background:#ffedd5;border-radius:999px;padding:2px 8px;text-transform:uppercase;letter-spacing:.04em}
+.bp-sum-total{font-size:22px;font-weight:900;color:#0f172a;line-height:1.1}
+.bp-sum-avg{font-size:11px;color:#64748b;margin-top:2px}
+.bp-sum-avail{font-size:10px;color:#475569;margin-top:6px}
+.bp-sum-unavail{font-size:12px;font-weight:600;color:#64748b;line-height:1.35;padding:8px 4px}

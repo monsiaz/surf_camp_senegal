@@ -93,6 +93,7 @@ export default async function handler(req, res) {
       departure = null,
       guests = 1,
       level = '',
+      roomType: room_type_raw = '',
       message = '',
       lang = 'en',
       pageUrl: page_url = '',
@@ -103,7 +104,20 @@ export default async function handler(req, res) {
     phone = clip(phone, MAX_LEN.phone).trim();
     country = clip(country, MAX_LEN.country).trim();
     level = clip(level, MAX_LEN.level).trim();
+    const room_allowed = ['dormitory', 'single', 'double'];
+    const room_type = room_allowed.includes(String(room_type_raw || '').trim())
+      ? String(room_type_raw).trim()
+      : '';
+    const room_labels = {
+      dormitory: 'Dormitory',
+      single: 'Single room',
+      double: 'Double room',
+    };
     message = clip(message, MAX_LEN.message).trim();
+    if (room_type) {
+      const pref = `Room preference: ${room_labels[room_type] || room_type}. `;
+      message = clip(pref + (message || ''), MAX_LEN.message);
+    }
     lang = clip(lang, MAX_LEN.lang).replace(/[^a-z-]/gi, '').toLowerCase() || 'en';
     page_url = clip(page_url, MAX_LEN.page_url).trim();
 
@@ -163,6 +177,7 @@ export default async function handler(req, res) {
   <tr><td style="padding:4px 10px;font-weight:bold">Departure</td><td style="padding:4px 10px">${safe.departure}</td></tr>
   <tr><td style="padding:4px 10px;font-weight:bold">Guests</td><td style="padding:4px 10px">${safe.guests}</td></tr>
   <tr><td style="padding:4px 10px;font-weight:bold">Level</td><td style="padding:4px 10px">${safe.level || '—'}</td></tr>
+  <tr><td style="padding:4px 10px;font-weight:bold">Room</td><td style="padding:4px 10px">${room_type ? escapeHtml(room_labels[room_type] || room_type) : '—'}</td></tr>
   <tr><td style="padding:4px 10px;font-weight:bold">Message</td><td style="padding:4px 10px">${safe.message || '—'}</td></tr>
   <tr><td style="padding:4px 10px;font-weight:bold">Language</td><td style="padding:4px 10px">${safe.lang}</td></tr>
 </table>`,
