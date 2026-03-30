@@ -7,104 +7,139 @@
 <title>Disponibilités — Ngor Surfcamp Admin</title>
 <style>
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-  :root{--navy:#0a2540;--fire:#ff5a1f;--green:#22c55e;--sand:#f0c060}
-  body{font-family:"Inter",system-ui,sans-serif;background:#f8fafc;color:#1e293b}
-  .top-bar{background:var(--navy);color:#fff;padding:14px 24px;display:flex;align-items:center;gap:16px}
-  .top-bar h1{font-size:16px;font-weight:800;flex:1}
-  .top-bar a{color:rgba(255,255,255,.7);text-decoration:none;font-size:13px;font-weight:600;padding:5px 12px;border:1px solid rgba(255,255,255,.15);border-radius:6px}
-  .top-bar a:hover{color:#fff;background:rgba(255,255,255,.08)}
-  .wrap{max-width:1100px;margin:0 auto;padding:24px}
-  .toolbar{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px;align-items:center}
-  .toolbar select,.toolbar input{padding:8px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;font-family:inherit}
-  .btn{padding:8px 18px;border:none;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer;transition:all .15s}
+  :root{--navy:#0a2540;--fire:#ff5a1f;--green:#15803d;--amber:#b45309;--red:#b91c1c}
+  body{font-family:"Inter",system-ui,sans-serif;background:#f1f5f9;color:#1e293b;line-height:1.45}
+  .top-bar{background:var(--navy);color:#fff;padding:14px 24px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .top-bar h1{font-size:17px;font-weight:800;flex:1;min-width:200px}
+  .top-bar a{color:rgba(255,255,255,.85);text-decoration:none;font-size:13px;font-weight:600;padding:6px 12px;border:1px solid rgba(255,255,255,.2);border-radius:8px}
+  .top-bar a:hover{color:#fff;background:rgba(255,255,255,.1)}
+  .wrap{max-width:1180px;margin:0 auto;padding:20px 20px 40px}
+  .hint{background:#fff;border:1px solid #e2e8f0;border-left:4px solid var(--fire);border-radius:12px;padding:14px 18px;margin-bottom:20px;font-size:14px;color:#334155}
+  .hint strong{color:var(--navy)}
+  .hint kbd{font-size:11px;background:#e2e8f0;padding:2px 6px;border-radius:4px;font-weight:700}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px}
+  .stat{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px 16px}
+  .stat .v{font-size:22px;font-weight:800;color:var(--navy);line-height:1.2}
+  .stat .l{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.06em;margin-top:4px}
+  .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
+  .toolbar select,.toolbar input{padding:9px 12px;border:1px solid #cbd5e1;border-radius:10px;font-size:14px;font-family:inherit;background:#fff}
+  .btn{padding:9px 16px;border:none;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer;transition:background .15s,color .15s}
   .btn-fire{background:var(--fire);color:#fff}.btn-fire:hover{background:#e04a10}
   .btn-navy{background:var(--navy);color:#fff}.btn-navy:hover{background:#0d2d50}
-  .btn-outline{background:#fff;border:1px solid #d1d5db;color:#374151}.btn-outline:hover{background:#f1f5f9}
-  .grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:24px}
-  .dow{text-align:center;font-size:11px;font-weight:700;color:#94a3b8;padding:8px 0;text-transform:uppercase}
-  .cell{background:#fff;border:2px solid transparent;border-radius:10px;padding:8px 6px;text-align:center;cursor:pointer;transition:all .12s;min-height:72px;position:relative}
-  .cell:hover{border-color:#cbd5e1;box-shadow:0 2px 8px rgba(0,0,0,.06)}
-  .cell.selected{border-color:var(--fire);background:#fff7f5}
-  .cell.past{opacity:.35;cursor:default}
-  .cell .day{font-size:14px;font-weight:700;color:#1e293b}
-  .cell .price{font-size:12px;font-weight:700;color:var(--green);margin-top:2px}
-  .cell .avail{font-size:10px;color:#94a3b8;margin-top:1px}
-  .cell.full .price{color:#dc2626}
-  .cell.low .price{color:#d97706}
-  .empty{min-height:72px}
-  .editor{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:24px;margin-bottom:24px}
-  .editor h3{font-size:16px;margin-bottom:16px}
-  .editor .row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px;align-items:end}
-  .editor label{display:block;font-size:12px;font-weight:700;color:#64748b;margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em}
-  .editor input,.editor select{padding:8px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;font-family:inherit;width:100%}
-  .editor .field{flex:1;min-width:120px}
-  .msg{padding:12px 16px;border-radius:8px;margin-bottom:16px;font-size:14px;font-weight:600;display:none}
+  .btn-outline{background:#fff;border:1px solid #cbd5e1;color:#334155}.btn-outline:hover{background:#f8fafc}
+  .btn-ghost{background:transparent;border:1px dashed #94a3b8;color:#475569}.btn-ghost:hover{border-color:var(--navy);color:var(--navy)}
+  .grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:22px}
+  .dow{text-align:center;font-size:11px;font-weight:800;color:#64748b;padding:10px 4px 6px;text-transform:uppercase;letter-spacing:.04em}
+  .cell{border:2px solid #e2e8f0;border-radius:12px;padding:8px 6px 10px;text-align:center;cursor:pointer;transition:box-shadow .12s,transform .12s,border-color .12s;min-height:92px;display:flex;flex-direction:column;justify-content:flex-start;align-items:center;gap:2px}
+  .cell:hover:not(.past){box-shadow:0 4px 14px rgba(15,23,42,.12);transform:translateY(-1px);border-color:#94a3b8}
+  .cell.selected{outline:3px solid var(--fire);outline-offset:-1px;box-shadow:0 0 0 1px var(--fire)}
+  .cell.past{opacity:.4;cursor:default;background:#f8fafc!important;border-color:#e2e8f0!important}
+  .cell.nodata{background:#f8fafc;border-style:dashed;border-color:#cbd5e1}
+  .cell.ok{background:#ecfdf5;border-color:#6ee7b7}
+  .cell.low{background:#fffbeb;border-color:#fcd34d}
+  .cell.full{background:#fef2f2;border-color:#fca5a5}
+  .cell.range-anchor{box-shadow:0 0 0 3px rgba(255,90,31,.45);border-color:var(--fire)}
+  .cell .day{font-size:15px;font-weight:800;color:#0f172a}
+  .cell .price{font-size:15px;font-weight:800;color:var(--green);margin-top:2px}
+  .cell.low .price{color:var(--amber)}
+  .cell.full .price{color:var(--red)}
+  .cell.nodata .price{color:#64748b;font-weight:700}
+  .cell .avail{font-size:11px;font-weight:700;color:#475569;margin-top:2px;line-height:1.25}
+  .cell .avail span{color:#0f172a}
+  .empty{min-height:92px}
+  .editor{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:22px 24px;margin-bottom:24px;box-shadow:0 1px 3px rgba(15,23,42,.06)}
+  .editor h3{font-size:17px;margin-bottom:6px;color:var(--navy)}
+  .editor .sub{font-size:13px;color:#64748b;margin-bottom:18px}
+  .editor .row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:14px;align-items:flex-end}
+  .editor label{display:block;font-size:11px;font-weight:800;color:#64748b;margin-bottom:5px;text-transform:uppercase;letter-spacing:.05em}
+  .editor input,.editor select{padding:10px 12px;border:1px solid #cbd5e1;border-radius:10px;font-size:15px;font-family:inherit;width:100%}
+  .editor .field{flex:1;min-width:130px}
+  .msg{padding:12px 16px;border-radius:10px;margin-bottom:16px;font-size:14px;font-weight:600;display:none}
   .msg.ok{display:block;background:#dcfce7;color:#166534;border:1px solid #bbf7d0}
   .msg.err{display:block;background:#fee2e2;color:#991b1b;border:1px solid #fecaca}
-  .legend{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:20px}
-  .legend span{display:flex;align-items:center;gap:5px;font-size:12px;color:#64748b}
-  .legend .dot{width:12px;height:12px;border-radius:3px}
-  .dot-ok{background:#dcfce7;border:1px solid #86efac}
-  .dot-low{background:#fef3c7;border:1px solid #fcd34d}
-  .dot-full{background:#fee2e2;border:1px solid #fca5a5}
+  .legend{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
+  .legend span{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:#475569}
+  .legend .dot{width:14px;height:14px;border-radius:4px;flex-shrink:0}
+  .dot-ok{background:#6ee7b7;border:1px solid #34d399}
+  .dot-low{background:#fcd34d;border:1px solid #f59e0b}
+  .dot-full{background:#fca5a5;border:1px solid #ef4444}
+  .dot-none{background:#e2e8f0;border:1px solid #94a3b8}
+  .range-status{font-size:13px;font-weight:700;color:var(--fire);min-height:20px;margin-bottom:8px}
+  @media (max-width:640px){
+    .cell{min-height:84px;padding:6px 4px}
+    .cell .price{font-size:13px}
+    .cell .avail{font-size:10px}
+  }
 </style>
 </head>
 <body>
 
 <div class="top-bar">
-  <h1>📅 Gestion des Disponibilités</h1>
+  <h1>📅 Tarifs & lits — vue gérant</h1>
   <a href="/admin/">← CMS</a>
   <a href="/admin/bookings.html">📋 Réservations</a>
-  <a href="/booking/" target="_blank">Page Booking ↗</a>
+  <a href="/booking/" target="_blank" rel="noopener">Page Booking ↗</a>
 </div>
 
 <div class="wrap">
   <div id="msg" class="msg"></div>
 
+  <div class="hint">
+    <strong>Comment ça marche :</strong> 1er clic = <strong>début de plage</strong>, 2e clic = <strong>fin de plage</strong> (tous les jours entre les deux sont sélectionnés).
+    <strong><kbd>Ctrl</kbd> / <kbd>⌘</kbd> + clic</strong> = ajouter ou retirer <strong>un seul</strong> jour.
+    Les cases colorées = niveau de remplissage ; le <strong>prix</strong> et les <strong>lits libres</strong> sont affichés dans chaque jour.
+  </div>
+
+  <div class="stats" id="stats" aria-live="polite"></div>
+
   <div class="toolbar">
-    <select id="room-select">
-      <option value="dormitory">🛏 Dortoir (8 lits)</option>
-      <option value="single">🚪 Chambre Single (4)</option>
-      <option value="double">🛌 Chambre Double (3)</option>
+    <select id="room-select" aria-label="Type de chambre">
+      <option value="dormitory">🛏 Dortoir — 8 lits</option>
+      <option value="single">🚪 Single — 4 lits</option>
+      <option value="double">🛌 Double — 3 lits</option>
     </select>
-    <button class="btn btn-outline" id="prev-month">← Mois précédent</button>
-    <strong id="month-label" style="font-size:16px;min-width:160px;text-align:center"></strong>
-    <button class="btn btn-outline" id="next-month">Mois suivant →</button>
-    <button class="btn btn-navy" id="select-all">Tout sélectionner</button>
-    <button class="btn btn-outline" id="deselect-all">Désélectionner</button>
+    <button type="button" class="btn btn-outline" id="prev-month">← Mois</button>
+    <strong id="month-label" style="font-size:16px;min-width:170px;text-align:center"></strong>
+    <button type="button" class="btn btn-outline" id="next-month">Mois →</button>
+    <button type="button" class="btn btn-navy" id="select-all">Tout le mois (futur)</button>
+    <button type="button" class="btn btn-outline" id="deselect-all">Effacer sélection</button>
+    <button type="button" class="btn btn-ghost" id="cancel-range">Annuler début de plage</button>
   </div>
 
   <div class="legend">
-    <span><span class="dot dot-ok"></span> Disponible</span>
-    <span><span class="dot dot-low"></span> Presque complet</span>
+    <span><span class="dot dot-ok"></span> Places libres</span>
+    <span><span class="dot dot-low"></span> Presque plein (≤1 lit)</span>
     <span><span class="dot dot-full"></span> Complet</span>
+    <span><span class="dot dot-none"></span> Pas encore renseigné</span>
   </div>
+  <div class="range-status" id="range-status"></div>
 
   <div id="calendar" class="grid"></div>
 
   <div class="editor" id="editor">
-    <h3>✏️ Modifier la sélection (<span id="sel-count">0</span> jours)</h3>
+    <h3>Appliquer aux jours sélectionnés</h3>
+    <p class="sub"><span id="sel-count">0</span> jour(s) sélectionné(s) — les valeurs ci-dessous remplacent celles des cases cochées quand vous enregistrez.</p>
     <div class="row">
       <div class="field">
         <label>Prix / nuit (€)</label>
-        <input type="number" id="ed-price" min="0" max="999" value="55">
+        <input type="number" id="ed-price" min="0" max="999" step="1" value="55" inputmode="numeric">
       </div>
       <div class="field">
-        <label>Total lits</label>
-        <input type="number" id="ed-total" min="0" max="50" value="6">
+        <label>Capacité (lits au total)</label>
+        <input type="number" id="ed-total" min="0" max="50" step="1" value="8" inputmode="numeric">
       </div>
       <div class="field">
-        <label>Réservés</label>
-        <input type="number" id="ed-booked" min="0" max="50" value="0">
+        <label>Déjà réservés (lits)</label>
+        <input type="number" id="ed-booked" min="0" max="50" step="1" value="0" inputmode="numeric">
       </div>
     </div>
     <div class="row">
-      <div class="field" style="flex:2">
-        <label>Notes (optionnel)</label>
-        <input type="text" id="ed-notes" placeholder="ex: groupe confirmé">
+      <div class="field" style="flex:2;min-width:220px">
+        <label>Note interne (optionnel)</label>
+        <input type="text" id="ed-notes" placeholder="ex. groupe surf, maintenance…" autocomplete="off">
       </div>
-      <div style="padding-top:20px">
-        <button class="btn btn-fire" id="save-btn">💾 Enregistrer</button>
+      <div style="padding-top:22px">
+        <button type="button" class="btn btn-fire" id="save-btn">💾 Enregistrer sur la sélection</button>
       </div>
     </div>
   </div>
@@ -114,47 +149,156 @@
 (function(){
   var API_KEY = localStorage.getItem('nsc-admin-api-key') || '';
   if (!API_KEY) {
-    API_KEY = prompt('Clé API Admin (ADMIN_API_KEY):');
+    API_KEY = prompt('Clé API Admin (ADMIN_API_KEY) :');
     if (API_KEY) localStorage.setItem('nsc-admin-api-key', API_KEY);
   }
 
+  var ROOM_DEFAULTS = { dormitory: { total: 8, price: 45 }, single: { total: 4, price: 55 }, double: { total: 3, price: 75 } };
+
   var currentMonth = new Date();
   currentMonth.setDate(1);
+  currentMonth.setHours(0, 0, 0, 0);
   var roomType = 'dormitory';
   var data = {};
   var selected = new Set();
-  var today = new Date(); today.setHours(0,0,0,0);
+  var rangeAnchor = null;
+  var today = new Date();
+  today.setHours(0, 0, 0, 0);
 
   var MONTHS = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
-  var DAYS = ['Lu','Ma','Me','Je','Ve','Sa','Di'];
+  var DAYS = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
 
-  function ds(d) { return d.toISOString().slice(0,10); }
+  function pad2(n) { return (n < 10 ? '0' : '') + n; }
+  function localYmd(d) {
+    return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
+  }
+  function normalizeDbDate(v) {
+    if (v == null || v === '') return '';
+    if (typeof v === 'string') {
+      var m = v.match(/^(\d{4}-\d{2}-\d{2})/);
+      return m ? m[1] : '';
+    }
+    if (v instanceof Date && !isNaN(v.getTime())) {
+      return v.getUTCFullYear() + '-' + pad2(v.getUTCMonth() + 1) + '-' + pad2(v.getUTCDate());
+    }
+    var s = String(v);
+    var m = s.match(/^(\d{4}-\d{2}-\d{2})/);
+    return m ? m[1] : '';
+  }
+  function monthRangeYmd(y, m0) {
+    var first = new Date(y, m0, 1);
+    var last = new Date(y, m0 + 1, 0);
+    return { from: localYmd(first), to: localYmd(last) };
+  }
+
   function showMsg(text, ok) {
     var el = document.getElementById('msg');
     el.textContent = text;
     el.className = 'msg ' + (ok ? 'ok' : 'err');
-    setTimeout(function(){ el.className = 'msg'; }, 4000);
+    setTimeout(function(){ el.className = 'msg'; }, 5000);
+  }
+
+  function setRangeStatus() {
+    var el = document.getElementById('range-status');
+    if (!rangeAnchor) { el.textContent = ''; return; }
+    el.textContent = 'Plage : choisissez la date de fin (début = ' + rangeAnchor + ').';
+  }
+
+  function applyRoomDefaults() {
+    var d = ROOM_DEFAULTS[roomType] || ROOM_DEFAULTS.dormitory;
+    document.getElementById('ed-total').value = String(d.total);
+    document.getElementById('ed-price').value = String(d.price);
+    document.getElementById('ed-booked').value = '0';
+    document.getElementById('ed-notes').value = '';
   }
 
   function fetchData() {
-    var from = ds(currentMonth);
-    var to = new Date(currentMonth);
-    to.setMonth(to.getMonth() + 1);
-    to.setDate(0);
-    fetch('/api/admin-availability?from=' + from + '&to=' + ds(to), {
+    var y = currentMonth.getFullYear(), m0 = currentMonth.getMonth();
+    var r = monthRangeYmd(y, m0);
+    fetch('/api/admin-availability?from=' + encodeURIComponent(r.from) + '&to=' + encodeURIComponent(r.to), {
       headers: { 'x-api-key': API_KEY }
     })
-    .then(function(r){ return r.json(); })
+    .then(function(res){ return res.json(); })
     .then(function(d){
       data = {};
-      (d.rows || []).forEach(function(r){
-        var dk = (r.date instanceof Date ? r.date.toISOString() : String(r.date)).slice(0,10);
+      (d.rows || []).forEach(function(row){
+        var dk = normalizeDbDate(row.date);
+        if (!dk) return;
         if (!data[dk]) data[dk] = {};
-        data[dk][r.room_type] = r;
+        data[dk][row.room_type] = row;
       });
       render();
     })
-    .catch(function(e){ showMsg('Erreur réseau: ' + e.message, false); });
+    .catch(function(e){ showMsg('Erreur réseau : ' + e.message, false); });
+  }
+
+  function renderStats(y, m0) {
+    var daysInMonth = new Date(y, m0 + 1, 0).getDate();
+    var withData = 0, sumOcc = 0, occN = 0, sumPrice = 0, priceN = 0;
+    var futureNoData = 0;
+    for (var day = 1; day <= daysInMonth; day++) {
+      var date = new Date(y, m0, day);
+      date.setHours(0, 0, 0, 0);
+      var key = localYmd(date);
+      var info = data[key] && data[key][roomType];
+      if (date < today) continue;
+      if (!info) { futureNoData++; continue; }
+      withData++;
+      var tot = Number(info.total) || 0, bk = Number(info.booked) || 0;
+      if (tot > 0) {
+        sumOcc += bk / tot;
+        occN++;
+      }
+      var pe = info.price_eur;
+      if (pe != null && pe !== '') {
+        sumPrice += Number(pe);
+        priceN++;
+      }
+    }
+    var avgOcc = occN ? Math.round((sumOcc / occN) * 100) : 0;
+    var avgPrice = priceN ? Math.round(sumPrice / priceN) : '—';
+    var el = document.getElementById('stats');
+    el.innerHTML =
+      '<div class="stat"><div class="v">' + withData + '</div><div class="l">Jours renseignés (à venir)</div></div>' +
+      '<div class="stat"><div class="v">' + futureNoData + '</div><div class="l">Jours sans tarif (à venir)</div></div>' +
+      '<div class="stat"><div class="v">' + (occN ? avgOcc + ' %' : '—') + '</div><div class="l">Occupation moyenne (ce type)</div></div>' +
+      '<div class="stat"><div class="v">' + (priceN ? avgPrice + ' €' : '—') + '</div><div class="l">Prix moyen affiché</div></div>';
+  }
+
+  function cellClasses(date, dateStr, isPast, info) {
+    var cls = 'cell';
+    if (isPast) return cls + ' past';
+    var avail = info ? (Number(info.total) || 0) - (Number(info.booked) || 0) : null;
+    if (!info) cls += ' nodata';
+    else if (avail <= 0) cls += ' full';
+    else if (avail <= 1) cls += ' low';
+    else cls += ' ok';
+    if (selected.has(dateStr)) cls += ' selected';
+    if (rangeAnchor === dateStr) cls += ' range-anchor';
+    return cls;
+  }
+
+  function formatCellBody(dayNum, dateStr, isPast, info) {
+    var priceHtml;
+    var availHtml;
+    if (isPast) {
+      priceHtml = '<div class="price">—</div>';
+      availHtml = '<div class="avail">Passé</div>';
+      return { priceHtml: priceHtml, availHtml: availHtml };
+    }
+    if (!info) {
+      priceHtml = '<div class="price">À définir</div>';
+      availHtml = '<div class="avail">Cliquez pour<br>remplir</div>';
+      return { priceHtml: priceHtml, availHtml: availHtml };
+    }
+    var tot = Number(info.total) || 0;
+    var bk = Number(info.booked) || 0;
+    var free = Math.max(0, tot - bk);
+    var pe = info.price_eur;
+    var priceLabel = (pe != null && pe !== '') ? (Number(pe) + ' €') : '— €';
+    priceHtml = '<div class="price">' + priceLabel + '</div>';
+    availHtml = '<div class="avail"><span>' + free + '</span> libre' + (free > 1 ? 's' : '') + '<br>sur ' + tot + '</div>';
+    return { priceHtml: priceHtml, availHtml: availHtml };
   }
 
   function render() {
@@ -173,81 +317,142 @@
 
     for (var day = 1; day <= daysInMonth; day++) {
       var date = new Date(y, m, day);
-      var dateStr = ds(date);
+      date.setHours(0, 0, 0, 0);
+      var dateStr = localYmd(date);
       var isPast = date < today;
       var info = data[dateStr] && data[dateStr][roomType];
-      var avail = info ? (info.total - info.booked) : 0;
-      var price = info ? info.price_eur : '-';
-      var cls = 'cell';
-      if (isPast) cls += ' past';
-      else if (!info || avail <= 0) cls += ' full';
-      else if (avail <= 1) cls += ' low';
-      if (selected.has(dateStr)) cls += ' selected';
+      var cls = cellClasses(date, dateStr, isPast, info);
+      var body = formatCellBody(day, dateStr, isPast, info);
 
-      html += '<div class="' + cls + '" data-date="' + dateStr + '">';
+      html += '<div class="' + cls + '" data-date="' + dateStr + '" role="button" tabindex="' + (isPast ? '-1' : '0') + '">';
       html += '<div class="day">' + day + '</div>';
-      html += '<div class="price">' + (price !== '-' ? price + '€' : '—') + '</div>';
-      html += '<div class="avail">' + (info ? avail + '/' + info.total : '—') + '</div>';
+      html += body.priceHtml;
+      html += body.availHtml;
       html += '</div>';
     }
     grid.innerHTML = html;
 
     grid.querySelectorAll('.cell:not(.past)').forEach(function(cell){
-      cell.onclick = function(){
+      cell.addEventListener('click', function(ev){
         var d = cell.dataset.date;
-        if (selected.has(d)) selected.delete(d); else selected.add(d);
-        cell.classList.toggle('selected');
+        if (ev.metaKey || ev.ctrlKey) {
+          if (selected.has(d)) selected.delete(d); else selected.add(d);
+          rangeAnchor = null;
+          render();
+          updateSelCount();
+          setRangeStatus();
+          return;
+        }
+        if (!rangeAnchor) {
+          rangeAnchor = d;
+          render();
+          updateSelCount();
+          setRangeStatus();
+          return;
+        }
+        if (rangeAnchor === d) {
+          rangeAnchor = null;
+          render();
+          setRangeStatus();
+          return;
+        }
+        var a = rangeAnchor < d ? rangeAnchor : d;
+        var b = rangeAnchor < d ? d : rangeAnchor;
+        selected.clear();
+        var cur = new Date(a + 'T12:00:00');
+        var end = new Date(b + 'T12:00:00');
+        while (cur <= end) {
+          var k = localYmd(cur);
+          if (new Date(k + 'T12:00:00') >= today) selected.add(k);
+          cur.setDate(cur.getDate() + 1);
+        }
+        rangeAnchor = null;
+        render();
         updateSelCount();
-      };
+        setRangeStatus();
+      });
     });
 
     updateSelCount();
+    setRangeStatus();
+    renderStats(currentMonth.getFullYear(), currentMonth.getMonth());
   }
 
   function updateSelCount() {
-    document.getElementById('sel-count').textContent = selected.size;
-    if (selected.size > 0) {
-      var first = Array.from(selected).sort()[0];
-      var info = data[first] && data[first][roomType];
-      if (info) {
-        document.getElementById('ed-price').value = info.price_eur;
-        document.getElementById('ed-total').value = info.total;
-        document.getElementById('ed-booked').value = info.booked;
-        document.getElementById('ed-notes').value = info.notes || '';
-      }
+    document.getElementById('sel-count').textContent = String(selected.size);
+    var refKey = null;
+    if (selected.size > 0) refKey = Array.from(selected).sort()[0];
+    else if (rangeAnchor) refKey = rangeAnchor;
+    if (!refKey) return;
+    var info = data[refKey] && data[refKey][roomType];
+    if (info) {
+      document.getElementById('ed-price').value = String(info.price_eur != null ? info.price_eur : '');
+      document.getElementById('ed-total').value = String(info.total != null ? info.total : '');
+      document.getElementById('ed-booked').value = String(info.booked != null ? info.booked : '0');
+      document.getElementById('ed-notes').value = info.notes || '';
+    } else if (selected.size === 0 && rangeAnchor) {
+      var defs = ROOM_DEFAULTS[roomType] || ROOM_DEFAULTS.dormitory;
+      document.getElementById('ed-price').value = String(defs.price);
+      document.getElementById('ed-total').value = String(defs.total);
+      document.getElementById('ed-booked').value = '0';
+      document.getElementById('ed-notes').value = '';
     }
   }
 
-  document.getElementById('room-select').onchange = function(){
-    roomType = this.value; selected.clear(); fetchData();
-  };
-  document.getElementById('prev-month').onclick = function(){
-    currentMonth.setMonth(currentMonth.getMonth() - 1); selected.clear(); fetchData();
-  };
-  document.getElementById('next-month').onclick = function(){
-    currentMonth.setMonth(currentMonth.getMonth() + 1); selected.clear(); fetchData();
-  };
-  document.getElementById('select-all').onclick = function(){
-    document.querySelectorAll('.cell:not(.past)').forEach(function(c){
-      selected.add(c.dataset.date); c.classList.add('selected');
-    });
-    updateSelCount();
-  };
-  document.getElementById('deselect-all').onclick = function(){
+  document.getElementById('room-select').value = roomType;
+  document.getElementById('room-select').addEventListener('change', function(){
+    roomType = this.value;
     selected.clear();
-    document.querySelectorAll('.cell').forEach(function(c){ c.classList.remove('selected'); });
+    rangeAnchor = null;
+    applyRoomDefaults();
+    fetchData();
+  });
+  document.getElementById('prev-month').addEventListener('click', function(){
+    currentMonth.setMonth(currentMonth.getMonth() - 1);
+    selected.clear();
+    rangeAnchor = null;
+    fetchData();
+  });
+  document.getElementById('next-month').addEventListener('click', function(){
+    currentMonth.setMonth(currentMonth.getMonth() + 1);
+    selected.clear();
+    rangeAnchor = null;
+    fetchData();
+  });
+  document.getElementById('select-all').addEventListener('click', function(){
+    var m = currentMonth.getMonth(), y = currentMonth.getFullYear();
+    var daysInMonth = new Date(y, m + 1, 0).getDate();
+    for (var day = 1; day <= daysInMonth; day++) {
+      var date = new Date(y, m, day);
+      date.setHours(0, 0, 0, 0);
+      if (date >= today) selected.add(localYmd(date));
+    }
+    rangeAnchor = null;
+    render();
     updateSelCount();
-  };
+    setRangeStatus();
+  });
+  document.getElementById('deselect-all').addEventListener('click', function(){
+    selected.clear();
+    rangeAnchor = null;
+    render();
+    updateSelCount();
+    setRangeStatus();
+  });
+  document.getElementById('cancel-range').addEventListener('click', function(){
+    rangeAnchor = null;
+    render();
+  });
 
-  document.getElementById('save-btn').onclick = function(){
-    if (selected.size === 0) { showMsg('Sélectionnez au moins un jour.', false); return; }
+  document.getElementById('save-btn').addEventListener('click', function(){
+    if (selected.size === 0) { showMsg('Sélectionnez au moins un jour (plage ou Ctrl+clic).', false); return; }
     var body = {
       dates: Array.from(selected).sort(),
       room_type: roomType,
-      price_eur: parseInt(document.getElementById('ed-price').value) || 55,
-      total: parseInt(document.getElementById('ed-total').value) || 4,
-      booked: parseInt(document.getElementById('ed-booked').value) || 0,
-      notes: document.getElementById('ed-notes').value || null,
+      price_eur: parseInt(document.getElementById('ed-price').value, 10) || 0,
+      total: parseInt(document.getElementById('ed-total').value, 10) || 0,
+      booked: parseInt(document.getElementById('ed-booked').value, 10) || 0,
+      notes: document.getElementById('ed-notes').value.trim() || null,
     };
     fetch('/api/admin-availability', {
       method: 'POST',
@@ -257,16 +462,18 @@
     .then(function(r){ return r.json(); })
     .then(function(d){
       if (d.ok) {
-        showMsg('✅ ' + d.updated + ' jours mis à jour.', true);
+        showMsg('✅ ' + d.updated + ' jour(s) mis à jour.', true);
         selected.clear();
+        rangeAnchor = null;
         fetchData();
       } else {
-        showMsg('Erreur: ' + (d.error || 'Unknown'), false);
+        showMsg('Erreur : ' + (d.error || 'inconnue'), false);
       }
     })
-    .catch(function(e){ showMsg('Erreur réseau: ' + e.message, false); });
-  };
+    .catch(function(e){ showMsg('Erreur réseau : ' + e.message, false); });
+  });
 
+  applyRoomDefaults();
   fetchData();
 })();
 </script>
