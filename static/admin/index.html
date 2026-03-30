@@ -132,6 +132,7 @@
     /* ══ CMS LAYOUT ═════════════════════════════════════ */
     body { padding-top: var(--bar-h) !important; background: #f8fafc !important; }
 
+    /* Decap AppHeader — sits right below our custom bar */
     [class*="AppHeader"] {
       top: var(--bar-h) !important; background: var(--navy3) !important;
       border-bottom: 1px solid rgba(255,255,255,0.06) !important;
@@ -154,14 +155,15 @@
     [class*="AppHeader"] [class*="avatar"],
     [class*="AppHeader"] [class*="Avatar"],
     [class*="AppHeader"] [class*="UserMenu"] { display: none !important; }
-    /* Hide broken Decap "Media" tab — media library works via image widgets */
     [class*="AppHeader"] a[href*="/media"],
     [class*="AppHeader"] [class*="NavLink"][href*="/media"] { display: none !important; }
 
+    /* Editor toolbar — sticky below BOTH headers, with correct stacking */
     [class*="ToolbarContainer"], [class*="EditorToolbar"] {
       position: sticky !important; top: var(--total-h) !important; z-index: 9000 !important;
       background: #fff !important; border-bottom: 2px solid #e2e8f0 !important;
       box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
+      min-height: 46px !important;
     }
     [class*="ToolbarButton"]:not([class*="Refresh"]):not([class*="refresh"]) {
       background: var(--fire) !important; color: #fff !important; font-weight: 700 !important;
@@ -176,13 +178,26 @@
     }
     [class*="EditorInfo"], [class*="EditorBreadcrumb"] { color: #64748b !important; font-size: 12.5px !important; }
 
+    /* Control pane — ensure content starts BELOW all sticky headers */
+    [class*="ControlPaneContainer"], [class*="EditorControlPane"],
+    [class*="ControlPane"] {
+      padding-top: 0 !important;
+    }
+
+    /* Panel label — NOT sticky (was causing overlap). Now just a static banner. */
     .nsc-panel-label {
       font-family: "Inter", system-ui, sans-serif; font-size: 10px; font-weight: 700;
-      letter-spacing: 0.1em; text-transform: uppercase; padding: 6px 16px;
-      border-bottom: 1px solid #e2e8f0; position: sticky; top: var(--total-h); z-index: 8999;
+      letter-spacing: 0.1em; text-transform: uppercase; padding: 8px 16px;
+      border-bottom: 1px solid #e2e8f0;
     }
     .nsc-panel-label.edit   { color: var(--fire); background: #fff7f5; border-left: 3px solid var(--fire); }
     .nsc-panel-label.preview { color: #6366f1; background: #f5f3ff; border-left: 3px solid #6366f1; }
+
+    /* Preview pane — ensure it shows next to control pane */
+    [class*="PreviewPaneContainer"], [class*="EditorPreviewPane"],
+    [class*="PreviewPane"] {
+      padding-top: 0 !important;
+    }
 
     [class*="Sidebar"], [class*="NavContainer"] {
       background: var(--white) !important; border-right: 1px solid #e2e8f0 !important;
