@@ -2,8 +2,15 @@
   "name": "surfcampsenegal",
   "version": "1.0.0",
   "type": "module",
+  "engines": {
+    "node": ">=20.9.0"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:site": "python3 build.py",
+    "vercel:build": "vercel build --prod",
+    "vercel:deploy": "vercel deploy --prebuilt --prod",
+    "deploy:vercel": "npm run build:site && npm run vercel:build && npm run vercel:deploy"
   },
   "keywords": [],
   "author": "",
@@ -15,5 +22,8 @@
     "@wix/blog": "^1.0.589",
     "@wix/data": "^1.0.430",
     "@wix/sdk": "^1.21.5"
+  },
+  "devDependencies": {
+    "vercel": "50.37.3"
   }
 }
