@@ -3662,24 +3662,21 @@ def build_booking(lang):
     html += build_nav("booking", lang)
     html += f"""
 <main>
-  <!-- Booking hero — clean gradient, no photo -->
-  <div style="background:linear-gradient(135deg,#07192e 0%,#0a2540 60%,#0f3460 100%);padding:56px 24px 48px;text-align:center" role="banner">
-    <div class="container" style="max-width:700px">
-      <span class="s-label" style="color:#ff8c5a">{g("eyebrow")}</span>
-      <h1 style="font-family:var(--f-head);font-size:clamp(28px,4.5vw,48px);font-weight:900;color:#fff;margin:10px 0 14px;line-height:1.15">{g("h1")}</h1>
-      <p style="color:rgba(255,255,255,0.75);font-size:17px;margin-bottom:28px">{g("sub")}</p>
-      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">{trust_badges}</div>
+  <div style="background:linear-gradient(135deg,#07192e 0%,#0a2540 55%,#0f3460 100%);padding:80px 24px 52px;text-align:center" role="banner">
+    <div class="container" style="max-width:680px">
+      <h1 style="font-family:var(--f-head);font-size:clamp(30px,4.8vw,50px);font-weight:900;color:#fff;margin:0 0 16px;line-height:1.12;letter-spacing:-0.02em">{g("h1")}</h1>
+      <p style="color:rgba(255,255,255,0.7);font-size:17px;max-width:520px;margin:0 auto 32px;line-height:1.55">{g("sub")}</p>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">{trust_badges}</div>
     </div>
   </div>
 
-  <section class="section" id="booking-section" style="padding-top:48px">
+  <section class="section" id="booking-section" style="padding-top:48px;padding-bottom:48px">
     <div class="container">
       <div class="split" style="gap:48px;align-items:flex-start">
 
-        <!-- FORM COLUMN -->
         <div>
-          <h2 class="s-title" style="margin-bottom:8px;font-size:clamp(22px,3vw,30px)">{g("h2")}</h2>
-          <p style="color:#6b7280;font-size:15px;margin-bottom:32px">{g("sub2")}</p>
+          <h2 class="s-title" style="margin-bottom:8px;font-size:clamp(22px,3vw,28px)">{g("h2")}</h2>
+          <p style="color:#6b7280;font-size:15px;margin-bottom:28px">{g("sub2")}</p>
 
           <form id="booking-form" novalidate>
             <div id="booking-form-alert" class="booking-form-alert" style="display:none" role="alert" aria-live="assertive"></div>
@@ -3722,24 +3719,24 @@ def build_booking(lang):
               <div id="err-level" class="booking-field-error" style="display:none" role="status">{g("err_lvl")}</div>
             </div>
 
+            <div class="form-group">
+              <label class="form-label">{g("guests")}</label>
+              <select class="form-select" id="f-guests">
+                <option value="">—</option>
+                {"".join([f'<option value="{n}">{n}</option>' for n in range(1,13)])}
+              </select>
+            </div>
+
             <div class="form-row">
-              <div class="form-group">
-                <label class="form-label">{g("guests")}</label>
-                <select class="form-select" id="f-guests">
-                  <option value="">—</option>
-                  {"".join([f'<option value="{n}">{n}</option>' for n in range(1,13)])}
-                </select>
-              </div>
               <div class="form-group">
                 <label class="form-label" for="f-arrive">{g("arrive")}</label>
                 <input type="date" id="f-arrive" class="form-input f-arrive">
               </div>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label" for="f-leave">{g("leave")}</label>
-              <input type="date" id="f-leave" class="form-input f-leave">
-              <div id="err-date" class="booking-field-error" style="display:none" role="status">{g("err_dt")}</div>
+              <div class="form-group">
+                <label class="form-label" for="f-leave">{g("leave")}</label>
+                <input type="date" id="f-leave" class="form-input f-leave">
+                <div id="err-date" class="booking-field-error" style="display:none" role="status">{g("err_dt")}</div>
+              </div>
             </div>
 
             <div class="form-group">
@@ -3784,17 +3781,16 @@ def build_booking(lang):
           </div>
         </div>
 
-        <!-- SIDEBAR COLUMN -->
-        <div>
-          <div class="form-card reveal" style="margin-bottom:24px">
-            <h3 style="font-size:18px;margin-bottom:20px">{g("steps_h")}</h3>
+        <div style="position:sticky;top:80px;align-self:flex-start">
+          <div class="form-card reveal" style="margin-bottom:20px">
+            <h3 style="font-size:17px;margin-bottom:18px;font-weight:800">{g("steps_h")}</h3>
             {steps_html}
           </div>
-          <div class="form-card reveal">
-            <h3 style="font-size:18px;margin-bottom:20px">{g("incl_h")}</h3>
+          <div class="form-card reveal" style="margin-bottom:20px">
+            <h3 style="font-size:17px;margin-bottom:18px;font-weight:800">{g("incl_h")}</h3>
             {incl_items}
           </div>
-          <div style="margin-top:20px;padding:16px 20px;border-radius:12px;background:rgba(10,37,64,0.04);border:1px solid rgba(10,37,64,0.08);display:flex;align-items:center;gap:12px">
+          <div style="padding:14px 18px;border-radius:12px;background:rgba(10,37,64,0.04);border:1px solid rgba(10,37,64,0.08);display:flex;align-items:center;gap:12px">
             <span style="font-size:20px">🛡️</span>
             <div>
               <div style="font-weight:700;font-size:13px;color:var(--navy)">{g("trust")}</div>
