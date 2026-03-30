@@ -1,0 +1,112 @@
+name: Daily surf data refresh
+
+on:
+  schedule:
+    # Run at 02:00 UTC every night (3am Paris time / 2am Dakar time)
+    - cron: '0 2 * * *'
+  workflow_dispatch:   # allow manual trigger
+
+jobs:
+  refresh-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: pip install pillow
+
+      - name: Refresh 2025 historical surf data
+        run: |
+          python3 - << 'PYEOF'
+          import urllib.request, json, statistics, os
+
+          def fetch(url):
+              with urllib.request.urlopen(url, timeout=30) as r:
+                  return json.loads(r.read())
+
+          marine_url = (
+              "https://marine-api.open-meteo.com/v1/marine?"
+              "latitude=14.75&longitude=-17.51"
+              "&daily=wave_height_max,wave_direction_dominant,wave_period_max,"
+              "swell_wave_height_max,swell_wave_direction_dominant,swell_wave_period_max"
+              "&start_date=2025-01-01&end_date=2025-12-31&timezone=Africa/Dakar"
+          )
+          wind_url = (
+              "https://archive-api.open-meteo.com/v1/archive?"
+              "latitude=14.75&longitude=-17.51"
+              "&daily=wind_speed_10m_max,wind_direction_10m_dominant,temperature_2m_max"
+              "&start_date=2025-01-01&end_date=2025-12-31&timezone=Africa/Dakar"
+          )
+
+          m = fetch(marine_url)["daily"]
+          w = fetch(wind_url)["daily"]
+          days = m["time"]
+
+          monthly = {}
+          for i, day in enumerate(days):
+              mon = day[:7]
+              if mon not in monthly:
+                  monthly[mon] = {"wave_h":[],"wave_p":[],"swell_h":[],"swell_p":[],"wind_s":[],"temp":[]}
+              def safe(lst, idx):
+                  v = lst[idx]
+                  return v if v is not None else 0
+              monthly[mon]["wave_h"].append(safe(m["wave_height_max"], i))
+              monthly[mon]["wave_p"].append(safe(m["wave_period_max"], i))
+              monthly[mon]["swell_h"].append(safe(m["swell_wave_height_max"], i))
+              monthly[mon]["swell_p"].append(safe(m["swell_wave_period_max"], i))
+              monthly[mon]["wind_s"].append(safe(w["wind_speed_10m_max"], i))
+              monthly[mon]["temp"].append(safe(w["temperature_2m_max"], i))
+
+          result = {}
+          for mon, d in sorted(monthly.items()):
+              def avg(lst):
+                  vals = [x for x in lst if x > 0]
+                  return round(statistics.mean(vals), 2) if vals else 0
+              result[mon] = {
+                  "wave_h": avg(d["wave_h"]),
+                  "wave_p": avg(d["wave_p"]),
+                  "swell_h": avg(d["swell_h"]),
+                  "swell_p": avg(d["swell_p"]),
+                  "wind_s": round(avg(d["wind_s"]) / 1.852, 1),
+                  "temp": avg(d["temp"]),
+              }
+
+          os.makedirs("content", exist_ok=True)
+          with open("content/surf_history_2025.json", "w") as f:
+              json.dump(result, f, indent=2, ensure_ascii=False)
+          print("Surf history 2025 refreshed:", list(result.keys()))
+          PYEOF
+
+      - name: Build site
+        run: python3 build.py
+
+      - name: Check for changes
+        id: changes
+        run: |
+          git diff --quiet cloudflare-demo/ && echo "changed=false" >> $GITHUB_OUTPUT || echo "changed=true" >> $GITHUB_OUTPUT
+
+      - name: Commit updated data if changed
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add content/surf_history_2025.json cloudflare-demo/
+          git commit -m "chore(cron): daily surf data refresh [skip ci]"
+          git push
+
+      - name: Deploy to Vercel
+        if: steps.changes.outputs.changed == 'true'
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: |
+          npm install -g vercel@latest
+          vercel build --prod --token=$VERCEL_TOKEN
+          vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN
