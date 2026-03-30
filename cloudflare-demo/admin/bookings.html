@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Réservations — Ngor Surfcamp Admin</title>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{--navy:#0a2540;--fire:#ff5a1f;--green:#22c55e;--sand:#f0c060;--red:#ef4444;--blue:#3b82f6}
+  body{font-family:"Inter",system-ui,sans-serif;background:#f8fafc;color:#1e293b}
+
+  .top-bar{background:var(--navy);color:#fff;padding:14px 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .top-bar h1{font-size:16px;font-weight:800;flex:1;min-width:200px}
+  .top-bar a{color:rgba(255,255,255,.7);text-decoration:none;font-size:13px;font-weight:600;padding:5px 12px;border:1px solid rgba(255,255,255,.15);border-radius:6px;white-space:nowrap}
+  .top-bar a:hover{color:#fff;background:rgba(255,255,255,.08)}
+
+  .wrap{max-width:1200px;margin:0 auto;padding:24px}
+
+  /* Summary cards */
+  .summary{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px}
+  .sum-card{flex:1;min-width:120px;padding:16px 20px;border-radius:12px;background:#fff;border:1px solid #e2e8f0;text-align:center}
+  .sum-card .n{font-size:28px;font-weight:900;line-height:1}
+  .sum-card .l{font-size:11px;font-weight:700;text-transform:uppercase;color:#94a3b8;margin-top:4px;letter-spacing:.04em}
+  .sum-card.new .n{color:var(--fire)} .sum-card.replied .n{color:var(--blue)}
+  .sum-card.confirmed .n{color:var(--green)} .sum-card.cancelled .n{color:#94a3b8}
+  .sum-card.total .n{color:var(--navy)}
+
+  /* Filter tabs */
+  .filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px}
+  .fil-btn{padding:7px 16px;border-radius:8px;border:1px solid #d1d5db;background:#fff;font-size:13px;font-weight:600;color:#64748b;cursor:pointer;transition:all .15s}
+  .fil-btn:hover{background:#f1f5f9;color:#0a2540}
+  .fil-btn.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+
+  /* Table */
+  .tbl-wrap{overflow-x:auto;border-radius:12px;border:1px solid #e2e8f0;background:#fff}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  th{background:#f8fafc;font-size:11px;font-weight:700;text-transform:uppercase;color:#94a3b8;letter-spacing:.04em;padding:10px 14px;text-align:left;white-space:nowrap;border-bottom:2px solid #e2e8f0}
+  td{padding:12px 14px;border-bottom:1px solid #f1f5f9;vertical-align:top}
+  tr:hover td{background:#fafbfd}
+  tr:last-child td{border-bottom:none}
+
+  /* Status badges */
+  .badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:100px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.03em}
+  .badge-new{background:#fff7ed;color:#c2410c;border:1px solid #fed7aa}
+  .badge-replied{background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe}
+  .badge-confirmed{background:#f0fdf4;color:#15803d;border:1px solid #bbf7d0}
+  .badge-cancelled{background:#f8fafc;color:#94a3b8;border:1px solid #e2e8f0;text-decoration:line-through}
+
+  .guest-name{font-weight:700;color:#0a2540}
+  .guest-email{font-size:12px;color:#64748b}
+  .guest-phone{font-size:12px;color:#64748b}
+  .dates{white-space:nowrap;font-weight:600;font-size:13px}
+  .dates-range{color:var(--navy)}
+  .nights{font-size:11px;color:#94a3b8;font-weight:400}
+  .msg-preview{max-width:200px;font-size:12px;color:#64748b;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .level-pill{font-size:11px;padding:2px 8px;border-radius:100px;background:#f1f5f9;color:#475569;font-weight:600}
+  .time-ago{font-size:12px;color:#94a3b8;white-space:nowrap}
+  .wa-link{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:6px;background:#25d366;color:#fff;font-size:11px;font-weight:700;text-decoration:none;white-space:nowrap}
+  .wa-link:hover{background:#1da851}
+  .email-link{color:var(--blue);text-decoration:none;font-size:12px}
+  .email-link:hover{text-decoration:underline}
+
+  .empty{text-align:center;padding:60px 24px;color:#94a3b8;font-size:15px}
+  .loading{text-align:center;padding:60px 24px;color:#94a3b8;font-size:14px}
+  .msg{padding:12px 16px;border-radius:8px;margin-bottom:16px;font-size:14px;font-weight:600;display:none}
+  .msg.err{display:block;background:#fee2e2;color:#991b1b;border:1px solid #fecaca}
+
+  @media(max-width:768px){
+    .sum-card{min-width:90px;padding:12px}
+    .sum-card .n{font-size:22px}
+    table{font-size:12.5px}
+    td,th{padding:8px 10px}
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <h1>📋 Réservations</h1>
+  <a href="/admin/">← CMS</a>
+  <a href="/admin/availability.html">📅 Disponibilités</a>
+  <a href="/booking/" target="_blank">Page Booking ↗</a>
+</div>
+
+<div class="wrap">
+  <div id="msg" class="msg"></div>
+
+  <div id="summary" class="summary"></div>
+  <div id="filters" class="filters"></div>
+  <div id="table-wrap" class="tbl-wrap">
+    <div class="loading">Chargement des réservations…</div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var API_KEY = localStorage.getItem('nsc-admin-api-key') || '';
+  if (!API_KEY) {
+    API_KEY = prompt('Clé API Admin (ADMIN_API_KEY):');
+    if (API_KEY) localStorage.setItem('nsc-admin-api-key', API_KEY);
+  }
+
+  var allBookings = [];
+  var currentFilter = 'all';
+
+  function showMsg(text) {
+    var el = document.getElementById('msg');
+    el.textContent = text; el.className = 'msg err';
+    setTimeout(function(){ el.className = 'msg'; }, 5000);
+  }
+
+  function timeAgo(dateStr) {
+    var d = new Date(dateStr);
+    var now = new Date();
+    var diff = Math.floor((now - d) / 1000);
+    if (diff < 60) return 'À l\'instant';
+    if (diff < 3600) return Math.floor(diff/60) + ' min';
+    if (diff < 86400) return Math.floor(diff/3600) + 'h';
+    if (diff < 604800) return Math.floor(diff/86400) + 'j';
+    return d.toLocaleDateString('fr-FR', { day:'numeric', month:'short' });
+  }
+
+  function fmtDate(d) {
+    if (!d) return '—';
+    var dt = new Date(d);
+    return dt.toLocaleDateString('fr-FR', { day:'numeric', month:'short', year:'numeric' });
+  }
+
+  function nightsBetween(a, b) {
+    if (!a || !b) return 0;
+    return Math.round((new Date(b) - new Date(a)) / 86400000);
+  }
+
+  function renderSummary(summary) {
+    var total = Object.values(summary).reduce(function(a,b){return a+b;}, 0);
+    var cards = [
+      { cls:'total', n:total, l:'Total' },
+      { cls:'new', n:summary.new||0, l:'Nouvelles' },
+      { cls:'replied', n:summary.replied||0, l:'Répondues' },
+      { cls:'confirmed', n:summary.confirmed||0, l:'Confirmées' },
+      { cls:'cancelled', n:summary.cancelled||0, l:'Annulées' },
+    ];
+    document.getElementById('summary').innerHTML = cards.map(function(c){
+      return '<div class="sum-card '+c.cls+'"><div class="n">'+c.n+'</div><div class="l">'+c.l+'</div></div>';
+    }).join('');
+  }
+
+  function renderFilters(summary) {
+    var total = Object.values(summary).reduce(function(a,b){return a+b;}, 0);
+    var fltrs = [
+      { key:'all', label:'Toutes ('+total+')' },
+      { key:'new', label:'🔴 Nouvelles ('+(summary.new||0)+')' },
+      { key:'replied', label:'🔵 Répondues ('+(summary.replied||0)+')' },
+      { key:'confirmed', label:'🟢 Confirmées ('+(summary.confirmed||0)+')' },
+      { key:'cancelled', label:'Annulées ('+(summary.cancelled||0)+')' },
+    ];
+    document.getElementById('filters').innerHTML = fltrs.map(function(f){
+      return '<button class="fil-btn'+(f.key===currentFilter?' active':'')+'" data-filter="'+f.key+'">'+f.label+'</button>';
+    }).join('');
+    document.querySelectorAll('.fil-btn').forEach(function(btn){
+      btn.onclick = function(){ currentFilter = btn.dataset.filter; renderTable(); renderFilters(buildSummary()); };
+    });
+  }
+
+  function buildSummary() {
+    var s = {};
+    allBookings.forEach(function(b){ s[b.status] = (s[b.status]||0)+1; });
+    return s;
+  }
+
+  function renderTable() {
+    var filtered = currentFilter === 'all' ? allBookings : allBookings.filter(function(b){ return b.status === currentFilter; });
+    if (filtered.length === 0) {
+      document.getElementById('table-wrap').innerHTML = '<div class="empty">Aucune réservation' + (currentFilter!=='all'?' avec ce statut':'') + '</div>';
+      return;
+    }
+
+    var html = '<table><thead><tr>';
+    html += '<th>#</th><th>Client</th><th>Contact</th><th>Séjour</th><th>Détails</th><th>Message</th><th>Statut</th><th>Reçue</th><th>Actions</th>';
+    html += '</tr></thead><tbody>';
+
+    filtered.forEach(function(b){
+      var n = nightsBetween(b.arrival, b.departure);
+      var waPhone = (b.phone||'').replace(/[^+\d]/g,'');
+      var waText = encodeURIComponent('Bonjour ' + b.first_name + ', merci pour votre demande de réservation au Ngor Surfcamp Teranga !');
+
+      html += '<tr>';
+      html += '<td style="font-weight:700;color:#94a3b8">' + b.id + '</td>';
+      html += '<td><span class="guest-name">' + (b.first_name||'') + '</span></td>';
+      html += '<td>';
+      html += '<a class="email-link" href="mailto:' + (b.email||'') + '">' + (b.email||'') + '</a>';
+      if (b.phone) html += '<br><span class="guest-phone">' + b.phone + '</span>';
+      if (b.country) html += '<br><span class="guest-phone">' + b.country + '</span>';
+      html += '</td>';
+      html += '<td>';
+      if (b.arrival) {
+        html += '<span class="dates-range">' + fmtDate(b.arrival) + ' → ' + fmtDate(b.departure) + '</span>';
+        if (n > 0) html += ' <span class="nights">(' + n + ' nuits)</span>';
+      } else { html += '<span style="color:#94a3b8">—</span>'; }
+      html += '</td>';
+      html += '<td>';
+      if (b.guests) html += b.guests + ' pers. ';
+      if (b.level) html += '<span class="level-pill">' + b.level + '</span>';
+      html += '<br><span style="font-size:11px;color:#94a3b8">' + (b.lang||'en').toUpperCase() + '</span>';
+      html += '</td>';
+      html += '<td><div class="msg-preview" title="' + ((b.message||'').replace(/"/g,'&quot;')) + '">' + (b.message||'—') + '</div></td>';
+      html += '<td><span class="badge badge-' + b.status + '">' + b.status + '</span></td>';
+      html += '<td><span class="time-ago" title="' + b.created_at + '">' + timeAgo(b.created_at) + '</span></td>';
+      html += '<td>';
+      if (waPhone) html += '<a class="wa-link" href="https://wa.me/' + waPhone.replace('+','') + '?text=' + waText + '" target="_blank">💬 WhatsApp</a>';
+      html += '</td>';
+      html += '</tr>';
+    });
+
+    html += '</tbody></table>';
+    document.getElementById('table-wrap').innerHTML = html;
+  }
+
+  function loadBookings() {
+    fetch('/api/admin-bookings?limit=200', { headers: { 'x-api-key': API_KEY } })
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if (d.error) { showMsg('Erreur: ' + d.error); return; }
+      allBookings = d.bookings || [];
+      var summary = d.summary || buildSummary();
+      renderSummary(summary);
+      renderFilters(summary);
+      renderTable();
+    })
+    .catch(function(e){ showMsg('Erreur réseau: ' + e.message); });
+  }
+
+  loadBookings();
+  setInterval(loadBookings, 30000);
+})();
+</script>
+</body>
+</html>
