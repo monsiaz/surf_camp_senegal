@@ -493,28 +493,41 @@ def canonical_tag(page_key, lang):
     url  = f"{pfx}/{slug}/" if lang != "en" else f"/{slug}/"
     return f'<link rel="canonical" href="{SITE_URL}{url}">'
 
-def page_head(title, meta, lang, page_key, og_img=""):
+def page_head(title, meta, lang, page_key, og_img="", og_type="website"):
     can = canonical_tag(page_key, lang)
     hrl = hreflang_tags(page_key)
     _locale = LANG_LOCALE.get(lang, lang)
+    _og_locale = {"en":"en_US","fr":"fr_FR","es":"es_ES","it":"it_IT","de":"de_DE","nl":"nl_NL","ar":"ar_MA"}.get(lang, "en_US")
     _dir = ' dir="rtl"' if lang == "ar" else ""
-    _ar_font = '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;600;700&display=swap">' if lang == "ar" else ""
+    _ar_font = '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;600;700&display=swap">\n' if lang == "ar" else ""
+    _img = og_img or IMGS['home']
+    _abs_img = f"{SITE_URL}{_img}" if _img.startswith("/") else _img
+    _pfx = LANG_PFX[lang]
+    _slug = SLUG[lang].get(page_key, page_key)
+    _url = f"{SITE_URL}{_pfx}/" if not page_key else f"{SITE_URL}{_pfx}/{_slug}/"
     return f"""<!DOCTYPE html>
 <html lang="{_locale}"{_dir}>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-{_ar_font}
-<title>{fix_em(title)}</title>
+{_ar_font}<title>{fix_em(title)}</title>
 <meta name="description" content="{fix_em(meta)}">
 <meta property="og:title" content="{fix_em(title)}">
 <meta property="og:description" content="{fix_em(meta)}">
-<meta property="og:image" content="{og_img or IMGS['home']}">
-<meta property="og:type" content="website">
+<meta property="og:image" content="{_abs_img}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="{_url}">
+<meta property="og:type" content="{og_type}">
+<meta property="og:locale" content="{_og_locale}">
+<meta property="og:site_name" content="Ngor Surfcamp Teranga">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{fix_em(title)}">
+<meta name="twitter:description" content="{fix_em(meta)}">
+<meta name="twitter:image" content="{_abs_img}">
 <meta name="robots" content="index,follow">
 {can}
-{hrl}
-<link rel="preconnect" href="https://fonts.googleapis.com">
+{hrl}<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,700;0,800;0,900;1,400&family=Inter:wght@400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,700;0,800;0,900;1,400&family=Inter:wght@400;500;600&display=swap"></noscript>
@@ -5849,6 +5862,33 @@ def patch_head_all_pages():
                 )
                 h = h.replace('</head>', _fav_tags + '</head>', 1)
                 changed = True
+            # Inject og:url if missing
+            if 'og:url' not in h and 'og:title' in h and '</head>' in h:
+                _rel = str(html_path.relative_to(_Path(DEMO_DIR))).replace("\\", "/")
+                if _rel.endswith("/index.html"):
+                    _rel = _rel[:-len("index.html")]
+                elif _rel == "index.html":
+                    _rel = ""
+                _page_url = f"{SITE_URL}/{_rel}" if _rel else f"{SITE_URL}/"
+                _og_url_tag = f'<meta property="og:url" content="{_page_url}">\n'
+                h = h.replace('</head>', _og_url_tag + '</head>', 1)
+                changed = True
+            # Make relative og:image absolute
+            if 'og:image" content="/' in h:
+                h = h.replace('og:image" content="/', f'og:image" content="{SITE_URL}/')
+                changed = True
+            # Inject og:site_name if missing
+            if 'og:site_name' not in h and 'og:title' in h and '</head>' in h:
+                h = h.replace('</head>', '<meta property="og:site_name" content="Ngor Surfcamp Teranga">\n</head>', 1)
+                changed = True
+            # Inject twitter:card if missing
+            if 'twitter:card' not in h and 'og:title' in h and '</head>' in h:
+                h = h.replace('</head>', '<meta name="twitter:card" content="summary_large_image">\n</head>', 1)
+                changed = True
+            # Clean up excessive blank lines in <head>
+            while '\n\n\n' in h:
+                h = h.replace('\n\n\n', '\n\n')
+                changed = True
             if changed:
                 with open(html_path, "w", encoding="utf-8") as f:
                     f.write(h)
@@ -5856,6 +5896,79 @@ def patch_head_all_pages():
         except Exception as e:
             print(f"  head patch error {html_path}: {e}")
     print(f"  head: updated {n_updated} HTML pages")
+
+
+def inject_homepage_jsonld():
+    """Inject LocalBusiness + WebSite structured data into all homepage variants."""
+    import json as _json
+    from pathlib import Path as _Path
+    n = 0
+    for lang in LANGS:
+        pfx = LANG_PFX[lang]
+        p = _Path(DEMO_DIR) / (pfx.lstrip("/") + "/index.html" if pfx else "index.html")
+        if not p.exists():
+            continue
+        h = p.read_text(encoding="utf-8", errors="replace")
+        if 'LocalBusiness' in h:
+            continue
+        _url = f"{SITE_URL}{pfx}/" if pfx else f"{SITE_URL}/"
+        ld = _json.dumps({
+            "@context": "https://schema.org",
+            "@graph": [
+                {
+                    "@type": "LocalBusiness",
+                    "@id": f"{SITE_URL}/#organization",
+                    "name": "Ngor Surfcamp Teranga",
+                    "url": SITE_URL,
+                    "logo": f"{SITE_URL}/assets/images/wix/c2467f_a31779010ce34c4c8c61cc5868d81f31.webp",
+                    "image": f"{SITE_URL}/assets/images/wix/df99f9_da0cf7c72b1a4606bcfa1f7c8e089dc4f000.webp",
+                    "description": "Surf camp accommodation in Senegal near Dakar with easy access to Ngor Island waves.",
+                    "address": {
+                        "@type": "PostalAddress",
+                        "addressLocality": "Ngor",
+                        "addressRegion": "Dakar",
+                        "addressCountry": "SN"
+                    },
+                    "geo": {
+                        "@type": "GeoCoordinates",
+                        "latitude": 14.7469,
+                        "longitude": -17.5139
+                    },
+                    "telephone": "+221789257025",
+                    "priceRange": "$$",
+                    "openingHoursSpecification": {
+                        "@type": "OpeningHoursSpecification",
+                        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+                        "opens": "07:00",
+                        "closes": "22:00"
+                    },
+                    "sameAs": [
+                        "https://www.instagram.com/ngor_surfcamp_teranga/"
+                    ]
+                },
+                {
+                    "@type": "WebSite",
+                    "@id": f"{SITE_URL}/#website",
+                    "url": SITE_URL,
+                    "name": "Ngor Surfcamp Teranga",
+                    "publisher": {"@id": f"{SITE_URL}/#organization"},
+                    "inLanguage": [
+                        {"@type": "Language", "name": "English", "alternateName": "en"},
+                        {"@type": "Language", "name": "French", "alternateName": "fr"},
+                        {"@type": "Language", "name": "Spanish", "alternateName": "es"},
+                        {"@type": "Language", "name": "Italian", "alternateName": "it"},
+                        {"@type": "Language", "name": "German", "alternateName": "de"},
+                        {"@type": "Language", "name": "Dutch", "alternateName": "nl"},
+                        {"@type": "Language", "name": "Arabic", "alternateName": "ar"}
+                    ]
+                }
+            ]
+        }, ensure_ascii=False)
+        tag = f'<script type="application/ld+json">{ld}</script>\n'
+        h = h.replace('</head>', tag + '</head>', 1)
+        p.write_text(h, encoding="utf-8")
+        n += 1
+    print(f"  JSON-LD: injected LocalBusiness+WebSite into {n} homepages")
 
 
 def patch_remove_float_wa_all():
@@ -6084,6 +6197,9 @@ if _rc_blog.returncode != 0:
     print("WARNING: blog legacy rebuild failed (exit %s)" % _rc_blog.returncode)
 print("Patching <head> on FAQ/blog output (fonts, asset version)…")
 patch_head_all_pages()
+
+print("Injecting structured data (JSON-LD) on homepages…")
+inject_homepage_jsonld()
 
 print("Removing legacy floating WhatsApp button (#float-wa) from all HTML…")
 patch_remove_float_wa_all()

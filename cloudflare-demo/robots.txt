@@ -1,4 +1,20 @@
 User-agent: *
 Allow: /
 
+# CMS / admin — private, not indexable
+Disallow: /admin/
+Disallow: /admin
+
+# Serverless API routes — internal only
+Disallow: /api/
+
+# Vercel internals
+Disallow: /_vercel/
+Disallow: /.well-known/
+
+# Dev / build artefacts
+Disallow: /node_modules/
+Disallow: /.vercel/
+
+Sitemap: https://surf-camp-senegal.vercel.app/sitemap.xml
 Sitemap: https://surf-camp-senegal.vercel.app/sitemap-index.xml
