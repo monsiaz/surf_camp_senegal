@@ -264,7 +264,7 @@ for _cat_en, _cdata in BLOG_CATS.items():
 
 _WIX = "/assets/images/wix"
 LOGO = f"{_WIX}/c2467f_a31779010ce34c4c8c61cc5868d81f31.webp"
-FSS_LOGO = "/assets/images/logo-federation.png"
+FSS_LOGO = "/assets/images/logo-fede-transparant.png"
 
 IMGS = {
     "home":    f"{_WIX}/df99f9_da0cf7c72b1a4606bcfa1f7c8e089dc4f000.webp",
@@ -684,8 +684,12 @@ def build_footer(lang, flag_href_override=None):
           <a href="https://www.tiktok.com/@ngorsurfcampteranga" target="_blank" class="soc-btn tt" aria-label="TikTok"><span style="display:inline-flex">{TT_ICO}</span></a>
         </div>
         <div class="footer-fss-cert">
-          <img src="{FSS_LOGO}" alt="Fédération Sénégalaise de Surf" width="52" height="52" loading="lazy">
-          <span>{FSS_CERT[lang]}</span>
+          <div class="fss-logo-wrap">
+            <img src="{FSS_LOGO}" alt="Fédération Sénégalaise de Surf" width="50" height="50" loading="lazy">
+          </div>
+          <div class="fss-cert-txt">
+            <strong>{FSS_CERT[lang]}</strong>
+          </div>
         </div>
       </div>
       <div class="footer-col"><h4>{EXP[lang]}</h4>{links_html}</div>
@@ -6510,12 +6514,17 @@ verify_hreflang_alternate_count()
 write_sitemaps_and_robots()
 patch_legacy_public_host_all()
 
-# Copy FSS federation logo from content/images to assets
+# Copy FSS federation logos from content/images to assets
 _fss_logo_src = os.path.join(_BASE_DIR, "content", "images", "logo-federation.png")
 _fss_logo_dst = os.path.join(DEMO_DIR, "assets", "images", "logo-federation.png")
 if os.path.isfile(_fss_logo_src):
     shutil.copy2(_fss_logo_src, _fss_logo_dst)
     print("✓ logo-federation.png copied to assets/images/")
+_fss_tp_src = os.path.join(_BASE_DIR, "content", "images", "logo-fede-transparant.png")
+_fss_tp_dst = os.path.join(DEMO_DIR, "assets", "images", "logo-fede-transparant.png")
+if os.path.isfile(_fss_tp_src):
+    shutil.copy2(_fss_tp_src, _fss_tp_dst)
+    print("✓ logo-fede-transparant.png copied to assets/images/")
 
 # Copy static/ folder (CMS admin, etc.) into the output
 _static_src = os.path.join(_BASE_DIR, "static")
