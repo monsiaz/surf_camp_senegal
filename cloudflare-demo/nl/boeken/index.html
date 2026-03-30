@@ -267,15 +267,25 @@
   }
   if (priceSummary && !priceSummary.dataset.bpDeleg) {
     priceSummary.dataset.bpDeleg = '1';
-    priceSummary.addEventListener('click', function(ev) {
-      var card = ev.target.closest('.bp-sum-card--ok');
-      if (!card || !priceSummary.contains(card)) return;
+    function bpPickCard(card) {
       var rt = card.getAttribute('data-room');
       if (!rt) return;
       var fr = document.getElementById('f-room');
       if (fr) fr.value = rt;
       if (typeof window.__ngorAcSetRoomType === 'function') window.__ngorAcSetRoomType(rt);
       rerenderPriceSummaryFromCache();
+    }
+    priceSummary.addEventListener('click', function(ev) {
+      var card = ev.target.closest('.bp-sum-card--ok');
+      if (!card || !priceSummary.contains(card)) return;
+      bpPickCard(card);
+    });
+    priceSummary.addEventListener('keydown', function(ev) {
+      if (ev.key !== 'Enter' && ev.key !== ' ') return;
+      var card = ev.target.closest('.bp-sum-card--ok');
+      if (!card || !priceSummary.contains(card)) return;
+      ev.preventDefault();
+      bpPickCard(card);
     });
   }
   function updatePriceSummary() {
