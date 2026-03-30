@@ -29,3 +29,18 @@ CREATE TABLE IF NOT EXISTS bookings (
 CREATE INDEX IF NOT EXISTS bookings_created_at_idx ON bookings (created_at DESC);
 CREATE INDEX IF NOT EXISTS bookings_status_idx     ON bookings (status);
 CREATE INDEX IF NOT EXISTS bookings_email_idx      ON bookings (email);
+
+-- Room availability & pricing per day
+CREATE TABLE IF NOT EXISTS availability (
+  date        DATE NOT NULL,
+  room_type   TEXT NOT NULL DEFAULT 'shared',  -- shared / private / suite
+  total       INTEGER NOT NULL DEFAULT 4,
+  booked      INTEGER NOT NULL DEFAULT 0,
+  price_eur   INTEGER NOT NULL DEFAULT 55,     -- price per night in EUR
+  notes       TEXT,
+  updated_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (date, room_type)
+);
+
+CREATE INDEX IF NOT EXISTS avail_date_idx ON availability (date);
+CREATE INDEX IF NOT EXISTS avail_room_idx ON availability (room_type, date);

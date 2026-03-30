@@ -54,7 +54,31 @@
     </div>
   </div>
 
-  <section class="section" id="booking-section" style="padding-top:48px;padding-bottom:48px">
+  <section style="padding:40px 24px 0;background:#f8fafc">
+    <div class="container" style="max-width:500px">
+      <div id="avail-calendar" class="ac-wrap"></div>
+    </div>
+  </section>
+  <link rel="stylesheet" href="/assets/css/availability-calendar.css?v=20260330j">
+  <script src="/assets/js/availability-calendar.js?v=20260330j"></script>
+  <script>
+  (function _initCal(){
+    if(typeof initAvailabilityCalendar==='undefined'){setTimeout(_initCal,100);return;}
+    initAvailabilityCalendar('avail-calendar',{
+      room:'shared',
+      onDatesSelected:function(ci,co,room){
+        var a=document.getElementById('f-arrive');
+        var l=document.getElementById('f-leave');
+        if(a)a.value=ci;
+        if(l)l.value=co;
+        var sec=document.getElementById('booking-section');
+        if(sec)setTimeout(function(){sec.scrollIntoView({behavior:'smooth',block:'start'})},100);
+      }
+    });
+  })();
+  </script>
+
+  <section class="section" id="booking-section" style="padding-top:40px;padding-bottom:48px">
     <div class="container">
       <div class="split" style="gap:48px;align-items:flex-start">
 
