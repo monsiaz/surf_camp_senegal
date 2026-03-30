@@ -2318,6 +2318,40 @@ def patch_home_discover_section_all():
     print(f"  home Discover section translated: {n} pages")
 
 
+def patch_google_score_all():
+    """Fix hardcoded Google score/count on all home pages to match real GBP."""
+    from pathlib import Path as _P
+    REAL_SCORE = "4.7"
+    REAL_SCORE_COMMA = "4,7"
+    REAL_COUNT = "54"
+    OLD_SCORES = ["4.2", "4.1", "4,2", "4,1", "4٫2", "4٫1"]
+    OLD_COUNTS = ["64 Google", "56 Google", "64 avis", "56 avis", "64 review", "56 review",
+                  "64 reseñas", "56 reseñas", "64 recensioni", "56 recensioni",
+                  "64 Google-Bewertung", "56 Google-Bewertung", "64 Google-recens", "56 Google-recens",
+                  "64 تقييم", "56 تقييم"]
+    n = 0
+    for p in _P(DEMO_DIR).rglob("index.html"):
+        h = p.read_text(encoding="utf-8", errors="replace")
+        changed = False
+        for old in OLD_SCORES:
+            if old in h:
+                replacement = REAL_SCORE_COMMA if "," in old or "٫" in old else REAL_SCORE
+                if "٫" in old:
+                    replacement = "4٫7"
+                h = h.replace(f'>{old}<', f'>{replacement}<')
+                h = h.replace(f'"{old}"', f'"{replacement}"')
+                changed = True
+        for old in OLD_COUNTS:
+            new = old.replace("64", REAL_COUNT).replace("56", REAL_COUNT)
+            if old in h and old != new:
+                h = h.replace(old, new)
+                changed = True
+        if changed:
+            p.write_text(h, encoding="utf-8")
+            n += 1
+    print(f"  Google score: updated {n} pages to {REAL_SCORE} ({REAL_COUNT} reviews)")
+
+
 def patch_home_reviews_labels_all():
     """Translate 'View all on Google' and 'Leave a review' on non-EN home pages."""
     REVIEW_L = {
@@ -2511,9 +2545,9 @@ BOOKING_GOOGLE_REVIEW = "https://www.google.com/search?q=Ngor+Surfcamp+Teranga&k
 
 BOOKING_SOCIAL_L10N = {
     "en": {
-        "score": "4.2",
+        "score": "4.7",
         "google_lbl": "Google rating",
-        "count": "64 Google reviews",
+        "count": "54 Google reviews",
         "maps": "View on Google Maps",
         "leave": "Leave a review",
         "rv_eyebrow": "Social proof",
@@ -2521,9 +2555,9 @@ BOOKING_SOCIAL_L10N = {
         "rc_tip": "Click to read more",
     },
     "fr": {
-        "score": "4,2",
+        "score": "4,7",
         "google_lbl": "Note Google",
-        "count": "64 avis Google",
+        "count": "54 avis Google",
         "maps": "Voir sur Google Maps",
         "leave": "Laisser un avis",
         "rv_eyebrow": "Ils nous font confiance",
@@ -2531,9 +2565,9 @@ BOOKING_SOCIAL_L10N = {
         "rc_tip": "Cliquer pour lire la suite",
     },
     "es": {
-        "score": "4,2",
+        "score": "4,7",
         "google_lbl": "Valoración en Google",
-        "count": "64 reseñas en Google",
+        "count": "54 reseñas en Google",
         "maps": "Ver en Google Maps",
         "leave": "Dejar una reseña",
         "rv_eyebrow": "Confianza",
@@ -2541,9 +2575,9 @@ BOOKING_SOCIAL_L10N = {
         "rc_tip": "Clic para leer más",
     },
     "it": {
-        "score": "4,2",
+        "score": "4,7",
         "google_lbl": "Valutazione Google",
-        "count": "64 recensioni Google",
+        "count": "54 recensioni Google",
         "maps": "Apri in Google Maps",
         "leave": "Lascia una recensione",
         "rv_eyebrow": "Recensioni",
@@ -2551,9 +2585,9 @@ BOOKING_SOCIAL_L10N = {
         "rc_tip": "Clicca per leggere di più",
     },
     "de": {
-        "score": "4,2",
+        "score": "4,7",
         "google_lbl": "Google-Bewertung",
-        "count": "64 Google-Bewertungen",
+        "count": "54 Google-Bewertungen",
         "maps": "Auf Google Maps ansehen",
         "leave": "Bewertung schreiben",
         "rv_eyebrow": "Vertrauen",
@@ -2561,9 +2595,9 @@ BOOKING_SOCIAL_L10N = {
         "rc_tip": "Klicken zum Weiterlesen",
     },
     "nl": {
-        "score": "4,2",
+        "score": "4,7",
         "google_lbl": "Google-beoordeling",
-        "count": "64 Google-recensies",
+        "count": "54 Google-recensies",
         "maps": "Bekijk op Google Maps",
         "leave": "Schrijf een recensie",
         "rv_eyebrow": "Beoordelingen",
@@ -2571,9 +2605,9 @@ BOOKING_SOCIAL_L10N = {
         "rc_tip": "Klik om meer te lezen",
     },
     "ar": {
-        "score": "4٫2",
+        "score": "4٫7",
         "google_lbl": "تقييم جوجل",
-        "count": "64 تقييم على جوجل",
+        "count": "54 تقييم على جوجل",
         "maps": "عرض على خرائط جوجل",
         "leave": "اترك تقييماً",
         "rv_eyebrow": "آراء الضيوف",
@@ -3405,7 +3439,7 @@ def patch_home_lang_ui_cleanup_all():
         ('aria-label="Language versions"', 'aria-label="إصدارات اللغة"'),
         ('aria-label="Reviews"', 'aria-label="التقييمات"'),
         ("What surfers say", "ماذا يقول مرتادو الأمواج"),
-        ("56 reviews", "56 تقييم"),
+        ("54 reviews", "54 تقييم"),
         ('title="Click to read more"', 'title="انقر لقراءة المزيد"'),
         ('aria-label="Previous reviews"', 'aria-label="التقييمات السابقة"'),
         ('aria-label="Next reviews"', 'aria-label="التقييمات التالية"'),
@@ -5835,6 +5869,9 @@ patch_home_nav_footer_all()
 
 print("Translating home page Discover section (AR/NL)…")
 patch_home_discover_section_all()
+
+print("Fixing Google score to match real GBP (4.7 / 54 reviews)…")
+patch_google_score_all()
 
 print("Translating home reviews labels (AR/NL)…")
 patch_home_reviews_labels_all()
