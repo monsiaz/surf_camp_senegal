@@ -53,13 +53,17 @@
   var mNames = MONTH_NAMES[lang] || MONTH_NAMES.en;
   var dNames = DAY_NAMES[lang] || DAY_NAMES.en;
 
-  function ds(d) { return d.toISOString().slice(0, 10); }
+  /** Local calendar date YYYY-MM-DD (avoid UTC shift from toISOString). */
+  function pad2(n) { return (n < 10 ? '0' : '') + n; }
+  function localYmd(d) {
+    return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
+  }
   function parseD(s) { var p = s.split('-'); return new Date(+p[0], +p[1] - 1, +p[2]); }
 
   function fetchAvailability(fromDate, cb) {
-    var key = ds(fromDate);
+    var key = localYmd(fromDate);
     if (cache[key]) return cb(cache[key]);
-    var url = API + '?from=' + key + '&months=' + MONTHS_AHEAD;
+    var url = API + '?from=' + encodeURIComponent(key) + '&months=' + MONTHS_AHEAD;
     fetch(url).then(function (r) { return r.json(); }).then(function (data) {
       cache[key] = data.days || {};
       cb(cache[key]);
@@ -84,7 +88,7 @@
   }
 
   function ensureDataAndRender() {
-    var key = ds(currentMonth);
+    var key = localYmd(currentMonth);
     if (cache[key]) { render(cache[key]); return; }
     container.innerHTML = '<div class="ac-loading">Loading…</div>';
     fetchAvailability(currentMonth, function(days) { render(days); });
@@ -116,7 +120,8 @@
 
     for (var day = 1; day <= daysInMonth; day++) {
       var date = new Date(y, m, day);
-      var dateStr = ds(date);
+      date.setHours(0, 0, 0, 0);
+      var dateStr = localYmd(date);
       var isPast = date < today;
       var info = getDayData(dateStr, days);
       var avail = info ? info.available : 0;
@@ -153,7 +158,7 @@
       var totalPrice = 0, allAvail = true;
       var d = parseD(checkin);
       for (var n = 0; n < nights; n++) {
-        var di = getDayData(ds(d), days);
+        var di = getDayData(localYmd(d), days);
         if (di && di.available > 0) totalPrice += di.price;
         else allAvail = false;
         d.setDate(d.getDate() + 1);
@@ -172,6 +177,7 @@
     html += '</div>';
 
     container.innerHTML = html;
+    container.classList.toggle('ac-picking-checkout', !!(checkin && !checkout));
     bindEvents(days);
   }
 
@@ -199,15 +205,23 @@
       };
     });
 
-    container.querySelectorAll('.ac-day:not(.ac-past):not(.ac-full)').forEach(function (cell) {
+    /**
+     * Check-in must be on a bookable night (not past, has availability).
+     * Check-out is the departure morning: allow any future day after check-in,
+     * even if that calendar day shows "full" (no night sold that day).
+     */
+    container.querySelectorAll('.ac-day:not(.ac-past)').forEach(function (cell) {
       cell.onclick = function () {
         var d = cell.dataset.date;
+        var isFull = cell.classList.contains('ac-full');
         if (!checkin || checkout) {
+          if (isFull) return;
           checkin = d; checkout = null;
         } else if (d > checkin) {
           checkout = d;
           if (onDatesSelected) onDatesSelected(checkin, checkout, roomFilter);
         } else {
+          if (isFull) return;
           checkin = d; checkout = null;
         }
         render(days);

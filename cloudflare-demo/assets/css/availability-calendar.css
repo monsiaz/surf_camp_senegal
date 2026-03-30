@@ -13,6 +13,7 @@
 .ac-empty{padding:6px}
 .ac-day{position:relative;text-align:center;padding:8px 2px 6px;border-radius:8px;cursor:pointer;transition:all .12s;min-height:48px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px}
 .ac-day:hover:not(.ac-past):not(.ac-full){background:#f0f9ff;transform:scale(1.05)}
+.ac-wrap.ac-picking-checkout .ac-day.ac-full:not(.ac-past):hover{background:#fff1eb}
 .ac-num{font-size:14px;font-weight:600;color:#1e293b;line-height:1}
 .ac-price{font-size:10px;font-weight:700;color:#16a34a;line-height:1}
 .ac-day.ac-ok{background:#f0fdf4}
@@ -22,6 +23,10 @@
 .ac-day.ac-low .ac-price{color:#d97706}
 .ac-day.ac-full{background:#fef2f2;cursor:default;opacity:.5}
 .ac-day.ac-full .ac-num{color:#991b1b;text-decoration:line-through}
+/* After check-in: departure day is often "full" (no night) but must stay clickable */
+.ac-wrap.ac-picking-checkout .ac-day.ac-full:not(.ac-past){cursor:pointer;opacity:.88}
+.ac-wrap.ac-picking-checkout .ac-day.ac-full:not(.ac-past) .ac-num{text-decoration:none;color:#991b1b}
+.ac-wrap.ac-picking-checkout .ac-day.ac-full:not(.ac-past):hover{background:#fff1eb;transform:scale(1.04);opacity:1}
 .ac-day.ac-past{cursor:default;opacity:.3}
 .ac-day.ac-checkin{background:#ff5a1f!important;border-radius:8px 0 0 8px}
 .ac-day.ac-checkin .ac-num,.ac-day.ac-checkin .ac-price{color:#fff!important}

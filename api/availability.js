@@ -32,9 +32,21 @@ export default async function handler(req, res) {
                   WHERE date >= ${from}::date AND date <= ${to}::date
                   ORDER BY date, room_type`;
 
+    const pad = (n) => (n < 10 ? '0' : '') + n;
+    const dateKey = (v) => {
+      if (v == null) return '';
+      if (typeof v === 'string') {
+        const m = v.match(/^(\d{4}-\d{2}-\d{2})/);
+        return m ? m[1] : v.slice(0, 10);
+      }
+      if (v instanceof Date && !isNaN(v)) {
+        return `${v.getUTCFullYear()}-${pad(v.getUTCMonth() + 1)}-${pad(v.getUTCDate())}`;
+      }
+      return String(v).slice(0, 10);
+    };
     const days = {};
     for (const r of rows) {
-      const d = r.date instanceof Date ? r.date.toISOString().slice(0, 10) : String(r.date).slice(0, 10);
+      const d = dateKey(r.date);
       if (!days[d]) days[d] = {};
       days[d][r.room_type] = {
         total: r.total,
