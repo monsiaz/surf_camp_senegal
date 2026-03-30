@@ -1,0 +1,167 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║           NGOR SURFCAMP TERANGA — ACCÈS & GUIDE PROPRIÉTAIRE                ║
+║           Confidentiel — Ne pas partager publiquement                        ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+Créé le : 30 mars 2026
+Contact technique : Simon Azoulay
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  1. ACCÈS AU SITE WEB (démo protégée)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  URL du site  :  https://surf-camp-senegal.vercel.app/
+
+  ⚠️  Le site est en mode DÉMO PRIVÉE.
+  Pour y accéder, votre navigateur vous demandera un identifiant :
+
+    Identifiant  :  simon
+    Mot de passe  :  simon
+
+  → Ce verrou de démo sera retiré lors du lancement public.
+  → Une fois identifié, vous naviguez sur le site exactement comme un visiteur.
+
+  Pages principales du site :
+    Accueil          https://surf-camp-senegal.vercel.app/
+    Surf House       https://surf-camp-senegal.vercel.app/surf-house/
+    Island           https://surf-camp-senegal.vercel.app/island/
+    Surfing          https://surf-camp-senegal.vercel.app/surfing/
+    Galerie          https://surf-camp-senegal.vercel.app/gallery/
+    Blog             https://surf-camp-senegal.vercel.app/blog/
+    Réservation      https://surf-camp-senegal.vercel.app/booking/
+    FAQ              https://surf-camp-senegal.vercel.app/faq/
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  2. ACCÈS AU CMS ADMIN (pour modifier les contenus)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  URL de l'admin  :  https://surf-camp-senegal.vercel.app/admin/
+
+    Identifiant  :  simon
+    Mot de passe  :  simon
+
+  COMMENT SE CONNECTER (étapes simples) :
+  ─────────────────────────────────────
+  1. Allez sur https://surf-camp-senegal.vercel.app/admin/
+  2. Si votre navigateur demande un accès → entrez simon / simon
+     (c'est la protection de démo, pas l'admin)
+  3. La page d'admin s'affiche avec 2 champs : identifiant et mot de passe
+  4. Entrez simon / simon et cliquez "Se connecter"
+  5. Patientez 10 à 20 secondes (connexion GitHub en arrière-plan)
+  6. Le tableau de bord CMS s'ouvre → vous pouvez modifier les contenus
+
+  CE QUE VOUS POUVEZ MODIFIER DANS L'ADMIN :
+  ───────────────────────────────────────────
+  • 🏠 Accueil    : textes, titre SEO, descriptions — en 7 langues
+  • 🤙 Surf       : contenu de la page Surfing
+  • 🏡 Surf House : contenu de la page hébergement
+  • 📅 Réservation: textes de la page booking
+  • ❓ FAQ        : questions / réponses
+  • 🏝 Île Ngor   : page de présentation de l'île
+  • 🗺 Guides     : guides de l'île
+  • 📝 Articles   : blog en 7 langues (EN, FR, ES, IT, DE, NL, AR)
+                   → créer, modifier, supprimer des articles de blog
+  • 👤 Auteurs    : profils des auteurs du blog
+
+  COMMENT SAUVEGARDER LES MODIFICATIONS :
+  ────────────────────────────────────────
+  → Les modifications sont ENREGISTRÉES AUTOMATIQUEMENT dès que vous tapez.
+    Pas besoin d'appuyer sur un bouton Sauvegarder.
+
+  → Pour changer le STATUT de publication d'un article :
+    Cliquez sur le bouton "Publié ▼" en haut à droite de l'éditeur
+    et sélectionnez l'état souhaité (Brouillon / Publié / En revue).
+
+  → Un badge "✅ Sauvegardé" apparaît brièvement en haut après chaque save.
+
+  ⚠️  IMPORTANT — Comment les changements apparaissent sur le site :
+  Les sauvegardes dans l'admin écrivent sur GitHub (dépôt du projet).
+  Pour que les modifications soient VISIBLES sur le site live, il faut
+  déclencher un rebuild (opération technique effectuée par le développeur).
+  → Contactez Simon Azoulay après vos modifications pour déclencher le déploiement.
+
+  DÉCONNEXION :
+  → Bouton "Déconnexion" en haut à droite de la barre d'admin noire.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  3. INFRASTRUCTURE TECHNIQUE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Hébergement  :  Vercel (plan Hobby gratuit)
+  Projet Vercel:  surf-camp-senegal
+  Dashboard    :  https://vercel.com/simonazoulaypro-8345s-projects/surf-camp-senegal
+
+  GitHub       :  https://github.com/monsiaz/surf_camp_senegal
+  Branche      :  main
+  Contenu CMS  :  content/pages/*.json  (textes des pages)
+                  content/articles/     (articles de blog)
+
+  CMS          :  Decap CMS (open-source, auto-hébergé)
+  SEO          :  7 langues — EN, FR, ES, IT, DE, NL, AR
+  Sitemap      :  https://surf-camp-senegal.vercel.app/sitemap.xml
+  Robots.txt   :  https://surf-camp-senegal.vercel.app/robots.txt
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  4. FONCTIONNALITÉS DU SITE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ✅ Site multilingue : 7 langues (EN / FR / ES / IT / DE / NL / AR)
+  ✅ Formulaire de réservation (envoi email + WhatsApp)
+  ✅ Blog avec catégories et filtre par langue
+  ✅ Galerie photo avec section Instagram
+  ✅ Avis Google intégrés (4.2/5 — 64 avis)
+  ✅ CMP / Gestion des cookies (vanilla-cookieconsent)
+     → Bouton cookie en bas à gauche pour modifier les préférences
+  ✅ SEO technique : sitemap.xml, robots.txt, balises hreflang, og:image
+  ✅ Favicon et icônes mobile (iPhone, Android)
+  ✅ WhatsApp click-to-chat dans la nav
+  ✅ Protection démo (Basic Auth — sera retirée au lancement)
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  5. ÉTAPES AVANT LE LANCEMENT PUBLIC
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  □ 1. Configurer le nom de domaine définitif dans Vercel
+        (ex : surfcampsenegal.com → pointer les DNS vers Vercel)
+  □ 2. Supprimer la variable BASIC_AUTH_PASSWORD dans Vercel
+        (retire la protection démo — le site devient public)
+  □ 3. Vérifier le formulaire de réservation (email de réception)
+  □ 4. Soumettre le sitemap dans Google Search Console
+        https://search.google.com/search-console/
+        → Ajouter le site → Soumettre https://[domaine]/sitemap.xml
+  □ 5. Connecter Google Analytics / Tag Manager si besoin
+  □ 6. Ajouter de vraies photos dans les articles de blog
+        (remplacer les illustrations AI par des photos réelles du camp)
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  6. RÉSUMÉ DES ACCÈS (à garder précieusement)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ┌─────────────────────────────────────────────────────────────────────────┐
+  │  Accès site (démo)  │  https://surf-camp-senegal.vercel.app/           │
+  │  Login              │  simon                                            │
+  │  Mot de passe       │  simon                                            │
+  ├─────────────────────────────────────────────────────────────────────────┤
+  │  Accès Admin CMS    │  https://surf-camp-senegal.vercel.app/admin/      │
+  │  Login              │  simon                                            │
+  │  Mot de passe       │  simon                                            │
+  ├─────────────────────────────────────────────────────────────────────────┤
+  │  GitHub (code)      │  https://github.com/monsiaz/surf_camp_senegal    │
+  │  Vercel (hébergt.)  │  https://vercel.com → projet surf-camp-senegal   │
+  └─────────────────────────────────────────────────────────────────────────┘
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  CONTACT DÉVELOPPEUR
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Simon Azoulay
+  GitHub : https://github.com/monsiaz
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

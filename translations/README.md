@@ -22,8 +22,8 @@ This directory contains the translation JSON files for all languages added after
 These files are reference material. The actual translations are embedded directly in:
 - `build.py` — main page builder
 - `surf_house_page.py` — surf house content
-- `_legacy_scripts/28_fix_blocks.py` — blog/article pages
-- `_legacy_scripts/22_build_surfing_faq.py` — surfing + FAQ pages
+- `scripts/build_blog.py` — blog/article pages (HTML depuis `content/articles_v2`)
+- `scripts/build_faq.py` — FAQ pages (+ `scripts/faq_ar_nl_merge.py`)
 - `content/articles_v2/nl/` — Dutch article content
 - `content/articles_v2/ar/` — Arabic article content
 

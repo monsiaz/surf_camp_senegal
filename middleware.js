@@ -21,6 +21,10 @@ export default function middleware(request) {
   if (p.startsWith('/api/')) return next();
   if (p === '/robots.txt') return next();
   if (p.startsWith('/sitemap')) return next();
+  if (p === '/favicon.ico' || p.startsWith('/favicon') || p === '/apple-touch-icon.png'
+      || p.startsWith('/android-chrome') || p === '/site.webmanifest') return next();
+  // Admin has its own authentication — don't block it with Basic Auth
+  if (p === '/admin' || p.startsWith('/admin/')) return next();
 
   const requiredPass = process.env.BASIC_AUTH_PASSWORD;
   if (!requiredPass) return next();

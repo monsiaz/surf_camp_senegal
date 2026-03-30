@@ -2,186 +2,1169 @@ backend:
   name: github
   repo: monsiaz/surf_camp_senegal
   branch: main
+  base_url: https://surf-camp-senegal.vercel.app
+  auth_endpoint: api/auth
 
-# Dossier pour les images uploadées via le CMS
 media_folder: content/images
 public_folder: /assets/images
 
-# Langue de l'interface CMS
 locale: fr
-
-# Afficher les brouillons (commits sans rebuild)
 publish_mode: simple
+
+# ════════════════════════════════════════════════════════════════
+# CHAMPS PARTAGÉS — définis ici une seule fois pour référence
+# (Decap CMS ne supporte pas les ancres YAML nativement en prod,
+#  on duplique les champs — mais la structure est lisible)
+# ════════════════════════════════════════════════════════════════
 
 collections:
 
-  # ──────────────────────────────────────────────
-  # ARTICLES DE BLOG (Anglais — source principale)
-  # ──────────────────────────────────────────────
+  # ─────────────────────────────────────────────────────────────
+  # 🏠 PAGE ACCUEIL  (Homepage)
+  # ─────────────────────────────────────────────────────────────
+  - name: page_homepage
+    label: "🏠 Accueil"
+    description: "Textes SEO et contenus de la page d'accueil, par langue."
+    files:
+      - name: hp_en
+        label: "🇬🇧 English"
+        file: content/pages/en_homepage.json
+        fields: &page_fields
+          - {label: "🔤 Title tag", name: title_tag, widget: string, hint: "Affiché dans l'onglet et sur Google (55–65 car.)"}
+          - {label: "📝 Meta description", name: meta_description, widget: text, hint: "Max 160 caractères"}
+          - {label: "🎯 H1 — Titre principal", name: h1, widget: string}
+          - {label: "💬 Sous-titre hero", name: hero_subtitle, widget: string, required: false}
+          - {label: "📖 Introduction", name: intro, widget: text, required: false}
+          - label: "📋 Sections"
+            name: sections
+            widget: list
+            required: false
+            summary: "{{fields.h2}}"
+            fields:
+              - {label: "H2", name: h2, widget: string}
+              - {label: "Contenu", name: content, widget: text}
+              - label: "Puces (bullets)"
+                name: bullets
+                widget: list
+                required: false
+                field: {label: Ligne, name: line, widget: string}
+          - {label: "CTA — Titre", name: cta_heading, widget: string, required: false}
+          - {label: "CTA — Texte", name: cta_text, widget: text, required: false}
+          - {label: "CTA — Bouton", name: cta_button, widget: string, required: false}
+          - {label: "OG Title", name: og_title, widget: string, required: false, hint: "Titre pour partages réseaux sociaux"}
+          - {label: "OG Description", name: og_description, widget: text, required: false}
+          - {label: "Focus keyword", name: focus_keyword, widget: string, required: false, hint: "Mot-clé SEO principal"}
+          - {label: "Slug (URL)", name: slug, widget: hidden, default: "/"}
+          - {label: "Langue", name: lang, widget: hidden, default: "en"}
+          - {label: "Page name", name: page_name, widget: hidden, default: "Homepage"}
+
+      - name: hp_fr
+        label: "🇫🇷 Français"
+        file: content/pages/fr_homepage.json
+        fields:
+          - {label: "🔤 Title tag", name: title_tag, widget: string}
+          - {label: "📝 Meta description", name: meta_description, widget: text}
+          - {label: "🎯 H1 — Titre principal", name: h1, widget: string}
+          - {label: "💬 Sous-titre hero", name: hero_subtitle, widget: string, required: false}
+          - {label: "📖 Introduction", name: intro, widget: text, required: false}
+          - label: "📋 Sections"
+            name: sections
+            widget: list
+            required: false
+            summary: "{{fields.h2}}"
+            fields:
+              - {label: "H2", name: h2, widget: string}
+              - {label: "Contenu", name: content, widget: text}
+              - label: "Puces"
+                name: bullets
+                widget: list
+                required: false
+                field: {label: Ligne, name: line, widget: string}
+          - {label: "CTA — Titre", name: cta_heading, widget: string, required: false}
+          - {label: "CTA — Texte", name: cta_text, widget: text, required: false}
+          - {label: "CTA — Bouton", name: cta_button, widget: string, required: false}
+          - {label: "Focus keyword", name: focus_keyword, widget: string, required: false}
+          - {label: "Slug", name: slug, widget: hidden, default: "/"}
+          - {label: "Langue", name: lang, widget: hidden, default: "fr"}
+          - {label: "Page name", name: page_name, widget: hidden, default: "Homepage"}
+
+      - name: hp_es
+        label: "🇪🇸 Español"
+        file: content/pages/es_homepage.json
+        fields:
+          - {label: "🔤 Title tag", name: title_tag, widget: string}
+          - {label: "📝 Meta description", name: meta_description, widget: text}
+          - {label: "🎯 H1", name: h1, widget: string}
+          - {label: "💬 Hero sous-titre", name: hero_subtitle, widget: string, required: false}
+          - {label: "📖 Introduction", name: intro, widget: text, required: false}
+          - label: "📋 Sections"
+            name: sections
+            widget: list
+            required: false
+            summary: "{{fields.h2}}"
+            fields:
+              - {label: "H2", name: h2, widget: string}
+              - {label: "Contenu", name: content, widget: text}
+              - {label: "Puces", name: bullets, widget: list, required: false, field: {label: Ligne, name: line, widget: string}}
+          - {label: "CTA titre", name: cta_heading, widget: string, required: false}
+          - {label: "CTA texte", name: cta_text, widget: text, required: false}
+          - {label: "CTA bouton", name: cta_button, widget: string, required: false}
+          - {label: "Focus keyword", name: focus_keyword, widget: string, required: false}
+          - {label: "Slug", name: slug, widget: hidden, default: "/"}
+          - {label: "Langue", name: lang, widget: hidden, default: "es"}
+          - {label: "Page name", name: page_name, widget: hidden, default: "Homepage"}
+
+      - name: hp_it
+        label: "🇮🇹 Italiano"
+        file: content/pages/it_homepage.json
+        fields:
+          - {label: "🔤 Title tag", name: title_tag, widget: string}
+          - {label: "📝 Meta description", name: meta_description, widget: text}
+          - {label: "🎯 H1", name: h1, widget: string}
+          - {label: "💬 Hero sous-titre", name: hero_subtitle, widget: string, required: false}
+          - {label: "📖 Introduction", name: intro, widget: text, required: false}
+          - label: "📋 Sections"
+            name: sections
+            widget: list
+            required: false
+            summary: "{{fields.h2}}"
+            fields:
+              - {label: "H2", name: h2, widget: string}
+              - {label: "Contenu", name: content, widget: text}
+              - {label: "Puces", name: bullets, widget: list, required: false, field: {label: Ligne, name: line, widget: string}}
+          - {label: "CTA titre", name: cta_heading, widget: string, required: false}
+          - {label: "CTA texte", name: cta_text, widget: text, required: false}
+          - {label: "CTA bouton", name: cta_button, widget: string, required: false}
+          - {label: "Focus keyword", name: focus_keyword, widget: string, required: false}
+          - {label: "Slug", name: slug, widget: hidden, default: "/"}
+          - {label: "Langue", name: lang, widget: hidden, default: "it"}
+          - {label: "Page name", name: page_name, widget: hidden, default: "Homepage"}
+
+      - name: hp_de
+        label: "🇩🇪 Deutsch"
+        file: content/pages/de_homepage.json
+        fields:
+          - {label: "🔤 Title tag", name: title_tag, widget: string}
+          - {label: "📝 Meta description", name: meta_description, widget: text}
+          - {label: "🎯 H1", name: h1, widget: string}
+          - {label: "💬 Hero sous-titre", name: hero_subtitle, widget: string, required: false}
+          - {label: "📖 Introduction", name: intro, widget: text, required: false}
+          - label: "📋 Sections"
+            name: sections
+            widget: list
+            required: false
+            summary: "{{fields.h2}}"
+            fields:
+              - {label: "H2", name: h2, widget: string}
+              - {label: "Contenu", name: content, widget: text}
+              - {label: "Puces", name: bullets, widget: list, required: false, field: {label: Ligne, name: line, widget: string}}
+          - {label: "CTA titre", name: cta_heading, widget: string, required: false}
+          - {label: "CTA texte", name: cta_text, widget: text, required: false}
+          - {label: "CTA bouton", name: cta_button, widget: string, required: false}
+          - {label: "Focus keyword", name: focus_keyword, widget: string, required: false}
+          - {label: "Slug", name: slug, widget: hidden, default: "/"}
+          - {label: "Langue", name: lang, widget: hidden, default: "de"}
+          - {label: "Page name", name: page_name, widget: hidden, default: "Homepage"}
+
+  # ─────────────────────────────────────────────────────────────
+  # 🤙 PAGE SURF  (Surfing)
+  # ─────────────────────────────────────────────────────────────
+  - name: page_surfing
+    label: "🤙 Surf"
+    description: "Page principale Surf — contenu SEO par langue."
+    files:
+      - name: surf_en
+        label: "🇬🇧 English"
+        file: content/pages/en_surfing.json
+        fields:
+          - {label: "🔤 Title tag", name: title_tag, widget: string}
+          - {label: "📝 Meta description", name: meta_description, widget: text}
+          - {label: "🎯 H1", name: h1, widget: string}
+          - {label: "💬 Sous-titre hero", name: hero_subtitle, widget: string, required: false}
+          - {label: "📖 Introduction", name: intro, widget: text, required: false}
+          - label: "📋 Sections"
+            name: sections
+            widget: list
+            required: false
+            summary: "{{fields.h2}}"
+            fields:
+              - {label: "H2", name: h2, widget: string}
+              - {label: "Contenu", name: content, widget: text}
+              - {label: "Puces", name: bullets, widget: list, required: false, field: {label: Ligne, name: line, widget: string}}
+          - {label: "CTA titre", name: cta_heading, widget: string, required: false}
+          - {label: "CTA texte", name: cta_text, widget: text, required: false}
+          - {label: "CTA bouton", name: cta_button, widget: string, required: false}
+          - {label: "Focus keyword", name: focus_keyword, widget: string, required: false}
+          - {label: "Slug", name: slug, widget: hidden, default: "/surfing"}
+          - {label: "Langue", name: lang, widget: hidden, default: "en"}
+          - {label: "Page name", name: page_name, widget: hidden, default: "Surfing"}
+      - name: surf_fr
+        label: "🇫🇷 Français"
+        file: content/pages/fr_surfing.json
+        fields:
+          - {label: "🔤 Title tag", name: title_tag, widget: string}
+          - {label: "📝 Meta description", name: meta_description, widget: text}
+          - {label: "🎯 H1", name: h1, widget: string}
+          - {label: "💬 Sous-titre hero", name: hero_subtitle, widget: string, required: false}
+          - {label: "📖 Introduction", name: intro, widget: text, required: false}
+          - label: "📋 Sections"
+            name: sections
+            widget: list
+            required: false
+            summary: "{{fields.h2}}"
+            fields:
+              - {label: "H2", name: h2, widget: string}
+              - {label: "Contenu", name: content, widget: text}
+              - {label: "Puces", name: bullets, widget: list, required: false, field: {label: Ligne, name: line, widget: string}}
+          - {label: "CTA titre", name: cta_heading, widget: string, required: false}
+          - {label: "CTA texte", name: cta_text, widget: text, required: false}
+          - {label: "CTA bouton", name: cta_button, widget: string, required: false}
+          - {label: "Focus keyword", name: focus_keyword, widget: string, required: false}
+          - {label: "Slug", name: slug, widget: hidden, default: "/surf"}
+          - {label: "Langue", name: lang, widget: hidden, default: "fr"}
+          - {label: "Page name", name: page_name, widget: hidden, default: "Surfing"}
+      - name: surf_es
+        label: "🇪🇸 Español"
+        file: content/pages/es_surfing.json
+        fields:
+          - {label: "🔤 Title tag", name: title_tag, widget: string}
+          - {label: "📝 Meta description", name: meta_description, widget: text}
+          - {label: "🎯 H1", name: h1, widget: string}
+          - {label: "💬 Sous-titre hero", name: hero_subtitle, widget: string, required: false}
+          - {label: "📖 Introduction", name: intro, widget: text, required: false}
+          - label: "📋 Sections"
+            name: sections
+            widget: list
+            required: false
+            summary: "{{fields.h2}}"
+            fields:
+              - {label: "H2", name: h2, widget: string}
+              - {label: "Contenu", name: content, widget: text}
+              - {label: "Puces", name: bullets, widget: list, required: false, field: {label: Ligne, name: line, widget: string}}
+          - {label: "CTA titre", name: cta_heading, widget: string, required: false}
+          - {label: "CTA bouton", name: cta_button, widget: string, required: false}
+          - {label: "Focus keyword", name: focus_keyword, widget: string, required: false}
+          - {label: "Slug", name: slug, widget: hidden, default: "/surf"}
+          - {label: "Langue", name: lang, widget: hidden, default: "es"}
+          - {label: "Page name", name: page_name, widget: hidden, default: "Surfing"}
+      - name: surf_it
+        label: "🇮🇹 Italiano"
+        file: content/pages/it_surfing.json
+        fields:
+          - {label: "🔤 Title tag", name: title_tag, widget: string}
+          - {label: "📝 Meta description", name: meta_description, widget: text}
+          - {label: "🎯 H1", name: h1, widget: string}
+          - {label: "💬 Sous-titre hero", name: hero_subtitle, widget: string, required: false}
+          - {label: "📖 Introduction", name: intro, widget: text, required: false}
+          - label: "📋 Sections"
+            name: sections
+            widget: list
+            required: false
+            summary: "{{fields.h2}}"
+            fields:
+              - {label: "H2", name: h2, widget: string}
+              - {label: "Contenu", name: content, widget: text}
+              - {label: "Puces", name: bullets, widget: list, required: false, field: {label: Ligne, name: line, widget: string}}
+          - {label: "CTA titre", name: cta_heading, widget: string, required: false}
+          - {label: "CTA bouton", name: cta_button, widget: string, required: false}
+          - {label: "Focus keyword", name: focus_keyword, widget: string, required: false}
+          - {label: "Slug", name: slug, widget: hidden, default: "/surf"}
+          - {label: "Langue", name: lang, widget: hidden, default: "it"}
+          - {label: "Page name", name: page_name, widget: hidden, default: "Surfing"}
+      - name: surf_de
+        label: "🇩🇪 Deutsch"
+        file: content/pages/de_surfing.json
+        fields:
+          - {label: "🔤 Title tag", name: title_tag, widget: string}
+          - {label: "📝 Meta description", name: meta_description, widget: text}
+          - {label: "🎯 H1", name: h1, widget: string}
+          - {label: "💬 Sous-titre hero", name: hero_subtitle, widget: string, required: false}
+          - {label: "📖 Introduction", name: intro, widget: text, required: false}
+          - label: "📋 Sections"
+            name: sections
+            widget: list
+            required: false
+            summary: "{{fields.h2}}"
+            fields:
+              - {label: "H2", name: h2, widget: string}
+              - {label: "Contenu", name: content, widget: text}
+              - {label: "Puces", name: bullets, widget: list, required: false, field: {label: Ligne, name: line, widget: string}}
+          - {label: "CTA titre", name: cta_heading, widget: string, required: false}
+          - {label: "CTA bouton", name: cta_button, widget: string, required: false}
+          - {label: "Focus keyword", name: focus_keyword, widget: string, required: false}
+          - {label: "Slug", name: slug, widget: hidden, default: "/surfen"}
+          - {label: "Langue", name: lang, widget: hidden, default: "de"}
+          - {label: "Page name", name: page_name, widget: hidden, default: "Surfing"}
+
+  # ─────────────────────────────────────────────────────────────
+  # 🏡 PAGE SURF HOUSE
+  # ─────────────────────────────────────────────────────────────
+  - name: page_surf_house
+    label: "🏡 Surf House"
+    description: "Hébergement, logement — contenu SEO par langue."
+    files:
+      - name: sh_en
+        label: "🇬🇧 English"
+        file: content/pages/en_surf_house.json
+        fields:
+          - {label: "🔤 Title tag", name: title_tag, widget: string}
+          - {label: "📝 Meta description", name: meta_description, widget: text}
+          - {label: "🎯 H1", name: h1, widget: string}
+          - {label: "💬 Sous-titre hero", name: hero_subtitle, widget: string, required: false}
+          - {label: "📖 Introduction", name: intro, widget: text, required: false}
+          - label: "📋 Sections"
+            name: sections
+            widget: list
+            required: false
+            summary: "{{fields.h2}}"
+            fields:
+              - {label: "H2", name: h2, widget: string}
+              - {label: "Contenu", name: content, widget: text}
+              - {label: "Puces", name: bullets, widget: list, required: false, field: {label: Ligne, name: line, widget: string}}
+          - {label: "CTA titre", name: cta_heading, widget: string, required: false}
+          - {label: "CTA texte", name: cta_text, widget: text, required: false}
+          - {label: "CTA bouton", name: cta_button, widget: string, required: false}
+          - {label: "Focus keyword", name: focus_keyword, widget: string, required: false}
+          - {label: "Slug", name: slug, widget: hidden, default: "/surf-house"}
+          - {label: "Langue", name: lang, widget: hidden, default: "en"}
+          - {label: "Page name", name: page_name, widget: hidden, default: "Surf House"}
+      - name: sh_fr
+        label: "🇫🇷 Français"
+        file: content/pages/fr_surf_house.json
+        fields:
+          - {label: "🔤 Title tag", name: title_tag, widget: string}
+          - {label: "📝 Meta description", name: meta_description, widget: text}
+          - {label: "🎯 H1", name: h1, widget: string}
+          - {label: "💬 Sous-titre hero", name: hero_subtitle, widget: string, required: false}
+          - {label: "📖 Introduction", name: intro, widget: text, required: false}
+          - label: "📋 Sections"
+            name: sections
+            widget: list
+            required: false
+            summary: "{{fields.h2}}"
+            fields:
+              - {label: "H2", name: h2, widget: string}
+              - {label: "Contenu", name: content, widget: text}
+              - {label: "Puces", name: bullets, widget: list, required: false, field: {label: Ligne, name: line, widget: string}}
+          - {label: "CTA titre", name: cta_heading, widget: string, required: false}
+          - {label: "CTA texte", name: cta_text, widget: text, required: false}
+          - {label: "CTA bouton", name: cta_button, widget: string, required: false}
+          - {label: "Focus keyword", name: focus_keyword, widget: string, required: false}
+          - {label: "Slug", name: slug, widget: hidden, default: "/surf-house"}
+          - {label: "Langue", name: lang, widget: hidden, default: "fr"}
+          - {label: "Page name", name: page_name, widget: hidden, default: "Surf House"}
+      - name: sh_es
+        label: "🇪🇸 Español"
+        file: content/pages/es_surf_house.json
+        fields:
+          - {label: "🔤 Title tag", name: title_tag, widget: string}
+          - {label: "📝 Meta description", name: meta_description, widget: text}
+          - {label: "🎯 H1", name: h1, widget: string}
+          - {label: "💬 Sous-titre hero", name: hero_subtitle, widget: string, required: false}
+          - {label: "📖 Introduction", name: intro, widget: text, required: false}
+          - label: "📋 Sections"
+            name: sections
+            widget: list
+            required: false
+            summary: "{{fields.h2}}"
+            fields:
+              - {label: "H2", name: h2, widget: string}
+              - {label: "Contenu", name: content, widget: text}
+              - {label: "Puces", name: bullets, widget: list, required: false, field: {label: Ligne, name: line, widget: string}}
+          - {label: "CTA titre", name: cta_heading, widget: string, required: false}
+          - {label: "CTA bouton", name: cta_button, widget: string, required: false}
+          - {label: "Focus keyword", name: focus_keyword, widget: string, required: false}
+          - {label: "Slug", name: slug, widget: hidden, default: "/surf-house"}
+          - {label: "Langue", name: lang, widget: hidden, default: "es"}
+          - {label: "Page name", name: page_name, widget: hidden, default: "Surf House"}
+      - name: sh_it
+        label: "🇮🇹 Italiano"
+        file: content/pages/it_surf_house.json
+        fields:
+          - {label: "🔤 Title tag", name: title_tag, widget: string}
+          - {label: "📝 Meta description", name: meta_description, widget: text}
+          - {label: "🎯 H1", name: h1, widget: string}
+          - {label: "💬 Sous-titre hero", name: hero_subtitle, widget: string, required: false}
+          - {label: "📖 Introduction", name: intro, widget: text, required: false}
+          - label: "📋 Sections"
+            name: sections
+            widget: list
+            required: false
+            summary: "{{fields.h2}}"
+            fields:
+              - {label: "H2", name: h2, widget: string}
+              - {label: "Contenu", name: content, widget: text}
+              - {label: "Puces", name: bullets, widget: list, required: false, field: {label: Ligne, name: line, widget: string}}
+          - {label: "CTA titre", name: cta_heading, widget: string, required: false}
+          - {label: "CTA bouton", name: cta_button, widget: string, required: false}
+          - {label: "Focus keyword", name: focus_keyword, widget: string, required: false}
+          - {label: "Slug", name: slug, widget: hidden, default: "/surf-house"}
+          - {label: "Langue", name: lang, widget: hidden, default: "it"}
+          - {label: "Page name", name: page_name, widget: hidden, default: "Surf House"}
+      - name: sh_de
+        label: "🇩🇪 Deutsch"
+        file: content/pages/de_surf_house.json
+        fields:
+          - {label: "🔤 Title tag", name: title_tag, widget: string}
+          - {label: "📝 Meta description", name: meta_description, widget: text}
+          - {label: "🎯 H1", name: h1, widget: string}
+          - {label: "💬 Sous-titre hero", name: hero_subtitle, widget: string, required: false}
+          - {label: "📖 Introduction", name: intro, widget: text, required: false}
+          - label: "📋 Sections"
+            name: sections
+            widget: list
+            required: false
+            summary: "{{fields.h2}}"
+            fields:
+              - {label: "H2", name: h2, widget: string}
+              - {label: "Contenu", name: content, widget: text}
+              - {label: "Puces", name: bullets, widget: list, required: false, field: {label: Ligne, name: line, widget: string}}
+          - {label: "CTA titre", name: cta_heading, widget: string, required: false}
+          - {label: "CTA bouton", name: cta_button, widget: string, required: false}
+          - {label: "Focus keyword", name: focus_keyword, widget: string, required: false}
+          - {label: "Slug", name: slug, widget: hidden, default: "/surf-house"}
+          - {label: "Langue", name: lang, widget: hidden, default: "de"}
+          - {label: "Page name", name: page_name, widget: hidden, default: "Surf House"}
+
+  # ─────────────────────────────────────────────────────────────
+  # 📅 PAGE RÉSERVATION  (Booking)
+  # ─────────────────────────────────────────────────────────────
+  - name: page_booking
+    label: "📅 Réservation"
+    description: "Page de réservation / tarifs — contenu SEO par langue."
+    files:
+      - name: bk_en
+        label: "🇬🇧 English"
+        file: content/pages/en_book_online.json
+        fields:
+          - {label: "🔤 Title tag", name: title_tag, widget: string}
+          - {label: "📝 Meta description", name: meta_description, widget: text}
+          - {label: "🎯 H1", name: h1, widget: string}
+          - {label: "💬 Sous-titre hero", name: hero_subtitle, widget: string, required: false}
+          - {label: "📖 Introduction", name: intro, widget: text, required: false}
+          - label: "📋 Sections"
+            name: sections
+            widget: list
+            required: false
+            summary: "{{fields.h2}}"
+            fields:
+              - {label: "H2", name: h2, widget: string}
+              - {label: "Contenu", name: content, widget: text}
+              - {label: "Puces", name: bullets, widget: list, required: false, field: {label: Ligne, name: line, widget: string}}
+          - {label: "CTA titre", name: cta_heading, widget: string, required: false}
+          - {label: "CTA texte", name: cta_text, widget: text, required: false}
+          - {label: "CTA bouton", name: cta_button, widget: string, required: false}
+          - {label: "Focus keyword", name: focus_keyword, widget: string, required: false}
+          - {label: "Slug", name: slug, widget: hidden, default: "/book-online"}
+          - {label: "Langue", name: lang, widget: hidden, default: "en"}
+          - {label: "Page name", name: page_name, widget: hidden, default: "Booking"}
+      - name: bk_fr
+        label: "🇫🇷 Français"
+        file: content/pages/fr_book_online.json
+        fields:
+          - {label: "🔤 Title tag", name: title_tag, widget: string}
+          - {label: "📝 Meta description", name: meta_description, widget: text}
+          - {label: "🎯 H1", name: h1, widget: string}
+          - {label: "💬 Sous-titre hero", name: hero_subtitle, widget: string, required: false}
+          - {label: "📖 Introduction", name: intro, widget: text, required: false}
+          - label: "📋 Sections"
+            name: sections
+            widget: list
+            required: false
+            summary: "{{fields.h2}}"
+            fields:
+              - {label: "H2", name: h2, widget: string}
+              - {label: "Contenu", name: content, widget: text}
+              - {label: "Puces", name: bullets, widget: list, required: false, field: {label: Ligne, name: line, widget: string}}
+          - {label: "CTA titre", name: cta_heading, widget: string, required: false}
+          - {label: "CTA texte", name: cta_text, widget: text, required: false}
+          - {label: "CTA bouton", name: cta_button, widget: string, required: false}
+          - {label: "Focus keyword", name: focus_keyword, widget: string, required: false}
+          - {label: "Slug", name: slug, widget: hidden, default: "/reserver"}
+          - {label: "Langue", name: lang, widget: hidden, default: "fr"}
+          - {label: "Page name", name: page_name, widget: hidden, default: "Booking"}
+      - name: bk_es
+        label: "🇪🇸 Español"
+        file: content/pages/es_book_online.json
+        fields:
+          - {label: "🔤 Title tag", name: title_tag, widget: string}
+          - {label: "📝 Meta description", name: meta_description, widget: text}
+          - {label: "🎯 H1", name: h1, widget: string}
+          - {label: "💬 Sous-titre hero", name: hero_subtitle, widget: string, required: false}
+          - {label: "📖 Introduction", name: intro, widget: text, required: false}
+          - label: "📋 Sections"
+            name: sections
+            widget: list
+            required: false
+            summary: "{{fields.h2}}"
+            fields:
+              - {label: "H2", name: h2, widget: string}
+              - {label: "Contenu", name: content, widget: text}
+              - {label: "Puces", name: bullets, widget: list, required: false, field: {label: Ligne, name: line, widget: string}}
+          - {label: "CTA titre", name: cta_heading, widget: string, required: false}
+          - {label: "CTA bouton", name: cta_button, widget: string, required: false}
+          - {label: "Focus keyword", name: focus_keyword, widget: string, required: false}
+          - {label: "Slug", name: slug, widget: hidden, default: "/reservar"}
+          - {label: "Langue", name: lang, widget: hidden, default: "es"}
+          - {label: "Page name", name: page_name, widget: hidden, default: "Booking"}
+      - name: bk_it
+        label: "🇮🇹 Italiano"
+        file: content/pages/it_book_online.json
+        fields:
+          - {label: "🔤 Title tag", name: title_tag, widget: string}
+          - {label: "📝 Meta description", name: meta_description, widget: text}
+          - {label: "🎯 H1", name: h1, widget: string}
+          - {label: "💬 Sous-titre hero", name: hero_subtitle, widget: string, required: false}
+          - {label: "📖 Introduction", name: intro, widget: text, required: false}
+          - label: "📋 Sections"
+            name: sections
+            widget: list
+            required: false
+            summary: "{{fields.h2}}"
+            fields:
+              - {label: "H2", name: h2, widget: string}
+              - {label: "Contenu", name: content, widget: text}
+              - {label: "Puces", name: bullets, widget: list, required: false, field: {label: Ligne, name: line, widget: string}}
+          - {label: "CTA titre", name: cta_heading, widget: string, required: false}
+          - {label: "CTA bouton", name: cta_button, widget: string, required: false}
+          - {label: "Focus keyword", name: focus_keyword, widget: string, required: false}
+          - {label: "Slug", name: slug, widget: hidden, default: "/prenota"}
+          - {label: "Langue", name: lang, widget: hidden, default: "it"}
+          - {label: "Page name", name: page_name, widget: hidden, default: "Booking"}
+      - name: bk_de
+        label: "🇩🇪 Deutsch"
+        file: content/pages/de_book_online.json
+        fields:
+          - {label: "🔤 Title tag", name: title_tag, widget: string}
+          - {label: "📝 Meta description", name: meta_description, widget: text}
+          - {label: "🎯 H1", name: h1, widget: string}
+          - {label: "💬 Sous-titre hero", name: hero_subtitle, widget: string, required: false}
+          - {label: "📖 Introduction", name: intro, widget: text, required: false}
+          - label: "📋 Sections"
+            name: sections
+            widget: list
+            required: false
+            summary: "{{fields.h2}}"
+            fields:
+              - {label: "H2", name: h2, widget: string}
+              - {label: "Contenu", name: content, widget: text}
+              - {label: "Puces", name: bullets, widget: list, required: false, field: {label: Ligne, name: line, widget: string}}
+          - {label: "CTA titre", name: cta_heading, widget: string, required: false}
+          - {label: "CTA bouton", name: cta_button, widget: string, required: false}
+          - {label: "Focus keyword", name: focus_keyword, widget: string, required: false}
+          - {label: "Slug", name: slug, widget: hidden, default: "/buchen"}
+          - {label: "Langue", name: lang, widget: hidden, default: "de"}
+          - {label: "Page name", name: page_name, widget: hidden, default: "Booking"}
+
+  # ─────────────────────────────────────────────────────────────
+  # ❓ FAQ
+  # ─────────────────────────────────────────────────────────────
+  - name: page_faq
+    label: "❓ FAQ"
+    description: "Page FAQ — questions/réponses par langue."
+    files:
+      - name: faq_en
+        label: "🇬🇧 English"
+        file: content/pages/en_faq.json
+        fields:
+          - {label: "🔤 Title tag", name: title_tag, widget: string}
+          - {label: "📝 Meta description", name: meta_description, widget: text}
+          - {label: "🎯 H1", name: h1, widget: string}
+          - {label: "💬 Sous-titre hero", name: hero_subtitle, widget: string, required: false}
+          - {label: "📖 Introduction", name: intro, widget: text, required: false}
+          - label: "📋 Sections (questions groupées)"
+            name: sections
+            widget: list
+            required: false
+            summary: "{{fields.h2}}"
+            fields:
+              - {label: "Groupe / H2", name: h2, widget: string}
+              - {label: "Contenu", name: content, widget: text}
+              - {label: "Puces", name: bullets, widget: list, required: false, field: {label: Ligne, name: line, widget: string}}
+          - {label: "Focus keyword", name: focus_keyword, widget: string, required: false}
+          - {label: "Slug", name: slug, widget: hidden, default: "/faq"}
+          - {label: "Langue", name: lang, widget: hidden, default: "en"}
+          - {label: "Page name", name: page_name, widget: hidden, default: "FAQ"}
+      - name: faq_fr
+        label: "🇫🇷 Français"
+        file: content/pages/fr_faq.json
+        fields:
+          - {label: "🔤 Title tag", name: title_tag, widget: string}
+          - {label: "📝 Meta description", name: meta_description, widget: text}
+          - {label: "🎯 H1", name: h1, widget: string}
+          - {label: "💬 Sous-titre hero", name: hero_subtitle, widget: string, required: false}
+          - {label: "📖 Introduction", name: intro, widget: text, required: false}
+          - label: "📋 Sections"
+            name: sections
+            widget: list
+            required: false
+            summary: "{{fields.h2}}"
+            fields:
+              - {label: "Groupe / H2", name: h2, widget: string}
+              - {label: "Contenu", name: content, widget: text}
+              - {label: "Puces", name: bullets, widget: list, required: false, field: {label: Ligne, name: line, widget: string}}
+          - {label: "Focus keyword", name: focus_keyword, widget: string, required: false}
+          - {label: "Slug", name: slug, widget: hidden, default: "/faq"}
+          - {label: "Langue", name: lang, widget: hidden, default: "fr"}
+          - {label: "Page name", name: page_name, widget: hidden, default: "FAQ"}
+      - name: faq_es
+        label: "🇪🇸 Español"
+        file: content/pages/es_faq.json
+        fields:
+          - {label: "🔤 Title tag", name: title_tag, widget: string}
+          - {label: "📝 Meta description", name: meta_description, widget: text}
+          - {label: "🎯 H1", name: h1, widget: string}
+          - {label: "💬 Sous-titre hero", name: hero_subtitle, widget: string, required: false}
+          - {label: "📖 Introduction", name: intro, widget: text, required: false}
+          - label: "📋 Sections"
+            name: sections
+            widget: list
+            required: false
+            summary: "{{fields.h2}}"
+            fields:
+              - {label: "Groupe / H2", name: h2, widget: string}
+              - {label: "Contenu", name: content, widget: text}
+              - {label: "Puces", name: bullets, widget: list, required: false, field: {label: Ligne, name: line, widget: string}}
+          - {label: "Focus keyword", name: focus_keyword, widget: string, required: false}
+          - {label: "Slug", name: slug, widget: hidden, default: "/faq"}
+          - {label: "Langue", name: lang, widget: hidden, default: "es"}
+          - {label: "Page name", name: page_name, widget: hidden, default: "FAQ"}
+      - name: faq_it
+        label: "🇮🇹 Italiano"
+        file: content/pages/it_faq.json
+        fields:
+          - {label: "🔤 Title tag", name: title_tag, widget: string}
+          - {label: "📝 Meta description", name: meta_description, widget: text}
+          - {label: "🎯 H1", name: h1, widget: string}
+          - {label: "💬 Sous-titre hero", name: hero_subtitle, widget: string, required: false}
+          - {label: "📖 Introduction", name: intro, widget: text, required: false}
+          - label: "📋 Sections"
+            name: sections
+            widget: list
+            required: false
+            summary: "{{fields.h2}}"
+            fields:
+              - {label: "Groupe / H2", name: h2, widget: string}
+              - {label: "Contenu", name: content, widget: text}
+              - {label: "Puces", name: bullets, widget: list, required: false, field: {label: Ligne, name: line, widget: string}}
+          - {label: "Focus keyword", name: focus_keyword, widget: string, required: false}
+          - {label: "Slug", name: slug, widget: hidden, default: "/faq"}
+          - {label: "Langue", name: lang, widget: hidden, default: "it"}
+          - {label: "Page name", name: page_name, widget: hidden, default: "FAQ"}
+      - name: faq_de
+        label: "🇩🇪 Deutsch"
+        file: content/pages/de_faq.json
+        fields:
+          - {label: "🔤 Title tag", name: title_tag, widget: string}
+          - {label: "📝 Meta description", name: meta_description, widget: text}
+          - {label: "🎯 H1", name: h1, widget: string}
+          - {label: "💬 Sous-titre hero", name: hero_subtitle, widget: string, required: false}
+          - {label: "📖 Introduction", name: intro, widget: text, required: false}
+          - label: "📋 Sections"
+            name: sections
+            widget: list
+            required: false
+            summary: "{{fields.h2}}"
+            fields:
+              - {label: "Groupe / H2", name: h2, widget: string}
+              - {label: "Contenu", name: content, widget: text}
+              - {label: "Puces", name: bullets, widget: list, required: false, field: {label: Ligne, name: line, widget: string}}
+          - {label: "Focus keyword", name: focus_keyword, widget: string, required: false}
+          - {label: "Slug", name: slug, widget: hidden, default: "/faq"}
+          - {label: "Langue", name: lang, widget: hidden, default: "de"}
+          - {label: "Page name", name: page_name, widget: hidden, default: "FAQ"}
+      - name: faq_nl
+        label: "🇳🇱 Nederlands"
+        file: content/pages/nl_faq.json
+        fields:
+          - {label: "🔤 Title tag", name: title_tag, widget: string}
+          - {label: "📝 Meta description", name: meta_description, widget: text}
+          - {label: "🎯 H1", name: h1, widget: string}
+          - {label: "💬 Sous-titre hero", name: hero_subtitle, widget: string, required: false}
+          - {label: "📖 Introduction", name: intro, widget: text, required: false}
+          - label: "📋 Sections"
+            name: sections
+            widget: list
+            required: false
+            summary: "{{fields.h2}}"
+            fields:
+              - {label: "Groupe / H2", name: h2, widget: string}
+              - {label: "Contenu", name: content, widget: text}
+              - {label: "Puces", name: bullets, widget: list, required: false, field: {label: Ligne, name: line, widget: string}}
+          - {label: "Focus keyword", name: focus_keyword, widget: string, required: false}
+          - {label: "Slug", name: slug, widget: hidden, default: "/faq"}
+          - {label: "Langue", name: lang, widget: hidden, default: "nl"}
+          - {label: "Page name", name: page_name, widget: hidden, default: "FAQ"}
+      - name: faq_ar
+        label: "🇸🇦 العربية"
+        file: content/pages/ar_faq.json
+        fields:
+          - {label: "🔤 Title tag", name: title_tag, widget: string}
+          - {label: "📝 Meta description", name: meta_description, widget: text}
+          - {label: "🎯 H1", name: h1, widget: string}
+          - {label: "💬 Sous-titre hero", name: hero_subtitle, widget: string, required: false}
+          - {label: "📖 Introduction", name: intro, widget: text, required: false}
+          - label: "📋 Sections"
+            name: sections
+            widget: list
+            required: false
+            summary: "{{fields.h2}}"
+            fields:
+              - {label: "Groupe / H2", name: h2, widget: string}
+              - {label: "Contenu", name: content, widget: text}
+              - {label: "Puces", name: bullets, widget: list, required: false, field: {label: Ligne, name: line, widget: string}}
+          - {label: "Focus keyword", name: focus_keyword, widget: string, required: false}
+          - {label: "Slug", name: slug, widget: hidden, default: "/faq"}
+          - {label: "Langue", name: lang, widget: hidden, default: "ar"}
+          - {label: "Page name", name: page_name, widget: hidden, default: "FAQ"}
+
+  # ─────────────────────────────────────────────────────────────
+  # 🏝️ PAGE ÎLE NGOR  (Island)
+  # ─────────────────────────────────────────────────────────────
+  - name: page_island
+    label: "🏝️ Île Ngor"
+    description: "Page île Ngor — contenu SEO par langue."
+    files:
+      - name: isl_en
+        label: "🇬🇧 English"
+        file: content/pages/en_island.json
+        fields:
+          - {label: "🔤 Title tag", name: title_tag, widget: string}
+          - {label: "📝 Meta description", name: meta_description, widget: text}
+          - {label: "🎯 H1", name: h1, widget: string}
+          - {label: "💬 Sous-titre hero", name: hero_subtitle, widget: string, required: false}
+          - {label: "📖 Introduction", name: intro, widget: text, required: false}
+          - label: "📋 Sections"
+            name: sections
+            widget: list
+            required: false
+            summary: "{{fields.h2}}"
+            fields:
+              - {label: "H2", name: h2, widget: string}
+              - {label: "Contenu", name: content, widget: text}
+              - {label: "Puces", name: bullets, widget: list, required: false, field: {label: Ligne, name: line, widget: string}}
+          - {label: "CTA titre", name: cta_heading, widget: string, required: false}
+          - {label: "CTA texte", name: cta_text, widget: text, required: false}
+          - {label: "CTA bouton", name: cta_button, widget: string, required: false}
+          - {label: "Focus keyword", name: focus_keyword, widget: string, required: false}
+          - {label: "Slug", name: slug, widget: hidden, default: "/island"}
+          - {label: "Langue", name: lang, widget: hidden, default: "en"}
+          - {label: "Page name", name: page_name, widget: hidden, default: "Island"}
+      - name: isl_fr
+        label: "🇫🇷 Français"
+        file: content/pages/fr_island.json
+        fields:
+          - {label: "🔤 Title tag", name: title_tag, widget: string}
+          - {label: "📝 Meta description", name: meta_description, widget: text}
+          - {label: "🎯 H1", name: h1, widget: string}
+          - {label: "💬 Sous-titre hero", name: hero_subtitle, widget: string, required: false}
+          - {label: "📖 Introduction", name: intro, widget: text, required: false}
+          - label: "📋 Sections"
+            name: sections
+            widget: list
+            required: false
+            summary: "{{fields.h2}}"
+            fields:
+              - {label: "H2", name: h2, widget: string}
+              - {label: "Contenu", name: content, widget: text}
+              - {label: "Puces", name: bullets, widget: list, required: false, field: {label: Ligne, name: line, widget: string}}
+          - {label: "CTA titre", name: cta_heading, widget: string, required: false}
+          - {label: "CTA bouton", name: cta_button, widget: string, required: false}
+          - {label: "Focus keyword", name: focus_keyword, widget: string, required: false}
+          - {label: "Slug", name: slug, widget: hidden, default: "/ile"}
+          - {label: "Langue", name: lang, widget: hidden, default: "fr"}
+          - {label: "Page name", name: page_name, widget: hidden, default: "Island"}
+      - name: isl_es
+        label: "🇪🇸 Español"
+        file: content/pages/es_island.json
+        fields:
+          - {label: "🔤 Title tag", name: title_tag, widget: string}
+          - {label: "📝 Meta description", name: meta_description, widget: text}
+          - {label: "🎯 H1", name: h1, widget: string}
+          - {label: "💬 Sous-titre hero", name: hero_subtitle, widget: string, required: false}
+          - {label: "📖 Introduction", name: intro, widget: text, required: false}
+          - label: "📋 Sections"
+            name: sections
+            widget: list
+            required: false
+            summary: "{{fields.h2}}"
+            fields:
+              - {label: "H2", name: h2, widget: string}
+              - {label: "Contenu", name: content, widget: text}
+              - {label: "Puces", name: bullets, widget: list, required: false, field: {label: Ligne, name: line, widget: string}}
+          - {label: "Focus keyword", name: focus_keyword, widget: string, required: false}
+          - {label: "Slug", name: slug, widget: hidden, default: "/isla"}
+          - {label: "Langue", name: lang, widget: hidden, default: "es"}
+          - {label: "Page name", name: page_name, widget: hidden, default: "Island"}
+      - name: isl_it
+        label: "🇮🇹 Italiano"
+        file: content/pages/it_island.json
+        fields:
+          - {label: "🔤 Title tag", name: title_tag, widget: string}
+          - {label: "📝 Meta description", name: meta_description, widget: text}
+          - {label: "🎯 H1", name: h1, widget: string}
+          - {label: "💬 Sous-titre hero", name: hero_subtitle, widget: string, required: false}
+          - {label: "📖 Introduction", name: intro, widget: text, required: false}
+          - label: "📋 Sections"
+            name: sections
+            widget: list
+            required: false
+            summary: "{{fields.h2}}"
+            fields:
+              - {label: "H2", name: h2, widget: string}
+              - {label: "Contenu", name: content, widget: text}
+              - {label: "Puces", name: bullets, widget: list, required: false, field: {label: Ligne, name: line, widget: string}}
+          - {label: "Focus keyword", name: focus_keyword, widget: string, required: false}
+          - {label: "Slug", name: slug, widget: hidden, default: "/isola"}
+          - {label: "Langue", name: lang, widget: hidden, default: "it"}
+          - {label: "Page name", name: page_name, widget: hidden, default: "Island"}
+      - name: isl_de
+        label: "🇩🇪 Deutsch"
+        file: content/pages/de_island.json
+        fields:
+          - {label: "🔤 Title tag", name: title_tag, widget: string}
+          - {label: "📝 Meta description", name: meta_description, widget: text}
+          - {label: "🎯 H1", name: h1, widget: string}
+          - {label: "💬 Sous-titre hero", name: hero_subtitle, widget: string, required: false}
+          - {label: "📖 Introduction", name: intro, widget: text, required: false}
+          - label: "📋 Sections"
+            name: sections
+            widget: list
+            required: false
+            summary: "{{fields.h2}}"
+            fields:
+              - {label: "H2", name: h2, widget: string}
+              - {label: "Contenu", name: content, widget: text}
+              - {label: "Puces", name: bullets, widget: list, required: false, field: {label: Ligne, name: line, widget: string}}
+          - {label: "Focus keyword", name: focus_keyword, widget: string, required: false}
+          - {label: "Slug", name: slug, widget: hidden, default: "/insel"}
+          - {label: "Langue", name: lang, widget: hidden, default: "de"}
+          - {label: "Page name", name: page_name, widget: hidden, default: "Island"}
+
+  # ─────────────────────────────────────────────────────────────
+  # 🗺️ GUIDES DE L'ÎLE  (Island Guides)
+  # ─────────────────────────────────────────────────────────────
+  - name: island_guides
+    label: "🗺️ Guides de l'île"
+    description: "Articles longs sur Ngor Island (Things to do, History, Surf spots…). Éditez les locales (en, fr, es…) imbriquées dans chaque guide."
+    folder: content/island_guides
+    create: false
+    format: json
+    extension: json
+    slug: "{{guide_id}}"
+    summary: "🗺️ {{guide_id}} · pub: {{date_published}}"
+    fields:
+      - {label: "ID du guide", name: guide_id, widget: string, hint: "Ex: things-to-do (ne pas modifier)"}
+      - {label: "Image hero (basename)", name: hero_basename, widget: string, hint: "Nom du fichier image sans extension"}
+      - {label: "Date de publication", name: date_published, widget: string, hint: "Format: YYYY-MM-DD (ex: 2026-03-27)", pattern: ["^\\d{4}-\\d{2}-\\d{2}$", "Format attendu: YYYY-MM-DD"]}
+      - label: "Slugs par langue"
+        name: slugs
+        widget: object
+        fields:
+          - {label: "EN", name: en, widget: string}
+          - {label: "FR", name: fr, widget: string}
+          - {label: "ES", name: es, widget: string}
+          - {label: "IT", name: it, widget: string}
+          - {label: "DE", name: de, widget: string}
+          - {label: "NL", name: nl, widget: string}
+          - {label: "AR", name: ar, widget: string}
+
+  # ─────────────────────────────────────────────────────────────
+  # 📝 ARTICLES BLOG — EN (source principale)
+  # ─────────────────────────────────────────────────────────────
   - name: articles_en
-    label: "📝 Articles (EN)"
-    label_singular: "Article"
+    label: "📝 Articles — 🇬🇧 EN"
+    label_singular: "Article EN"
     folder: content/articles_v2/en
     create: true
     format: json
     slug: "{{slug}}"
-    summary: "{{title}} — {{category}}"
+    summary: "{{title}} · {{category}}"
     sortable_fields: ["title", "category", "reading_time"]
     view_filters:
-      - label: "Surf & Spots"
-        field: category
-        pattern: "Surf Conditions & Spots"
-      - label: "Coaching & Progression"
-        field: category
-        pattern: "Coaching & Progression"
-      - label: "Island Life"
-        field: category
-        pattern: "Island Life & Surf Camp"
+      - {label: "Surf & Spots", field: category, pattern: "Surf Conditions & Spots"}
+      - {label: "Coaching", field: category, pattern: "Coaching & Progression"}
+      - {label: "Island Life", field: category, pattern: "Island Life & Surf Camp"}
     fields:
-      - label: "Titre"
-        name: title
-        widget: string
-        hint: "Titre SEO de l'article (ex: Best Time to Surf Senegal)"
-
-      - label: "Slug (URL)"
-        name: slug
-        widget: string
-        hint: "URL de l'article, sans espaces ni majuscules (ex: best-time-to-surf-senegal)"
-        pattern: ['^[a-z0-9-]+$', "Minuscules, chiffres et tirets uniquement"]
-
-      - label: "Catégorie"
+      - {label: "📌 Titre", name: title, widget: string, hint: "Titre SEO (55–70 car.)"}
+      - {label: "🔗 Slug (URL)", name: slug, widget: string, hint: "ex: best-time-to-surf-senegal", pattern: ['^[a-z0-9-]+$', "Minuscules, chiffres, tirets"]}
+      - label: "📂 Catégorie"
         name: category
         widget: select
-        options:
-          - "Surf Conditions & Spots"
-          - "Coaching & Progression"
-          - "Island Life & Surf Camp"
-
-      - label: "Mot-clé principal (SEO)"
-        name: focus_keyword
-        widget: string
-        hint: "Ex: best time to surf senegal"
-
-      - label: "Mots-clés secondaires"
-        name: secondary_keywords
-        widget: list
-        field:
-          label: Mot-clé
-          name: keyword
-          widget: string
-        required: false
-
-      - label: "Meta description"
-        name: meta_description
-        widget: text
-        hint: "Description pour Google (max 160 caractères)"
-        pattern: ['^.{10,165}$', "Entre 10 et 165 caractères"]
-
-      - label: "Temps de lecture (minutes)"
-        name: reading_time
-        widget: string
-        default: "10"
-
-      - label: "Contenu de l'article"
+        options: ["Surf Conditions & Spots", "Coaching & Progression", "Island Life & Surf Camp"]
+      - label: "✍️ Contenu (Markdown)"
         name: content_markdown
         widget: markdown
-        hint: "Rédigez l'article en Markdown. Utilisez # pour les titres, ** pour le gras, etc."
-        buttons:
-          - bold
-          - italic
-          - link
-          - heading-one
-          - heading-two
-          - heading-three
-          - quote
-          - bulleted-list
-          - numbered-list
+        hint: "Rédigez en Markdown. ## pour H2, **gras**, *italique*, [lien](url)…"
+        buttons: [bold, italic, link, heading-two, heading-three, quote, bulleted-list, numbered-list]
+      - {label: "⏱ Temps de lecture (min)", name: reading_time, widget: string, default: "10"}
+      - {label: "🖼 Image hero", name: hero_image, widget: image, required: false}
+      - {label: "📝 Meta description", name: meta_description, widget: text, hint: "Max 160 car. — décrivez l'article pour Google.", pattern: ['^.{10,165}$', "10–165 car."]}
+      - {label: "🔑 Mot-clé principal (SEO)", name: focus_keyword, widget: string, required: false, hint: "Mot-clé cible principal"}
+      - {label: "🔍 Mots-clés secondaires", name: secondary_keywords, widget: list, required: false, field: {label: Mot-clé, name: keyword, widget: string}}
+      - {label: "Langue", name: lang, widget: hidden, default: "en"}
+      - {label: "Type", name: type, widget: hidden, default: "seo"}
 
-      - label: "Langue"
-        name: lang
-        widget: hidden
-        default: "en"
-
-      - label: "Type"
-        name: type
-        widget: hidden
-        default: "seo"
-
-  # ──────────────────────────────────────────────
-  # ARTICLES DE BLOG (Français)
-  # ──────────────────────────────────────────────
+  # ─────────────────────────────────────────────────────────────
+  # 📝 ARTICLES — FR
+  # ─────────────────────────────────────────────────────────────
   - name: articles_fr
-    label: "📝 Articles (FR)"
-    label_singular: "Article"
+    label: "📝 Articles — 🇫🇷 FR"
+    label_singular: "Article FR"
     folder: content/articles_v2/fr
     create: true
     format: json
     slug: "{{slug}}"
-    summary: "{{title}} — {{category}}"
+    summary: "{{title}} · {{category}}"
+    sortable_fields: ["title", "category"]
+    view_filters:
+      - {label: "Surf & Spots", field: category, pattern: "Surf Conditions & Spots"}
+      - {label: "Coaching", field: category, pattern: "Coaching & Progression"}
+      - {label: "Island Life", field: category, pattern: "Island Life & Surf Camp"}
     fields:
-      - {label: "Titre", name: title, widget: string}
-      - {label: "Slug (URL)", name: slug, widget: string}
-      - label: "Catégorie"
+      - {label: "📌 Titre", name: title, widget: string, hint: "Titre SEO (55–70 car.)"}
+      - {label: "🔗 Slug (URL)", name: slug, widget: string, hint: "ex: surf-senegal-guide", pattern: ['^[a-z0-9-]+$', "Minuscules, chiffres, tirets"]}
+      - label: "📂 Catégorie"
         name: category
         widget: select
-        options:
-          - "Surf Conditions & Spots"
-          - "Coaching & Progression"
-          - "Island Life & Surf Camp"
-      - {label: "Meta description", name: meta_description, widget: text}
-      - {label: "Temps de lecture", name: reading_time, widget: string, default: "10"}
-      - {label: "Contenu", name: content_markdown, widget: markdown}
+        options: ["Surf Conditions & Spots", "Coaching & Progression", "Island Life & Surf Camp"]
+      - {label: "✍️ Contenu (Markdown)", name: content_markdown, widget: markdown, hint: "Rédigez en Markdown. ## pour H2, **gras**, *italique*…"}
+      - {label: "⏱ Temps de lecture (min)", name: reading_time, widget: string, default: "10"}
+      - {label: "🖼 Image hero", name: hero_image, widget: image, required: false}
+      - {label: "📝 Meta description", name: meta_description, widget: text, hint: "Max 160 car."}
+      - {label: "🔑 Mot-clé principal (SEO)", name: focus_keyword, widget: string, required: false}
+      - {label: "🔍 Mots-clés secondaires", name: secondary_keywords, widget: list, required: false, field: {label: Mot-clé, name: keyword, widget: string}}
       - {label: "Langue", name: lang, widget: hidden, default: "fr"}
       - {label: "Type", name: type, widget: hidden, default: "seo"}
 
-  # ──────────────────────────────────────────────
-  # PAGES DU SITE (Homepage, Island, Surfing…)
-  # ──────────────────────────────────────────────
-  - name: pages
-    label: "🌐 Pages du site"
-    label_singular: "Page"
+  # ─────────────────────────────────────────────────────────────
+  # 📝 ARTICLES — ES / IT / DE / NL / AR
+  # ─────────────────────────────────────────────────────────────
+  - name: articles_es
+    label: "📝 Articles — 🇪🇸 ES"
+    label_singular: "Artículo ES"
+    folder: content/articles_v2/es
+    create: true
+    format: json
+    slug: "{{slug}}"
+    summary: "{{title}} · {{category}}"
+    sortable_fields: ["title", "category"]
+    view_filters:
+      - {label: "Surf & Spots", field: category, pattern: "Surf Conditions & Spots"}
+      - {label: "Coaching", field: category, pattern: "Coaching & Progression"}
+      - {label: "Island Life", field: category, pattern: "Island Life & Surf Camp"}
+    fields:
+      - {label: "📌 Título", name: title, widget: string, hint: "Título SEO (55–70 car.)"}
+      - {label: "🔗 Slug (URL)", name: slug, widget: string, pattern: ['^[a-z0-9-]+$', "Minúsculas, números, guiones"]}
+      - {label: "📂 Categoría", name: category, widget: select, options: ["Surf Conditions & Spots", "Coaching & Progression", "Island Life & Surf Camp"]}
+      - {label: "✍️ Contenido (Markdown)", name: content_markdown, widget: markdown}
+      - {label: "⏱ Tiempo de lectura (min)", name: reading_time, widget: string, default: "10"}
+      - {label: "🖼 Imagen hero", name: hero_image, widget: image, required: false}
+      - {label: "📝 Meta description", name: meta_description, widget: text, hint: "Máx. 160 car."}
+      - {label: "🔑 Palabra clave principal", name: focus_keyword, widget: string, required: false}
+      - {label: "🔍 Palabras clave secundarias", name: secondary_keywords, widget: list, required: false, field: {label: "Palabra clave", name: keyword, widget: string}}
+      - {label: "Langue", name: lang, widget: hidden, default: "es"}
+      - {label: "Type", name: type, widget: hidden, default: "seo"}
+
+  - name: articles_it
+    label: "📝 Articles — 🇮🇹 IT"
+    label_singular: "Articolo IT"
+    folder: content/articles_v2/it
+    create: true
+    format: json
+    slug: "{{slug}}"
+    summary: "{{title}} · {{category}}"
+    sortable_fields: ["title", "category"]
+    view_filters:
+      - {label: "Surf & Spots", field: category, pattern: "Surf Conditions & Spots"}
+      - {label: "Coaching", field: category, pattern: "Coaching & Progression"}
+      - {label: "Island Life", field: category, pattern: "Island Life & Surf Camp"}
+    fields:
+      - {label: "📌 Titolo", name: title, widget: string, hint: "Titolo SEO (55–70 car.)"}
+      - {label: "🔗 Slug (URL)", name: slug, widget: string, pattern: ['^[a-z0-9-]+$', "Minuscole, cifre, trattini"]}
+      - {label: "📂 Categoria", name: category, widget: select, options: ["Surf Conditions & Spots", "Coaching & Progression", "Island Life & Surf Camp"]}
+      - {label: "✍️ Contenuto (Markdown)", name: content_markdown, widget: markdown}
+      - {label: "⏱ Tempo di lettura (min)", name: reading_time, widget: string, default: "10"}
+      - {label: "🖼 Immagine hero", name: hero_image, widget: image, required: false}
+      - {label: "📝 Meta description", name: meta_description, widget: text, hint: "Max. 160 car."}
+      - {label: "🔑 Parola chiave principale", name: focus_keyword, widget: string, required: false}
+      - {label: "🔍 Parole chiave secondarie", name: secondary_keywords, widget: list, required: false, field: {label: "Parola chiave", name: keyword, widget: string}}
+      - {label: "Langue", name: lang, widget: hidden, default: "it"}
+      - {label: "Type", name: type, widget: hidden, default: "seo"}
+
+  - name: articles_de
+    label: "📝 Articles — 🇩🇪 DE"
+    label_singular: "Artikel DE"
+    folder: content/articles_v2/de
+    create: true
+    format: json
+    slug: "{{slug}}"
+    summary: "{{title}} · {{category}}"
+    sortable_fields: ["title", "category"]
+    view_filters:
+      - {label: "Surf & Spots", field: category, pattern: "Surf Conditions & Spots"}
+      - {label: "Coaching", field: category, pattern: "Coaching & Progression"}
+      - {label: "Island Life", field: category, pattern: "Island Life & Surf Camp"}
+    fields:
+      - {label: "📌 Titel", name: title, widget: string, hint: "SEO-Titel (55–70 Zeichen)"}
+      - {label: "🔗 Slug (URL)", name: slug, widget: string, pattern: ['^[a-z0-9-]+$', "Kleinbuchstaben, Zahlen, Bindestriche"]}
+      - {label: "📂 Kategorie", name: category, widget: select, options: ["Surf Conditions & Spots", "Coaching & Progression", "Island Life & Surf Camp"]}
+      - {label: "✍️ Inhalt (Markdown)", name: content_markdown, widget: markdown}
+      - {label: "⏱ Lesezeit (Min.)", name: reading_time, widget: string, default: "10"}
+      - {label: "🖼 Hero-Bild", name: hero_image, widget: image, required: false}
+      - {label: "📝 Meta description", name: meta_description, widget: text, hint: "Max. 160 Zeichen"}
+      - {label: "🔑 Haupt-Keyword (SEO)", name: focus_keyword, widget: string, required: false}
+      - {label: "🔍 Sekundäre Keywords", name: secondary_keywords, widget: list, required: false, field: {label: Keyword, name: keyword, widget: string}}
+      - {label: "Langue", name: lang, widget: hidden, default: "de"}
+      - {label: "Type", name: type, widget: hidden, default: "seo"}
+
+  - name: articles_nl
+    label: "📝 Articles — 🇳🇱 NL"
+    label_singular: "Artikel NL"
+    folder: content/articles_v2/nl
+    create: true
+    format: json
+    slug: "{{slug}}"
+    summary: "{{title}} · {{category}}"
+    sortable_fields: ["title", "category"]
+    view_filters:
+      - {label: "Surf & Spots", field: category, pattern: "Surf Conditions & Spots"}
+      - {label: "Coaching", field: category, pattern: "Coaching & Progression"}
+      - {label: "Island Life", field: category, pattern: "Island Life & Surf Camp"}
+    fields:
+      - {label: "Titel", name: title, widget: string, hint: "SEO-titel (55–70 tekens)"}
+      - {label: "Slug (URL)", name: slug, widget: string, hint: "ex: surfen-senegal-gids", pattern: ['^[a-z0-9-]+$', "Kleine letters, cijfers, koppeltekens"]}
+      - {label: "Categorie", name: category, widget: select, options: ["Surf Conditions & Spots", "Coaching & Progression", "Island Life & Surf Camp"]}
+      - {label: "Focus-zoekwoord (SEO)", name: focus_keyword, widget: string, required: false, hint: "Hoofdzoekwoord voor SEO"}
+      - {label: "Secundaire zoekwoorden", name: secondary_keywords, widget: list, required: false, field: {label: Zoekwoord, name: keyword, widget: string}}
+      - {label: "Meta description", name: meta_description, widget: text, hint: "Max. 160 tekens"}
+      - {label: "Leestijd (min)", name: reading_time, widget: string, default: "10"}
+      - {label: "Inhoud (Markdown)", name: content_markdown, widget: markdown, hint: "Schrijf in Markdown. # voor H1, ## voor H2, **vet**, *cursief*…"}
+      - {label: "Hero-afbeelding", name: hero_image, widget: image, required: false}
+      - {label: "Langue", name: lang, widget: hidden, default: "nl"}
+      - {label: "Type", name: type, widget: hidden, default: "seo"}
+
+  - name: articles_ar
+    label: "📝 Articles — 🇸🇦 AR"
+    label_singular: "مقالة AR"
+    folder: content/articles_v2/ar
+    create: true
+    format: json
+    slug: "{{slug}}"
+    summary: "{{title}} · {{category}}"
+    sortable_fields: ["title", "category"]
+    view_filters:
+      - {label: "Surf & Spots", field: category, pattern: "Surf Conditions & Spots"}
+      - {label: "Coaching", field: category, pattern: "Coaching & Progression"}
+      - {label: "Island Life", field: category, pattern: "Island Life & Surf Camp"}
+    fields:
+      - {label: "العنوان", name: title, widget: string, hint: "عنوان SEO (55–70 حرفاً)"}
+      - {label: "Slug (URL)", name: slug, widget: string, hint: "مثال: surf-camp-senegal", pattern: ['^[a-z0-9-]+$', "حروف صغيرة وأرقام وشرطات فقط"]}
+      - {label: "الفئة", name: category, widget: select, options: ["Surf Conditions & Spots", "Coaching & Progression", "Island Life & Surf Camp"]}
+      - {label: "الكلمة المفتاحية الرئيسية", name: focus_keyword, widget: string, required: false}
+      - {label: "كلمات مفتاحية ثانوية", name: secondary_keywords, widget: list, required: false, field: {label: كلمة, name: keyword, widget: string}}
+      - {label: "الوصف التعريفي", name: meta_description, widget: text, hint: "الحد الأقصى 160 حرفاً"}
+      - {label: "وقت القراءة (دقيقة)", name: reading_time, widget: string, default: "10"}
+      - {label: "المحتوى (Markdown)", name: content_markdown, widget: markdown}
+      - {label: "صورة الغلاف", name: hero_image, widget: image, required: false}
+      - {label: "Langue", name: lang, widget: hidden, default: "ar"}
+      - {label: "Type", name: type, widget: hidden, default: "seo"}
+
+  # ─────────────────────────────────────────────────────────────
+  # 👤 AUTEURS
+  # ─────────────────────────────────────────────────────────────
+  - name: authors_db
+    label: "👤 Auteurs"
+    description: "Profils des auteurs/instructeurs affichés sur les articles."
     files:
-
-      - label: "Homepage (EN)"
-        name: homepage_en
-        file: content/pages/en_homepage.json
-        format: json
+      - name: authors
+        label: "Tous les auteurs"
+        file: content/authors/authors.json
         fields:
-          - {label: "Title tag", name: title_tag, widget: string}
-          - {label: "Meta description", name: meta_description, widget: text}
-          - {label: "H1", name: h1, widget: string}
-          - {label: "Sous-titre hero", name: hero_subtitle, widget: string}
-          - {label: "Introduction", name: intro, widget: text}
-          - {label: "Langue", name: lang, widget: hidden, default: "en"}
-
-      - label: "Homepage (FR)"
-        name: homepage_fr
-        file: content/pages/fr_homepage.json
-        format: json
-        fields:
-          - {label: "Title tag", name: title_tag, widget: string}
-          - {label: "Meta description", name: meta_description, widget: text}
-          - {label: "H1", name: h1, widget: string}
-          - {label: "Sous-titre hero", name: hero_subtitle, widget: string}
-          - {label: "Introduction", name: intro, widget: text}
-          - {label: "Langue", name: lang, widget: hidden, default: "fr"}
-
-      - label: "Page Surfing (EN)"
-        name: surfing_en
-        file: content/pages/en_surfing.json
-        format: json
-        fields:
-          - {label: "Title tag", name: title_tag, widget: string}
-          - {label: "Meta description", name: meta_description, widget: text}
-          - {label: "H1", name: h1, widget: string}
-          - {label: "Langue", name: lang, widget: hidden, default: "en"}
-
-      - label: "Page Island (EN)"
-        name: island_en
-        file: content/pages/en_island.json
-        format: json
-        fields:
-          - {label: "Title tag", name: title_tag, widget: string}
-          - {label: "Meta description", name: meta_description, widget: text}
-          - {label: "H1", name: h1, widget: string}
-          - {label: "Langue", name: lang, widget: hidden, default: "en"}
+          - label: "🏄 Kofi Mensah"
+            name: kofi-mensah
+            widget: object
+            required: false
+            fields:
+              - {label: "Nom complet", name: name, widget: string}
+              - label: "Rôle"
+                name: role
+                widget: object
+                fields:
+                  - {label: "🇬🇧 EN", name: en, widget: string, required: false}
+                  - {label: "🇫🇷 FR", name: fr, widget: string, required: false}
+                  - {label: "🇪🇸 ES", name: es, widget: string, required: false}
+                  - {label: "🇮🇹 IT", name: it, widget: string, required: false}
+                  - {label: "🇩🇪 DE", name: de, widget: string, required: false}
+              - label: "Bio"
+                name: bio
+                widget: object
+                fields:
+                  - {label: "🇬🇧 EN", name: en, widget: text, required: false}
+                  - {label: "🇫🇷 FR", name: fr, widget: text, required: false}
+                  - {label: "🇪🇸 ES", name: es, widget: text, required: false}
+                  - {label: "🇮🇹 IT", name: it, widget: text, required: false}
+                  - {label: "🇩🇪 DE", name: de, widget: text, required: false}
+              - label: "Catégories"
+                name: categories
+                widget: list
+                required: false
+                field: {label: Catégorie, name: category, widget: select, options: ["Surf Conditions & Spots", "Island Life & Surf Camp", "Coaching & Progression", "Travel & Planning"]}
+          - label: "✍️ Sophie Renard"
+            name: sophie-renard
+            widget: object
+            required: false
+            fields:
+              - {label: "Nom complet", name: name, widget: string}
+              - label: "Rôle"
+                name: role
+                widget: object
+                fields:
+                  - {label: "🇬🇧 EN", name: en, widget: string, required: false}
+                  - {label: "🇫🇷 FR", name: fr, widget: string, required: false}
+                  - {label: "🇪🇸 ES", name: es, widget: string, required: false}
+                  - {label: "🇮🇹 IT", name: it, widget: string, required: false}
+                  - {label: "🇩🇪 DE", name: de, widget: string, required: false}
+              - label: "Bio"
+                name: bio
+                widget: object
+                fields:
+                  - {label: "🇬🇧 EN", name: en, widget: text, required: false}
+                  - {label: "🇫🇷 FR", name: fr, widget: text, required: false}
+                  - {label: "🇪🇸 ES", name: es, widget: text, required: false}
+                  - {label: "🇮🇹 IT", name: it, widget: text, required: false}
+                  - {label: "🇩🇪 DE", name: de, widget: text, required: false}
+              - label: "Catégories"
+                name: categories
+                widget: list
+                required: false
+                field: {label: Catégorie, name: category, widget: select, options: ["Surf Conditions & Spots", "Island Life & Surf Camp", "Coaching & Progression", "Travel & Planning"]}
+          - label: "🤙 Luca Ferretti"
+            name: luca-ferretti
+            widget: object
+            required: false
+            fields:
+              - {label: "Nom complet", name: name, widget: string}
+              - label: "Rôle"
+                name: role
+                widget: object
+                fields:
+                  - {label: "🇬🇧 EN", name: en, widget: string, required: false}
+                  - {label: "🇫🇷 FR", name: fr, widget: string, required: false}
+                  - {label: "🇪🇸 ES", name: es, widget: string, required: false}
+                  - {label: "🇮🇹 IT", name: it, widget: string, required: false}
+                  - {label: "🇩🇪 DE", name: de, widget: string, required: false}
+              - label: "Bio"
+                name: bio
+                widget: object
+                fields:
+                  - {label: "🇬🇧 EN", name: en, widget: text, required: false}
+                  - {label: "🇫🇷 FR", name: fr, widget: text, required: false}
+                  - {label: "🇪🇸 ES", name: es, widget: text, required: false}
+                  - {label: "🇮🇹 IT", name: it, widget: text, required: false}
+                  - {label: "🇩🇪 DE", name: de, widget: text, required: false}
+              - label: "Catégories"
+                name: categories
+                widget: list
+                required: false
+                field: {label: Catégorie, name: category, widget: select, options: ["Surf Conditions & Spots", "Island Life & Surf Camp", "Coaching & Progression", "Travel & Planning"]}

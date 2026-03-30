@@ -6,10 +6,27 @@
  * Env: POSTGRES_URL | DATABASE_URL | POSTGRES_PRISMA_URL, ADMIN_API_KEY
  */
 
+import crypto from 'crypto';
 import { sql, hasDb } from './_db.js';
 
+function timingSafeKeyEqual(provided, secret) {
+  if (!provided || !secret || typeof provided !== 'string' || typeof secret !== 'string') {
+    return false;
+  }
+  try {
+    const a = Buffer.from(provided, 'utf8');
+    const b = Buffer.from(secret, 'utf8');
+    if (a.length !== b.length) return false;
+    return crypto.timingSafeEqual(a, b);
+  } catch {
+    return false;
+  }
+}
+
 export default async function handler(req, res) {
-  if (!process.env.ADMIN_API_KEY || req.headers['x-api-key'] !== process.env.ADMIN_API_KEY) {
+  const secret = process.env.ADMIN_API_KEY;
+  const hdr = req.headers['x-api-key'];
+  if (!secret || !timingSafeKeyEqual(hdr, secret)) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
   if (req.method !== 'GET') {

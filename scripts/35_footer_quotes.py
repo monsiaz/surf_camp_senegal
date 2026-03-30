@@ -235,12 +235,12 @@ def detect_lang(fpath):
 print("=== Adding footer quotes to all pages ===")
 
 # Add CSS once
-css_path = f"{DEMO}/assets/css/style.css"
+css_path = f"{DEMO}/assets/css/ngor-surfcamp.css"
 with open(css_path,'a') as f: f.write('\n' + QUOTE_CSS)
 print("✅ Quote CSS added")
 
 # Add JS once to animations.js
-anim_path = f"{DEMO}/assets/js/animations.js"
+anim_path = f"{DEMO}/assets/js/ngor-surfcamp.js"
 with open(anim_path,'a') as f: f.write('\n' + QUOTE_JS)
 print("✅ Quote JS added")
 

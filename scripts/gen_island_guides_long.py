@@ -8,9 +8,12 @@ from openai import OpenAI
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import threading
 
-OPENAI_KEY   = "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"
-MODEL        = "gpt-5.4-2026-03-05"
-GUIDES_DIR   = "/Users/simonazoulay/SurfCampSenegal/content/island_guides"
+OPENAI_KEY = (os.environ.get("OPENAI_API_KEY") or "").strip()
+MODEL = (os.environ.get("OPENAI_MODEL") or "gpt-4o").strip()
+GUIDES_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "content", "island_guides")
+
+if not OPENAI_KEY:
+    raise SystemExit("Set OPENAI_API_KEY in the environment.")
 
 client = OpenAI(api_key=OPENAI_KEY)
 lock   = threading.Lock()

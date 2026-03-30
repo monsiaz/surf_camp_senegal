@@ -1,11 +1,809 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="robots" content="noindex" />
-    <title>Ngor Surfcamp — CMS</title>
-    <script src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js"></script>
-  </head>
-  <body></body>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>Admin — Ngor Surfcamp Teranga</title>
+  <base href="/admin/" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy:  #0a2540; --navy2: #0d1f35; --navy3: #112944;
+      --sand:  #f0c060; --fire:  #ff5a1f; --fired: #e04a10;
+      --green: #22c55e; --white: #fff;    --muted: rgba(255,255,255,0.55);
+      --bar-h: 52px;    --decap-h: 52px;
+      --total-h: calc(var(--bar-h) + var(--decap-h));
+    }
+
+    /* ══ LOGIN OVERLAY ══════════════════════════════════ */
+    #nsc-overlay {
+      position: fixed; inset: 0; z-index: 9999999;
+      background: linear-gradient(135deg, #07192e 0%, #0a2540 60%, #0d2d50 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-family: "Inter", system-ui, sans-serif;
+    }
+    #nsc-overlay.hidden { display: none !important; }
+
+    .nsc-card {
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 20px; padding: 40px 44px 36px; width: 100%; max-width: 380px;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.5); backdrop-filter: blur(8px);
+    }
+    .nsc-logo { display: flex; align-items: center; gap: 11px; margin-bottom: 30px; }
+    .nsc-logo-text { font-size: 15px; font-weight: 700; color: #fff; line-height: 1.25; }
+    .nsc-logo-sub { display: block; font-style: normal; font-size: 11px; color: var(--sand);
+      letter-spacing: .08em; text-transform: uppercase; margin-top: 2px; }
+    .nsc-title { font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 5px; letter-spacing: -.02em; }
+    .nsc-sub { font-size: 13.5px; color: rgba(255,255,255,0.5); margin-bottom: 28px; }
+    .nsc-field { margin-bottom: 14px; }
+    .nsc-label { display: block; font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.55);
+      letter-spacing: .08em; text-transform: uppercase; margin-bottom: 7px; }
+    .nsc-input { width: 100%; padding: 12px 14px; border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.07);
+      color: #fff; font-size: 15px; outline: none; transition: border .15s; font-family: inherit; }
+    .nsc-input:focus { border-color: rgba(255,90,31,0.65); }
+    .nsc-input::placeholder { color: rgba(255,255,255,0.28); }
+    #nsc-submit { width: 100%; padding: 13px; border: none; border-radius: 10px;
+      font-size: 14.5px; font-weight: 700; cursor: pointer; background: #ff5a1f; color: #fff;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      margin-top: 8px; transition: background .2s; }
+    #nsc-submit:hover:not(:disabled) { background: #e04a10; }
+    #nsc-submit:disabled { opacity: .6; cursor: default; }
+    #nsc-err { background: rgba(255,90,31,0.12); border: 1px solid rgba(255,90,31,0.3);
+      color: #ffb89a; border-radius: 8px; padding: 10px 14px; font-size: 13px;
+      margin-top: 12px; display: none; }
+    #nsc-err.show { display: block; }
+
+    #nsc-loader { display: none; flex-direction: column; align-items: center; gap: 16px; text-align: center; }
+    #nsc-loader.show { display: flex; }
+    .nsc-spin { width: 36px; height: 36px; border: 3px solid rgba(255,255,255,0.12);
+      border-top-color: #ff5a1f; border-radius: 50%; animation: spin .8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    #nsc-loader p { font-size: 13px; color: rgba(255,255,255,0.55); }
+
+    /* ══ ADMIN BAR ══════════════════════════════════════ */
+    #nsc-bar {
+      position: fixed; top: 0; left: 0; right: 0; height: var(--bar-h);
+      background: var(--navy2); border-bottom: 2px solid rgba(240,192,96,0.25);
+      display: flex; align-items: center; z-index: 99999;
+      font-family: "Inter", system-ui, sans-serif;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.4);
+    }
+    #nsc-brand { display: flex; align-items: center; gap: 9px; padding: 0 16px;
+      border-right: 1px solid rgba(255,255,255,0.08); flex-shrink: 0; text-decoration: none; }
+    #nsc-brand span { font-size: 12px; font-weight: 700; color: var(--white); white-space: nowrap; }
+    #nsc-brand em { display: block; font-style: normal; font-size: 9px; color: var(--sand);
+      letter-spacing: 0.08em; text-transform: uppercase; margin-top: 1px; }
+    #nsc-pages { display: flex; align-items: center; padding: 0 6px;
+      border-right: 1px solid rgba(255,255,255,0.08); overflow-x: auto; flex-shrink: 0; scrollbar-width: none; }
+    #nsc-pages::-webkit-scrollbar { display: none; }
+    .nsc-page-btn { display: flex; align-items: center; gap: 3px; padding: 5px 8px;
+      border: none; background: none; color: var(--muted); font-size: 11px; font-weight: 500;
+      cursor: pointer; border-radius: 6px; text-decoration: none; white-space: nowrap;
+      transition: color .15s, background .15s; }
+    .nsc-page-btn:hover, .nsc-page-btn.active { color: var(--white); background: rgba(255,255,255,0.07); }
+    .nsc-page-btn.active { color: var(--sand); }
+
+    /* Language switcher — shown when editing a page collection */
+    #nsc-lang-switcher {
+      display: none; align-items: center; gap: 3px; padding: 0 10px;
+      border-right: 1px solid rgba(255,255,255,0.08); flex-shrink: 0;
+    }
+    #nsc-lang-switcher.show { display: flex; }
+    #nsc-ls-label { font-size: 9px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase;
+      color: rgba(255,255,255,0.35); margin-right: 3px; white-space: nowrap; }
+    .nsc-ls-btn { padding: 3px 7px; border-radius: 5px; background: rgba(255,255,255,0.05);
+      border: 1px solid transparent; color: rgba(255,255,255,0.55); font-size: 10.5px; font-weight: 600;
+      cursor: pointer; transition: all .15s; text-decoration: none; font-family: inherit; white-space: nowrap; }
+    .nsc-ls-btn:hover { background: rgba(255,255,255,0.10); color: #fff; }
+    .nsc-ls-btn.active { background: rgba(255,90,31,0.18); border-color: rgba(255,90,31,0.45); color: #ffb89a; }
+
+    #nsc-langs { display: flex; align-items: center; gap: 2px; padding: 0 8px;
+      border-right: 1px solid rgba(255,255,255,0.08); }
+    #nsc-langs-label { font-size: 9.5px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--muted); margin-right: 5px; white-space: nowrap; }
+    .nsc-lang-btn { padding: 3px 6px; border: 1px solid transparent;
+      background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.6);
+      font-size: 10.5px; font-weight: 600; cursor: pointer; border-radius: 5px; transition: all .15s; }
+    .nsc-lang-btn:hover { background: rgba(255,255,255,0.10); color: var(--white); }
+    .nsc-lang-btn.active { background: rgba(255,90,31,0.2); border-color: rgba(255,90,31,0.5); color: #ffb89a; }
+    .nsc-lang-btn.all-btn.active { background: rgba(240,192,96,0.18); border-color: rgba(240,192,96,0.5); color: var(--sand); }
+
+    #nsc-right { display: flex; align-items: center; gap: 6px; margin-left: auto; padding: 0 10px; }
+    #nsc-saved { display: none; align-items: center; gap: 5px; font-size: 10.5px; font-weight: 600;
+      color: var(--green); background: rgba(34,197,94,0.12); border: 1px solid rgba(34,197,94,0.25);
+      border-radius: 5px; padding: 3px 8px; white-space: nowrap; }
+    #nsc-saved.show { display: flex; }
+    .nsc-kbd { display: inline-block; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 3px; padding: 1px 4px; font-size: 9px; font-family: monospace;
+      color: rgba(255,255,255,0.45); margin-left: 3px; vertical-align: middle; }
+    #nsc-live { display: flex; align-items: center; gap: 5px; padding: 5px 10px;
+      background: rgba(255,90,31,0.15); color: var(--fire); font-size: 11px; font-weight: 700;
+      border-radius: 6px; text-decoration: none; border: 1px solid rgba(255,90,31,0.3); transition: all .15s; }
+    #nsc-live:hover { background: var(--fire); color: #fff; }
+    #nsc-logout { display: flex; align-items: center; gap: 5px; padding: 5px 10px;
+      background: none; border: 1px solid rgba(255,255,255,0.12); color: var(--muted);
+      font-size: 11px; font-weight: 600; border-radius: 6px; cursor: pointer;
+      transition: all .15s; font-family: inherit; }
+    #nsc-logout:hover { background: rgba(255,255,255,0.07); color: var(--white); }
+
+    /* ══ CMS LAYOUT ═════════════════════════════════════ */
+    body { padding-top: var(--bar-h) !important; background: #f8fafc !important; }
+
+    [class*="AppHeader"] {
+      top: var(--bar-h) !important; background: var(--navy3) !important;
+      border-bottom: 1px solid rgba(255,255,255,0.06) !important;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.2) !important; z-index: 9990 !important;
+    }
+    [class*="AppHeaderButton"], [class*="AppHeaderLink"],
+    [class*="AppHeader"] button, [class*="AppHeader"] a { color: rgba(255,255,255,0.7) !important; }
+    [class*="AppHeader"] button:hover, [class*="AppHeader"] a:hover {
+      color: #fff !important; background: rgba(255,255,255,0.08) !important;
+    }
+    [class*="AppHeader"] [class*="active"], [class*="AppHeader"] [aria-current] {
+      color: var(--sand) !important; border-bottom-color: var(--sand) !important;
+    }
+    [class*="AppHeader"] svg { fill: rgba(255,255,255,0.65) !important; color: rgba(255,255,255,0.65) !important; }
+    [class*="QuickCreate"], [class*="AppHeader"] [class*="Button--primary"],
+    [class*="AppHeader"] button[class*="primary"] {
+      background: var(--fire) !important; color: #fff !important; border-radius: 6px !important;
+    }
+    [class*="AppHeader"] [class*="AvatarButton"],
+    [class*="AppHeader"] [class*="avatar"],
+    [class*="AppHeader"] [class*="Avatar"],
+    [class*="AppHeader"] [class*="UserMenu"] { display: none !important; }
+
+    [class*="ToolbarContainer"], [class*="EditorToolbar"] {
+      position: sticky !important; top: var(--total-h) !important; z-index: 9000 !important;
+      background: #fff !important; border-bottom: 2px solid #e2e8f0 !important;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
+    }
+    [class*="ToolbarButton"]:not([class*="Refresh"]):not([class*="refresh"]) {
+      background: var(--fire) !important; color: #fff !important; font-weight: 700 !important;
+      border-radius: 8px !important; padding: 6px 16px !important; font-size: 13px !important;
+      border: none !important; box-shadow: 0 2px 8px rgba(255,90,31,0.35) !important;
+    }
+    [class*="ToolbarButton"]:not([class*="Refresh"]):not([class*="refresh"]):hover {
+      background: var(--fired) !important;
+    }
+    [class*="InfoSign"], [class*="WorkflowBadge"] {
+      font-size: 11px !important; font-weight: 700 !important; color: var(--green) !important;
+    }
+    [class*="EditorInfo"], [class*="EditorBreadcrumb"] { color: #64748b !important; font-size: 12.5px !important; }
+
+    .nsc-panel-label {
+      font-family: "Inter", system-ui, sans-serif; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase; padding: 6px 16px;
+      border-bottom: 1px solid #e2e8f0; position: sticky; top: var(--total-h); z-index: 8999;
+    }
+    .nsc-panel-label.edit   { color: var(--fire); background: #fff7f5; border-left: 3px solid var(--fire); }
+    .nsc-panel-label.preview { color: #6366f1; background: #f5f3ff; border-left: 3px solid #6366f1; }
+
+    [class*="Sidebar"], [class*="NavContainer"] {
+      background: var(--white) !important; border-right: 1px solid #e2e8f0 !important;
+    }
+    [class*="NavLink"], [class*="SidebarNavItem"] {
+      color: #334155 !important; border-radius: 6px !important; margin: 1px 6px !important;
+    }
+    [class*="NavLink"]:hover { background: #f1f5f9 !important; color: #0f172a !important; }
+    [class*="NavLink"][class*="active"], [class*="NavLink"][aria-current] {
+      background: rgba(255,90,31,0.08) !important; color: var(--fire) !important; font-weight: 600 !important;
+    }
+
+    button[class*="delete"], button[class*="Delete"],
+    button[class*="danger"], button[class*="Danger"] {
+      opacity: 0.35 !important; font-size: 11px !important; padding: 4px 10px !important;
+    }
+    button[class*="delete"]:hover, button[class*="Delete"]:hover { opacity: 0.8 !important; }
+
+    [class*="ListCard"], [class*="Card"] { border-radius: 8px !important; }
+    [class*="ListCard"]:hover, [class*="Card"]:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important; transform: translateY(-1px) !important;
+    }
+
+    .Toastify__toast { border-radius: 10px !important; font-size: 13.5px !important; }
+    .Toastify__toast--success { background: #1e3a2f !important; color: #86efac !important; }
+    .Toastify__toast--error   { background: #3b1818 !important; color: #fca5a5 !important; }
+
+    /* ══ SEO CHARACTER COUNTER ═══════════════════════════ */
+    .nsc-char-wrap {
+      display: flex; align-items: center; gap: 8px; margin-top: 5px; margin-bottom: 2px;
+      font-family: "Inter", system-ui, sans-serif;
+    }
+    .nsc-char-num { font-size: 11px; font-weight: 700; min-width: 50px; white-space: nowrap; }
+    .nsc-char-num.ok   { color: #16a34a; }
+    .nsc-char-num.warn { color: #d97706; }
+    .nsc-char-num.bad  { color: #dc2626; }
+    .nsc-char-rail { flex: 1; height: 4px; background: #e2e8f0; border-radius: 2px; overflow: hidden; }
+    .nsc-char-fill { height: 100%; border-radius: 2px; transition: width .12s, background .12s; }
+    .nsc-char-fill.ok   { background: #22c55e; }
+    .nsc-char-fill.warn { background: #f59e0b; }
+    .nsc-char-fill.bad  { background: #ef4444; }
+    .nsc-char-tip { font-size: 10px; color: #94a3b8; white-space: nowrap; }
+
+    /* ══ SEO HEALTH BAR ══════════════════════════════════ */
+    .nsc-health-bar {
+      display: flex; align-items: center; gap: 6px; padding: 7px 16px 7px;
+      border-bottom: 1px solid #e8ecf0; background: #f8fafc;
+      font-family: "Inter", system-ui, sans-serif; flex-wrap: wrap;
+    }
+    .nsc-health-lbl { font-size: 9.5px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; color: #94a3b8; margin-right: 2px; }
+    .nsc-hp { display: flex; align-items: center; gap: 3px; padding: 2px 7px;
+      border-radius: 100px; font-size: 10.5px; font-weight: 600; }
+    .nsc-hp.ok   { background: #dcfce7; color: #15803d; }
+    .nsc-hp.warn { background: #fef9c3; color: #92400e; }
+    .nsc-hp.bad  { background: #fee2e2; color: #991b1b; }
+
+    /* ══ WORD COUNT BADGE ════════════════════════════════ */
+    .nsc-wc { display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px;
+      background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 6px;
+      font-size: 10.5px; font-weight: 600; color: #64748b;
+      font-family: "Inter", system-ui, sans-serif; margin-top: 5px; }
+    .nsc-wc.good { background: #dcfce7; color: #15803d; border-color: #bbf7d0; }
+    .nsc-wc.ok   { background: #fef9c3; color: #92400e; border-color: #fde68a; }
+
+    /* ══ KEYBOARD SAVE TOAST ═════════════════════════════ */
+    #nsc-kbd-toast {
+      position: fixed; bottom: 20px; right: 20px;
+      background: rgba(10,37,64,0.95); border: 1px solid rgba(255,255,255,0.12);
+      border-left: 3px solid var(--green); border-radius: 10px; padding: 10px 16px;
+      font-size: 12.5px; color: #fff; font-family: "Inter", system-ui, sans-serif;
+      pointer-events: none; opacity: 0; transform: translateY(8px);
+      transition: opacity 0.2s, transform 0.2s; z-index: 999999;
+      display: flex; align-items: center; gap: 8px;
+    }
+    #nsc-kbd-toast.show { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+  <!-- ══ LOGIN OVERLAY ════════════════════════════════ -->
+  <div id="nsc-overlay">
+    <div class="nsc-card">
+      <div id="nsc-form">
+        <div class="nsc-logo">
+          <svg width="32" height="22" viewBox="0 0 28 20" fill="none">
+            <path d="M2 14 C6 8,10 6,14 10 C18 14,22 12,26 7" stroke="#f0c060" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+            <path d="M2 18 C7 13,11 11,15 14.5 C19 18,23 16,26 12" stroke="#ff5a1f" stroke-width="1.6" stroke-linecap="round" fill="none" opacity=".7"/>
+          </svg>
+          <span class="nsc-logo-text">Ngor Surfcamp <em class="nsc-logo-sub">Content Admin</em></span>
+        </div>
+        <div class="nsc-title">Connexion</div>
+        <div class="nsc-sub">Accès réservé à l'équipe.</div>
+        <div class="nsc-field">
+          <label class="nsc-label" for="nsc-u">Identifiant</label>
+          <input id="nsc-u" class="nsc-input" type="text" placeholder="simon" autocomplete="username">
+        </div>
+        <div class="nsc-field">
+          <label class="nsc-label" for="nsc-p">Mot de passe</label>
+          <input id="nsc-p" class="nsc-input" type="password" placeholder="••••••••" autocomplete="current-password">
+        </div>
+        <button id="nsc-submit">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+            <polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/>
+          </svg>
+          Se connecter
+        </button>
+        <div id="nsc-err"></div>
+      </div>
+      <div id="nsc-loader">
+        <div class="nsc-spin"></div>
+        <p>Chargement de l'admin…</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ ADMIN BAR ════════════════════════════════════ -->
+  <div id="nsc-bar">
+    <a id="nsc-brand" href="https://surf-camp-senegal.vercel.app" target="_blank" rel="noopener">
+      <svg width="26" height="18" viewBox="0 0 28 20" fill="none">
+        <path d="M2 14 C6 8,10 6,14 10 C18 14,22 12,26 7" stroke="#f0c060" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+        <path d="M2 18 C7 13,11 11,15 14.5 C19 18,23 16,26 12" stroke="#ff5a1f" stroke-width="1.6" stroke-linecap="round" fill="none" opacity=".7"/>
+        <circle cx="5" cy="12" r="2" fill="#f0c060" opacity=".5"/>
+      </svg>
+      <span>Ngor Surfcamp <em>Admin</em></span>
+    </a>
+    <nav id="nsc-pages">
+      <a class="nsc-page-btn" href="#/collections/page_homepage">🏠 Home</a>
+      <a class="nsc-page-btn" href="#/collections/page_surfing">🤙 Surf</a>
+      <a class="nsc-page-btn" href="#/collections/page_surf_house">🏡 House</a>
+      <a class="nsc-page-btn" href="#/collections/page_booking">📅 Book</a>
+      <a class="nsc-page-btn" href="#/collections/page_faq">❓ FAQ</a>
+      <a class="nsc-page-btn" href="#/collections/page_island">🏝 Island</a>
+      <a class="nsc-page-btn" href="#/collections/island_guides">🗺 Guides</a>
+    </nav>
+    <!-- Language switcher: shown when editing a pages collection -->
+    <div id="nsc-lang-switcher">
+      <span id="nsc-ls-label">Langue</span>
+    </div>
+    <div id="nsc-langs">
+      <span id="nsc-langs-label">Articles</span>
+      <button class="nsc-lang-btn all-btn active" data-lang="all">All</button>
+      <button class="nsc-lang-btn" data-lang="en">EN</button>
+      <button class="nsc-lang-btn" data-lang="fr">FR</button>
+      <button class="nsc-lang-btn" data-lang="es">ES</button>
+      <button class="nsc-lang-btn" data-lang="it">IT</button>
+      <button class="nsc-lang-btn" data-lang="de">DE</button>
+      <button class="nsc-lang-btn" data-lang="nl">NL</button>
+      <button class="nsc-lang-btn" data-lang="ar">AR</button>
+    </div>
+    <div id="nsc-right">
+      <div id="nsc-saved">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Enregistré
+      </div>
+      <a id="nsc-live" href="https://surf-camp-senegal.vercel.app" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        Live
+      </a>
+      <button id="nsc-logout">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Déconnexion
+      </button>
+    </div>
+  </div>
+
+  <!-- Keyboard save toast -->
+  <div id="nsc-kbd-toast">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    Sauvegarde en cours…
+  </div>
+
+  <!-- ══ AUTH ══════════════════════════════════════════ -->
+  <script>
+  (function () {
+    'use strict';
+    var DECAP_KEY = 'decap-cms-user';
+    var overlay  = document.getElementById('nsc-overlay');
+    var form     = document.getElementById('nsc-form');
+    var loader   = document.getElementById('nsc-loader');
+    var submitBtn = document.getElementById('nsc-submit');
+    var errBox   = document.getElementById('nsc-err');
+
+    function showErr(msg) {
+      errBox.textContent = msg; errBox.classList.add('show');
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg> Se connecter';
+      form.style.display = ''; loader.classList.remove('show');
+    }
+
+    var stored = null;
+    try { stored = localStorage.getItem(DECAP_KEY); } catch(e) {}
+    if (stored) { overlay.classList.add('hidden'); }
+
+    function doLogin() {
+      var u = document.getElementById('nsc-u').value.trim();
+      var p = document.getElementById('nsc-p').value;
+      if (!u || !p) return;
+      errBox.classList.remove('show');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Vérification…';
+      form.style.display = 'none';
+      loader.classList.add('show');
+
+      fetch('/api/password-login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: u, password: p })
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        if (!d.token) { showErr(d.error || 'Identifiants incorrects.'); return; }
+        var decapUser = JSON.stringify({
+          name:        d.ghName  || d.username || 'Admin',
+          login:       d.ghLogin || d.username || 'admin',
+          token:       d.token,
+          backendName: 'github'
+        });
+        try { localStorage.setItem(DECAP_KEY, decapUser); } catch(e) {}
+        window.location.reload();
+      })
+      .catch(function() { showErr('Erreur réseau. Réessayez.'); });
+    }
+
+    submitBtn.addEventListener('click', doLogin);
+    document.getElementById('nsc-p').addEventListener('keydown', function(e) { if (e.key==='Enter') doLogin(); });
+    document.getElementById('nsc-u').addEventListener('keydown', function(e) { if (e.key==='Enter') document.getElementById('nsc-p').focus(); });
+
+    var _expiredChecked = false;
+    var observer = new MutationObserver(function() {
+      if (_expiredChecked) return;
+      var btns = document.querySelectorAll('button');
+      for (var i = 0; i < btns.length; i++) {
+        var txt = (btns[i].textContent || '').trim();
+        if (txt.indexOf('GitHub') !== -1 && !btns[i].closest('#nsc-overlay')) {
+          _expiredChecked = true;
+          try { localStorage.removeItem(DECAP_KEY); } catch(e) {}
+          overlay.classList.remove('hidden');
+          form.style.display = ''; loader.classList.remove('show');
+          if (stored) showErr('Session expirée. Reconnectez-vous.');
+          return;
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+  }());
+  </script>
+
+  <script src="https://unpkg.com/decap-cms@^3/dist/decap-cms.js"></script>
+
+  <!-- ══ POST-LOAD UX ENHANCEMENTS ════════════════════ -->
+  <script>
+  (function() {
+    'use strict';
+
+    /* ── Constants ─────────────────────────────────── */
+    /* title_tag = page SEO titles, title = article titles (same rules) */
+    var SEO_RULES = {
+      title_tag:        { min: 40, ideal_min: 55, ideal_max: 65, max: 72, label: 'Title tag' },
+      title:            { min: 40, ideal_min: 55, ideal_max: 70, max: 80, label: 'Titre SEO' },
+      meta_description: { min: 80, ideal_min: 140, ideal_max: 160, max: 170, label: 'Meta desc.' }
+    };
+
+    /* Page collections and their language entry suffixes */
+    var PAGE_LANGS = {
+      page_homepage:   { en:'hp_en', fr:'hp_fr', es:'hp_es', it:'hp_it', de:'hp_de' },
+      page_surfing:    { en:'surf_en', fr:'surf_fr', es:'surf_es', it:'surf_it', de:'surf_de' },
+      page_surf_house: { en:'sh_en', fr:'sh_fr', es:'sh_es', it:'sh_it', de:'sh_de' },
+      page_booking:    { en:'book_en', fr:'book_fr', es:'book_es', it:'book_it', de:'book_de' },
+      page_faq:        { en:'faq_en', fr:'faq_fr', es:'faq_es', it:'faq_it', de:'faq_de', nl:'faq_nl', ar:'faq_ar' },
+      page_island:     { en:'isl_en', fr:'isl_fr', es:'isl_es', it:'isl_it', de:'isl_de' }
+    };
+
+    var LANG_FLAGS = { en:'🇬🇧', fr:'🇫🇷', es:'🇪🇸', it:'🇮🇹', de:'🇩🇪', nl:'🇳🇱', ar:'🇸🇦' };
+    var LANG_MAP   = { en:'articles_en', fr:'articles_fr', es:'articles_es',
+                       it:'articles_it', de:'articles_de', nl:'articles_nl', ar:'articles_ar' };
+
+    var savedBadge   = document.getElementById('nsc-saved');
+    var kbdToast     = document.getElementById('nsc-kbd-toast');
+    var lsSwitcher   = document.getElementById('nsc-lang-switcher');
+    var _saveTimer   = null;
+    var _kbdTimer    = null;
+    var _labelled    = false;
+    var _healthDone  = false;
+
+    /* ── 1. Nav active state ───────────────────────── */
+    function syncNav() {
+      var h = window.location.hash;
+      document.querySelectorAll('.nsc-page-btn').forEach(function(btn) {
+        var href = btn.getAttribute('href') || '';
+        btn.classList.toggle('active', href.startsWith('#') && h.startsWith(href));
+      });
+    }
+    window.addEventListener('hashchange', syncNav); syncNav();
+
+    /* ── 2. Articles language filter ───────────────── */
+    document.querySelectorAll('.nsc-lang-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var lang = btn.getAttribute('data-lang');
+        document.querySelectorAll('.nsc-lang-btn').forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        window.location.hash = lang === 'all' ? '#/collections/articles_en' : '#/collections/' + LANG_MAP[lang];
+      });
+    });
+    function syncLang() {
+      var h = window.location.hash; var matched = false;
+      Object.keys(LANG_MAP).forEach(function(lang) {
+        var on = h.indexOf('/collections/' + LANG_MAP[lang]) !== -1;
+        if (on) matched = true;
+        var b = document.querySelector('.nsc-lang-btn[data-lang="' + lang + '"]');
+        if (b) b.classList.toggle('active', on);
+      });
+      var allB = document.querySelector('.nsc-lang-btn.all-btn');
+      if (allB) allB.classList.toggle('active', !matched);
+    }
+    window.addEventListener('hashchange', syncLang); syncLang();
+
+    /* ── 3. Language switcher for page collections ─── */
+    function updateLangSwitcher() {
+      var h = window.location.hash;
+      /* Detect pattern: #/collections/{page_collection}/entries/{entry_id} */
+      var m = h.match(/#\/collections\/([^/]+)\/entries\/([^/]+)/);
+      if (!m) { lsSwitcher.classList.remove('show'); return; }
+      var collection = m[1];
+      var entryId    = m[2];
+      var langs = PAGE_LANGS[collection];
+      if (!langs) { lsSwitcher.classList.remove('show'); return; }
+
+      /* Build switcher buttons */
+      lsSwitcher.innerHTML = '<span id="nsc-ls-label">Langue</span>';
+      var added = 0;
+      Object.keys(langs).forEach(function(lang) {
+        var id   = langs[lang];
+        var flag = LANG_FLAGS[lang] || lang.toUpperCase();
+        var btn  = document.createElement('a');
+        btn.className = 'nsc-ls-btn' + (id === entryId ? ' active' : '');
+        btn.href = '#/collections/' + collection + '/entries/' + id;
+        btn.title = lang.toUpperCase();
+        btn.textContent = flag + ' ' + lang.toUpperCase();
+        lsSwitcher.appendChild(btn);
+        added++;
+      });
+      if (added > 0) lsSwitcher.classList.add('show');
+      else           lsSwitcher.classList.remove('show');
+    }
+    window.addEventListener('hashchange', updateLangSwitcher); updateLangSwitcher();
+
+    /* ── 4. Auto-scroll form to top on navigation ─── */
+    var _lastHash = '';
+    function scrollFormToTop() {
+      if (window.location.hash === _lastHash) return;
+      _lastHash = window.location.hash;
+      _labelled = false; _healthDone = false;
+      setTimeout(function() {
+        var pane = document.querySelector('[class*="ControlPaneContainer"], [class*="EditorControlPane"]');
+        if (pane) pane.scrollTop = 0;
+        /* Also try the main scroll container */
+        var main = document.querySelector('[class*="EditorContainer"], [class*="MainPanel"]');
+        if (main) main.scrollTop = 0;
+      }, 200);
+    }
+    window.addEventListener('hashchange', scrollFormToTop);
+
+    /* ── 5. Keyboard shortcut: Ctrl+S / ⌘+S to save ─ */
+    document.addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+        e.preventDefault();
+        /* Find the primary save/publish button */
+        var saveBtn = document.querySelector('[class*="ToolbarButton"]:not([class*="Refresh"]):not([class*="refresh"])');
+        if (saveBtn) {
+          saveBtn.click();
+          /* Show toast */
+          kbdToast.classList.add('show');
+          clearTimeout(_kbdTimer);
+          _kbdTimer = setTimeout(function() { kbdToast.classList.remove('show'); }, 2500);
+        }
+      }
+    });
+
+    /* ── 6. SEO character counter ──────────────────── */
+    function getCharClass(n, rule) {
+      if (n === 0) return 'bad';
+      if (n < rule.min) return 'bad';
+      if (n > rule.max) return 'bad';
+      if (n >= rule.ideal_min && n <= rule.ideal_max) return 'ok';
+      return 'warn';
+    }
+    function getCharTip(n, rule) {
+      if (n === 0) return 'Champ vide';
+      if (n < rule.min) return 'Trop court (' + (rule.ideal_min - n) + ' car. manquants)';
+      if (n > rule.max) return 'Trop long (' + (n - rule.ideal_max) + ' car. en trop)';
+      if (n >= rule.ideal_min && n <= rule.ideal_max) return '✓ Longueur idéale';
+      return 'Acceptable';
+    }
+    function buildCounter(input, rule) {
+      var wrap = document.createElement('div');
+      wrap.className = 'nsc-char-wrap';
+      wrap.setAttribute('data-nsc-counter', '1');
+
+      var numEl = document.createElement('span');
+      numEl.className = 'nsc-char-num';
+
+      var rail = document.createElement('div');
+      rail.className = 'nsc-char-rail';
+      var fill = document.createElement('div');
+      fill.className = 'nsc-char-fill';
+      rail.appendChild(fill);
+
+      var tip = document.createElement('span');
+      tip.className = 'nsc-char-tip';
+      tip.textContent = rule.ideal_min + '–' + rule.ideal_max + ' idéal';
+
+      wrap.appendChild(numEl); wrap.appendChild(rail); wrap.appendChild(tip);
+
+      function update() {
+        var n = (input.value || '').length;
+        var cls = getCharClass(n, rule);
+        var pct = Math.min(100, (n / rule.max) * 100);
+        numEl.textContent = n + ' / ' + rule.max;
+        numEl.className = 'nsc-char-num ' + cls;
+        fill.style.width = pct + '%';
+        fill.className = 'nsc-char-fill ' + cls;
+        tip.textContent = getCharTip(n, rule);
+      }
+      input.addEventListener('input', update);
+      update();
+      return wrap;
+    }
+
+    function injectCounters(root) {
+      Object.keys(SEO_RULES).forEach(function(fieldName) {
+        var rule = SEO_RULES[fieldName];
+        var inputs = (root || document).querySelectorAll(
+          '[id^="' + fieldName + '-field"]'
+        );
+        inputs.forEach(function(input) {
+          if (input.dataset.nscCounter) return;
+          input.dataset.nscCounter = '1';
+          var parent = input.parentNode;
+          if (!parent) return;
+          if (parent.querySelector('[data-nsc-counter]')) return;
+          var counter = buildCounter(input, rule);
+          parent.insertBefore(counter, input.nextSibling);
+        });
+      });
+    }
+
+    /* ── 7. Word count for markdown fields ─────────── */
+    function injectWordCount(root) {
+      var mdAreas = (root || document).querySelectorAll('[id^="content_markdown-field"]');
+      mdAreas.forEach(function(ta) {
+        if (ta.dataset.nscWc) return;
+        ta.dataset.nscWc = '1';
+        var badge = document.createElement('div');
+        badge.className = 'nsc-wc';
+        badge.setAttribute('data-nsc-wc', '1');
+        function countWords() {
+          /* Only show if the textarea is actually in the visible document */
+          var rect = ta.getBoundingClientRect();
+          if (rect.width === 0 && rect.height === 0) {
+            badge.style.display = 'none'; return;
+          }
+          badge.style.display = '';
+          var text = ta.value || '';
+          text = text.replace(/[#*_~`\[\]()>!-]/g, ' ');
+          var words = text.trim().split(/\s+/).filter(function(w) { return w.length > 0; }).length;
+          badge.textContent = '📝 ' + words.toLocaleString('fr') + ' mots';
+          badge.className = 'nsc-wc' + (words >= 1500 ? ' good' : words >= 800 ? ' ok' : '');
+        }
+        ta.addEventListener('input', countWords);
+        /* Update on scroll (textarea may come into view) */
+        document.addEventListener('scroll', countWords, { passive: true, once: false });
+        countWords();
+        var parent = ta.parentNode;
+        if (parent) parent.insertBefore(badge, ta.nextSibling);
+      });
+    }
+
+    /* ── 8. SEO health bar ─────────────────────────── */
+    function buildHealthPill(label, cls, text) {
+      var p = document.createElement('span');
+      p.className = 'nsc-hp ' + cls;
+      p.textContent = text;
+      return p;
+    }
+    function injectHealthBar(controlPane) {
+      if (_healthDone) return;
+      if (!controlPane) return;
+      if (controlPane.querySelector('.nsc-health-bar')) return;
+
+      /* Support both page (title_tag) and article (title) fields */
+      var titleInput  = document.querySelector('[id^="title_tag-field"]') ||
+                        document.querySelector('[id^="title-field"]');
+      var metaInput   = document.querySelector('[id^="meta_description-field"]');
+      var kwInput     = document.querySelector('[id^="focus_keyword-field"]');
+      /* Only inject if we have at least a title or meta field */
+      if (!titleInput && !metaInput) return;
+      _healthDone = true;
+
+      var bar = document.createElement('div');
+      bar.className = 'nsc-health-bar';
+      var lbl = document.createElement('span');
+      lbl.className = 'nsc-health-lbl';
+      lbl.textContent = 'SEO';
+      bar.appendChild(lbl);
+
+      /* Determine which rule to use for the title */
+      var titleRule = document.querySelector('[id^="title_tag-field"]')
+                      ? SEO_RULES.title_tag : SEO_RULES.title;
+
+      function refreshHealth() {
+        bar.innerHTML = '';
+        bar.appendChild(lbl);
+        if (titleInput) {
+          var nt = (titleInput.value || '').length;
+          var ct = getCharClass(nt, titleRule);
+          bar.appendChild(buildHealthPill('title', ct, 'Titre ' + nt + ' car.'));
+        }
+        if (metaInput) {
+          var nm = (metaInput.value || '').length;
+          var cm = getCharClass(nm, SEO_RULES.meta_description);
+          bar.appendChild(buildHealthPill('meta', cm, 'Meta ' + nm + ' car.'));
+        }
+        if (kwInput) {
+          var kw = (kwInput.value || '').trim();
+          bar.appendChild(buildHealthPill('kw', kw ? 'ok' : 'warn', kw ? '🔑 ' + kw : '⚠️ Mot-clé manquant'));
+        }
+      }
+
+      if (titleInput) titleInput.addEventListener('input', refreshHealth);
+      if (metaInput)  metaInput.addEventListener('input', refreshHealth);
+      if (kwInput)    kwInput.addEventListener('input', refreshHealth);
+      refreshHealth();
+
+      /* Insert after panel label */
+      var panelLabel = controlPane.querySelector('.nsc-panel-label');
+      if (panelLabel) controlPane.insertBefore(bar, panelLabel.nextSibling);
+      else controlPane.insertBefore(bar, controlPane.firstChild);
+    }
+
+    /* ── 9. Panel labels + delete confirm ─────────── */
+    function patchNodes() {
+      /* Delete confirm */
+      document.querySelectorAll('button').forEach(function(btn) {
+        var txt = (btn.textContent || '').trim();
+        if ((txt === "Supprimer l'entrée" || txt === 'Delete entry' || txt === 'Delete') && !btn.dataset.nscP) {
+          btn.dataset.nscP = '1';
+          btn.style.cssText = 'opacity:.35!important;font-size:11px!important;padding:4px 10px!important;background:transparent!important;color:#94a3b8!important;border:1px solid #e2e8f0!important;border-radius:5px!important';
+          btn.addEventListener('click', function(e) {
+            if (!confirm('⚠️ Supprimer cette entrée ?\nCette action est irréversible.')) {
+              e.stopImmediatePropagation(); e.preventDefault();
+            }
+          }, true);
+        }
+        /* Save indicator */
+        if ((txt.includes('ENREGISTRÉES') || txt.includes('SAVED') || txt.includes('saved')) && !_saveTimer) {
+          savedBadge.classList.add('show');
+          _saveTimer = setTimeout(function() { savedBadge.classList.remove('show'); _saveTimer = null; }, 4000);
+        }
+      });
+
+      /* Panel labels */
+      if (!_labelled) {
+        var controlPane = document.querySelector('[class*="ControlPane"], [class*="EditorControl"]');
+        var previewPane = document.querySelector('[class*="PreviewPane"], [class*="EditorPreview"]');
+        if (controlPane && !controlPane.querySelector('.nsc-panel-label')) {
+          _labelled = true;
+          var el = document.createElement('div');
+          el.className = 'nsc-panel-label edit';
+          el.innerHTML = '✏️ &nbsp;FORMULAIRE — modifiez les champs ci-dessous';
+          controlPane.insertBefore(el, controlPane.firstChild);
+          /* Inject health bar after panel label */
+          setTimeout(function() { injectHealthBar(controlPane); }, 500);
+        }
+        if (previewPane && !previewPane.querySelector('.nsc-panel-label')) {
+          var el2 = document.createElement('div');
+          el2.className = 'nsc-panel-label preview';
+          el2.innerHTML = '👁 &nbsp;APERÇU — lecture seule, en direct';
+          previewPane.insertBefore(el2, previewPane.firstChild);
+        }
+      }
+
+      /* Inject SEO counters & word count */
+      injectCounters();
+      injectWordCount();
+    }
+
+    /* ── 10. Save badge ────────────────────────────── */
+    document.getElementById('nsc-logout').addEventListener('click', function() {
+      if (!confirm('Se déconnecter ?')) return;
+      try { localStorage.removeItem('decap-cms-user'); } catch(e) {}
+      window.location.reload();
+    });
+
+    /* ── 11. Open external links on Live button per page ── */
+    var PAGE_LIVE_URLS = {
+      page_homepage:   '/',
+      page_surfing:    '/surfing',
+      page_surf_house: '/surf-house',
+      page_booking:    '/book-online',
+      page_faq:        '/faq',
+      page_island:     '/ngor-island',
+      island_guides:   '/en/ngor-island-things-to-do',
+      articles_en:     '/en/blog'
+    };
+    function updateLiveLink() {
+      var h = window.location.hash;
+      var liveLink = document.getElementById('nsc-live');
+      var base = 'https://surf-camp-senegal.vercel.app';
+      var path = '/';
+      Object.keys(PAGE_LIVE_URLS).forEach(function(col) {
+        if (h.indexOf('/collections/' + col) !== -1) path = PAGE_LIVE_URLS[col];
+      });
+      liveLink.href = base + path;
+    }
+    window.addEventListener('hashchange', updateLiveLink); updateLiveLink();
+
+    /* ── Run observer ──────────────────────────────── */
+    new MutationObserver(patchNodes).observe(document.body, { childList: true, subtree: true });
+    patchNodes();
+
+  }());
+  </script>
+
+</body>
 </html>

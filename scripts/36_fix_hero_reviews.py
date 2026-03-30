@@ -201,20 +201,19 @@ CSS_PATCH = """
 }
 """
 
-css_path = f"{DEMO}/assets/css/style.css"
+css_path = f"{DEMO}/assets/css/ngor-surfcamp.css"
 with open(css_path,'a') as f: f.write('\n/* === hero+reviews v2 === */\n' + CSS_PATCH)
 print("✅ CSS patch applied")
 
 # ════════════════════════════════════════════════════════════════
 # FIX HERO VIDEO — 720p source + no grain overlay
 # ════════════════════════════════════════════════════════════════
-VIDEO_BASE = "https://video.wixstatic.com/video/df99f9_da0cf7c72b1a4606bcfa1f7c8e089dc4"
-VIDEO_POSTER = "https://static.wixstatic.com/media/df99f9_da0cf7c72b1a4606bcfa1f7c8e089dc4f000.jpg"
+VIDEO_POSTER = "/assets/images/wix/df99f9_da0cf7c72b1a4606bcfa1f7c8e089dc4f000.webp"
 
 NEW_VIDEO_TAG = f"""<video id="hero-video" autoplay muted playsinline preload="none" poster="{VIDEO_POSTER}" style="width:100%;height:100%;object-fit:cover">
-        <source src="{VIDEO_BASE}/720p/mp4/file.mp4" type="video/mp4">
-        <source src="{VIDEO_BASE}/480p/mp4/file.mp4" type="video/mp4">
-        <source src="{VIDEO_BASE}/360p/mp4/file.mp4" type="video/mp4">
+        <source src="/assets/video/hero-ngor-720p.mp4" type="video/mp4">
+        <source src="/assets/video/hero-ngor-480p.mp4" type="video/mp4">
+        <source src="/assets/video/hero-ngor-360p.mp4" type="video/mp4">
       </video>"""
 
 # Regex to find and replace existing video tag
@@ -342,7 +341,7 @@ NEW_SLIDER_JS = """
 """
 
 # Replace existing slider JS in animations.js
-anim_path = f"{DEMO}/assets/js/animations.js"
+anim_path = f"{DEMO}/assets/js/ngor-surfcamp.js"
 with open(anim_path) as f: js = f.read()
 
 # Remove old slider function (if any)

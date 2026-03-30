@@ -34,6 +34,9 @@ SURF_HOUSE_PAGE = {
         "book": "Book your stay",
         "copyright": "© NGOR SURFCAMP TERANGA. All rights reserved.",
         "privacy": "Privacy & information",
+        "rooms_lbl": "Accommodation",
+        "meals_lbl": "Kitchen & dining",
+        "wa_btn": "WhatsApp",
     },
     "fr": {
         "title": "Surf House à Ngor Island, Sénégal | Ngor Surfcamp Teranga",
@@ -67,6 +70,9 @@ SURF_HOUSE_PAGE = {
         "book": "Réserver",
         "copyright": "© NGOR SURFCAMP TERANGA. Tous droits réservés.",
         "privacy": "Confidentialité & infos",
+        "rooms_lbl": "Hébergement",
+        "meals_lbl": "Cuisine",
+        "wa_btn": "WhatsApp",
     },
     "es": {
         "title": "Surf House en la isla de Ngor, Senegal | Ngor Surfcamp Teranga",
@@ -100,6 +106,9 @@ SURF_HOUSE_PAGE = {
         "book": "Reservar",
         "copyright": "© NGOR SURFCAMP TERANGA. Todos los derechos reservados.",
         "privacy": "Privacidad e información",
+        "rooms_lbl": "Alojamiento",
+        "meals_lbl": "Cocina y comidas",
+        "wa_btn": "WhatsApp",
     },
     "it": {
         "title": "Surf House a Ngor Island, Senegal | Ngor Surfcamp Teranga",
@@ -133,6 +142,9 @@ SURF_HOUSE_PAGE = {
         "book": "Prenota",
         "copyright": "© NGOR SURFCAMP TERANGA. Tutti i diritti riservati.",
         "privacy": "Privacy e informazioni",
+        "rooms_lbl": "Alloggio",
+        "meals_lbl": "Cucina e pasti",
+        "wa_btn": "WhatsApp",
     },
     "de": {
         "title": "Surf House auf Ngor Island, Senegal | Ngor Surfcamp Teranga",
@@ -166,6 +178,9 @@ SURF_HOUSE_PAGE = {
         "book": "Buchen",
         "copyright": "© NGOR SURFCAMP TERANGA. Alle Rechte vorbehalten.",
         "privacy": "Datenschutz & Infos",
+        "rooms_lbl": "Unterkunft",
+        "meals_lbl": "Küche & Verpflegung",
+        "wa_btn": "WhatsApp",
     },
     "nl": {
         "title": "Surf House op Ngor Island, Senegal | Ngor Surfcamp Teranga",
@@ -199,6 +214,9 @@ SURF_HOUSE_PAGE = {
         "book": "Boek je verblijf",
         "copyright": "© NGOR SURFCAMP TERANGA. Alle rechten voorbehouden.",
         "privacy": "Privacy & informatie",
+        "rooms_lbl": "Accommodatie",
+        "meals_lbl": "Keuken & maaltijden",
+        "wa_btn": "WhatsApp",
     },
     "ar": {
         "title": "بيت ركوب الأمواج في جزيرة نغور، السنغال | Ngor Surfcamp Teranga",
@@ -232,6 +250,9 @@ SURF_HOUSE_PAGE = {
         "book": "احجز إقامتك",
         "copyright": "© NGOR SURFCAMP TERANGA. جميع الحقوق محفوظة.",
         "privacy": "الخصوصية والمعلومات",
+        "rooms_lbl": "الإقامة",
+        "meals_lbl": "المطبخ والوجبات",
+        "wa_btn": "واتساب",
     },
 }
 

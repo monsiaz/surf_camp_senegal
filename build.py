@@ -28,6 +28,23 @@ _surf_house_spec.loader.exec_module(_surf_house_mod)
 SURF_HOUSE_PAGE = _surf_house_mod.SURF_HOUSE_PAGE
 SURF_HOUSE_FEATS = _surf_house_mod.SURF_HOUSE_FEATS
 
+_site_page_spec = importlib.util.spec_from_file_location(
+    "site_page_json", os.path.join(_BASE_DIR, "scripts", "site_page_json.py")
+)
+_site_page_mod = importlib.util.module_from_spec(_site_page_spec)
+_site_page_spec.loader.exec_module(_site_page_mod)
+
+_site_assets_spec = importlib.util.spec_from_file_location(
+    "site_assets", os.path.join(_BASE_DIR, "scripts", "site_assets.py")
+)
+_site_assets_mod = importlib.util.module_from_spec(_site_assets_spec)
+_site_assets_spec.loader.exec_module(_site_assets_mod)
+# Bump ASSET_VERSION in scripts/site_assets.py after CSS/JS changes (query-string cache bust).
+ASSET_VERSION = _site_assets_mod.ASSET_VERSION
+ASSET_CSS_MAIN = _site_assets_mod.ASSET_CSS_MAIN
+ASSET_CSS_CONSENT = _site_assets_mod.ASSET_CSS_CONSENT
+ASSET_JS_MAIN = _site_assets_mod.ASSET_JS_MAIN
+
 DEMO_DIR  = os.path.join(_BASE_DIR, "cloudflare-demo")
 CONTENT   = os.path.join(_BASE_DIR, "content")
 # Absolute production origin (no trailing slash). Override for custom domain.
@@ -38,8 +55,6 @@ elif _SITE_RAW.startswith("https://"):
     SITE_URL = _SITE_RAW
 else:
     SITE_URL = "https://" + _SITE_RAW.lstrip("/")
-# Bump after CSS/JS changes so browsers fetch fresh assets (query string cache bust).
-ASSET_VERSION = "20260329b"
 
 # Legacy hosts replaced in patch_legacy_public_host_all() after each build
 LEGACY_PUBLIC_HOSTS = (
@@ -54,6 +69,66 @@ LANGS    = ["en","fr","es","it","de","nl","ar"]
 LANG_PFX = {"en":"","fr":"/fr","es":"/es","it":"/it","de":"/de","nl":"/nl","ar":"/ar"}
 LANG_LOCALE = {"en":"en","fr":"fr-FR","es":"es-ES","it":"it-IT","de":"de-DE","nl":"nl-NL","ar":"ar-MA"}
 LANG_NAMES  = {"en":"English","fr":"Français","es":"Español","it":"Italiano","de":"Deutsch","nl":"Nederlands","ar":"العربية"}
+
+# Shared UI chrome (nav, footer, lightbox, home fixes) — avoid hard-coded English on localized pages
+UI_CHROME = {
+    "wa": {
+        "en": "WhatsApp", "fr": "WhatsApp", "es": "WhatsApp", "it": "WhatsApp",
+        "de": "WhatsApp", "nl": "WhatsApp", "ar": "واتساب",
+    },
+    "nav_menu": {
+        "en": "Menu", "fr": "Menu", "es": "Menú", "it": "Menu",
+        "de": "Menü", "nl": "Menu", "ar": "القائمة",
+    },
+    "breadcrumb": {
+        "en": "Breadcrumb", "fr": "Fil d’Ariane", "es": "Miga de pan", "it": "Percorso",
+        "de": "Brotkrumen", "nl": "Kruimelpad", "ar": "مسار التنقل",
+    },
+    "footer_home": {
+        "en": "Ngor Surfcamp Teranga home", "fr": "Accueil Ngor Surfcamp Teranga",
+        "es": "Inicio Ngor Surfcamp Teranga", "it": "Home Ngor Surfcamp Teranga",
+        "de": "Startseite Ngor Surfcamp Teranga", "nl": "Home Ngor Surfcamp Teranga",
+        "ar": "الصفحة الرئيسية — Ngor Surfcamp Teranga",
+    },
+    "lang_versions": {
+        "en": "Language versions", "fr": "Versions linguistiques", "es": "Versiones de idioma",
+        "it": "Versioni linguistiche", "de": "Sprachversionen", "nl": "Taalversies",
+        "ar": "إصدارات اللغة",
+    },
+    "copy_ok": {
+        "en": "OK", "fr": "OK", "es": "OK", "it": "OK", "de": "OK", "nl": "OK", "ar": "تم",
+    },
+    "reading_loc": {
+        "en": "Ngor Island, Senegal", "fr": "Île de Ngor, Sénégal", "es": "Isla de Ngor, Senegal",
+        "it": "Isola di Ngor, Senegal", "de": "Ngor Island, Senegal", "nl": "Ngor Island, Senegal",
+        "ar": "جزيرة نغور، السنغال",
+    },
+    "gallery_prev": {
+        "en": "Previous image", "fr": "Image précédente", "es": "Imagen anterior",
+        "it": "Immagine precedente", "de": "Vorheriges Bild", "nl": "Vorige afbeelding",
+        "ar": "الصورة السابقة",
+    },
+    "gallery_next": {
+        "en": "Next image", "fr": "Image suivante", "es": "Imagen siguiente",
+        "it": "Immagine successiva", "de": "Nächstes Bild", "nl": "Volgende afbeelding",
+        "ar": "الصورة التالية",
+    },
+    "review_by": {
+        "en": "Review by", "fr": "Avis de", "es": "Reseña de", "it": "Recensione di",
+        "de": "Bewertung von", "nl": "Review van", "ar": "تقييم من",
+    },
+}
+
+# Short brand label next to the G icon in the home reviews header (non-Latin where needed)
+HOME_REVIEWS_GOOGLE_BADGE = {
+    "en": "Google", "fr": "Google", "es": "Google", "it": "Google", "de": "Google", "nl": "Google", "ar": "جوجل",
+}
+
+
+def ui_chrome(key: str, lang: str) -> str:
+    row = UI_CHROME[key]
+    return row.get(lang, row["en"])
+
 
 # Localized page slugs (translate URL slugs)
 SLUG = {
@@ -187,51 +262,46 @@ for _cat_en, _cdata in BLOG_CATS.items():
         CAT_SLUG_FOR_LANG[(_cat_en, _lg)] = _cat_slug
         CAT_PAGE_HREF[(_cat_en, _lg)] = f"{_pfx}/{_blog_slug}/{_cat_slug_word}/{_cat_slug}/"
 
-WIX  = "https://static.wixstatic.com/media"
-LOGO = f"{WIX}/c2467f_a31779010ce34c4c8c61cc5868d81f31~mv2.png"
+_WIX = "/assets/images/wix"
+LOGO = f"{_WIX}/c2467f_a31779010ce34c4c8c61cc5868d81f31.webp"
 
 IMGS = {
-    "home":    f"{WIX}/df99f9_da0cf7c72b1a4606bcfa1f7c8e089dc4f000.jpg",
-    "house":   f"{WIX}/df99f9_2ec6248367cd4e21a5e6c26c2b0a1c35~mv2.jpg",
-    "house2":  f"{WIX}/df99f9_eba4c24ec6a746b58d60a975b8d20946~mv2.jpg",
-    "house3":  f"{WIX}/df99f9_d8e77cf4807249f6953119f18be64166~mv2.jpg",
-    "island":  f"{WIX}/df99f9_56b9af6efe2841eea44109b3b08b7da1~mv2.jpg",
-    "island2": f"{WIX}/b28af82dbec544138f16e2bc5a85f2cb.jpg",
-    "surf":    f"{WIX}/11062b_89a070321f814742a620b190592d51ad~mv2.jpg",
-    "surf2":   f"{WIX}/df99f9_dd89cc4d86d4402189d7e9516ce672a3~mv2.jpg",
-    "surf3":   f"{WIX}/df99f9_961b0768e713457f93025f4ce6fb1419~mv2.jpg",
-    "ngor_r":  f"{WIX}/11062b_7f89d2db0ace4027ac4a00928a6aca08~mv2.jpg",
-    "sunset":  f"{WIX}/df99f9_d6e404dd3cf74396b6ea874cb7021a27~mv2.jpg",
-    "art":     f"{WIX}/df99f9_d81668a18a9d49d1b5ebb0ea3a0abbc7~mv2.jpg",
-    "food":    f"{WIX}/df99f9_753890483d8e4cca8e2051a13f9c558e~mv2.jpg",
-    "pool":    f"{WIX}/df99f9_a18d512828d9487e9a4987b9903960e0~mv2.jpg",
-    "review":  f"{WIX}/11062b_772a661c20f742c7baca38ad28c5f7fc~mv2.jpeg",
-    "book_bg": f"{WIX}/df99f9_0d4a03baee4f46b68bc1aa085ed28e35~mv2.jpg",
+    "home":    f"{_WIX}/df99f9_da0cf7c72b1a4606bcfa1f7c8e089dc4f000.webp",
+    "house":   f"{_WIX}/df99f9_2ec6248367cd4e21a5e6c26c2b0a1c35.webp",
+    "house2":  f"{_WIX}/df99f9_eba4c24ec6a746b58d60a975b8d20946.webp",
+    "house3":  f"{_WIX}/df99f9_d8e77cf4807249f6953119f18be64166.webp",
+    "island":  f"{_WIX}/df99f9_56b9af6efe2841eea44109b3b08b7da1.webp",
+    "island2": f"{_WIX}/b28af82dbec544138f16e2bc5a85f2cb.webp",
+    "surf":    f"{_WIX}/11062b_89a070321f814742a620b190592d51ad.webp",
+    "surf2":   f"{_WIX}/df99f9_dd89cc4d86d4402189d7e9516ce672a3.webp",
+    "surf3":   f"{_WIX}/df99f9_961b0768e713457f93025f4ce6fb1419.webp",
+    "ngor_r":  f"{_WIX}/11062b_7f89d2db0ace4027ac4a00928a6aca08.webp",
+    "sunset":  f"{_WIX}/df99f9_d6e404dd3cf74396b6ea874cb7021a27.webp",
+    "art":     f"{_WIX}/df99f9_d81668a18a9d49d1b5ebb0ea3a0abbc7.webp",
+    "food":    f"{_WIX}/df99f9_753890483d8e4cca8e2051a13f9c558e.webp",
+    "pool":    f"{_WIX}/df99f9_a18d512828d9487e9a4987b9903960e0.webp",
+    "review":  f"{_WIX}/df99f9_961b0768e713457f93025f4ce6fb1419.webp",
+    "book_bg": f"{_WIX}/df99f9_0d4a03baee4f46b68bc1aa085ed28e35.webp",
     "gallery": [
-        f"{WIX}/df99f9_16fcc19c812d49a9a05e361aacdc9cea~mv2.jpg",
-        f"{WIX}/df99f9_25cc88706ffb42debadac4787bab4f02~mv2.jpg",
-        f"{WIX}/df99f9_6a9de50280094c06b4bb439b5d0a7ca7~mv2.jpg",
-        f"{WIX}/df99f9_bb61f8a278004fccb5f55351a772472c~mv2.jpg",
-        f"{WIX}/df99f9_6fae936c12864930a0e7413cdccf6fd0~mv2.jpeg",
-        f"{WIX}/df99f9_27471c09c19d473896e650316f2a0622~mv2.jpg",
-        f"{WIX}/df99f9_42ff8407b442474fa5d54253fac98133~mv2.jpg",
-        f"{WIX}/df99f9_64a5d28bf1d94191ad2fa45af7de6782~mv2.jpg",
-        f"{WIX}/df99f9_0d4a03baee4f46b68bc1aa085ed28e35~mv2.jpg",
-        f"{WIX}/df99f9_796b6115065145eabddfe3ae32b8f4d5~mv2.jpg",
-        f"{WIX}/df99f9_bde010e1296b478cbbe4f885c2714338~mv2.jpg",
-        f"{WIX}/df99f9_81e322c4e48d4bcbb444c6535daed131~mv2.jpg",
+        f"{_WIX}/df99f9_16fcc19c812d49a9a05e361aacdc9cea.webp",
+        f"{_WIX}/df99f9_25cc88706ffb42debadac4787bab4f02.webp",
+        f"{_WIX}/df99f9_6a9de50280094c06b4bb439b5d0a7ca7.webp",
+        f"{_WIX}/df99f9_bb61f8a278004fccb5f55351a772472c.webp",
+        f"{_WIX}/df99f9_6fae936c12864930a0e7413cdccf6fd0.webp",
+        f"{_WIX}/df99f9_27471c09c19d473896e650316f2a0622.webp",
+        f"{_WIX}/df99f9_42ff8407b442474fa5d54253fac98133.webp",
+        f"{_WIX}/df99f9_64a5d28bf1d94191ad2fa45af7de6782.webp",
+        f"{_WIX}/df99f9_0d4a03baee4f46b68bc1aa085ed28e35.webp",
+        f"{_WIX}/df99f9_796b6115065145eabddfe3ae32b8f4d5.webp",
+        f"{_WIX}/df99f9_bde010e1296b478cbbe4f885c2714338.webp",
+        f"{_WIX}/df99f9_81e322c4e48d4bcbb444c6535daed131.webp",
     ],
 }
 
 
 def wix_thumb_url(full_url, w=520):
-    """Wix static /v1/fill/… thumbnail — smaller payload than full-size media URLs."""
-    marker = "https://static.wixstatic.com/media/"
-    if marker not in full_url:
-        return full_url
-    part = full_url.split(marker, 1)[1].split("?", 1)[0]
-    h = max(1, int(w * 0.75))
-    return f"{marker}{part}/v1/fill/w_{w},h_{h},al_c,q_82,enc_auto/{part}"
+    """Self-hosted WebP assets — no transform needed, just return as-is."""
+    return full_url
 
 
 def build_gallery_thumb_buttons(urls, alt_raw, pe, thumb_w=560, eager_first=False):
@@ -257,17 +327,17 @@ def build_gallery_thumb_buttons(urls, alt_raw, pe, thumb_w=560, eager_first=Fals
 
 
 SURF_HOUSE_SHOTS = [
-    f"{WIX}/df99f9_2ec6248367cd4e21a5e6c26c2b0a1c35~mv2.jpg",
-    f"{WIX}/df99f9_eba4c24ec6a746b58d60a975b8d20946~mv2.jpg",
-    f"{WIX}/df99f9_d8e77cf4807249f6953119f18be64166~mv2.jpg",
-    f"{WIX}/df99f9_753890483d8e4cca8e2051a13f9c558e~mv2.jpg",
-    f"{WIX}/df99f9_a18d512828d9487e9a4987b9903960e0~mv2.jpg",
-    f"{WIX}/df99f9_dd89cc4d86d4402189d7e9516ce672a3~mv2.jpg",
-    f"{WIX}/df99f9_81e322c4e48d4bcbb444c6535daed131~mv2.jpg",
-    f"{WIX}/df99f9_bde010e1296b478cbbe4f885c2714338~mv2.jpg",
+    f"{_WIX}/df99f9_2ec6248367cd4e21a5e6c26c2b0a1c35.webp",
+    f"{_WIX}/df99f9_eba4c24ec6a746b58d60a975b8d20946.webp",
+    f"{_WIX}/df99f9_d8e77cf4807249f6953119f18be64166.webp",
+    f"{_WIX}/df99f9_753890483d8e4cca8e2051a13f9c558e.webp",
+    f"{_WIX}/df99f9_a18d512828d9487e9a4987b9903960e0.webp",
+    f"{_WIX}/df99f9_dd89cc4d86d4402189d7e9516ce672a3.webp",
+    f"{_WIX}/df99f9_81e322c4e48d4bcbb444c6535daed131.webp",
+    f"{_WIX}/df99f9_bde010e1296b478cbbe4f885c2714338.webp",
 ]
 
-VIDEO_BASE = "https://video.wixstatic.com/video/df99f9_da0cf7c72b1a4606bcfa1f7c8e089dc4"
+VIDEO_BASE = "/assets/video/hero-ngor"
 
 ICO_BASE  = "/assets/images/icons"
 ICONS_DIR = f"{DEMO_DIR}/assets/images/icons"
@@ -446,12 +516,16 @@ def page_head(title, meta, lang, page_key, og_img=""):
 {hrl}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preconnect" href="https://static.wixstatic.com" crossorigin>
-<link rel="preconnect" href="https://video.wixstatic.com" crossorigin>
 <link rel="preload" href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,700;0,800;0,900;1,400&family=Inter:wght@400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,700;0,800;0,900;1,400&family=Inter:wght@400;500;600&display=swap"></noscript>
-<link rel="stylesheet" href="/assets/css/style.css?v={ASSET_VERSION}">
-<script src="/assets/js/animations.js?v={ASSET_VERSION}" defer></script>
+<link rel="stylesheet" href="/assets/css/{ASSET_CSS_MAIN}?v={ASSET_VERSION}">
+<script src="/assets/js/{ASSET_JS_MAIN}?v={ASSET_VERSION}" defer></script>
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#0a2540">
 </head>
 <body>
 <div id="scroll-progress"></div>"""
@@ -508,10 +582,10 @@ def build_nav(active_key, lang, lang_switcher_hrefs=None):
         f'<img src="{LOGO}" alt="Ngor Surfcamp Teranga" width="130" height="44" loading="eager"></a>'
         f'<div class="nav-links" id="nav-links">{items}</div>'
         f'<div class="nav-right">{lang_dd}'
-        f'<a href="https://wa.me/221789257025" target="_blank" rel="noopener" class="nav-wa" aria-label="WhatsApp">'
+        f'<a href="https://wa.me/221789257025" target="_blank" rel="noopener" class="nav-wa" aria-label="{escape(ui_chrome("wa", lang))}">'
         f'<span style="display:inline-flex">{WA_ICO}</span>'
-        f'<span class="nav-wa-label">WhatsApp</span></a>'
-        f'<button class="nav-toggle" id="nav-toggle" aria-label="Menu" onclick="toggleMenu()">'
+        f'<span class="nav-wa-label">{escape(ui_chrome("wa", lang))}</span></a>'
+        f'<button class="nav-toggle" id="nav-toggle" aria-label="{escape(ui_chrome("nav_menu", lang))}" onclick="toggleMenu()">'
         f'<span style="display:inline-flex;color:#fff">{MENU_ICO}</span></button>'
         f'</div></div></nav>'
     )
@@ -525,6 +599,11 @@ GETTING_HERE_FLAG_HREF = {
     "nl": "/nl/hoe-kom-je-er/",
     "ar": "/ar/كيف-تصل/",
 }
+
+GETTING_HERE_SEGMENT = {}
+for _gh_lang in LANGS:
+    _gh_path = GETTING_HERE_FLAG_HREF[_gh_lang].strip("/")
+    GETTING_HERE_SEGMENT[_gh_lang] = _gh_path.split("/")[-1]
 
 def build_footer(lang, flag_href_override=None):
     pfx = LANG_PFX[lang]
@@ -572,12 +651,12 @@ def build_footer(lang, flag_href_override=None):
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <a href="{LANG_PFX[lang]}/" class="footer-brand-mark" aria-label="Ngor Surfcamp Teranga home">
+        <a href="{LANG_PFX[lang]}/" class="footer-brand-mark" aria-label="{escape(ui_chrome('footer_home', lang))}">
           <img src="{LOGO}" alt="" width="152" height="52" class="footer-brand-logo" loading="lazy">
         </a>
         <p class="footer-brand-text">{ABOUT[lang]}</p>
         <div class="footer-social">
-          <a href="https://wa.me/221789257025" target="_blank" class="soc-btn wa" aria-label="WhatsApp"><span style="display:inline-flex">{WA_ICO}</span></a>
+          <a href="https://wa.me/221789257025" target="_blank" class="soc-btn wa" aria-label="{escape(ui_chrome('wa', lang))}"><span style="display:inline-flex">{WA_ICO}</span></a>
           <a href="https://www.instagram.com/ngorsurfcampteranga" target="_blank" class="soc-btn ig" aria-label="Instagram"><span style="display:inline-flex">{IG_ICO}</span></a>
           <a href="https://www.tiktok.com/@ngorsurfcampteranga" target="_blank" class="soc-btn tt" aria-label="TikTok"><span style="display:inline-flex">{TT_ICO}</span></a>
         </div>
@@ -585,25 +664,25 @@ def build_footer(lang, flag_href_override=None):
       <div class="footer-col"><h4>{EXP[lang]}</h4>{links_html}</div>
       <div class="footer-col">
         <h4>{CON[lang]}</h4>
-        <a href="https://wa.me/221789257025" target="_blank">WhatsApp: +221 78 925 70 25</a>
+        <a href="https://wa.me/221789257025" target="_blank">{escape(ui_chrome("wa", lang))}: +221 78 925 70 25</a>
         <a href="mailto:info@surfcampsenegal.com">info@surfcampsenegal.com</a>
       </div>
       <div class="footer-col">
         <h4>{FOL[lang]}</h4>
         <a href="https://www.instagram.com/ngorsurfcampteranga" target="_blank">Instagram</a>
         <a href="https://www.tiktok.com/@ngorsurfcampteranga" target="_blank">TikTok</a>
-        <a href="https://wa.me/221789257025" target="_blank">WhatsApp</a>
+        <a href="https://wa.me/221789257025" target="_blank">{escape(ui_chrome("wa", lang))}</a>
       </div>
     </div>
     <div class="footer-bottom">
       <p>{COPY[lang]} &nbsp;·&nbsp; <a href="{pp_href}" class="footer-pp-link">{PP_LBL[lang]}</a></p>
-      <div class="footer-flags" aria-label="Language versions">{flags_html}</div>
+      <div class="footer-flags" aria-label="{escape(ui_chrome('lang_versions', lang))}">{flags_html}</div>
     </div>
   </div>
 </footer>"""
 
 def page_close():
-    """ONLY the closing tags — NO inline JS (animations.js handles everything)."""
+    """ONLY the closing tags — NO inline JS (site JS bundle handles interactions)."""
     return "\n</body>\n</html>"
 
 
@@ -733,16 +812,36 @@ def write_sitemaps_and_robots():
     index_body = "\n".join(
         f"  <sitemap><loc>{escape(f'{base}/sitemap-{lg}.xml')}</loc></sitemap>" for lg in LANGS
     )
+    sitemap_index_content = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        f"{index_body}\n</sitemapindex>\n"
+    )
     with open(os.path.join(DEMO_DIR, "sitemap-index.xml"), "w", encoding="utf-8") as f:
-        f.write(
-            '<?xml version="1.0" encoding="UTF-8"?>\n'
-            '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-            f"{index_body}\n</sitemapindex>\n"
-        )
+        f.write(sitemap_index_content)
+    # /sitemap.xml alias — many tools and Google Search Console expect this canonical path
+    with open(os.path.join(DEMO_DIR, "sitemap.xml"), "w", encoding="utf-8") as f:
+        f.write(sitemap_index_content)
 
     robots = f"""User-agent: *
 Allow: /
 
+# CMS / admin — private, not indexable
+Disallow: /admin/
+Disallow: /admin
+
+# Serverless API routes — internal only
+Disallow: /api/
+
+# Vercel internals
+Disallow: /_vercel/
+Disallow: /.well-known/
+
+# Dev / build artefacts
+Disallow: /node_modules/
+Disallow: /.vercel/
+
+Sitemap: {base}/sitemap.xml
 Sitemap: {base}/sitemap-index.xml
 """
     with open(os.path.join(DEMO_DIR, "robots.txt"), "w", encoding="utf-8") as f:
@@ -912,7 +1011,7 @@ ISLAND_GUIDE_UI = {
         "prev": "السابق",
         "next": "التالي",
         "back": "العودة إلى الجزيرة",
-        "cta_h2": "هل أنت مستعد للتزلج على الأمواج في نغور؟",
+        "cta_h2": "هل أنت مستعد لركوب الأمواج في نغور؟",
         "cta_p": "جزيرة نغور، داكار، السنغال. واتساب: +221 78 925 70 25",
         "book": "احجز إقامتك",
         "who_lbl": "لمن هذا الدليل؟",
@@ -954,7 +1053,7 @@ def island_guide_href_path(lang, guide):
 
 
 def load_island_guides():
-    m = load(os.path.join(ISLAND_GUIDES_DIR, "manifest.json"))
+    m = load(os.path.join(CONTENT, "island_guides_manifest.json"))
     if not m:
         return []
     guides = []
@@ -1132,10 +1231,17 @@ def build_island_guide_page(guide, lang, all_guides, guide_index):
         scripts_ld += f'<script type="application/ld+json">\n{faq_ld}\n</script>\n'
     scripts_ld += f'<script type="application/ld+json">\n{art_ld}\n</script>'
 
+    _iloc = LANG_LOCALE.get(lang, lang)
+    _idir = ' dir="rtl"' if lang == "ar" else ""
+    _ifont = (
+        '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;600;700&display=swap">\n'
+        if lang == "ar"
+        else ""
+    )
     html = f"""<!DOCTYPE html>
-<html lang="{lang}"><head>
+<html lang="{_iloc}"{_idir}><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>{escape(title)}</title>
+{_ifont}<title>{escape(title)}</title>
 <meta name="description" content="{escape(meta_d)}">
 <meta property="og:title" content="{escape(title)}">
 <meta property="og:description" content="{escape(meta_d)}">
@@ -1145,12 +1251,11 @@ def build_island_guide_page(guide, lang, all_guides, guide_index):
 {chr(10).join(href_lines)}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preconnect" href="https://static.wixstatic.com" crossorigin>
 <link rel="preload" href="{hero_rel}" as="image" fetchpriority="high">
 <link rel="preload" href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,700;0,800;0,900;1,400&family=Inter:wght@400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,700;0,800;0,900;1,400&family=Inter:wght@400;500;600&display=swap"></noscript>
-<link rel="stylesheet" href="/assets/css/style.css?v={ASSET_VERSION}">
-<script src="/assets/js/animations.js?v={ASSET_VERSION}" defer></script>
+<link rel="stylesheet" href="/assets/css/{ASSET_CSS_MAIN}?v={ASSET_VERSION}">
+<script src="/assets/js/{ASSET_JS_MAIN}?v={ASSET_VERSION}" defer></script>
 {scripts_ld}
 </head><body>
 <div id="scroll-progress"></div>
@@ -1163,11 +1268,11 @@ def build_island_guide_page(guide, lang, all_guides, guide_index):
         <p style="margin-bottom:12px"><span class="cat-badge island-guide-badge">{cat}</span></p>
         <h1 style="font-size:clamp(22px,4vw,52px);margin-bottom:12px;text-shadow:0 2px 16px rgba(0,0,0,0.3)" itemprop="headline">{escape(h1)}</h1>
         {f'<p style="max-width:640px;margin:0 auto 8px;opacity:0.95;font-size:clamp(15px,2vw,18px);line-height:1.5">{escape(deck)}</p>' if deck else ''}
-        <div class="reading-meta"><span>⏱ {escape(ui["mins"].replace("{n}", str(rt)))}</span><span>📍 Ngor Island, Senegal</span></div>
+        <div class="reading-meta"><span>⏱ {escape(ui["mins"].replace("{n}", str(rt)))}</span><span>📍 {escape(ui_chrome("reading_loc", lang))}</span></div>
       </div>
     </header>
     <div class="container" style="padding:48px 24px 80px">
-      <nav class="breadcrumb" aria-label="Breadcrumb"><a href="{(pfx + "/") if pfx else "/"}">{escape(ui["breadcrumb_home"])}</a><span>›</span><a href="{island_hub}">{escape(island_name)}</a><span>›</span><span>{crumb_title}</span></nav>
+      <nav class="breadcrumb" aria-label="{escape(ui_chrome('breadcrumb', lang))}"><a href="{(pfx + "/") if pfx else "/"}">{escape(ui["breadcrumb_home"])}</a><span>›</span><a href="{island_hub}">{escape(island_name)}</a><span>›</span><span>{crumb_title}</span></nav>
       <div class="art-lang-bar"><span class="lbl">{escape(ui["read_in"])}</span>{pills}</div>
       <div class="persona-bar"><span class="persona-bar-label">{escape(ui["who_lbl"])}</span><span style="font-size:14px;color:#374151">{escape(ui["who_txt"])}</span></div>
       {author_html}
@@ -1176,9 +1281,9 @@ def build_island_guide_page(guide, lang, all_guides, guide_index):
       </div>
       <div class="share-row">
         <span class="share-label">{escape(ui["share"])}</span>
-        <button type="button" class="share-btn share-wa" onclick="shareWA()" style="display:inline-flex;align-items:center;gap:7px"><span style="display:inline-flex">{WA_ICO}</span> WhatsApp</button>
+        <button type="button" class="share-btn share-wa" onclick="shareWA()" style="display:inline-flex;align-items:center;gap:7px"><span style="display:inline-flex">{WA_ICO}</span> {escape(ui_chrome("wa", lang))}</button>
         <button type="button" class="share-btn share-copy" onclick="copyURL()">{escape(ui["copy"])}</button>
-        <span class="copy-success">OK</span>
+        <span class="copy-success">{escape(ui_chrome("copy_ok", lang))}</span>
       </div>
       <div class="art-cta" style="position:relative">
         <div style="position:relative;z-index:1">
@@ -1186,7 +1291,7 @@ def build_island_guide_page(guide, lang, all_guides, guide_index):
           <p style="opacity:0.82;margin-bottom:28px;font-size:15px;max-width:480px;margin-left:auto;margin-right:auto">{escape(ui["cta_p"])}</p>
           <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
             <a href="{book_href}" class="btn btn-fire btn-lg">{escape(ui["book"])}</a>
-            <a href="https://wa.me/221789257025" target="_blank" rel="noopener" class="btn btn-glass btn-lg"><span style="display:inline-flex">{WA_ICO}</span> WhatsApp</a>
+            <a href="https://wa.me/221789257025" target="_blank" rel="noopener" class="btn btn-glass btn-lg"><span style="display:inline-flex">{WA_ICO}</span> {escape(ui_chrome("wa", lang))}</a>
           </div>
         </div>
       </div>
@@ -1516,6 +1621,193 @@ def patch_lang_switcher_all():
                 n += 1
 
     print(f"  lang-switcher: fixed {n} HTML files")
+
+
+def _parse_index_html_rel(rel_path):
+    """Return (lang, path_segments) for .../index.html under DEMO_DIR, or None."""
+    rel_path = rel_path.replace("\\", "/")
+    if not rel_path.endswith("index.html"):
+        return None
+    inner = rel_path[: -len("index.html")].strip("/")
+    if not inner:
+        return "en", []
+    parts = inner.split("/")
+    if parts[0] in LANGS:
+        return parts[0], parts[1:]
+    return "en", parts
+
+
+def _normalize_site_path(path):
+    if not path.startswith("/"):
+        path = "/" + path
+    if not path.endswith("/"):
+        path += "/"
+    return path.replace("//", "/")
+
+
+def hreflang_paths_for_index(rel_path, island_guides):
+    """Map lang → path (leading /, trailing /) for this page cluster, or None."""
+    parsed = _parse_index_html_rel(rel_path)
+    if not parsed:
+        return None
+    lang, segs = parsed
+
+    if len(segs) == 0:
+        return {lg: _normalize_site_path(LANG_PFX[lg] + "/") for lg in LANGS}
+
+    if len(segs) == 1 and segs[0] == GETTING_HERE_SEGMENT.get(lang):
+        return {lg: _normalize_site_path(GETTING_HERE_FLAG_HREF[lg]) for lg in LANGS}
+
+    if len(segs) == 1:
+        matched_key = None
+        for key in SLUG.get("en", {}):
+            if any(SLUG[lg].get(key) == segs[0] for lg in LANGS):
+                matched_key = key
+                break
+        if matched_key:
+            return {
+                lg: _normalize_site_path(f"{LANG_PFX[lg]}/{SLUG[lg][matched_key]}/")
+                for lg in LANGS
+            }
+
+    if len(segs) == 1 and segs[0] == SLUG[lang]["blog"]:
+        return {lg: _normalize_site_path(f"{LANG_PFX[lg]}/{SLUG[lg]['blog']}/") for lg in LANGS}
+
+    if len(segs) == 2 and segs[0] == SLUG[lang]["blog"]:
+        slug = segs[1]
+        return {
+            lg: _normalize_site_path(f"{LANG_PFX[lg]}/{SLUG[lg]['blog']}/{slug}/")
+            for lg in LANGS
+        }
+
+    if (
+        len(segs) == 3
+        and segs[0] == SLUG[lang]["blog"]
+        and segs[1] == SLUG[lang]["category"]
+    ):
+        cat_slug_in_url = segs[2]
+        matched_cat_en = None
+        for _cen, _cdata in BLOG_CATS.items():
+            if _cdata["slug"].get(lang) == cat_slug_in_url:
+                matched_cat_en = _cen
+                break
+        if matched_cat_en:
+            return {lg: _normalize_site_path(CAT_PAGE_HREF[(matched_cat_en, lg)]) for lg in LANGS}
+
+    if len(segs) == 2 and segs[0] == SLUG[lang]["island"]:
+        gslug = segs[1]
+        for g in island_guides:
+            if g.get("slugs", {}).get(lang) == gslug:
+                return {lg: island_guide_href_path(lg, g) for lg in LANGS}
+
+    return None
+
+
+def _find_seo_link_cluster_span(html):
+    """Start/end slice covering canonical + following alternate link tags."""
+    import re as _re
+
+    m = _re.search(r"<link\s+rel=[\"']canonical[\"'][^>]*>", html, _re.I)
+    if not m:
+        return None
+    start = m.start()
+    pos = m.end()
+    while True:
+        m2 = _re.match(r"\s*<link\s+rel=[\"']alternate[\"'][^>]*>", html[pos:], _re.I)
+        if not m2:
+            break
+        pos += m2.end()
+    return start, pos
+
+
+def _render_seo_link_cluster(paths_by_lang, page_lang):
+    base = SITE_URL.rstrip("/")
+
+    def full_url(path):
+        p = path if path.startswith("/") else "/" + path
+        if not p.endswith("/"):
+            p += "/"
+        p = p.replace("//", "/")
+        return base + p
+
+    canon = full_url(paths_by_lang[page_lang])
+    en_u = full_url(paths_by_lang["en"])
+    lines = [
+        f'<link rel="canonical" href="{escape(canon)}">',
+        f'<link rel="alternate" hreflang="x-default" href="{escape(en_u)}">',
+        f'<link rel="alternate" hreflang="en" href="{escape(en_u)}">',
+    ]
+    for lg in ["fr", "es", "it", "de", "nl", "ar"]:
+        lines.append(
+            f'<link rel="alternate" hreflang="{LANG_LOCALE[lg]}" href="{escape(full_url(paths_by_lang[lg]))}">'
+        )
+    return "\n".join(lines)
+
+
+def patch_hreflang_canonical_all_pages():
+    """Rewrite canonical + hreflang clusters so every locale cross-links (bidirectional SEO)."""
+    guides = load_island_guides()
+    n = 0
+    skip = 0
+    from pathlib import Path as _Path
+
+    for html_path in _Path(DEMO_DIR).rglob("index.html"):
+        rel = html_path.relative_to(_Path(DEMO_DIR)).as_posix()
+        if rel.startswith("admin/") or "/admin/" in rel:
+            continue
+        pmap = hreflang_paths_for_index(rel, guides)
+        if not pmap:
+            skip += 1
+            continue
+        parsed = _parse_index_html_rel(rel)
+        if not parsed:
+            continue
+        page_lang, _ = parsed
+        block = _render_seo_link_cluster(pmap, page_lang)
+        try:
+            with open(html_path, encoding="utf-8", errors="replace") as f:
+                h = f.read()
+        except OSError:
+            continue
+        span = _find_seo_link_cluster_span(h)
+        if not span:
+            skip += 1
+            continue
+        a, b = span
+        h2 = h[:a] + block + h[b:]
+        if h2 != h:
+            with open(html_path, "w", encoding="utf-8") as f:
+                f.write(h2)
+            n += 1
+    print(f"  hreflang/canonical: patched {n} pages (skipped {skip} non-cluster or no canonical)")
+
+
+def verify_hreflang_alternate_count():
+    """Lightweight post-build check: expect 8 alternate hreflang links when canonical exists."""
+    import re as _re
+
+    alt_n = _re.compile(r"<link\s+rel=[\"']alternate[\"'][^>]*hreflang=", _re.I)
+    problems = []
+    from pathlib import Path as _Path
+
+    for html_path in _Path(DEMO_DIR).rglob("index.html"):
+        rel = str(html_path.relative_to(_Path(DEMO_DIR)))
+        if "admin/" in rel.replace("\\", "/"):
+            continue
+        try:
+            h = html_path.read_text(encoding="utf-8", errors="replace")
+        except OSError:
+            continue
+        if "rel=\"canonical\"" not in h and "rel='canonical'" not in h:
+            continue
+        n_alt = len(alt_n.findall(h))
+        if n_alt != 8:
+            problems.append((rel, n_alt))
+    if problems:
+        sample = problems[:12]
+        print(f"  hreflang verify: {len(problems)} pages without exactly 8 alternates (sample: {sample})")
+    else:
+        print("  hreflang verify: OK (8 alternates on pages with canonical)")
 
 
 def patch_footer_bottom_pp_all():
@@ -1946,7 +2238,7 @@ def patch_home_discover_section_all():
         new_grid = (
             f'<div class="grid-3 reveal">\n'
             f'        <a href="{sh_href}" class="card">\n'
-            f'          <img src="https://static.wixstatic.com/media/df99f9_eba4c24ec6a746b58d60a975b8d20946~mv2.jpg" alt="{L["c1_t"]}" class="card-img" loading="lazy">\n'
+            f'          <img src="/assets/images/wix/df99f9_eba4c24ec6a746b58d60a975b8d20946.webp" alt="{L["c1_t"]}" class="card-img" loading="lazy">\n'
             f'          <div class="card-body">\n'
             f'            <h3 class="card-h3">{L["c1_t"]}</h3>\n'
             f'            <p class="card-text">{L["c1_d"]}</p>\n'
@@ -1954,7 +2246,7 @@ def patch_home_discover_section_all():
             f'          </div>\n'
             f'        </a>\n'
             f'        <a href="{isl_href}" class="card">\n'
-            f'          <img src="https://static.wixstatic.com/media/b28af82dbec544138f16e2bc5a85f2cb.jpg" alt="{L["c2_t"]}" class="card-img" loading="lazy">\n'
+            f'          <img src="/assets/images/wix/b28af82dbec544138f16e2bc5a85f2cb.webp" alt="{L["c2_t"]}" class="card-img" loading="lazy">\n'
             f'          <div class="card-body">\n'
             f'            <h3 class="card-h3">{L["c2_t"]}</h3>\n'
             f'            <p class="card-text">{L["c2_d"]}</p>\n'
@@ -1962,7 +2254,7 @@ def patch_home_discover_section_all():
             f'          </div>\n'
             f'        </a>\n'
             f'        <a href="{surf_href}" class="card">\n'
-            f'          <img src="https://static.wixstatic.com/media/11062b_89a070321f814742a620b190592d51ad~mv2.jpg" alt="{L["c3_t"]}" class="card-img" loading="lazy">\n'
+            f'          <img src="/assets/images/wix/11062b_89a070321f814742a620b190592d51ad.webp" alt="{L["c3_t"]}" class="card-img" loading="lazy">\n'
             f'          <div class="card-body">\n'
             f'            <h3 class="card-h3">{L["c3_t"]}</h3>\n'
             f'            <p class="card-text">{L["c3_d"]}</p>\n'
@@ -2175,7 +2467,7 @@ def patch_getting_here_footers():
     ]
     block_pat = re.compile(
         r"<!-- Footer \(inline simplified\) -->.*?</footer>\s*"
-        r'<a href="https://wa\.me/221789257025"[^>]*id="float-wa"[^>]*>.*?</a>',
+        r'(?:<a href="https://wa\.me/221789257025"[^>]*id="float-wa"[^>]*>.*?</a>\s*)?',
         re.DOTALL,
     )
     for rel, lang, fq in gh:
@@ -2335,6 +2627,81 @@ BOOKING_REVIEWS = {
         ("س", "#10b981", "Stephan B.", "🇩🇪", "ألمانيا", "منذ 5 أيام", "أسبوعان استثنائيان: محادثات رائعة، لقاءات ممتازة، أمواج استثنائية، خدمة وطعام لا تشوبهما شائبة. أفضل تجربة مخيم أمواج مررت بها. إلى الموسم القادم!", "تقييم موثق"),
     ],
 }
+
+
+def build_home_reviews_inner_html(lang: str) -> str:
+    """Localized review cards for home slider (static EN template is source layout)."""
+    L = BOOKING_SOCIAL_L10N.get(lang, BOOKING_SOCIAL_L10N["en"])
+    rc_tip = L["rc_tip"]
+    prefix = ui_chrome("review_by", lang)
+    rows = BOOKING_REVIEWS.get(lang, BOOKING_REVIEWS["en"])
+    stars = (
+        '<span style="font-size:14px;color:var(--sand)">★</span>'
+        '<span style="font-size:14px;color:var(--sand)">★</span>'
+        '<span style="font-size:14px;color:var(--sand)">★</span>'
+        '<span style="font-size:14px;color:var(--sand)">★</span>'
+        '<span style="font-size:14px;color:var(--sand)">★</span>'
+    )
+    verified_svg = (
+        '<svg viewBox="0 0 16 16" fill="none"><path d="M8 1L9.8 4.7L14 5.3L11 8.2L11.7 12.4L8 10.4L4.3 12.4L5 8.2L2 5.3L6.2 4.7L8 1Z" '
+        'fill="#4285f4" stroke="#4285f4" stroke-width="0.5"/></svg>'
+    )
+    chunks = []
+    for initial, bg, name, flag, country, date, text, verified in rows:
+        safe_name = html_module.escape(name)
+        aria = html_module.escape(f"{prefix} {name}")
+        chunks.append(
+            f'<div class="review-card" data-slide aria-label="{aria}">\n'
+            f'  <div class="rc-head">\n'
+            f'    <div class="rc-avatar" style="background:{bg}">{html_module.escape(initial)}</div>\n'
+            f"    <div class=\"rc-info\">\n"
+            f'      <div class="rc-name">{safe_name}</div>\n'
+            f'      <div class="rc-meta">\n'
+            f'        <span class="rc-flag">{flag}</span>\n'
+            f'        <span class="rc-country">{html_module.escape(country)}</span>\n'
+            f'        <span class="rc-date">{html_module.escape(date)}</span>\n'
+            f"      </div>\n"
+            f"    </div>\n"
+            f"  </div>\n"
+            f'  <div class="rc-stars">{stars}</div>\n'
+            f'  <p class="rc-text" title="{html_module.escape(rc_tip)}">{html_module.escape(text)}</p>\n'
+            f'  <div class="rc-verified">\n'
+            f"    {verified_svg}\n"
+            f"    {html_module.escape(verified)}\n"
+            f"  </div>\n"
+            f"</div>"
+        )
+    return "\n".join(chunks)
+
+
+def patch_home_reviews_slider_all():
+    """Replace home review cards + Google badge label for non-EN locales (fixes mixed EN/AR slider)."""
+    inner_re = re.compile(
+        r'(<div class="reviews-inner" id="reviews-inner">)([\s\S]*?)(\s*</div>\s*</div>\s*<div class="reviews-nav">)',
+        re.MULTILINE,
+    )
+    badge_re = re.compile(
+        r'(<div class="google-badge"><svg viewBox="0 0 24 24">[\s\S]*?</svg>)\s*Google(\s*</div>)',
+    )
+    n = 0
+    for lang in LANGS:
+        if lang == "en":
+            continue
+        rel = f"{lang}/index.html"
+        path = os.path.join(DEMO_DIR, rel)
+        if not os.path.isfile(path):
+            continue
+        with open(path, encoding="utf-8", errors="replace") as f:
+            h = f.read()
+        h2 = inner_re.sub(r"\1\n" + build_home_reviews_inner_html(lang) + r"\3", h, count=1)
+        brand = HOME_REVIEWS_GOOGLE_BADGE.get(lang, "Google")
+        h2 = badge_re.sub(r"\1 " + html_module.escape(brand) + r"\2", h2, count=1)
+        if h2 != h:
+            with open(path, "w", encoding="utf-8") as f:
+                f.write(h2)
+            n += 1
+    print(f"  home reviews slider: rebuilt inner + badge for {n} non-EN home pages")
+
 
 GOOGLE_G_ICON = (
     '<svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true">'
@@ -2531,30 +2898,84 @@ HOME_PROOF_L10N = {
 
 # ── Home Gallery: curated images ──────────────────────────────────────
 HOME_GALLERY_IMGS = [
-    f"{WIX}/df99f9_dd89cc4d86d4402189d7e9516ce672a3~mv2.jpg",   # surf coaching
-    f"{WIX}/df99f9_2ec6248367cd4e21a5e6c26c2b0a1c35~mv2.jpg",   # surf house terrace
-    f"{WIX}/df99f9_eba4c24ec6a746b58d60a975b8d20946~mv2.jpg",   # house & ocean
-    f"{WIX}/11062b_89a070321f814742a620b190592d51ad~mv2.jpg",   # surf action
-    f"{WIX}/df99f9_a18d512828d9487e9a4987b9903960e0~mv2.jpg",   # pool
-    f"{WIX}/df99f9_753890483d8e4cca8e2051a13f9c558e~mv2.jpg",   # senegalese food
-    f"{WIX}/df99f9_d6e404dd3cf74396b6ea874cb7021a27~mv2.jpg",   # sunset
-    f"{WIX}/11062b_7f89d2db0ace4027ac4a00928a6aca08~mv2.jpg",   # ngor right wave
-    f"{WIX}/df99f9_961b0768e713457f93025f4ce6fb1419~mv2.jpg",   # surf camp
-    f"{WIX}/df99f9_d8e77cf4807249f6953119f18be64166~mv2.jpg",   # house interior
-    f"{WIX}/df99f9_d81668a18a9d49d1b5ebb0ea3a0abbc7~mv2.jpg",   # island art
-    f"{WIX}/b28af82dbec544138f16e2bc5a85f2cb.jpg",             # island aerial
+    f"{_WIX}/df99f9_dd89cc4d86d4402189d7e9516ce672a3.webp",   # surf coaching
+    f"{_WIX}/df99f9_2ec6248367cd4e21a5e6c26c2b0a1c35.webp",   # surf house terrace
+    f"{_WIX}/df99f9_eba4c24ec6a746b58d60a975b8d20946.webp",   # house & ocean
+    f"{_WIX}/11062b_89a070321f814742a620b190592d51ad.webp",   # surf action
+    f"{_WIX}/df99f9_a18d512828d9487e9a4987b9903960e0.webp",   # pool
+    f"{_WIX}/df99f9_753890483d8e4cca8e2051a13f9c558e.webp",   # senegalese food
+    f"{_WIX}/df99f9_d6e404dd3cf74396b6ea874cb7021a27.webp",   # sunset
+    f"{_WIX}/11062b_7f89d2db0ace4027ac4a00928a6aca08.webp",   # ngor right wave
+    f"{_WIX}/df99f9_961b0768e713457f93025f4ce6fb1419.webp",   # surf camp
+    f"{_WIX}/df99f9_d8e77cf4807249f6953119f18be64166.webp",   # house interior
+    f"{_WIX}/df99f9_d81668a18a9d49d1b5ebb0ea3a0abbc7.webp",   # island art
+    f"{_WIX}/b28af82dbec544138f16e2bc5a85f2cb.webp",          # island aerial
 ]
 
 HOME_GALLERY_L10N = {
-    "en": {"lbl": "Gallery", "h2": "Island Life in Pictures",     "cta": "View all photos"},
-    "fr": {"lbl": "Galerie", "h2": "La vie sur l'île en images",  "cta": "Voir toutes les photos"},
-    "es": {"lbl": "Galería", "h2": "La isla en imágenes",         "cta": "Ver todas las fotos"},
-    "it": {"lbl": "Galleria","h2": "La vita sull'isola in foto",  "cta": "Vedi tutte le foto"},
-    "de": {"lbl": "Galerie", "h2": "Inselleben in Bildern",       "cta": "Alle Fotos ansehen"},
-    "nl": {"lbl": "Galerij", "h2": "Eilandleven in foto's",       "cta": "Alle foto's bekijken"},
-    "ar": {"lbl": "معرض الصور", "h2": "حياة الجزيرة بالصور",    "cta": "عرض جميع الصور"},
-    "nl": {"lbl": "Galerij","h2": "Eilandleven in foto's",         "cta": "Bekijk alle foto's"},
-    "ar": {"lbl": "معرض الصور","h2": "حياة الجزيرة بالصور",       "cta": "عرض جميع الصور"},
+    "en": {
+        "lbl": "Gallery", "h2": "Island Life in Pictures", "cta": "View all photos",
+        "caps": [
+            "Morning coaching session", "Terrace with sea view", "Ocean view from the house",
+            "Perfect wave at Ngor Right", "Poolside afternoon", "Homemade Senegalese cuisine",
+            "Golden hour at Ngor", "The legendary Ngor Right wave", "Ngor Surfcamp Teranga",
+            "Light & airy rooms", "Island vibes & local art", "Ngor Island from above",
+        ],
+    },
+    "fr": {
+        "lbl": "Galerie", "h2": "La vie sur l'île en images", "cta": "Voir toutes les photos",
+        "caps": [
+            "Session coaching du matin", "Terrasse vue mer", "Vue océan depuis la maison",
+            "Vague parfaite à Ngor Right", "Après-midi au bord de la piscine", "Cuisine sénégalaise maison",
+            "Coucher de soleil doré à Ngor", "La mythique vague Ngor Right", "Ngor Surfcamp Teranga",
+            "Chambres lumineuses", "Ambiance île & art local", "L'île de Ngor depuis les airs",
+        ],
+    },
+    "es": {
+        "lbl": "Galería", "h2": "La isla en imágenes", "cta": "Ver todas las fotos",
+        "caps": [
+            "Sesión de coaching matutina", "Terraza con vistas al mar", "Vista al océano desde la casa",
+            "Ola perfecta en Ngor Right", "Tarde junto a la piscina", "Cocina senegalesa casera",
+            "Hora dorada en Ngor", "La legendaria ola Ngor Right", "Ngor Surfcamp Teranga",
+            "Habitaciones luminosas", "Ambiente isla & arte local", "La isla de Ngor desde arriba",
+        ],
+    },
+    "it": {
+        "lbl": "Galleria", "h2": "La vita sull'isola in foto", "cta": "Vedi tutte le foto",
+        "caps": [
+            "Sessione di coaching mattutina", "Terrazza con vista mare", "Vista oceano dalla casa",
+            "Onda perfetta a Ngor Right", "Pomeriggio in piscina", "Cucina senegalese fatta in casa",
+            "Tramonto dorato a Ngor", "La leggendaria onda Ngor Right", "Ngor Surfcamp Teranga",
+            "Camere luminose", "Atmosfera isola & arte locale", "L'isola di Ngor dall'alto",
+        ],
+    },
+    "de": {
+        "lbl": "Galerie", "h2": "Inselleben in Bildern", "cta": "Alle Fotos ansehen",
+        "caps": [
+            "Morgen-Coaching-Session", "Terrasse mit Meerblick", "Meerblick vom Haus",
+            "Perfekte Welle bei Ngor Right", "Nachmittag am Pool", "Hausgemachte senegalesische Küche",
+            "Goldene Stunde in Ngor", "Die legendäre Ngor Right Welle", "Ngor Surfcamp Teranga",
+            "Helle & luftige Zimmer", "Inselatmosphäre & lokale Kunst", "Ngor Island von oben",
+        ],
+    },
+    "nl": {
+        "lbl": "Galerij", "h2": "Eilandleven in foto's", "cta": "Bekijk alle foto's",
+        "caps": [
+            "Ochtend coaching sessie", "Terras met zeezicht", "Oceaanzicht vanuit het huis",
+            "Perfecte golf bij Ngor Right", "Middag bij het zwembad", "Huisgemaakte Senegalese keuken",
+            "Gouden uur in Ngor", "De legendarische Ngor Right golf", "Ngor Surfcamp Teranga",
+            "Lichte & luchtige kamers", "Eilandvibes & lokale kunst", "Ngor Island vanuit de lucht",
+        ],
+    },
+    "ar": {
+        "lbl": "معرض الصور", "h2": "حياة الجزيرة بالصور", "cta": "عرض جميع الصور",
+        "caps": [
+            "جلسة تدريب صباحية", "شرفة بإطلالة بحرية", "منظر المحيط من المنزل",
+            "موجة مثالية في Ngor Right", "بعد الظهر بجانب المسبح", "المطبخ السنغالي الأصيل",
+            "الساعة الذهبية في نغور", "الموجة الأسطورية Ngor Right", "Ngor Surfcamp Teranga",
+            "غرف مضيئة ومريحة", "أجواء الجزيرة والفن المحلي", "جزيرة نغور من الجو",
+        ],
+    },
 }
 
 ARROW_ICO_PREV = '<svg viewBox="0 0 24 24" fill="none" width="18" height="18"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
@@ -2569,16 +2990,22 @@ def home_gallery_html(lang):
     gal_href = f"{pfx}/{SLUG[lang]['gallery']}/" if pfx else f"/{SLUG['en']['gallery']}/"
     total = len(HOME_GALLERY_IMGS)
 
+    caps = gl.get("caps", [""] * total)
+
     slides = ""
     for i, url in enumerate(HOME_GALLERY_IMGS):
         thumb = wix_thumb_url(url, 900)
         lazy = 'loading="eager" fetchpriority="high"' if i == 0 else 'loading="lazy"'
         active = " hg-active" if i == 0 else ""
+        cap = caps[i] if i < len(caps) else ""
         slides += (
             f'<img class="hg-img{active}" src="{thumb}" '
             f'alt="{escape(gl["h2"])} {i+1}" width="900" height="600" '
-            f'decoding="async" referrerpolicy="no-referrer" {lazy}>'
+            f'decoding="async" referrerpolicy="no-referrer" {lazy}'
+            f' data-caption="{escape(cap)}">'
         )
+
+    first_cap = escape(caps[0]) if caps else ""
 
     return f"""
   <section class="home-gallery-sec">
@@ -2598,13 +3025,14 @@ def home_gallery_html(lang):
       <div class="hg-frame-wrap">
         <div class="hg-frame" id="hg-viewport" aria-label="{escape(gl["h2"])}">
           {slides}
+          <div class="hg-caption hg-cap-visible" id="hg-caption">{first_cap}</div>
           <div class="hg-frame-bar"><div class="hg-progress-fill" id="hg-progress-fill"></div></div>
         </div>
         <div class="hg-controls">
           <div class="hg-dots" id="hg-dots"></div>
           <div class="hg-arrows">
-            <button class="hg-btn" id="hg-prev" aria-label="Previous">{ARROW_ICO_PREV}</button>
-            <button class="hg-btn" id="hg-next" aria-label="Next">{ARROW_ICO_NEXT}</button>
+            <button class="hg-btn" id="hg-prev" aria-label="{escape(ui_chrome('gallery_prev', lang))}">{ARROW_ICO_PREV}</button>
+            <button class="hg-btn" id="hg-next" aria-label="{escape(ui_chrome('gallery_next', lang))}">{ARROW_ICO_NEXT}</button>
           </div>
         </div>
       </div>
@@ -2785,9 +3213,10 @@ def patch_home_blog_preview_all():
     BLOG_LABEL = {"en":"Latest from the Blog","fr":"Derniers articles du Blog",
                   "es":"Últimos artículos del Blog","it":"Ultimi articoli dal Blog","de":"Neuestes aus dem Blog",
                   "nl":"Laatste van de Blog","ar":"أحدث المقالات"}
+    BLOG_EYEBROW = {"en":"Blog","fr":"Blog","es":"Blog","it":"Blog","de":"Blog","nl":"Blog","ar":"المدونة"}
     ALL_LABEL  = {"en":"All Articles","fr":"Tous les articles","es":"Todos los artículos",
                   "it":"Tutti gli articoli","de":"Alle Artikel","nl":"Alle artikelen","ar":"كل المقالات"}
-    FALLBACK_IMG = "https://static.wixstatic.com/media/df99f9_961b0768e713457f93025f4ce6fb1419~mv2.jpg"
+    FALLBACK_IMG = "/assets/images/wix/df99f9_961b0768e713457f93025f4ce6fb1419.webp"
 
     # Load English articles in sorted order
     en_art_dir = os.path.join(CONTENT, "articles", "en")
@@ -2796,25 +3225,36 @@ def patch_home_blog_preview_all():
         return
     en_slugs = sorted([f[:-5] for f in os.listdir(en_art_dir) if f.endswith(".json")])
 
-    # Build per-lang translated articles lookup
+    # Build per-lang translated articles lookup (articles/{lang} + articles_v2/{lang} only)
     arts_by_lang = {}
     for lang in LANGS:
         arts_by_lang[lang] = {}
         lang_dir = os.path.join(CONTENT, "articles", lang)
-        v2_dir   = os.path.join(CONTENT, "articles_v2", lang)
+        v2_dir = os.path.join(CONTENT, "articles_v2", lang)
         if os.path.isdir(lang_dir):
             for fname in os.listdir(lang_dir):
-                if not fname.endswith(".json"): continue
+                if not fname.endswith(".json"):
+                    continue
                 a = load(os.path.join(lang_dir, fname))
-                if not a: continue
-                slug_key = a.get("original_en_slug", a.get("slug",""))
-                # Prefer v2 if available
+                if not a:
+                    continue
+                slug_key = a.get("original_en_slug", a.get("slug", ""))
                 v2p = os.path.join(v2_dir, fname)
                 v2a = load(v2p) if os.path.exists(v2p) else None
-                if v2a and v2a.get("content_markdown","").strip():
+                if v2a and v2a.get("content_markdown", "").strip():
                     arts_by_lang[lang][slug_key] = v2a
                 else:
                     arts_by_lang[lang][slug_key] = a
+        if os.path.isdir(v2_dir):
+            for fname in os.listdir(v2_dir):
+                if not fname.endswith(".json"):
+                    continue
+                v2p = os.path.join(v2_dir, fname)
+                v2a = load(v2p)
+                if not v2a or not v2a.get("content_markdown", "").strip():
+                    continue
+                slug_key = v2a.get("original_en_slug") or v2a.get("hreflang_en") or v2a.get("slug") or fname[:-5]
+                arts_by_lang[lang][slug_key] = v2a
 
     n_updated = 0
     for lang in LANGS:
@@ -2835,8 +3275,9 @@ def patch_home_blog_preview_all():
             title_  = fix_em(art.get("title", en_art.get("title", slug)))[:80]
             meta_   = fix_em(art.get("meta_description", en_art.get("meta_description", "")))[:120]
             cat_    = en_art.get("category", "")
-            img_loc = os.path.join(DEMO_DIR, "assets", "images", f"{slug}.png")
-            img_src = f"/assets/images/{slug}.webp" if os.path.exists(img_loc) else FALLBACK_IMG
+            # Must check .webp (assets are generated as slug.webp; old code tested .png so every card used FALLBACK_IMG)
+            img_webp = os.path.join(DEMO_DIR, "assets", "images", f"{slug}.webp")
+            img_src = f"/assets/images/{slug}.webp" if os.path.exists(img_webp) else FALLBACK_IMG
             cards_html += (
                 f'\n      <a href="{pfx}/blog/{slug}/" class="card" style="text-decoration:none">'
                 f'\n        <img src="{img_src}" alt="{escape(title_)}" class="card-img" loading="lazy"'
@@ -2858,7 +3299,7 @@ def patch_home_blog_preview_all():
             f'\n    <div class="container">'
             f'\n      <div class="reveal" style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:48px;flex-wrap:wrap;gap:16px">'
             f'\n        <div>'
-            f'\n          <span class="s-label">Blog</span>'
+            f'\n          <span class="s-label">{escape(BLOG_EYEBROW[lang])}</span>'
             f'\n          <h2 class="s-title">{escape(BLOG_LABEL[lang])}</h2>'
             f'\n        </div>'
             f'\n        <a href="{blog_href}" class="btn btn-fire">{escape(ALL_LABEL[lang])}</a>'
@@ -2883,6 +3324,152 @@ def patch_home_blog_preview_all():
         n_updated += 1
 
     print(f"  home blog preview: updated {n_updated} files with 6 cards")
+
+
+def patch_home_insta_section_all():
+    """Inject the Instagram feed section into every home page, just before the blog-preview section.
+    Strips any previous ig-feed-start/end block first to avoid duplication."""
+    import re as _re
+    n = 0
+    for lang in LANGS:
+        rel  = "index.html" if lang == "en" else f"{lang}/index.html"
+        path = os.path.join(DEMO_DIR, rel)
+        if not os.path.isfile(path):
+            continue
+        with open(path, encoding="utf-8") as f:
+            h = f.read()
+        # ── Remove ALL pre-existing IG sections (any build vintage) ──
+        # 1. New-style: wrapped in ig-feed-start / ig-feed-end markers
+        h = _re.sub(
+            r'\s*<!-- ig-feed-start -->.*?<!-- ig-feed-end -->',
+            '',
+            h,
+            flags=_re.DOTALL,
+        )
+        # 2. Old-style: section with id="ig-feed" (no markers) + preceding comment
+        h = _re.sub(
+            r'\s*<!--\s*Instagram[^-]*-->\s*(?:<div[^>]*class="[^"]*wave[^"]*"[^>]*>.*?</div>\s*)?'
+            r'<section[^>]*id="ig-feed"[^>]*>.*?</section>'
+            r'(?:\s*<div[^>]*class="[^"]*wave[^"]*"[^>]*>.*?</div>)?',
+            '',
+            h,
+            flags=_re.DOTALL,
+        )
+        # 3. Any remaining bare section with id="ig-feed"
+        h = _re.sub(
+            r'\s*<section[^>]*\bid="ig-feed"[^>]*>.*?</section>',
+            '',
+            h,
+            flags=_re.DOTALL,
+        )
+        # 4. Orphan embed.js scripts
+        h = _re.sub(
+            r'\s*<script[^>]*instagram\.com/embed\.js[^>]*></script>',
+            '',
+            h,
+            flags=_re.DOTALL,
+        )
+        # ── Insert fresh section right before <!-- BLOG PREVIEW --> ──
+        marker = "\n\n  <!-- BLOG PREVIEW -->"
+        if marker not in h:
+            print(f"  home insta section: blog marker not found in {rel}, skipping")
+            continue
+        ig_html = insta_section(lang, "home")
+        h = h.replace(marker, ig_html + marker, 1)
+        with open(path, "w", encoding="utf-8") as f:
+            f.write(h)
+        n += 1
+    print(f"  home Instagram section: injected into {n} home pages")
+
+
+def patch_home_lang_ui_cleanup_all():
+    """Fix leftover English chrome on localized home pages (esp. AR): hero, trust, reviews, about CTAs."""
+    AR_FIXES = [
+        ("Ngor Island · Dakar · Senegal", "جزيرة نغور · داكار · السنغال"),
+        ("Licensed by Senegal Surf Federation", "مرخص من الاتحاد السنغالي لركوب الأمواج"),
+        ("Open year-round", "مفتوح طوال العام"),
+        ('aria-label="Surf quotes"', 'aria-label="اقتباسات عن ركوب الأمواج"'),
+        ('aria-label="Language versions"', 'aria-label="إصدارات اللغة"'),
+        ('aria-label="Reviews"', 'aria-label="التقييمات"'),
+        ("What surfers say", "ماذا يقول مرتادو الأمواج"),
+        ("56 reviews", "56 تقييم"),
+        ('title="Click to read more"', 'title="انقر لقراءة المزيد"'),
+        ('aria-label="Previous reviews"', 'aria-label="التقييمات السابقة"'),
+        ('aria-label="Next reviews"', 'aria-label="التقييمات التالية"'),
+        ('id="fq-dots-en"', 'id="fq-dots-ar"'),
+        (
+            '<a href="/surf-house/" class="btn btn-deep">The Surf House</a>\n            <a href="/surfing/" class="btn btn-outline">Coaching</a>',
+            '<a href="/ar/surf-house/" class="btn btn-deep">بيت الأمواج</a>\n            <a href="/ar/surf/" class="btn btn-outline">التدريب</a>',
+        ),
+        ('alt="Surf coaching Ngor Island Senegal"', 'alt="تدريب ركوب الأمواج في جزيرة نغور، السنغال"'),
+        (
+            "Ngor Island, Dakar, Senegal. WhatsApp: +221 78 925 70 25",
+            "جزيرة نغور، داكار، السنغال. واتساب: +221 78 925 70 25",
+        ),
+    ]
+    path = os.path.join(DEMO_DIR, "ar/index.html")
+    if not os.path.isfile(path):
+        return
+    with open(path, encoding="utf-8", errors="replace") as f:
+        h = f.read()
+    h2 = h
+    for old, new in AR_FIXES:
+        if old in h2:
+            h2 = h2.replace(old, new)
+    # Secondary WhatsApp button labels (hero / CTA) still plain text
+    h2 = h2.replace("> WhatsApp</a>", "> واتساب</a>")
+    if h2 != h:
+        with open(path, "w", encoding="utf-8") as f:
+            f.write(h2)
+        print("  home AR: cleaned leftover English UI strings")
+    else:
+        print("  home AR: UI cleanup (no changes)")
+
+
+def patch_ar_whatsapp_word_in_html_all():
+    """Replace visible English 'WhatsApp' with Arabic واتساب across /ar/ HTML (island guides, blog CTAs)."""
+    ar_root = os.path.join(DEMO_DIR, "ar")
+    if not os.path.isdir(ar_root):
+        return
+    subs = [
+        ("تواصل مع <strong>Ngor Surfcamp Teranga على WhatsApp:", "تواصل مع <strong>Ngor Surfcamp Teranga على واتساب:"),
+        ("Ngor Surfcamp Teranga على WhatsApp:", "Ngor Surfcamp Teranga على واتساب:"),
+        ("عبر <strong>WhatsApp:", "عبر <strong>واتساب:"),
+        ("راسل المخيم عبر <strong>WhatsApp", "راسل المخيم عبر <strong>واتساب"),
+        ("<strong>WhatsApp +221", "<strong>واتساب +221"),
+        ("WhatsApp: +221", "واتساب: +221"),
+        ("WhatsApp +221", "واتساب +221"),
+        ("احفظ رقم WhatsApp", "احفظ رقم واتساب"),
+        ('aria-label="WhatsApp"', 'aria-label="واتساب"'),
+        ("Message the team directly on WhatsApp", "راسل الفريق مباشرة على واتساب"),
+        ("message on WhatsApp:", "على واتساب:"),
+        ("Save the camp WhatsApp number", "احفظ رقم واتساب المعسكر"),
+        ('<span class="vb-label">Key Takeaways</span>', '<span class="vb-label">أهم النقاط</span>'),
+        ('alt="Key Takeaways"', 'alt="أهم النقاط"'),
+        ('class="nav-wa-label">WhatsApp</span>', 'class="nav-wa-label">واتساب</span>'),
+        ("send a WhatsApp message directly to", "أرسل رسالة واتساب مباشرة إلى"),
+        ("</svg></span> WhatsApp</button>", "</svg></span> واتساب</button>"),
+        ("</svg></span> WhatsApp</a>", "</svg></span> واتساب</a>"),
+        # Hero / CTA: label after WA icon with whitespace before closing tag
+        ("</svg></span> WhatsApp", "</svg></span> واتساب"),
+        ("<!-- Floating WhatsApp -->", "<!-- واتساب عائم -->"),
+        ("/* ── Booking form → WhatsApp ─────────────────────────── */", "/* ── نموذج الحجز → واتساب ─────────────────────────── */"),
+    ]
+    n_files = 0
+    from pathlib import Path as _Path
+
+    for p in _Path(ar_root).rglob("*.html"):
+        try:
+            h = p.read_text(encoding="utf-8", errors="replace")
+        except OSError:
+            continue
+        h2 = h
+        for old, new in subs:
+            h2 = h2.replace(old, new)
+        if h2 != h:
+            p.write_text(h2, encoding="utf-8")
+            n_files += 1
+    print(f"  AR WhatsApp / UI wording: touched {n_files} files under ar/")
 
 
 def patch_surfing_pages_visuals_all():
@@ -2969,7 +3556,7 @@ def build_booking(lang):
         "or":     {"en":"Or contact us directly:","fr":"Ou contactez-nous directement :","es":"O contáctanos directamente:","it":"O contattaci direttamente:","de":"Oder kontaktieren Sie uns direkt:","nl":"Of neem direct contact op:","ar":"أو اتصل بنا مباشرة:"},
         "steps_h":{"en":"Booking made easy","fr":"Réservation simplifiée","es":"Reserva fácil","it":"Prenotazione facile","de":"Einfache Buchung","nl":"Eenvoudig boeken","ar":"حجز سهل"},
         "step1":  {"en":"Choose your dates","fr":"Choisissez vos dates","es":"Elige tus fechas","it":"Scegli le tue date","de":"Daten wählen","nl":"Kies je data","ar":"اختر تواريخك"},
-        "step2":  {"en":"Fill the form or WhatsApp us","fr":"Remplissez le formulaire ou écrivez-nous","es":"Rellena el formulario o escríbenos","it":"Compila il modulo o scrivici","de":"Formular ausfüllen oder schreiben","nl":"Vul het formulier in of stuur een WhatsApp","ar":"امل النموذج أو أرسل واتساب"},
+        "step2":  {"en":"Fill the form or WhatsApp us","fr":"Remplissez le formulaire ou écrivez-nous","es":"Rellena el formulario o escríbenos","it":"Compila il modulo o scrivici","de":"Formular ausfüllen oder schreiben","nl":"Vul het formulier in of stuur een WhatsApp","ar":"املأ النموذج أو راسلنا عبر واتساب"},
         "step3":  {"en":"We confirm your room & package","fr":"Nous confirmons votre chambre","es":"Confirmamos tu habitación","it":"Confermiamo la tua stanza","de":"Wir bestätigen Zimmer & Paket","nl":"Wij bevestigen je kamer & pakket","ar":"سنؤكد غرفتك وباقتك"},
         "incl_h": {"en":"Everything included","fr":"Tout est inclus","es":"Todo incluido","it":"Tutto incluso","de":"Alles inklusive","nl":"Alles inbegrepen","ar":"كل شيء مشمول"},
         "i1":{"en":"Accommodation (private or shared room)","fr":"Hébergement (chambre privée ou partagée)","es":"Alojamiento (habitación privada o compartida)","it":"Alloggio (camera privata o condivisa)","de":"Unterkunft (Einzel- oder Mehrbettzimmer)","nl":"Accommodatie (privé of gedeelde kamer)","ar":"الإقامة (غرفة خاصة أو مشتركة)"},
@@ -2983,20 +3570,41 @@ def build_booking(lang):
         "err_fn": {"en":"Please enter your first name.","fr":"Veuillez entrer votre prénom.","es":"Por favor, introduce tu nombre.","it":"Per favore, inserisci il tuo nome.","de":"Bitte Vornamen eingeben.","nl":"Voer je voornaam in.","ar":"يرجى إدخال اسمك الأول."},
         "err_em": {"en":"Please enter a valid email.","fr":"Veuillez entrer un email valide.","es":"Por favor, introduce un email válido.","it":"Per favore, inserisci un'email valida.","de":"Bitte gültige E-Mail eingeben.","nl":"Voer een geldig e-mailadres in.","ar":"يرجى إدخال بريد إلكتروني صحيح."},
         "err_dt": {"en":"Departure must be after arrival.","fr":"Le départ doit être après l'arrivée.","es":"La salida debe ser después de la llegada.","it":"La partenza deve essere dopo l'arrivo.","de":"Abreise muss nach Anreise sein.","nl":"Vertrekdatum moet na aankomstdatum liggen.","ar":"يجب أن يكون تاريخ المغادرة بعد تاريخ الوصول."},
-        "copied": {"en":"Copied!","fr":"Copié !","es":"Copiado!","it":"Copiato!","de":"Kopiert!"},
+        "err_lvl": {"en":"Please choose your surf level.","fr":"Veuillez choisir votre niveau de surf.","es":"Elige tu nivel de surf.","it":"Scegli il tuo livello di surf.","de":"Bitte wähle dein Surf-Level.","nl":"Kies je surfniveau.","ar":"يرجى اختيار مستواك في ركوب الأمواج."},
+        "err_net": {"en":"We couldn't send your request. Check your connection or message us on WhatsApp.","fr":"Envoi impossible pour le moment. Vérifiez votre connexion ou écrivez-nous sur WhatsApp.","es":"No pudimos enviar tu solicitud. Revisa la conexión o escríbenos por WhatsApp.","it":"Impossibile inviare la richiesta. Controlla la connessione o scrivici su WhatsApp.","de":"Senden fehlgeschlagen. Bitte Verbindung prüfen oder per WhatsApp melden.","nl":"Verzenden mislukt. Controleer je verbinding of stuur een WhatsApp.","ar":"تعذّر إرسال الطلب. تحقق من الاتصال أو راسلنا على واتساب."},
+        "succ_h": {"en":"You're all set!","fr":"C'est bien enregistré !","es":"¡Listo!","it":"Richiesta ricevuta!","de":"Alles klar!","nl":"Ontvangen!","ar":"تم بنجاح!"},
+        "succ_p": {"en":"Thank you — we've received your request. Our team will get back to you within 24 hours.","fr":"Merci — nous avons bien reçu votre demande. Notre équipe vous répond sous 24 h.","es":"Gracias — hemos recibido tu solicitud. Te responderemos en 24 horas.","it":"Grazie — abbiamo ricevuto la tua richiesta. Ti risponderemo entro 24 ore.","de":"Danke — wir haben deine Anfrage erhalten. Wir melden uns innerhalb von 24 Stunden.","nl":"Bedankt — we hebben je aanvraag ontvangen. We nemen binnen 24 uur contact op.","ar":"شكراً — استلمنا طلبك. سيتواصل فريقنا معك خلال 24 ساعة."},
+        "succ_wa": {"en":"We've also opened WhatsApp with your details, so you can reach us instantly if you prefer.","fr":"WhatsApp s'ouvre aussi avec vos infos — vous pouvez nous écrire tout de suite si vous préférez.","es":"También abrimos WhatsApp con tus datos por si prefieres escribirnos al instante.","it":"Abbiamo anche aperto WhatsApp con i tuoi dati, se preferisci scriverci subito.","de":"WhatsApp öffnet sich ebenfalls mit deinen Angaben — du erreichst uns sofort, wenn du möchtest.","nl":"WhatsApp opent ook met je gegevens — zo kun je ons meteen bereiken als je wilt.","ar":"فتحنا واتساب أيضاً مع بياناتك — يمكنك التواصل فوراً إن أحببت."},
+        "succ_btn": {"en":"Got it","fr":"Compris","es":"Entendido","it":"Ok","de":"Alles klar","nl":"Begrepen","ar":"حسناً"},
+        "copied": {"en":"Copied!","fr":"Copié !","es":"Copiado!","it":"Copiato!","de":"Kopiert!","nl":"Gekopieerd!","ar":"تم النسخ!"},
+        "eyebrow": {"en":"Book","fr":"Réserver","es":"Reservar","it":"Prenota","de":"Buchen","nl":"Boeken","ar":"احجز"},
+        "isa_sub": {
+            "en": "ISA certified coaches, safety first.",
+            "fr": "Coachs certifiés ISA, sécurité avant tout.",
+            "es": "Monitores certificados ISA, seguridad primero.",
+            "it": "Coach certificati ISA, sicurezza al primo posto.",
+            "de": "ISA-zertifizierte Coaches, Sicherheit zuerst.",
+            "nl": "ISA-gecertificeerde coaches, veiligheid voorop.",
+            "ar": "مدربون معتمدون من ISA، السلامة أولاً.",
+        },
     }
+    T = _site_page_mod.merge_booking_copy(_BASE_DIR, lang, T)
 
     def g(key): return T[key].get(lang, T[key]["en"])
 
     # Country codes dropdown — pre-select based on lang
-    LANG_DEFAULT_CC = {"en":"+221","fr":"+33","es":"+34","it":"+39","de":"+49"}
+    LANG_DEFAULT_CC = {"en":"+221","fr":"+33","es":"+34","it":"+39","de":"+49","nl":"+31","ar":"+212"}
     default_cc = LANG_DEFAULT_CC.get(lang, "+221")
+    _cc_other = {
+        "en": "🌍 Other", "fr": "🌍 Autre", "es": "🌍 Otro", "it": "🌍 Altro",
+        "de": "🌍 Andere", "nl": "🌍 Overig", "ar": "🌍 أخرى",
+    }
     CC_OPTIONS = [
         ("+221","🇸🇳 +221 Sénégal"),("+33","🇫🇷 +33 France"),("+34","🇪🇸 +34 España"),
         ("+39","🇮🇹 +39 Italia"),("+49","🇩🇪 +49 Deutschland"),("+44","🇬🇧 +44 UK"),
         ("+1","🇺🇸 +1 USA"),("+32","🇧🇪 +32 Belgique"),("+41","🇨🇭 +41 Suisse"),
         ("+31","🇳🇱 +31 Nederland"),("+351","🇵🇹 +351 Portugal"),
-        ("+212","🇲🇦 +212 Maroc"),("other","🌍 Other"),
+        ("+212","🇲🇦 +212 Maroc"),("other", _cc_other.get(lang, _cc_other["en"])),
     ]
     cc_opts = "\n".join([
         f'<option value="{v}"{" selected" if v == default_cc else ""}>{l}</option>'
@@ -3044,7 +3652,7 @@ def build_booking(lang):
   <!-- Booking hero — clean gradient, no photo -->
   <div style="background:linear-gradient(135deg,#07192e 0%,#0a2540 60%,#0f3460 100%);padding:56px 24px 48px;text-align:center" role="banner">
     <div class="container" style="max-width:700px">
-      <span class="s-label" style="color:#ff8c5a">{"Book" if lang=="en" else "Réserver" if lang=="fr" else "Reservar" if lang=="es" else "Prenota" if lang=="it" else "احجز" if lang=="ar" else "Boeken"}</span>
+      <span class="s-label" style="color:#ff8c5a">{g("eyebrow")}</span>
       <h1 style="font-family:var(--f-head);font-size:clamp(28px,4.5vw,48px);font-weight:900;color:#fff;margin:10px 0 14px;line-height:1.15">{g("h1")}</h1>
       <p style="color:rgba(255,255,255,0.75);font-size:17px;margin-bottom:28px">{g("sub")}</p>
       <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">{trust_badges}</div>
@@ -3061,11 +3669,12 @@ def build_booking(lang):
           <p style="color:#6b7280;font-size:15px;margin-bottom:32px">{g("sub2")}</p>
 
           <form id="booking-form" novalidate>
+            <div id="booking-form-alert" class="booking-form-alert" style="display:none" role="alert" aria-live="assertive"></div>
             <div class="form-row">
               <div class="form-group">
                 <label class="form-label" for="f-fname">{g("fname")} <span style="color:var(--fire)">*</span></label>
-                <input type="text" id="f-fname" class="form-input f-name" placeholder="Kelly" autocomplete="given-name" required>
-                <div id="err-fname" style="display:none;color:var(--fire);font-size:12.5px;margin-top:5px">{g("err_fn")}</div>
+                <input type="text" id="f-fname" class="form-input f-name" placeholder="Kelly" autocomplete="given-name" required aria-describedby="err-fname">
+                <div id="err-fname" class="booking-field-error" style="display:none" role="status">{g("err_fn")}</div>
               </div>
               <div class="form-group">
                 <label class="form-label" for="f-lname">{g("lname")}</label>
@@ -3075,8 +3684,8 @@ def build_booking(lang):
 
             <div class="form-group">
               <label class="form-label" for="f-email">{g("email")} <span style="color:var(--fire)">*</span></label>
-              <input type="email" id="f-email" class="form-input f-email" placeholder="yourname@email.com" autocomplete="email" required>
-              <div id="err-email" style="display:none;color:var(--fire);font-size:12.5px;margin-top:5px">{g("err_em")}</div>
+              <input type="email" id="f-email" class="form-input f-email" placeholder="yourname@email.com" autocomplete="email" required aria-describedby="err-email">
+              <div id="err-email" class="booking-field-error" style="display:none" role="status">{g("err_em")}</div>
               <p style="font-size:12.5px;color:#9ca3af;margin-top:5px">{g("spam")}</p>
             </div>
 
@@ -3090,19 +3699,20 @@ def build_booking(lang):
 
             <div class="form-group">
               <label class="form-label" for="f-level">{g("level")} <span style="color:var(--fire)">*</span></label>
-              <select id="f-level" class="form-select f-level" required>
+              <select id="f-level" class="form-select f-level" required aria-describedby="err-level">
                 <option value="">{g("choose")}</option>
                 <option value="beginner">{g("beg")}</option>
                 <option value="basic">{g("bas")}</option>
                 <option value="intermediate">{g("int")}</option>
                 <option value="advanced">{g("adv")}</option>
               </select>
+              <div id="err-level" class="booking-field-error" style="display:none" role="status">{g("err_lvl")}</div>
             </div>
 
             <div class="form-row">
               <div class="form-group">
                 <label class="form-label">{g("guests")}</label>
-                <select class="form-select">
+                <select class="form-select" id="f-guests">
                   <option value="">—</option>
                   {"".join([f'<option value="{n}">{n}</option>' for n in range(1,13)])}
                 </select>
@@ -3116,7 +3726,7 @@ def build_booking(lang):
             <div class="form-group">
               <label class="form-label" for="f-leave">{g("leave")}</label>
               <input type="date" id="f-leave" class="form-input f-leave">
-              <div id="err-date" style="display:none;color:var(--fire);font-size:12.5px;margin-top:5px">{g("err_dt")}</div>
+              <div id="err-date" class="booking-field-error" style="display:none" role="status">{g("err_dt")}</div>
             </div>
 
             <div class="form-group">
@@ -3131,12 +3741,22 @@ def build_booking(lang):
               <textarea id="f-goal" class="form-textarea" rows="3" placeholder="{g("goal_ph")}"></textarea>
             </div>
 
-            <button type="submit" class="btn btn-fire" style="width:100%;font-size:15px;padding:15px;justify-content:center">
-              <span style="display:inline-flex">{WA_ICO}</span>
-              {g("cta")}
+            <button type="submit" class="btn btn-fire booking-submit-btn" style="width:100%;font-size:15px;padding:15px;justify-content:center">
+              <span class="booking-submit-ico" aria-hidden="true" style="display:inline-flex">{WA_ICO}</span>
+              <span class="booking-submit-label">{g("cta")}</span>
             </button>
             <p style="text-align:center;margin-top:12px;font-size:13px;color:#9ca3af">{g("reply")}</p>
           </form>
+
+          <div id="booking-success-overlay" class="booking-success-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="booking-success-title">
+            <div class="booking-success-card">
+              <div class="booking-success-check" aria-hidden="true">✓</div>
+              <h3 id="booking-success-title" class="booking-success-title"></h3>
+              <p class="booking-success-text"></p>
+              <p class="booking-success-wa-note"></p>
+              <button type="button" class="btn btn-fire booking-success-close" style="width:100%;margin-top:8px;justify-content:center"></button>
+            </div>
+          </div>
 
           <div style="margin-top:28px;padding:20px 24px;border-radius:14px;border:1px solid #e5e7eb;background:#fafafa">
             <p style="font-weight:600;font-size:14px;margin-bottom:14px">{g("or")}</p>
@@ -3165,7 +3785,7 @@ def build_booking(lang):
             <span style="font-size:20px">🛡️</span>
             <div>
               <div style="font-weight:700;font-size:13px;color:var(--navy)">{g("trust")}</div>
-              <div style="font-size:12px;color:#9ca3af">{"ISA certified coaches, safety first." if lang=="en" else "Coachs certifiés ISA, sécurité en premier." if lang=="fr" else "Coaches certificados ISA." if lang=="es" else "Coach certificati ISA." if lang=="it" else "ISA-zertifizierte Coaches."}</div>
+              <div style="font-size:12px;color:#9ca3af">{g("isa_sub")}</div>
             </div>
           </div>
           {booking_social_proof_block(lang)}
@@ -3180,60 +3800,210 @@ def build_booking(lang):
 
 <script>
 (function(){{
-  var form   = document.getElementById('booking-form');
-  var fArrive= document.getElementById('f-arrive');
+  var J = {json.dumps(
+        {
+            "waIntro": {
+                "en": "Hello! I would like to book a stay at Ngor Surfcamp Teranga.",
+                "fr": "Bonjour ! Je souhaite réserver un séjour au Ngor Surfcamp Teranga.",
+                "es": "Hola! Me gustaría reservar una estancia en Ngor Surfcamp Teranga.",
+                "it": "Ciao! Vorrei prenotare un soggiorno al Ngor Surfcamp Teranga.",
+                "de": "Hallo! Ich möchte einen Aufenthalt im Ngor Surfcamp Teranga buchen.",
+                "nl": "Hallo! Ik wil graag een verblijf boeken bij Ngor Surfcamp Teranga.",
+                "ar": "مرحباً! أود حجز إقامة في Ngor Surfcamp Teranga.",
+            }[lang],
+            "nameLbl": {"en": "Name", "fr": "Nom", "es": "Nombre", "it": "Nome", "de": "Name", "nl": "Naam", "ar": "الاسم"}.get(lang, "Name"),
+            "emailLbl": {"en": "Email", "fr": "E-mail", "es": "Email", "it": "Email", "de": "E-Mail", "nl": "E-mail", "ar": "البريد"}.get(lang, "Email"),
+            "phoneLbl": {"en": "Phone", "fr": "Téléphone", "es": "Teléfono", "it": "Telefono", "de": "Telefon", "nl": "Telefoon", "ar": "الهاتف"}.get(lang, "Phone"),
+            "levelLbl": {"en": "Level", "fr": "Niveau", "es": "Nivel", "it": "Livello", "de": "Level", "nl": "Niveau", "ar": "المستوى"}.get(lang, "Level"),
+            "guestsLbl": {"en": "Guests", "fr": "Personnes", "es": "Personas", "it": "Ospiti", "de": "Gäste", "nl": "Gasten", "ar": "الضيوف"}.get(lang, "Guests"),
+            "arrLbl": {"en": "Arrival", "fr": "Arrivée", "es": "Llegada", "it": "Arrivo", "de": "Anreise", "nl": "Aankomst", "ar": "الوصول"}.get(lang, "Arrival"),
+            "depLbl": {"en": "Departure", "fr": "Départ", "es": "Salida", "it": "Partenza", "de": "Abreise", "nl": "Vertrek", "ar": "المغادرة"}.get(lang, "Departure"),
+            "goalLbl": {"en": "Notes", "fr": "Objectif", "es": "Objetivo", "it": "Obiettivo", "de": "Ziel", "nl": "Doel", "ar": "ملاحظات"}.get(lang, "Notes"),
+            "sending": {"en": "Sending…", "fr": "Envoi…", "es": "Enviando…", "it": "Invio…", "de": "Wird gesendet…", "nl": "Verzenden…", "ar": "جاري الإرسال…"}.get(lang, "Sending…"),
+            "cta": g("cta"),
+            "errNet": g("err_net"),
+            "succH": g("succ_h"),
+            "succP": g("succ_p"),
+            "succWa": g("succ_wa"),
+            "succBtn": g("succ_btn"),
+        },
+        ensure_ascii=False,
+    )};
+  var form = document.getElementById('booking-form');
+  var fArrive = document.getElementById('f-arrive');
   var fLeave = document.getElementById('f-leave');
-  var today  = new Date().toISOString().split('T')[0];
-  if(fArrive) fArrive.setAttribute('min', today);
-  if(fLeave)  fLeave.setAttribute('min', today);
-  if(fArrive) fArrive.addEventListener('change', function(){{ if(fLeave && this.value) fLeave.setAttribute('min', this.value); }});
-  if(form) form.addEventListener('submit', function(e){{
+  var topAlert = document.getElementById('booking-form-alert');
+  var overlay = document.getElementById('booking-success-overlay');
+
+  function clearFieldErrors() {{
+    ['f-fname','f-email','f-level','f-arrive','f-leave'].forEach(function(id) {{
+      var el = document.getElementById(id);
+      if (el) {{ el.classList.remove('form-invalid'); el.removeAttribute('aria-invalid'); }}
+    }});
+    ['err-fname','err-email','err-date','err-level'].forEach(function(id) {{
+      var e = document.getElementById(id);
+      if (e) e.style.display = 'none';
+    }});
+    if (topAlert) {{ topAlert.style.display = 'none'; topAlert.textContent = ''; }}
+  }}
+
+  function showInvalid(id, errId) {{
+    var el = document.getElementById(id);
+    var err = document.getElementById(errId);
+    if (el) {{
+      el.classList.add('form-invalid');
+      el.setAttribute('aria-invalid', 'true');
+      var grp = el.closest('.form-group');
+      if (grp) {{
+        grp.classList.remove('form-group--shake');
+        void grp.offsetWidth;
+        grp.classList.add('form-group--shake');
+      }}
+    }}
+    if (err) err.style.display = 'block';
+  }}
+
+  function scrollToField(id) {{
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.scrollIntoView({{ behavior: 'smooth', block: 'center' }});
+    setTimeout(function() {{ try {{ el.focus({{ preventScroll: true }}); }} catch (x) {{}} }}, 400);
+  }}
+
+  if (form) {{
+    form.addEventListener('input', function(ev) {{
+      var t = ev.target;
+      if (!t || !t.id) return;
+      if (['f-fname','f-email','f-level','f-arrive','f-leave'].indexOf(t.id) >= 0) {{
+        t.classList.remove('form-invalid');
+        t.removeAttribute('aria-invalid');
+        var map = {{'f-fname':'err-fname','f-email':'err-email','f-level':'err-level','f-arrive':'err-date','f-leave':'err-date'}};
+        var er = document.getElementById(map[t.id]);
+        if (er && (t.id !== 'f-arrive' && t.id !== 'f-leave')) er.style.display = 'none';
+      }}
+    }});
+    form.addEventListener('change', function(ev) {{
+      var t = ev.target;
+      if (t && t.id === 'f-level') {{
+        t.classList.remove('form-invalid');
+        var er = document.getElementById('err-level');
+        if (er) er.style.display = 'none';
+      }}
+      if (t && (t.id === 'f-arrive' || t.id === 'f-leave')) {{
+        var errDt = document.getElementById('err-date');
+        if (errDt) errDt.style.display = 'none';
+        document.getElementById('f-arrive') && document.getElementById('f-arrive').classList.remove('form-invalid');
+        document.getElementById('f-leave') && document.getElementById('f-leave').classList.remove('form-invalid');
+      }}
+    }});
+  }}
+
+  var today = new Date().toISOString().split('T')[0];
+  if (fArrive) fArrive.setAttribute('min', today);
+  if (fLeave) fLeave.setAttribute('min', today);
+  if (fArrive) fArrive.addEventListener('change', function() {{ if (fLeave && this.value) fLeave.setAttribute('min', this.value); }});
+
+  function openSuccessThenWa(msg) {{
+    if (!overlay) {{
+      window.open('https://wa.me/221789257025?text=' + encodeURIComponent(msg), '_blank');
+      return;
+    }}
+    var card = overlay.querySelector('.booking-success-card');
+    var h = overlay.querySelector('.booking-success-title');
+    var p = overlay.querySelector('.booking-success-text');
+    var w = overlay.querySelector('.booking-success-wa-note');
+    var b = overlay.querySelector('.booking-success-close');
+    if (h) h.textContent = J.succH;
+    if (p) p.textContent = J.succP;
+    if (w) w.textContent = J.succWa;
+    if (b) b.textContent = J.succBtn;
+    overlay.removeAttribute('hidden');
+    requestAnimationFrame(function() {{
+      overlay.classList.add('is-open');
+    }});
+    function closeOv() {{
+      overlay.classList.remove('is-open');
+      setTimeout(function() {{ overlay.setAttribute('hidden', ''); }}, 320);
+      document.removeEventListener('keydown', onKey);
+    }}
+    function onKey(ev) {{ if (ev.key === 'Escape') closeOv(); }}
+    document.addEventListener('keydown', onKey);
+    if (b) {{
+      b.onclick = function() {{ closeOv(); }};
+    }}
+    overlay.onclick = function(ev) {{ if (ev.target === overlay) closeOv(); }};
+    setTimeout(function() {{
+      window.open('https://wa.me/221789257025?text=' + encodeURIComponent(msg), '_blank');
+    }}, 520);
+  }}
+
+  if (form) form.addEventListener('submit', function(e) {{
     e.preventDefault();
-    var ok = true;
-    var fname = (document.getElementById('f-fname')||{{}}).value||'';
-    var email = ((document.getElementById('f-email')||{{}}).value||'').trim().toLowerCase();
-    var errFn = document.getElementById('err-fname');
-    var errEm = document.getElementById('err-email');
-    var errDt = document.getElementById('err-date');
-    var arrive= (fArrive||{{}}).value||'';
-    var leave = (fLeave||{{}}).value||'';
-    if(!fname.trim()){{ if(errFn) errFn.style.display='block'; ok=false; }} else {{ if(errFn) errFn.style.display='none'; }}
-    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){{ if(errEm) errEm.style.display='block'; ok=false; }} else {{ if(errEm) errEm.style.display='none'; }}
-    if(arrive && leave && leave <= arrive){{ if(errDt) errDt.style.display='block'; ok=false; }} else {{ if(errDt) errDt.style.display='none'; }}
-    if(!ok) return;
-    var level = ((document.getElementById('f-level')||{{}}).options||[])[((document.getElementById('f-level')||{{}}).selectedIndex||0)];
+    clearFieldErrors();
+    var fname = (document.getElementById('f-fname') || {{}}).value || '';
+    var email = ((document.getElementById('f-email') || {{}}).value || '').trim().toLowerCase();
+    var arrive = (fArrive || {{}}).value || '';
+    var leave = (fLeave || {{}}).value || '';
+    var levelEl = document.getElementById('f-level');
+    var levelVal = levelEl ? levelEl.value : '';
+    var issues = [];
+    if (!fname.trim()) issues.push({{ id: 'f-fname', err: 'err-fname' }});
+    if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) issues.push({{ id: 'f-email', err: 'err-email' }});
+    if (!levelVal) issues.push({{ id: 'f-level', err: 'err-level' }});
+    if (arrive && leave && leave <= arrive) issues.push({{ id: 'f-leave', err: 'err-date' }});
+    if (issues.length) {{
+      issues.forEach(function(it) {{ showInvalid(it.id, it.err); }});
+      scrollToField(issues[0].id);
+      return;
+    }}
+    var level = (levelEl.options || [])[levelEl.selectedIndex || 0];
     var levelText = level ? level.text : '';
-    var cc    = ((document.getElementById('f-cc')||{{}}).value||'');
-    var phone = ((document.getElementById('f-phone')||{{}}).value||'').trim();
-    var goal  = ((document.getElementById('f-goal')||{{}}).value||'').trim();
-    var msg   = 'Hello Ngor Surfcamp! I would like to book a stay.';
-    if(fname)    msg += ' Name: ' + fname + '.';
-    if(email)    msg += ' Email: ' + email + '.';
-    if(cc&&phone) msg += ' Phone: ' + cc + ' ' + phone + '.';
-    if(levelText) msg += ' Level: ' + levelText + '.';
-    if(arrive)   msg += ' Arrival: ' + arrive + '.';
-    if(leave)    msg += ' Departure: ' + leave + '.';
-    if(goal)     msg += ' Goal: ' + goal;
-    var guests = ((document.getElementById('f-guests')||{{}}).value||'1');
+    var cc = ((document.getElementById('f-cc') || {{}}).value || '');
+    var phone = ((document.getElementById('f-phone') || {{}}).value || '').trim();
+    var goal = ((document.getElementById('f-goal') || {{}}).value || '').trim();
+    var msg = J.waIntro;
+    if (fname) msg += ' ' + J.nameLbl + ': ' + fname + '.';
+    if (email) msg += ' ' + J.emailLbl + ': ' + email + '.';
+    if (cc && phone) msg += ' ' + J.phoneLbl + ': ' + cc + ' ' + phone + '.';
+    if (levelText) msg += ' ' + J.levelLbl + ': ' + levelText + '.';
+    if (arrive) msg += ' ' + J.arrLbl + ': ' + arrive + '.';
+    if (leave) msg += ' ' + J.depLbl + ': ' + leave + '.';
+    var guests = ((document.getElementById('f-guests') || {{}}).value || '1');
+    if (guests) msg += ' ' + J.guestsLbl + ': ' + guests + '.';
+    if (goal) msg += ' ' + J.goalLbl + ': ' + goal;
     var btn = form.querySelector('button[type=submit]');
-    if(btn){{ btn.disabled=true; btn.textContent='Sending…'; }}
+    var btnLabel = form.querySelector('.booking-submit-label');
+    if (btn) btn.disabled = true;
+    if (btnLabel) btnLabel.textContent = J.sending;
     fetch('/api/booking', {{
-      method:'POST',
-      headers:{{'Content-Type':'application/json'}},
+      method: 'POST',
+      headers: {{ 'Content-Type': 'application/json' }},
       body: JSON.stringify({{
         firstName: fname, email: email,
-        phone: (cc?cc+' ':'')+phone,
+        phone: (cc ? cc + ' ' : '') + phone,
         arrival: arrive, departure: leave,
         guests: guests, level: levelText,
         message: goal,
-        lang: (document.documentElement.lang||'en').split('-')[0],
+        lang: (document.documentElement.lang || 'en').split('-')[0],
         pageUrl: location.href
       }})
-    }}).then(function(r){{ return r.json(); }})
-      .catch(function(){{ return {{ok:false}}; }})
-      .finally(function(){{
-        if(btn){{ btn.disabled=false; btn.textContent='Check Availability & Prices'; }}
-        window.open('https://wa.me/221789257025?text=' + encodeURIComponent(msg), '_blank');
+    }})
+      .then(function(r) {{
+        return r.json().catch(function() {{ return {{}}; }}).then(function(j) {{ return {{ ok: r.ok, j: j }}; }});
+      }})
+      .catch(function() {{ return {{ ok: false, j: {{}} }}; }})
+      .then(function(res) {{
+        if (btn) btn.disabled = false;
+        if (btnLabel) btnLabel.textContent = J.cta;
+        if (res.ok && res.j && res.j.ok) {{
+          openSuccessThenWa(msg);
+        }} else {{
+          if (topAlert) {{
+            topAlert.textContent = J.errNet;
+            topAlert.style.display = 'block';
+          }}
+          scrollToField('f-fname');
+        }}
       }});
   }});
 }})();
@@ -3319,6 +4089,8 @@ SURF_PAGE_COPY = {
         "badge_isa": "ISA certified",
         "badge_fed": "Senegalese Federation",
         "badge_loc": "Local knowledge",
+        "lb_close": "Close",
+        "wa_btn": "WhatsApp",
     },
     "fr": {
         "title": "Surf à Ngor | Ngor Surfcamp Teranga",
@@ -3361,6 +4133,8 @@ SURF_PAGE_COPY = {
         "badge_isa": "Certifié ISA",
         "badge_fed": "Fédération sénégalaise",
         "badge_loc": "Connaissance locale",
+        "lb_close": "Fermer",
+        "wa_btn": "WhatsApp",
     },
     "es": {
         "title": "Surf en Ngor | Ngor Surfcamp Teranga",
@@ -3403,6 +4177,8 @@ SURF_PAGE_COPY = {
         "badge_isa": "Certificado ISA",
         "badge_fed": "Federación senegalesa",
         "badge_loc": "Conocimiento local",
+        "lb_close": "Cerrar",
+        "wa_btn": "WhatsApp",
     },
     "it": {
         "title": "Surf a Ngor | Ngor Surfcamp Teranga",
@@ -3445,6 +4221,8 @@ SURF_PAGE_COPY = {
         "badge_isa": "Certificato ISA",
         "badge_fed": "Federazione senegalese",
         "badge_loc": "Conoscenza locale",
+        "lb_close": "Chiudi",
+        "wa_btn": "WhatsApp",
     },
     "de": {
         "title": "Surfen in Ngor | Ngor Surfcamp Teranga",
@@ -3487,6 +4265,8 @@ SURF_PAGE_COPY = {
         "badge_isa": "ISA-zertifiziert",
         "badge_fed": "Senegalesischer Verband",
         "badge_loc": "Lokales Know-how",
+        "lb_close": "Schließen",
+        "wa_btn": "WhatsApp",
     },
     "nl": {
         "title": "Surfen in Ngor | Ngor Surfcamp Teranga",
@@ -3529,6 +4309,8 @@ SURF_PAGE_COPY = {
         "badge_isa": "ISA gecertificeerd",
         "badge_fed": "Senegalese Federatie",
         "badge_loc": "Lokale kennis",
+        "lb_close": "Sluiten",
+        "wa_btn": "WhatsApp",
     },
     "ar": {
         "title": "ركوب الأمواج في نغور | Ngor Surfcamp Teranga",
@@ -3571,6 +4353,8 @@ SURF_PAGE_COPY = {
         "badge_isa": "معتمد من ISA",
         "badge_fed": "الاتحاد السنغالي",
         "badge_loc": "معرفة محلية",
+        "lb_close": "إغلاق",
+        "wa_btn": "واتساب",
     },
 }
 
@@ -3586,6 +4370,7 @@ GALLERY_PAGE_COPY = {
         "lb_close": "Close",
         "cta_h2": "Your next chapter starts here.",
         "book": "Book your stay",
+        "wa_btn": "WhatsApp",
     },
     "fr": {
         "title": "Galerie Surf Camp Sénégal | Ngor Teranga",
@@ -3598,6 +4383,7 @@ GALLERY_PAGE_COPY = {
         "lb_close": "Fermer",
         "cta_h2": "Votre prochain chapitre commence ici.",
         "book": "Réserver",
+        "wa_btn": "WhatsApp",
     },
     "es": {
         "title": "Galería Surf Camp Senegal | Ngor Teranga",
@@ -3610,6 +4396,7 @@ GALLERY_PAGE_COPY = {
         "lb_close": "Cerrar",
         "cta_h2": "Tu próximo capítulo empieza aquí.",
         "book": "Reservar",
+        "wa_btn": "WhatsApp",
     },
     "it": {
         "title": "Galleria Surf Camp Senegal | Ngor Teranga",
@@ -3622,6 +4409,7 @@ GALLERY_PAGE_COPY = {
         "lb_close": "Chiudi",
         "cta_h2": "Il tuo prossimo capitolo inizia qui.",
         "book": "Prenota",
+        "wa_btn": "WhatsApp",
     },
     "de": {
         "title": "Surfcamp Senegal Galerie | Ngor Teranga",
@@ -3634,6 +4422,7 @@ GALLERY_PAGE_COPY = {
         "lb_close": "Schließen",
         "cta_h2": "Dein nächstes Kapitel beginnt hier.",
         "book": "Jetzt buchen",
+        "wa_btn": "WhatsApp",
     },
     "nl": {
         "title": "Surf Camp Senegal Galerij | Ngor Teranga",
@@ -3646,6 +4435,7 @@ GALLERY_PAGE_COPY = {
         "lb_close": "Sluiten",
         "cta_h2": "Jouw volgende avontuur begint hier.",
         "book": "Boek je verblijf",
+        "wa_btn": "WhatsApp",
     },
     "ar": {
         "title": "معرض صور مخيم الأمواج في السنغال | Ngor Teranga",
@@ -3658,12 +4448,307 @@ GALLERY_PAGE_COPY = {
         "lb_close": "إغلاق",
         "cta_h2": "فصلك التالي يبدأ هنا.",
         "book": "احجز إقامتك",
+        "wa_btn": "واتساب",
     },
 }
 
 
+_IG_HANDLE = "ngorsurfcampteranga"
+_IG_URL    = "https://www.instagram.com/ngorsurfcampteranga"
+_IG_ICO_SVG = (
+    '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" '
+    'stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" '
+    'aria-hidden="true" style="flex-shrink:0">'
+    '<rect x="2" y="2" width="20" height="20" rx="5"/>'
+    '<circle cx="12" cy="12" r="5"/>'
+    '<circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/>'
+    '</svg>'
+)
+_IG_CAM_SVG = (
+    '<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" '
+    'stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" '
+    'aria-hidden="true">'
+    '<path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>'
+    '<circle cx="12" cy="13" r="4"/>'
+    '</svg>'
+)
+
+# Real Instagram photos from @ngorsurfcampteranga — downloaded and hosted locally
+# Each filename = the post shortcode (so links back to the exact post)
+_IG = "/assets/images/ig"
+_IG_PHOTOS = {
+    # Home — destination feel + action + joy (6 photos, 2 rows)
+    "home": [
+        f"{_IG}/DMxiqEtI9UF.webp",    # aerial Ngor Island at golden hour
+        f"{_IG}/DODf6KGjJtg.webp",    # surfer in perfect barrel
+        f"{_IG}/DTfGteJjEno.webp",    # fiery orange sunset over sea
+        f"{_IG}/DVtZNLUDFyE.webp",    # surfers entering water, Dakar skyline
+        f"{_IG}/DTV-popgGNG.webp",    # group with surfboards at camp
+        f"{_IG}/DS4iP3-jBut.webp",    # smiling surfer on beach
+    ],
+    # Surf House — pool, social spaces, food, welcoming atmosphere (6 photos)
+    "surf-house": [
+        f"{_IG}/DOvRcp2DE_g.webp",    # pool with colourful mosaic wall
+        f"{_IG}/DUfqawDgIGJ.webp",    # group of surfers at camp mosaic wall
+        f"{_IG}/DTKjjWBAPNl.webp",    # woman smiling at camp entrance
+        f"{_IG}/DRRRUDKjFYZ.webp",    # foosball table (social activities)
+        f"{_IG}/DNVJiQjIaxx.webp",    # thiéboudienne (Senegalese fish & rice)
+        f"{_IG}/DQeEuzdgNaY.webp",    # mafé (peanut stew)
+    ],
+    # Surfing — action, waves, beach life (6 photos)
+    "surfing": [
+        f"{_IG}/DODf6KGjJtg.webp",    # surfer in perfect barrel (hero shot)
+        f"{_IG}/DU2W_FoDHY_.webp",    # surfer on wave with fishing boat
+        f"{_IG}/DVtZNLUDFyE.webp",    # paddling out from shore
+        f"{_IG}/DTAt7IFDEQj.webp",    # surfer on wave, palm frond foreground
+        f"{_IG}/DP3plCpCK7L.webp",    # surfboards on beach, local kids
+        f"{_IG}/DS4iP3-jBut.webp",    # happy surfer holding board
+    ],
+}
+
+# Real Instagram post shortcodes — @ngorsurfcampteranga
+# Each entry is the shortcode extracted from the post URL
+# Format: https://www.instagram.com/p/{shortcode}/
+_IG_ALL_POSTS = [
+    "DVtZNLUDFyE",   # most recent — surfers entering water, Dakar skyline
+    "DU2W_FoDHY_",   # surfer on wave with fishing boat
+    "DUfqawDgIGJ",   # group of surfers at camp mosaic wall
+    "DUEPEulgNip",   # sunset (skip — low quality)
+    "DTfGteJjEno",   # fiery orange sunset
+    "DTV-popgGNG",   # group with surfboards at camp entrance
+    "DTKjjWBAPNl",   # woman smiling at camp entrance
+    "DTAt7IFDEQj",   # surfer on wave, palm frond
+    "DS4j1ShjEH6",   # foosball at night
+    "DS4iP3-jBut",   # smiling surfer on beach
+    "DSw1akLjLNR",   # sky (skip — blank)
+    "DMxiqEtI9UF",   # aerial Ngor Island golden hour
+    "DNVJiQjIaxx",   # thiéboudienne (Senegalese rice)
+    "DODf6KGjJtg",   # surfer in perfect barrel
+    "DOvRcp2DE_g",   # pool with colourful mosaic
+    "DOf0rNyDEbn",   # sky (skip — blurry)
+    "DPTZ2EBjA9z",   # palm trees distant (skip)
+    "DP3plCpCK7L",   # surfboards on beach, kids
+    "DQeEuzdgNaY",   # mafé (peanut stew)
+    "DRRRUDKjFYZ",   # foosball table
+]
+
+# Per-context post selection — shortcodes matching _IG_PHOTOS paths above
+_IG_POSTS = {
+    "home":       ["DMxiqEtI9UF", "DODf6KGjJtg", "DTfGteJjEno",
+                   "DVtZNLUDFyE", "DTV-popgGNG",  "DS4iP3-jBut"],
+    "surf-house": ["DOvRcp2DE_g", "DUfqawDgIGJ",  "DTKjjWBAPNl",
+                   "DRRRUDKjFYZ", "DNVJiQjIaxx",  "DQeEuzdgNaY"],
+    "surfing":    ["DODf6KGjJtg", "DU2W_FoDHY_",  "DVtZNLUDFyE",
+                   "DTAt7IFDEQj", "DP3plCpCK7L",  "DS4iP3-jBut"],
+}
+
+_IG_COPY = {
+    "eyebrow": {
+        "en": "INSTAGRAM", "fr": "INSTAGRAM", "es": "INSTAGRAM",
+        "it": "INSTAGRAM", "de": "INSTAGRAM", "nl": "INSTAGRAM", "ar": "انستغرام",
+    },
+    "h2": {
+        "en": "Follow Our Waves",
+        "fr": "Suivez nos vagues",
+        "es": "Sigue nuestras olas",
+        "it": "Segui le nostre onde",
+        "de": "Folge unseren Wellen",
+        "nl": "Volg onze golven",
+        "ar": "تابع أمواجنا",
+    },
+    "sub": {
+        "en": "Behind the scenes, sunsets & perfect barrels — live from Ngor Island.",
+        "fr": "Coulisses, couchers de soleil et tubes parfaits — en direct de l'île de Ngor.",
+        "es": "Bambalinas, atardeceres y tubos perfectos — en directo desde la isla de Ngor.",
+        "it": "Dietro le quinte, tramonti e barrel perfetti — dal vivo dall'isola di Ngor.",
+        "de": "Backstage, Sonnenuntergänge und perfekte Tubes — live von der Insel Ngor.",
+        "nl": "Backstage, zonsondergangen en perfecte barrels — live vanaf Ngor Island.",
+        "ar": "كواليس وغروب الشمس والأمواج المثالية — مباشرةً من جزيرة نغور.",
+    },
+    "follow": {
+        "en": "Follow on Instagram",
+        "fr": "Suivre sur Instagram",
+        "es": "Seguir en Instagram",
+        "it": "Seguici su Instagram",
+        "de": "Auf Instagram folgen",
+        "nl": "Volg op Instagram",
+        "ar": "تابعنا على انستغرام",
+    },
+    "view": {
+        "en": "View on Instagram",
+        "fr": "Voir sur Instagram",
+        "es": "Ver en Instagram",
+        "it": "Vedi su Instagram",
+        "de": "Auf Instagram ansehen",
+        "nl": "Bekijk op Instagram",
+        "ar": "عرض على انستغرام",
+    },
+    "cta_lbl": {
+        "en": "Join our community",
+        "fr": "Rejoignez notre communauté",
+        "es": "Únete a nuestra comunidad",
+        "it": "Unisciti alla nostra comunità",
+        "de": "Werde Teil unserer Community",
+        "nl": "Doe mee met onze community",
+        "ar": "انضم إلى مجتمعنا",
+    },
+    "cta_text": {
+        "en": "Share your experience with #NgorSurfcampTeranga",
+        "fr": "Partagez votre expérience avec #NgorSurfcampTeranga",
+        "es": "Comparte tu experiencia con #NgorSurfcampTeranga",
+        "it": "Condividi la tua esperienza con #NgorSurfcampTeranga",
+        "de": "Teile dein Erlebnis mit #NgorSurfcampTeranga",
+        "nl": "Deel je ervaring met #NgorSurfcampTeranga",
+        "ar": "شارك تجربتك مع #NgorSurfcampTeranga",
+    },
+    # Alt text per context — ordered to match _IG_PHOTOS paths
+    "alt_home": {
+        "en": ["Aerial view of Ngor Island at golden hour",
+               "Surfer in a perfect barrel at Ngor",
+               "Fiery orange sunset over Ngor Island",
+               "Surfers paddling out with Dakar skyline",
+               "Group of surfers with boards at surf camp",
+               "Happy surfer smiling on Ngor beach"],
+        "fr": ["Vue aérienne de l'île de Ngor à l'heure dorée",
+               "Surfeur dans un tube parfait à Ngor",
+               "Coucher de soleil orange sur l'île de Ngor",
+               "Surfeurs entrant dans l'eau avec Dakar en fond",
+               "Groupe de surfeurs avec leurs planches au camp",
+               "Surfeur heureux souriant sur la plage de Ngor"],
+    },
+    "alt_surf_house": {
+        "en": ["Pool with colourful mosaic at Ngor Surfcamp",
+               "Group of surfers at camp mosaic wall",
+               "Welcoming smile at Ngor Surfcamp entrance",
+               "Foosball table in the surf house",
+               "Thiéboudienne — traditional Senegalese fish and rice",
+               "Mafé — Senegalese peanut stew"],
+        "fr": ["Piscine avec mosaïque colorée au Ngor Surfcamp",
+               "Groupe de surfeurs devant le mur en mosaïque",
+               "Accueil souriant à l'entrée du Ngor Surfcamp",
+               "Baby-foot dans le surf house",
+               "Thiéboudienne — riz au poisson sénégalais",
+               "Mafé — ragoût d'arachide sénégalais"],
+    },
+    "alt_surfing": {
+        "en": ["Surfer in a perfect barrel at Ngor",
+               "Surfer on a wave with a fishing boat at Ngor",
+               "Surfers entering the water at Ngor Island",
+               "Surfer on a wave with palm frond",
+               "Surfboards on the beach with local kids",
+               "Smiling surfer holding board after a session"],
+        "fr": ["Surfeur dans un tube parfait à Ngor",
+               "Surfeur sur une vague avec un bateau de pêche",
+               "Surfeurs entrant dans l'eau à l'île de Ngor",
+               "Surfeur sur une vague avec feuille de palmier",
+               "Planches de surf sur la plage avec des enfants locaux",
+               "Surfeur souriant après une session"],
+    },
+}
+
+
+_IG_SECTION_START = "<!-- ig-feed-start -->"
+_IG_SECTION_END   = "<!-- ig-feed-end -->"
+
+
+def insta_section(lang: str, context: str = "home") -> str:
+    """Generate a clean Instagram-style photo grid using locally-hosted images.
+
+    No external iframes — fast, always visible, matches site DA.
+    Each photo links to the corresponding Instagram post.
+    Wrapped in ig-feed-start / ig-feed-end comment markers so patch
+    functions can cleanly remove and re-inject it.
+    context: 'home' | 'surf-house' | 'surfing'
+    """
+    photos = _IG_PHOTOS.get(context, _IG_PHOTOS["home"])
+    # Pair with real IG post URLs (no embed, just href on click)
+    post_urls = [f"https://www.instagram.com/p/{sc}/" for sc in _IG_ALL_POSTS]
+    t = _IG_COPY
+    is_rtl = lang == "ar"
+    dir_attr = ' dir="rtl"' if is_rtl else ""
+
+    def tx(key):
+        d = t.get(key, {})
+        return d.get(lang) or d.get("en", "")
+
+    alt_key = {
+        "home": "alt_home",
+        "surf-house": "alt_surf_house",
+        "surfing": "alt_surfing",
+    }.get(context, "alt_home")
+    alts = (t.get(alt_key, {}).get(lang) or t.get(alt_key, {}).get("en")) or ([""] * len(photos))
+
+    cells = []
+    for i, (src, alt) in enumerate(zip(photos, alts)):
+        href = post_urls[i % len(post_urls)]
+        cells.append(
+            f'<a class="ig-cell" href="{href}" target="_blank" rel="noopener noreferrer" '
+            f'aria-label="{escape(alt)}">'
+            f'<img class="ig-cell-img" src="{src}" alt="{escape(alt)}" '
+            f'loading="lazy" width="400" height="400" decoding="async">'
+            f'<span class="ig-cell-overlay" aria-hidden="true">'
+            f'{_IG_CAM_SVG}'
+            f'<span class="ig-cell-overlay-lbl">{escape(tx("view"))}</span>'
+            f'</span>'
+            f'</a>'
+        )
+    grid_html = "".join(cells)
+
+    is_home = context == "home"
+    wave_in  = wave_top("var(--bg-light,#f4f6f9)", "#fff") if is_home else ""
+    wave_out = wave_bottom("var(--bg-light,#f4f6f9)", "#fff")
+    sec_cls  = "ig-section" if is_home else "ig-section sec-light"
+
+    return f"""
+  {_IG_SECTION_START}
+  {wave_in}
+  <section class="{sec_cls}" id="ig-feed"{dir_attr}>
+    <div class="container">
+
+      <div class="ig-intro reveal">
+        <span class="s-label" style="color:#cc2366;letter-spacing:.1em">{escape(tx("eyebrow"))}</span>
+        <h2 class="s-title" style="margin:10px 0 10px">{escape(tx("h2"))}</h2>
+        <p class="ig-cta-text" style="margin:0">{escape(tx("sub"))}</p>
+      </div>
+
+      <div class="ig-bar reveal">
+        <div class="ig-header-left">
+          <div class="ig-avatar-wrap">
+            <div class="ig-avatar-inner">
+              <img src="{LOGO}" alt="@{_IG_HANDLE}" width="52" height="52" loading="lazy">
+            </div>
+          </div>
+          <div class="ig-meta">
+            <span class="ig-handle">@{_IG_HANDLE}</span>
+            <span class="ig-sub">Ngor Island · Dakar · Senegal</span>
+          </div>
+        </div>
+        <a class="ig-follow-btn" href="{_IG_URL}" target="_blank" rel="noopener noreferrer">
+          {_IG_ICO_SVG}&nbsp;{escape(tx("follow"))}
+        </a>
+      </div>
+
+      <div class="ig-grid ig-grid--{len(photos)} reveal">{grid_html}</div>
+
+      <div class="ig-cta reveal">
+        <p class="ig-cta-text">
+          <strong>#NgorSurfcampTeranga</strong> &middot; {escape(tx("cta_text"))}
+        </p>
+        <a class="ig-follow-btn" href="{_IG_URL}" target="_blank" rel="noopener noreferrer"
+           style="display:inline-flex;margin-top:12px">
+          {_IG_ICO_SVG}&nbsp;{escape(tx("cta_lbl"))}
+        </a>
+      </div>
+
+    </div>
+  </section>
+  {wave_out}
+  {_IG_SECTION_END}
+"""
+
+
 def build_gallery(lang):
-    C = GALLERY_PAGE_COPY[lang]
+    C = _site_page_mod.merge_gallery_copy(_BASE_DIR, lang, GALLERY_PAGE_COPY[lang])
     pfx = LANG_PFX[lang]
     book_href = f"{pfx}/{SLUG[lang]['booking']}/"
     if not book_href.startswith("/"):
@@ -3674,6 +4759,18 @@ def build_gallery(lang):
         return escape(fix_em(txt))
 
     grid = build_gallery_thumb_buttons(IMGS["gallery"], C["img_alt"], pe, thumb_w=560, eager_first=True)
+
+    # Gallery Instagram CTA copy per language
+    _gal_ig = {
+        "en": ("Follow us on Instagram", "See more on Instagram"),
+        "fr": ("Retrouvez-nous sur Instagram", "Voir + sur Instagram"),
+        "es": ("Síguenos en Instagram", "Ver más en Instagram"),
+        "it": ("Seguici su Instagram", "Vedi di più su Instagram"),
+        "de": ("Folge uns auf Instagram", "Mehr auf Instagram sehen"),
+        "nl": ("Volg ons op Instagram", "Meer zien op Instagram"),
+        "ar": ("تابعونا على إنستغرام", "عرض المزيد على إنستغرام"),
+    }
+    _gal_ig_sub, _gal_ig_btn = _gal_ig.get(lang, _gal_ig["en"])
 
     html = page_head(C["title"], C["meta"], lang, "gallery", hero)
     html += build_nav("gallery", lang)
@@ -3690,6 +4787,24 @@ def build_gallery(lang):
         <p class="gallery-page-lead">{pe(C["lead"])}</p>
       </div>
       <div class="gallery-masonry gallery-masonry--page" role="list">{grid}</div>
+      <div class="ig-gallery-cta reveal">
+        <div class="ig-gallery-cta-inner">
+          <div class="ig-gallery-cta-avatar">
+            <div class="ig-avatar-wrap" style="width:64px;height:64px">
+              <div class="ig-avatar-inner">
+                <img src="{LOGO}" alt="@{_IG_HANDLE}" width="60" height="60" loading="lazy">
+              </div>
+            </div>
+          </div>
+          <div class="ig-gallery-cta-text">
+            <span class="ig-gallery-cta-handle">@{_IG_HANDLE}</span>
+            <p class="ig-gallery-cta-sub">{escape(_gal_ig_sub)}</p>
+          </div>
+          <a class="ig-follow-btn ig-gallery-cta-btn" href="{_IG_URL}" target="_blank" rel="noopener noreferrer">
+            {_IG_ICO_SVG}&nbsp;{escape(_gal_ig_btn)}
+          </a>
+        </div>
+      </div>
     </div>
   </section>
   <div id="lb"><button type="button" id="lb-close" aria-label="{pe(C["lb_close"])}">✕</button><img id="lb-img" src="" alt=""></div>
@@ -3700,7 +4815,7 @@ def build_gallery(lang):
       <div class="cta-btns">
         <a href="{book_href}" class="btn btn-fire btn-lg">{pe(C["book"])}</a>
         <a href="https://wa.me/221789257025" target="_blank" rel="noopener" class="btn-view-more">
-          <span style="width:18px;height:18px;display:inline-flex">{WA_ICO}</span> WhatsApp</a>
+          <span style="width:18px;height:18px;display:inline-flex">{WA_ICO}</span> {pe(C["wa_btn"])}</a>
       </div>
     </div>
   </div>
@@ -3712,7 +4827,7 @@ def build_gallery(lang):
 
 
 def build_surf_house(lang):
-    C = SURF_HOUSE_PAGE[lang]
+    C = _site_page_mod.merge_surf_house_copy(_BASE_DIR, lang, SURF_HOUSE_PAGE[lang])
     feats = SURF_HOUSE_FEATS[lang]
     pfx = LANG_PFX[lang]
     book_href = f"{pfx}/{SLUG[lang]['booking']}/"
@@ -3812,7 +4927,7 @@ def build_surf_house(lang):
           <img src="{quote_img}" alt="{pe(C["quote_h2"])}" width="720" height="540" loading="lazy" decoding="async" referrerpolicy="no-referrer" class="sh-rooms-img">
         </div>
         <div class="sh-rooms-copy reveal">
-          <span class="s-label">Hébergement</span>
+          <span class="s-label">{pe(C["rooms_lbl"])}</span>
           <h2 class="sh-rooms-h2">{pe(C["quote_h2"])}</h2>
           <p class="sh-rooms-strong">{pe(C["quote_line1"])}</p>
           <p class="sh-rooms-accent">{pe(C["quote_line2"])}</p>
@@ -3838,7 +4953,7 @@ def build_surf_house(lang):
     <div class="container">
       <div class="sh-meals-grid reveal">
         <div class="sh-meals-copy">
-          <span class="s-label" style="color:var(--fire)">Cuisine</span>
+          <span class="s-label" style="color:var(--fire)">{pe(C["meals_lbl"])}</span>
           <h2 class="sh-meals-h2">{pe(C["meals_h2"])}</h2>
           <p class="sh-meals-p">{pe(C["meals_p"])}</p>
         </div>
@@ -3865,7 +4980,9 @@ def build_surf_house(lang):
     <div id="lb"><button type="button" id="lb-close" aria-label="{lb_aria}">✕</button><img id="lb-img" src="" alt=""></div>
   </section>
 
-  {wave_bottom(_BG_WHITE, _BG_NAVY)}
+  {wave_bottom(_BG_WHITE, _BG_LIGHT)}
+  {insta_section(lang, "surf-house")}
+  {wave_bottom(_BG_LIGHT, _BG_NAVY)}
   <div class="cta-band">
     <div class="container">
       <h2>{pe(C["cta_h2"])}</h2>
@@ -3873,7 +4990,7 @@ def build_surf_house(lang):
       <div class="cta-btns">
         <a href="{book_href}" class="btn btn-fire btn-lg">{pe(C["book"])}</a>
         <a href="https://wa.me/221789257025" target="_blank" rel="noopener" class="btn btn-glass btn-lg">
-          <span style="width:18px;height:18px;display:inline-flex">{WA_ICO}</span> WhatsApp</a>
+          <span style="width:18px;height:18px;display:inline-flex">{WA_ICO}</span> {pe(C["wa_btn"])}</a>
       </div>
     </div>
   </div>
@@ -3884,8 +5001,62 @@ def build_surf_house(lang):
     return html
 
 
+SURF_SPLIT_COPY = {
+    "en": {
+        "h2_waves":      "World-class waves,<br>West African soul",
+        "lbl_coaching":  "Expert Coaching",
+        "h2_coaching":   "Two sessions a day,<br>guided by Abu",
+        "lbl_community": "Island Life",
+        "h2_community":  "More than surfing —<br>a way of life",
+    },
+    "fr": {
+        "h2_waves":      "Des vagues de haut niveau,<br>l'âme de l'Afrique de l'Ouest",
+        "lbl_coaching":  "Coaching Expert",
+        "h2_coaching":   "Deux sessions par jour,<br>guidées par Abu",
+        "lbl_community": "Vie d'île",
+        "h2_community":  "Bien plus que le surf —<br>un mode de vie",
+    },
+    "es": {
+        "h2_waves":      "Olas de primer nivel,<br>alma del Oeste africano",
+        "lbl_coaching":  "Coaching Experto",
+        "h2_coaching":   "Dos sesiones al día,<br>guiadas por Abu",
+        "lbl_community": "Vida en la Isla",
+        "h2_community":  "Más que surf —<br>una forma de vivir",
+    },
+    "it": {
+        "h2_waves":      "Onde mondiali,<br>anima dell'Africa Occidentale",
+        "lbl_coaching":  "Coaching Esperto",
+        "h2_coaching":   "Due sessioni al giorno,<br>guidate da Abu",
+        "lbl_community": "Vita sull'Isola",
+        "h2_community":  "Più del surf —<br>uno stile di vita",
+    },
+    "de": {
+        "h2_waves":      "Weltklasse-Wellen,<br>westafrikanischer Geist",
+        "lbl_coaching":  "Expertencoaching",
+        "h2_coaching":   "Zwei Sessions täglich,<br>begleitet von Abu",
+        "lbl_community": "Inselleben",
+        "h2_community":  "Mehr als surfen —<br>eine Lebensweise",
+    },
+    "nl": {
+        "h2_waves":      "Wereldklasse golven,<br>West-Afrikaanse ziel",
+        "lbl_coaching":  "Expert Coaching",
+        "h2_coaching":   "Twee sessies per dag,<br>begeleid door Abu",
+        "lbl_community": "Eilandleven",
+        "h2_community":  "Meer dan surfen —<br>een levensstijl",
+    },
+    "ar": {
+        "h2_waves":      "أمواج عالمية،<br>روح غرب أفريقيا",
+        "lbl_coaching":  "تدريب احترافي",
+        "h2_coaching":   "جلستان يومياً<br>بإرشاد أبو",
+        "lbl_community": "حياة الجزيرة",
+        "h2_community":  "أكثر من تصفح —<br>أسلوب حياة",
+    },
+}
+
+
 def build_surfing(lang):
-    C = SURF_PAGE_COPY[lang]
+    C = _site_page_mod.merge_surfing_copy(_BASE_DIR, lang, SURF_PAGE_COPY[lang])
+    SC = SURF_SPLIT_COPY.get(lang, SURF_SPLIT_COPY["en"])
     pfx = LANG_PFX[lang]
     book_href = f"{pfx}/{SLUG[lang]['booking']}/"
     if not book_href.startswith("/"):
@@ -3917,17 +5088,56 @@ def build_surfing(lang):
     <p style="font-style:italic;font-size:20px;opacity:0.95;margin-top:10px;max-width:640px;margin-left:auto;margin-right:auto">{pe(C["tag"])}</p>
   </header>
 
-  <section class="section">
+  <!-- Story split 1: waves + vibe (text-left, img-right) -->
+  <section class="section surf-story-sec">
     <div class="container">
-      <div class="surf-intro-stack reveal" style="max-width:720px;margin:0 auto">
-        <span class="s-label">{pe(C["lbl_intro"])}</span>
-        <p class="surf-intro-p">{pe(C["p1"])}</p>
-        <p class="surf-intro-p">{pe(C["p2"])}</p>
-        <p class="surf-intro-p">{pe(C["p3"])}</p>
-        <p class="surf-intro-p">{pe(C["p4"])}</p>
-        <p class="surf-intro-p">{pe(C["p5"])}</p>
-        <div style="margin-top:32px;text-align:center">
-          <a href="{book_href}" class="btn btn-fire btn-lg">{pe(C["book"])}</a>
+      <div class="split surf-story-split reveal">
+        <div class="surf-story-text">
+          <span class="s-label">{pe(C["lbl_intro"])}</span>
+          <h2 class="s-title surf-story-h2">{SC["h2_waves"]}</h2>
+          <p class="surf-story-p">{pe(C["p1"])}</p>
+          <p class="surf-story-p">{pe(C["p2"])}</p>
+        </div>
+        <div class="split-img surf-story-img">
+          <img src="{IMGS["island2"]}" alt="{pe(C["h1"])}" loading="eager" width="680" height="520" decoding="async">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {wave_top(_BG_LIGHT, _BG_WHITE)}
+  <!-- Story split 2: coaching (img-left, text-right) -->
+  <section class="section sec-light surf-story-sec">
+    <div class="container">
+      <div class="split surf-story-split reveal">
+        <div class="split-img surf-story-img">
+          <img src="{IMGS["surf2"]}" alt="{pe(SC["lbl_coaching"])}" loading="lazy" width="680" height="520" decoding="async">
+        </div>
+        <div class="surf-story-text">
+          <span class="s-label">{pe(SC["lbl_coaching"])}</span>
+          <h2 class="s-title surf-story-h2">{SC["h2_coaching"]}</h2>
+          <p class="surf-story-p">{pe(C["p3"])}</p>
+          <p class="surf-story-p">{pe(C["p4"])}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  {wave_bottom(_BG_LIGHT, _BG_WHITE)}
+
+  <!-- Story split 3: community + lifestyle (text-left, img-right) -->
+  <section class="section surf-story-sec">
+    <div class="container">
+      <div class="split surf-story-split reveal">
+        <div class="surf-story-text">
+          <span class="s-label">{pe(SC["lbl_community"])}</span>
+          <h2 class="s-title surf-story-h2">{SC["h2_community"]}</h2>
+          <p class="surf-story-p">{pe(C["p5"])}</p>
+          <div style="margin-top:28px">
+            <a href="{book_href}" class="btn btn-fire">{pe(C["book"])}</a>
+          </div>
+        </div>
+        <div class="split-img surf-story-img">
+          <img src="{IMGS["sunset"]}" alt="{pe(SC["lbl_community"])}" loading="lazy" width="680" height="520" decoding="async">
         </div>
       </div>
     </div>
@@ -3983,10 +5193,12 @@ def build_surfing(lang):
       <h2 class="s-title reveal" style="text-align:center;margin-bottom:40px">{pe(C["gal_h2"])}</h2>
       <div class="gallery-masonry" role="list">{gal_items}</div>
     </div>
-    <div id="lb"><button id="lb-close" aria-label="Close">✕</button><img id="lb-img" src="" alt=""></div>
+    <div id="lb"><button id="lb-close" aria-label="{pe(C["lb_close"])}">✕</button><img id="lb-img" src="" alt=""></div>
   </section>
 
-  {wave_bottom(_BG_WHITE, _BG_NAVY)}
+  {wave_bottom(_BG_WHITE, _BG_LIGHT)}
+  {insta_section(lang, "surfing")}
+  {wave_bottom(_BG_LIGHT, _BG_NAVY)}
   <div class="cta-band">
     <div class="container">
       <h2>{pe(C["cta_h2"])}</h2>
@@ -3994,7 +5206,7 @@ def build_surfing(lang):
       <div class="cta-btns">
         <a href="{book_href}" class="btn btn-fire btn-lg">{pe(C["book"])}</a>
         <a href="https://wa.me/221789257025" target="_blank" rel="noopener" class="btn btn-glass btn-lg">
-          <span style="width:18px;height:18px;display:inline-flex">{WA_ICO}</span> WhatsApp</a>
+          <span style="width:18px;height:18px;display:inline-flex">{WA_ICO}</span> {pe(C["wa_btn"])}</a>
       </div>
     </div>
   </div>
@@ -4559,10 +5771,19 @@ patch_home_gallery_all()
 print("Patching home blog preview (6 cards)…")
 patch_home_blog_preview_all()
 
+print("Injecting Instagram feed section into home pages…")
+patch_home_insta_section_all()
+
+print("Patching home localized UI leftovers (AR)…")
+patch_home_lang_ui_cleanup_all()
+
+print("Patching home reviews slider (localized cards, non-EN)…")
+patch_home_reviews_slider_all()
+
 def patch_head_all_pages():
     """Update <head> on ALL HTML pages: asset version, async fonts, preconnects."""
     import re as _re
-    old_versions = ["20260327f","20260328a","20260328b","20260328c","20260328d","20260329a"]
+    old_versions = ["20260327f","20260328a","20260328b","20260328c","20260328d","20260329a","20260329b","20260329c","20260329d","20260329e","20260329f"]
     new_v = ASSET_VERSION
     FONT_URL = ("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,700;"
                 "0,800;0,900;1,400&family=Inter:wght@400;500;600&display=swap")
@@ -4575,7 +5796,6 @@ def patch_head_all_pages():
         f'<link rel="preload" href="{FONT_URL}" as="style" onload="this.onload=null;this.rel=\'stylesheet\'">'
         f'<noscript><link rel="stylesheet" href="{FONT_URL}"></noscript>'
     )
-    PRECONNECT_WIX = '<link rel="preconnect" href="https://static.wixstatic.com" crossorigin>'
     n_updated = 0
     from pathlib import Path as _Path
     for html_path in _Path(DEMO_DIR).rglob("*.html"):
@@ -4583,6 +5803,19 @@ def patch_head_all_pages():
             with open(html_path, encoding="utf-8", errors="replace") as f:
                 h = f.read()
             changed = False
+            # Legacy asset URLs → live filenames (older HTML / partial builds)
+            for _old_href, _new_href in (
+                ("/assets/css/style.css", f"/assets/css/{ASSET_CSS_MAIN}"),
+                ("/assets/js/animations.js", f"/assets/js/{ASSET_JS_MAIN}"),
+                ("/assets/css/cmp-brand.css", f"/assets/css/{ASSET_CSS_CONSENT}"),
+            ):
+                if _old_href in h:
+                    h = h.replace(_old_href, _new_href)
+                    changed = True
+            _old_inline = "animations.js (single listener)"
+            if _old_inline in h:
+                h = h.replace(_old_inline, f"{ASSET_JS_MAIN} (site bundle)")
+                changed = True
             # Update asset version
             for old_v in old_versions:
                 if old_v in h:
@@ -4594,14 +5827,27 @@ def patch_head_all_pages():
                 if h2 != h:
                     h = h2
                     changed = True
-            # Add Wix preconnect if missing
-            if 'static.wixstatic.com' not in h and 'preconnect' in h:
-                h = h.replace(
-                    '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>',
-                    '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n'
-                    + PRECONNECT_WIX,
-                    1
+            # Remove any lingering Wix preconnect hints (assets are now self-hosted)
+            for _wix_pc in (
+                '<link rel="preconnect" href="https://static.wixstatic.com" crossorigin>',
+                '<link rel="preconnect" href="https://static.wixstatic.com">',
+                '<link rel="preconnect" href="https://video.wixstatic.com" crossorigin>',
+                '<link rel="preconnect" href="https://video.wixstatic.com">',
+            ):
+                if _wix_pc in h:
+                    h = h.replace(_wix_pc + '\n', '').replace(_wix_pc, '')
+                    changed = True
+            # Inject favicon / PWA tags if not already present
+            if 'rel="icon"' not in h and '</head>' in h:
+                _fav_tags = (
+                    '<link rel="icon" type="image/x-icon" href="/favicon.ico">\n'
+                    '<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">\n'
+                    '<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">\n'
+                    '<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">\n'
+                    '<link rel="manifest" href="/site.webmanifest">\n'
+                    '<meta name="theme-color" content="#0a2540">\n'
                 )
+                h = h.replace('</head>', _fav_tags + '</head>', 1)
                 changed = True
             if changed:
                 with open(html_path, "w", encoding="utf-8") as f:
@@ -4612,56 +5858,141 @@ def patch_head_all_pages():
     print(f"  head: updated {n_updated} HTML pages")
 
 
-def patch_cmp_all_pages():
-    """Inject CookieConsent v3 (Google Consent Mode V2 ready) into every HTML page."""
-    CMP_CSS = (
-        '<link rel="stylesheet" '
-        'href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css">'
-    )
-    # Use type="module" + ESM build — the recommended v3 approach.
-    # ES modules are deferred by default, so CookieConsent is ready before run() is called.
-    CMP_JS = """<script type="module">
-import CookieConsent from 'https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.esm.js';
-var lang=(document.documentElement.lang||'en').split('-')[0].split('_')[0];
-var T={
-  en:{title:'We use cookies',desc:'This site only uses strictly necessary cookies to function. No tracking or advertising.',accept:'Got it',reject:'Necessary only',manage:'Manage'},
-  fr:{title:'Utilisation des cookies',desc:'Ce site utilise uniquement des cookies strictement nécessaires. Aucun cookie de suivi ou publicitaire.',accept:'Accepter',reject:'Nécessaires seulement',manage:'Gérer'},
-  es:{title:'Uso de cookies',desc:'Este sitio usa solo cookies estrictamente necesarias. Sin seguimiento ni publicidad.',accept:'Aceptar',reject:'Solo necesarias',manage:'Gestionar'},
-  it:{title:'Utilizzo dei cookie',desc:'Questo sito usa solo cookie strettamente necessari. Nessun tracciamento o pubblicità.',accept:'Accetta',reject:'Solo necessari',manage:'Gestisci'},
-  de:{title:'Cookie-Hinweis',desc:'Diese Website verwendet nur technisch notwendige Cookies. Kein Tracking, keine Werbung.',accept:'Akzeptieren',reject:'Nur notwendige',manage:'Verwalten'},
-  nl:{title:'Cookiemelding',desc:'Deze site gebruikt alleen strikt noodzakelijke cookies. Geen tracking of reclame.',accept:'Akkoord',reject:'Alleen noodzakelijk',manage:'Beheren'},
-  ar:{title:'إشعار الكوكيز',desc:'يستخدم هذا الموقع ملفات تعريف الارتباط الضرورية فقط. لا تتبع ولا إعلانات.',accept:'موافق',reject:'الضرورية فقط',manage:'إدارة'}
-};
-var t=T[lang]||T.en;
-CookieConsent.run({
-  guiOptions:{consentModal:{layout:'cloud',position:'bottom center',equalWeightButtons:false,flipButtons:false}},
-  categories:{necessary:{enabled:true,readOnly:true},analytics:{enabled:false}},
-  language:{default:lang,translations:{[lang]:{
-    consentModal:{title:t.title,description:t.desc,acceptAllBtn:t.accept,acceptNecessaryBtn:t.reject,showPreferencesBtn:t.manage},
-    preferencesModal:{title:t.manage,acceptAllBtn:t.accept,acceptNecessaryBtn:t.reject,savePreferencesBtn:t.accept,
-      sections:[{title:t.title,linkedCategory:'necessary'}]}
-  }}}
-});
-</script>"""
-    MARKER = "cookieconsent"
-    n = 0
+def patch_remove_float_wa_all():
+    """Remove legacy floating WhatsApp FAB (#float-wa) from every static HTML file."""
+    import re as _re
     from pathlib import Path as _Path
+
+    pat = _re.compile(
+        r'<a\b[^>]*\bid=["\']float-wa["\'][^>]*>[\s\S]*?</a>',
+        _re.IGNORECASE,
+    )
+    n_pages = 0
+    n_removed = 0
     for html_path in _Path(DEMO_DIR).rglob("*.html"):
         try:
             with open(html_path, encoding="utf-8", errors="replace") as f:
                 h = f.read()
-            if MARKER in h:
-                # Strip old broken CMP then re-inject
-                import re as _re
-                h = _re.sub(r'<link[^>]*cookieconsent[^>]*>', '', h)
-                h = _re.sub(r'<script[^>]*cookieconsent[\s\S]*?</script>', '', h, flags=_re.DOTALL)
-                if MARKER in h:
-                    continue  # still present after cleanup — skip
-            if '</head>' not in h:
+            h2, count = pat.subn("", h)
+            if count:
+                n_removed += count
+                with open(html_path, "w", encoding="utf-8") as f:
+                    f.write(h2)
+                n_pages += 1
+        except Exception as e:
+            print(f"  float-wa strip error {html_path}: {e}")
+    print(f"  float-wa: removed {n_removed} anchor(s) from {n_pages} HTML file(s)")
+
+
+def patch_cmp_all_pages():
+    """Inject vanilla-cookieconsent v3 (MIT) + Google Consent Mode v2 defaults (gtag stub)."""
+    _av = ASSET_VERSION
+    CMP_HEAD_BLOCK = (
+        '<script id="gcm-consent-default">'
+        "window.dataLayer=window.dataLayer||[];"
+        "function gtag(){dataLayer.push(arguments);}"
+        "gtag('consent','default',{"
+        "ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',"
+        "analytics_storage:'denied',functionality_storage:'granted',"
+        "personalization_storage:'denied',security_storage:'granted',wait_for_update:500"
+        "});"
+        "</script>\n"
+        '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css">\n'
+        f'<link rel="stylesheet" href="/assets/css/{ASSET_CSS_CONSENT}?v={_av}">'
+    )
+    CMP_JS = """<script type="module">
+(async function(){
+try {
+const _cc = await import('https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.esm.js');
+const { run, acceptedCategory } = _cc;
+window.CookieConsent = _cc;
+var lang=(document.documentElement.getAttribute('lang')||'en').toLowerCase().split('-')[0].split('_')[0];
+var T={
+  en:{title:'We value your privacy',desc:'We use essential cookies to keep the site running. With your consent we also measure traffic anonymously via Google Analytics.',accept:'Accept all',reject:'Continue without accepting',manage:'Cookie settings',save:'Save choices',nec:'Essential cookies',necD:'Required for security, forms and basic site function. Always on.',sta:'Analytics & measurement',staD:'Helps us see which pages are useful (anonymous usage).'},
+  fr:{title:'Nous respectons votre vie privée',desc:'Nous utilisons des cookies indispensables au fonctionnement du site. Avec votre accord, des cookies de mesure d’audience peuvent aussi être utilisés.',accept:'Tout accepter',reject:'Continuer sans accepter',manage:'Paramètres des cookies',save:'Enregistrer',nec:'Cookies indispensables',necD:'Nécessaires à la sécurité, aux formulaires et au bon fonctionnement du site. Toujours actifs.',sta:'Mesure d’audience',staD:'Nous aide à comprendre l’usage du site (données agrégées).'},
+  es:{title:'Respetamos tu privacidad',desc:'Usamos cookies esenciales para que el sitio funcione. Con tu permiso, también cookies de analítica para entender el tráfico.',accept:'Aceptar todo',reject:'Continuar sin aceptar',manage:'Configurar cookies',save:'Guardar',nec:'Cookies esenciales',necD:'Imprescindibles para seguridad, formularios y funcionamiento básico. Siempre activas.',sta:'Analítica y medición',staD:'Nos ayuda a ver qué páginas son útiles (uso agregado).'},
+  it:{title:'Rispettiamo la tua privacy',desc:'Usiamo cookie essenziali per il funzionamento del sito. Con il tuo consenso anche cookie di statistica per capire il traffico.',accept:'Accetta tutto',reject:'Continua senza accettare',manage:'Impostazioni cookie',save:'Salva',nec:'Cookie essenziali',necD:'Necessari per sicurezza, moduli e funzioni di base. Sempre attivi.',sta:'Analitica e misurazione',staD:'Ci aiuta a capire quali pagine sono utili (dati aggregati).'},
+  de:{title:'Wir schützen Ihre Privatsphäre',desc:'Wir nutzen notwendige Cookies für den Betrieb der Website. Mit Ihrer Zustimmung auch Analyse-Cookies (z. B. für Reichweitenmessung).',accept:'Alle akzeptieren',reject:'Ohne Zustimmung fortfahren',manage:'Cookie-Einstellungen',save:'Speichern',nec:'Notwendige Cookies',necD:'Erforderlich für Sicherheit, Formulare und Grundfunktionen. Immer aktiv.',sta:'Analyse & Messung',staD:'Hilft uns zu verstehen, welche Seiten genutzt werden (aggregiert).'},
+  nl:{title:'Wij respecteren uw privacy',desc:'We gebruiken essentiële cookies zodat de site werkt. Met jouw toestemming ook analytics om bezoek te begrijpen.',accept:'Alles accepteren',reject:'Doorgaan zonder te accepteren',manage:'Cookie-instellingen',save:'Opslaan',nec:'Essentiële cookies',necD:'Nodig voor beveiliging, formulieren en basiswerking. Altijd aan.',sta:'Analyse & meting',staD:'Helpt ons zien welke pagina’s nuttig zijn (geaggregeerd).'},
+  ar:{title:'نحن نحترم خصوصيتك',desc:'نستخدم ملفات ضرورية لعمل الموقع. بموافقتك قد نستخدم ملفات قياس لزيارات الموقع.',accept:'قبول الكل',reject:'المتابعة بدون قبول',manage:'إعدادات الكوكيز',save:'حفظ',nec:'ملفات ضرورية',necD:'مطلوبة للأمان والنماذج والوظائف الأساسية. مفعَّلة دائمًا.',sta:'التحليلات والقياس',staD:'تساعدنا على فهم الصفحات المفيدة (بيانات مجمَّعة).'},
+};
+var t=T[lang]||T.en;
+function applyGCM(){
+  if(typeof gtag!=='function')return;
+  var ok=acceptedCategory('analytics');
+  var s=ok?'granted':'denied';
+  gtag('consent','update',{
+    analytics_storage:s,ad_storage:s,ad_user_data:s,ad_personalization:s,personalization_storage:s
+  });
+}
+run({
+  hideFromBots:false,
+  autoShow:true,
+  revision:2,
+  cookie:{name:'cc_cookie',expiresAfterDays:182,path:'/',domain:'',secure:typeof location!=='undefined'&&location.protocol==='https:',sameSite:'Lax'},
+  guiOptions:{consentModal:{layout:'box',position:'bottom right',equalWeightButtons:false,flipButtons:false},preferencesModal:{layout:'box'}},
+  categories:{
+    necessary:{enabled:true,readOnly:true},
+    analytics:{enabled:false,autoClear:{cookies:[{name:/^_ga/},{name:/^_gid/},{name:/^_gat/}]}}
+  },
+  language:{default:lang,translations:{[lang]:{
+    consentModal:{title:t.title,description:t.desc,acceptAllBtn:t.accept,acceptNecessaryBtn:t.reject},
+    preferencesModal:{title:t.manage,acceptAllBtn:t.accept,acceptNecessaryBtn:t.reject,savePreferencesBtn:t.save,closeIconLabel:t.save,
+      sections:[
+        {title:t.nec,description:t.necD,linkedCategory:'necessary'},
+        {title:t.sta,description:t.staD,linkedCategory:'analytics'}
+      ]}
+  }}},
+  onFirstConsent: applyGCM,
+  onConsent: applyGCM
+});
+/* ── Persistent cookie-preferences trigger ── */
+(function(){
+  var btn=document.createElement('button');
+  btn.id='cc-trigger';
+  btn.setAttribute('aria-label','Cookie preferences');
+  btn.title='Cookie preferences';
+  btn.innerHTML='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="17" height="17" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="8.5" cy="9" r="1.3" fill="currentColor" stroke="none"/><circle cx="15" cy="9.5" r="1.1" fill="currentColor" stroke="none"/><circle cx="11.5" cy="14.5" r="1.2" fill="currentColor" stroke="none"/><path d="M9 6c.8-1.2 3.2-1.5 5 0M6.5 12.5c-1.5.3-1.8 2.5 0 3M16 14c1.5.5 2 2.5.5 3.5"/></svg>';
+  btn.addEventListener('click',function(){
+    if(window.CookieConsent&&window.CookieConsent.showPreferences)
+      window.CookieConsent.showPreferences();
+  });
+  document.body.appendChild(btn);
+})();
+} catch (e) { console.error('[CMP] CookieConsent failed:', e); }
+})();
+</script>"""
+    n = 0
+    import re as _cmp_re
+    from pathlib import Path as _Path
+    for html_path in _Path(DEMO_DIR).rglob("*.html"):
+        try:
+            _rel_cmp = str(html_path.relative_to(_Path(DEMO_DIR))).replace("\\", "/")
+            if _rel_cmp.startswith("admin/"):
                 continue
-            h = h.replace('</head>', CMP_CSS + '\n</head>', 1)
-            if '</body>' in h:
-                h = h.replace('</body>', CMP_JS + '\n</body>', 1)
+            with open(html_path, encoding="utf-8", errors="replace") as f:
+                h = f.read()
+            h = _cmp_re.sub(
+                r'<script[^>]*id=["\']gcm-consent-default["\'][^>]*>[\s\S]*?</script>', "", h, flags=_cmp_re.I
+            )
+            h = _cmp_re.sub(r"<link[^>]*cookieconsent\.css[^>]*>", "", h, flags=_cmp_re.I)
+            h = _cmp_re.sub(
+                r"<link[^>]*\/assets\/css\/(?:cmp-brand|ngor-surfcamp-consent)\.css[^>]*>",
+                "",
+                h,
+                flags=_cmp_re.I,
+            )
+            h = _cmp_re.sub(
+                r'<script[^>]*type=["\']module["\'][^>]*>[\s\S]*?vanilla-cookieconsent[\s\S]*?</script>',
+                "",
+                h,
+                flags=_cmp_re.DOTALL,
+            )
+            if "</head>" not in h:
+                continue
+            h = h.replace("</head>", CMP_HEAD_BLOCK + "\n</head>", 1)
+            if "</body>" in h:
+                h = h.replace("</body>", CMP_JS + "\n</body>", 1)
             with open(html_path, "w", encoding="utf-8") as f:
                 f.write(h)
             n += 1
@@ -4737,6 +6068,29 @@ if _island_guides:
 else:
     print("  (no island_guides manifest — skip)")
 
+print("Rebuilding Super FAQ (full nl/ar copy) + blog HTML from articles_v2…")
+_scripts_dir = os.path.join(_BASE_DIR, "scripts")
+_rc_faq = subprocess.run(
+    [sys.executable, os.path.join(_scripts_dir, "build_faq.py"), "--faq-only"],
+    cwd=_BASE_DIR,
+)
+_rc_blog = subprocess.run(
+    [sys.executable, os.path.join(_scripts_dir, "build_blog.py")],
+    cwd=_BASE_DIR,
+)
+if _rc_faq.returncode != 0:
+    print("WARNING: FAQ legacy build failed (exit %s)" % _rc_faq.returncode)
+if _rc_blog.returncode != 0:
+    print("WARNING: blog legacy rebuild failed (exit %s)" % _rc_blog.returncode)
+print("Patching <head> on FAQ/blog output (fonts, asset version)…")
+patch_head_all_pages()
+
+print("Removing legacy floating WhatsApp button (#float-wa) from all HTML…")
+patch_remove_float_wa_all()
+
+print("Patching Arabic WhatsApp wording (all /ar/ HTML)…")
+patch_ar_whatsapp_word_in_html_all()
+
 # Verify
 with open(f'{DEMO_DIR}/booking/index.html') as f: h = f.read()
 scripts   = len([m for m in re.finditer(r'<script(?!\s+src)', h)])
@@ -4747,6 +6101,13 @@ print(f"\nEN booking verification: scripts={scripts} form-card={form_cards} divs
 
 print("Injecting CMP (Google Consent Mode V2) site-wide…")
 patch_cmp_all_pages()
+
+print("Refreshing home nav+footer (latest localized chrome)…")
+patch_home_nav_footer_all()
+
+print("Patching canonical + hreflang clusters (all index pages)…")
+patch_hreflang_canonical_all_pages()
+verify_hreflang_alternate_count()
 
 write_sitemaps_and_robots()
 patch_legacy_public_host_all()

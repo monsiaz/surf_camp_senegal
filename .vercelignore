@@ -9,5 +9,4 @@ clesapi.txt
 .admin_api_key
 *.json.bak
 leafy-brace-*.json
-_legacy_scripts/
 scripts/

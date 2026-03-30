@@ -7,7 +7,18 @@ Features:
 - Step-by-step arrival guide
 - Homepage teaser block
 """
+import importlib.util
 import os, re
+
+_BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+_site_assets_spec = importlib.util.spec_from_file_location(
+    "site_assets", os.path.join(_BASE_DIR, "scripts", "site_assets.py")
+)
+_site_assets_mod = importlib.util.module_from_spec(_site_assets_spec)
+_site_assets_spec.loader.exec_module(_site_assets_mod)
+ASSET_VERSION = _site_assets_mod.ASSET_VERSION
+ASSET_CSS_MAIN = _site_assets_mod.ASSET_CSS_MAIN
+ASSET_JS_MAIN = _site_assets_mod.ASSET_JS_MAIN
 
 DEMO     = "/Users/simonazoulay/SurfCampSenegal/cloudflare-demo"
 SITE_URL = (os.environ.get("PUBLIC_SITE_URL") or "https://surf-camp-senegal.vercel.app").strip().rstrip("/")
@@ -16,8 +27,8 @@ LANG_PFX = {"en":"","fr":"/fr","es":"/es","it":"/it","de":"/de"}
 LANG_LOCALE = {"en":"en","fr":"fr-FR","es":"es-ES","it":"it-IT","de":"de-DE"}
 LANG_NAMES  = {"en":"English","fr":"Français","es":"Español","it":"Italiano","de":"Deutsch"}
 
-WIX  = "https://static.wixstatic.com/media"
-LOGO = f"{WIX}/c2467f_a31779010ce34c4c8c61cc5868d81f31~mv2.png"
+_WIX = "/assets/images/wix"
+LOGO = f"{_WIX}/c2467f_a31779010ce34c4c8c61cc5868d81f31.webp"
 
 SLUG_GET_HERE = {"en":"getting-here","fr":"comment-venir","es":"como-llegar","it":"come-arrivare","de":"anreise"}
 
@@ -427,8 +438,8 @@ def build_getting_here(lang):
 <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <!-- Leaflet CSS -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
-<link rel="stylesheet" href="/assets/css/style.css?v=20260327d">
-<script src="/assets/js/animations.js?v=20260327d" defer></script>
+<link rel="stylesheet" href="/assets/css/{ASSET_CSS_MAIN}?v={ASSET_VERSION}">
+<script src="/assets/js/{ASSET_JS_MAIN}?v={ASSET_VERSION}" defer></script>
 <style>
 /* ── Getting Here Page ─────────────────────────────── */
 .gh-hero {{ background: linear-gradient(160deg,#070f1c,#0a2540 50%,#071826); color:#fff; padding:140px 28px 80px; text-align:center; position:relative; overflow:hidden; }}
@@ -574,7 +585,6 @@ def build_getting_here(lang):
     </div>
   </div>
 </footer>
-<a href="https://wa.me/221789257025" target="_blank" rel="noopener" id="float-wa" aria-label="WhatsApp"><span style="display:inline-flex">{WA_ICO}</span></a>
 
 <!-- Leaflet JS -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
@@ -763,15 +773,15 @@ TEASER_CSS = """
 """
 
 _CSS_TEASER_SENTINEL = "/* ── Getting Here Teaser Block ──────────────────────── */"
-_css_path = f"{DEMO}/assets/css/style.css"
+_css_path = f"{DEMO}/assets/css/{ASSET_CSS_MAIN}"
 with open(_css_path, "r", encoding="utf-8") as _cf:
     _css_existing = _cf.read()
 if _CSS_TEASER_SENTINEL not in _css_existing:
     with open(_css_path, "a", encoding="utf-8") as f:
         f.write("\n" + TEASER_CSS)
-    print("  appended Getting Here teaser CSS to style.css")
+    print(f"  appended Getting Here teaser CSS to {ASSET_CSS_MAIN}")
 else:
-    print("  Getting Here teaser CSS already in style.css — skip append")
+    print(f"  Getting Here teaser CSS already in {ASSET_CSS_MAIN} — skip append")
 
 TEASER_CONTENT = {
     "en":[("20min","airport"),("800m","from Dakar"),("5min","pirogue"),("<1€","to island")],
