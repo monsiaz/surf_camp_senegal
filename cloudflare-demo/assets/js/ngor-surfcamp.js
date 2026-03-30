@@ -67,10 +67,10 @@ function initHeroVideoLoop(){const vid=document.getElementById('hero-video');if(
     function buildMap() {
       if (typeof L === 'undefined' || el.dataset.ghMapReady === '1') return;
       el.dataset.ghMapReady = '1';
-      const NGOR = [14.7497, -17.5218];
+      const NGOR = [14.7498, -17.5228]; /* Ngor Island — exact centre (OSM verified) */
       const map = L.map(el, {
-        center: [14.738, -17.485],
-        zoom: 12,
+        center: [14.7492, -17.5185],
+        zoom: 16,
         scrollWheelZoom: false,
         zoomControl: true,
         attributionControl: true,
