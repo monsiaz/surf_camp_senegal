@@ -470,6 +470,11 @@ def build_super_faq(lang):
 </main>
 <style>
 @media(max-width:1024px){{.faq-layout{{grid-template-columns:1fr!important;gap:32px!important;}}.faq-sidebar{{position:relative!important;top:auto!important;}}}}
+/* FAQ accordion: grid 0fr→1fr so full answers show even if main.css is cached old */
+.faq-a{{display:grid!important;grid-template-rows:0fr!important;overflow:hidden!important;transition:grid-template-rows 0.45s ease!important;box-sizing:border-box!important}}
+.faq-item.open .faq-a{{grid-template-rows:1fr!important}}
+.faq-a>div{{min-height:0!important;overflow:hidden!important}}
+.faq-item.open .faq-a>div{{overflow:visible!important}}
 </style>"""
     html += footer_html(lang, pfx)
     html += close()
