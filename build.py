@@ -264,7 +264,7 @@ for _cat_en, _cdata in BLOG_CATS.items():
 
 _WIX = "/assets/images/wix"
 LOGO = f"{_WIX}/c2467f_a31779010ce34c4c8c61cc5868d81f31.webp"
-FSS_LOGO = "/assets/images/logo-fede-transparant.png"
+FSS_LOGO = "/assets/images/logo-federation.png"
 
 IMGS = {
     "home":    f"{_WIX}/df99f9_da0cf7c72b1a4606bcfa1f7c8e089dc4f000.webp",
@@ -685,7 +685,7 @@ def build_footer(lang, flag_href_override=None):
         </div>
         <div class="footer-fss-cert">
           <div class="fss-logo-wrap">
-            <img src="{FSS_LOGO}" alt="Fédération Sénégalaise de Surf" width="50" height="50" loading="lazy">
+            <img src="{FSS_LOGO}" alt="FSS" width="38" height="38" loading="lazy">
           </div>
           <div class="fss-cert-txt">
             <strong>{FSS_CERT[lang]}</strong>
