@@ -1,26 +1,26 @@
-# Static site output (folder name is legacy; deployed on Vercel, not Cloudflare)
-# cloudflare-demo/ is committed (HTML + optimised assets only, no raw PNG sources)
-
-# Secrets
+# ══ Secrets ══════════════════════════════════════════
 clesapi.txt
 .admin_api_key
 .vercel/
 *.json.bak
 leafy-brace-*.json
-
-# Python
-__pycache__/
-*.pyc
-*.pyo
 .env
 .env.neon.local
 .env*.local
 
-# Node
+# ══ Build / Runtime ══════════════════════════════════
+__pycache__/
+*.pyc
+*.pyo
 node_modules/
 
-# Output / screenshots
+# ══ Output / Screenshots ════════════════════════════
 output/
 
-# macOS
+# ══ Legacy (removed from tracking) ═══════════════════
+_legacy_scripts/
+content/articles/
+
+# ══ macOS ════════════════════════════════════════════
 .DS_Store
+**/.DS_Store

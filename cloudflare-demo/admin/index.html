@@ -154,6 +154,9 @@
     [class*="AppHeader"] [class*="avatar"],
     [class*="AppHeader"] [class*="Avatar"],
     [class*="AppHeader"] [class*="UserMenu"] { display: none !important; }
+    /* Hide broken Decap "Media" tab — media library works via image widgets */
+    [class*="AppHeader"] a[href*="/media"],
+    [class*="AppHeader"] [class*="NavLink"][href*="/media"] { display: none !important; }
 
     [class*="ToolbarContainer"], [class*="EditorToolbar"] {
       position: sticky !important; top: var(--total-h) !important; z-index: 9000 !important;
