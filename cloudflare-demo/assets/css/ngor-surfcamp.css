@@ -6188,6 +6188,13 @@
   }
 }
 
+/* ── 3c. Hero eyebrow: prevent nav overlap on desktop ────────────── */
+.hero-eyebrow{position:relative;z-index:1;margin-top:16px}
+.hero-content{padding-top:80px}
+@media(min-width:769px){
+  .hero-content{padding-top:96px}
+}
+
 /* ── 3b. IG grid safety: ensure 3-col on all mobile ──────────────── */
 @media(max-width:480px){
   .ig-grid{grid-template-columns:repeat(3,1fr)!important;gap:2px!important}
