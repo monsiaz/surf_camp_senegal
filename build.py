@@ -3681,7 +3681,7 @@ def build_booking(lang):
   (function _initCal(){{
     if(typeof initAvailabilityCalendar==='undefined'){{setTimeout(_initCal,100);return;}}
     initAvailabilityCalendar('avail-calendar',{{
-      room:'shared',
+      room:'dormitory',
       onDatesSelected:function(ci,co,room){{
         var a=document.getElementById('f-arrive');
         var l=document.getElementById('f-leave');

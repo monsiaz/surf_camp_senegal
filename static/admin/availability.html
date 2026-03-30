@@ -62,8 +62,9 @@
 
   <div class="toolbar">
     <select id="room-select">
-      <option value="shared">🛏 Chambre Partagée</option>
-      <option value="private">🔒 Chambre Privée</option>
+      <option value="dormitory">🛏 Dortoir (8 lits)</option>
+      <option value="single">🚪 Chambre Single (4)</option>
+      <option value="double">🛌 Chambre Double (3)</option>
     </select>
     <button class="btn btn-outline" id="prev-month">← Mois précédent</button>
     <strong id="month-label" style="font-size:16px;min-width:160px;text-align:center"></strong>
@@ -118,7 +119,7 @@
 
   var currentMonth = new Date();
   currentMonth.setDate(1);
-  var roomType = 'shared';
+  var roomType = 'dormitory';
   var data = {};
   var selected = new Set();
   var today = new Date(); today.setHours(0,0,0,0);

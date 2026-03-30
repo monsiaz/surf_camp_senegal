@@ -7,8 +7,10 @@ import json, os, sys, time, glob, re
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import openai
 
-API_KEY = "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"
-MODEL  = "gpt-5.4-2026-03-05"
+API_KEY = (os.environ.get("OPENAI_API_KEY") or "").strip()
+MODEL = (os.environ.get("OPENAI_MODEL") or "gpt-4o").strip()
+if not API_KEY:
+    raise SystemExit("Set OPENAI_API_KEY.")
 client = openai.OpenAI(api_key=API_KEY)
 
 BASE = os.path.join(os.path.dirname(os.path.dirname(__file__)), "content", "articles_v2")

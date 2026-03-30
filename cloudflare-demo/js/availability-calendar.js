@@ -14,7 +14,7 @@
   var hovDate = null;
   var currentMonth = new Date();
   currentMonth.setDate(1);
-  var roomFilter = 'shared';
+  var roomFilter = 'dormitory';
   var container = null;
   var onDatesSelected = null;
 
@@ -38,13 +38,13 @@
   };
 
   var LABELS = {
-    en: { checkin: 'Check-in', checkout: 'Check-out', nights: 'nights', from: 'From', perNight: '/night', available: 'available', full: 'Full', select: 'Select dates above', shared: 'Shared Room', private: 'Private Room', total: 'Estimated total' },
-    fr: { checkin: 'Arrivée', checkout: 'Départ', nights: 'nuits', from: 'Dès', perNight: '/nuit', available: 'dispo', full: 'Complet', select: 'Sélectionnez vos dates', shared: 'Chambre Partagée', private: 'Chambre Privée', total: 'Total estimé' },
-    es: { checkin: 'Llegada', checkout: 'Salida', nights: 'noches', from: 'Desde', perNight: '/noche', available: 'disp.', full: 'Completo', select: 'Selecciona fechas', shared: 'Habitación compartida', private: 'Habitación privada', total: 'Total estimado' },
-    it: { checkin: 'Arrivo', checkout: 'Partenza', nights: 'notti', from: 'Da', perNight: '/notte', available: 'disp.', full: 'Completo', select: 'Seleziona le date', shared: 'Camera condivisa', private: 'Camera privata', total: 'Totale stimato' },
-    de: { checkin: 'Anreise', checkout: 'Abreise', nights: 'Nächte', from: 'Ab', perNight: '/Nacht', available: 'verf.', full: 'Voll', select: 'Datum wählen', shared: 'Mehrbettzimmer', private: 'Einzelzimmer', total: 'Geschätzt' },
-    nl: { checkin: 'Aankomst', checkout: 'Vertrek', nights: 'nachten', from: 'Vanaf', perNight: '/nacht', available: 'besch.', full: 'Vol', select: 'Selecteer data', shared: 'Gedeelde kamer', private: 'Privékamer', total: 'Geschat totaal' },
-    ar: { checkin: 'الوصول', checkout: 'المغادرة', nights: 'ليالي', from: 'من', perNight: '/ليلة', available: 'متاح', full: 'ممتلئ', select: 'اختر التواريخ', shared: 'غرفة مشتركة', private: 'غرفة خاصة', total: 'المجموع التقديري' },
+    en: { checkin: 'Check-in', checkout: 'Check-out', nights: 'nights', from: 'From', perNight: '/night', available: 'available', full: 'Full', select: 'Select dates above', dormitory: 'Dormitory', single: 'Single Room', double: 'Double Room', total: 'Estimated total' },
+    fr: { checkin: 'Arrivée', checkout: 'Départ', nights: 'nuits', from: 'Dès', perNight: '/nuit', available: 'dispo', full: 'Complet', select: 'Sélectionnez vos dates', dormitory: 'Dortoir', single: 'Chambre Single', double: 'Chambre Double', total: 'Total estimé' },
+    es: { checkin: 'Llegada', checkout: 'Salida', nights: 'noches', from: 'Desde', perNight: '/noche', available: 'disp.', full: 'Completo', select: 'Selecciona fechas', dormitory: 'Dormitorio', single: 'Habitación Single', double: 'Habitación Doble', total: 'Total estimado' },
+    it: { checkin: 'Arrivo', checkout: 'Partenza', nights: 'notti', from: 'Da', perNight: '/notte', available: 'disp.', full: 'Completo', select: 'Seleziona le date', dormitory: 'Dormitorio', single: 'Camera Singola', double: 'Camera Doppia', total: 'Totale stimato' },
+    de: { checkin: 'Anreise', checkout: 'Abreise', nights: 'Nächte', from: 'Ab', perNight: '/Nacht', available: 'verf.', full: 'Voll', select: 'Datum wählen', dormitory: 'Schlafsaal', single: 'Einzelzimmer', double: 'Doppelzimmer', total: 'Geschätzt' },
+    nl: { checkin: 'Aankomst', checkout: 'Vertrek', nights: 'nachten', from: 'Vanaf', perNight: '/nacht', available: 'besch.', full: 'Vol', select: 'Selecteer data', dormitory: 'Slaapzaal', single: 'Eenpersoonskamer', double: 'Tweepersoonskamer', total: 'Geschat totaal' },
+    ar: { checkin: 'الوصول', checkout: 'المغادرة', nights: 'ليالي', from: 'من', perNight: '/ليلة', available: 'متاح', full: 'ممتلئ', select: 'اختر التواريخ', dormitory: 'مهجع', single: 'غرفة فردية', double: 'غرفة مزدوجة', total: 'المجموع التقديري' },
   };
 
   var lang = document.documentElement.lang?.slice(0, 2) || 'en';
@@ -83,6 +83,13 @@
     return d > ci && d < end;
   }
 
+  function ensureDataAndRender() {
+    var key = ds(currentMonth);
+    if (cache[key]) { render(cache[key]); return; }
+    container.innerHTML = '<div class="ac-loading">Loading…</div>';
+    fetchAvailability(currentMonth, function(days) { render(days); });
+  }
+
   function render(days) {
     if (!container) return;
     var today = new Date(); today.setHours(0, 0, 0, 0);
@@ -98,8 +105,9 @@
     html += '</div>';
 
     html += '<div class="ac-room-tabs">';
-    html += '<button class="ac-tab' + (roomFilter === 'shared' ? ' active' : '') + '" data-room="shared">' + L.shared + '</button>';
-    html += '<button class="ac-tab' + (roomFilter === 'private' ? ' active' : '') + '" data-room="private">' + L.private + '</button>';
+    html += '<button class="ac-tab' + (roomFilter === 'dormitory' ? ' active' : '') + '" data-room="dormitory">🛏 ' + L.dormitory + '</button>';
+    html += '<button class="ac-tab' + (roomFilter === 'single' ? ' active' : '') + '" data-room="single">🚪 ' + L.single + '</button>';
+    html += '<button class="ac-tab' + (roomFilter === 'double' ? ' active' : '') + '" data-room="double">🛌 ' + L.double + '</button>';
     html += '</div>';
 
     html += '<div class="ac-grid">';
@@ -172,22 +180,22 @@
       var now = new Date(); now.setDate(1);
       if (currentMonth > now) {
         currentMonth.setMonth(currentMonth.getMonth() - 1);
-        render(days);
+        ensureDataAndRender();
       }
     };
     container.querySelector('.ac-next').onclick = function () {
       var max = new Date();
-      max.setMonth(max.getMonth() + MONTHS_AHEAD);
+      max.setMonth(max.getMonth() + 12);
       if (currentMonth < max) {
         currentMonth.setMonth(currentMonth.getMonth() + 1);
-        render(days);
+        ensureDataAndRender();
       }
     };
 
     container.querySelectorAll('.ac-tab').forEach(function (btn) {
       btn.onclick = function () {
         roomFilter = btn.dataset.room;
-        render(days);
+        ensureDataAndRender();
       };
     });
 
