@@ -6163,9 +6163,12 @@
 
 /* ── 3. Navigation mobile polish ─────────────────────────────────── */
 @media(max-width:768px){
-  .nav-inner{padding:0 16px;height:64px}
+  .nav-inner{padding:0 12px;height:64px;display:flex;align-items:center}
   .nav-links{display:none}
-  .nav-toggle{display:flex}
+  .nav-toggle{display:flex;order:99}
+  .nav-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+  .nav-logo{flex-shrink:0}
+  .nav-wa-label{display:none}
 
   /* Mobile menu drawer */
   .nav-mobile-open .nav-links{
@@ -6183,6 +6186,17 @@
   .nav-mobile-open .nav-cta{
     margin-top:12px;text-align:center;justify-content:center
   }
+}
+
+/* ── 3b. IG grid safety: ensure 3-col on all mobile ──────────────── */
+@media(max-width:480px){
+  .ig-grid{grid-template-columns:repeat(3,1fr)!important;gap:2px!important}
+  .ig-cell{border-radius:0!important}
+  .ig-cell-overlay-lbl{font-size:9px!important}
+  .ig-section{padding:40px 0 36px!important}
+  .ig-section .container{padding:0 12px}
+  .ig-bar{gap:10px;padding:10px 12px}
+  .ig-follow-btn{font-size:12px;padding:6px 14px}
 }
 
 /* ── 4. Hero section: safe spacing on small screens ─────────────── */
