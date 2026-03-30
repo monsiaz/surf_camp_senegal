@@ -3391,6 +3391,69 @@ def patch_home_blog_preview_all():
     print(f"  home blog preview: updated {n_updated} files with 6 cards")
 
 
+
+
+def patch_home_forecast_all():
+    """Inject the surf forecast widget into every home page, right before the Instagram section."""
+    import re as _re
+    FC_COPY = {
+        "en": {"lbl":"Live Forecast","h2":"Surf Conditions at Ngor","now":"Right now","height":"Wave height","period":"Period","dir":"Direction","swell":"Swell","wind":"Wind","temp":"Water temp","day7":"7-day forecast","powered":"Data: Open-Meteo.com","err":"Forecast temporarily unavailable"},
+        "fr": {"lbl":"Prévisions en direct","h2":"Conditions surf à Ngor","now":"En ce moment","height":"Hauteur des vagues","period":"Période","dir":"Direction","swell":"Houle","wind":"Vent","temp":"Temp. eau","day7":"Prévisions 7 jours","powered":"Données : Open-Meteo.com","err":"Prévisions temporairement indisponibles"},
+        "es": {"lbl":"Previsión en directo","h2":"Condiciones surf en Ngor","now":"Ahora mismo","height":"Altura de ola","period":"Período","dir":"Dirección","swell":"Oleaje","wind":"Viento","temp":"Temp. agua","day7":"Previsión 7 días","powered":"Datos: Open-Meteo.com","err":"Previsión no disponible temporalmente"},
+        "it": {"lbl":"Previsioni live","h2":"Condizioni surf a Ngor","now":"In questo momento","height":"Altezza onde","period":"Periodo","dir":"Direzione","swell":"Mareggiata","wind":"Vento","temp":"Temp. acqua","day7":"Previsioni 7 giorni","powered":"Dati: Open-Meteo.com","err":"Previsioni temporaneamente non disponibili"},
+        "de": {"lbl":"Live-Vorhersage","h2":"Surfbedingungen in Ngor","now":"Gerade jetzt","height":"Wellenhöhe","period":"Periode","dir":"Richtung","swell":"Dünung","wind":"Wind","temp":"Wassertemp.","day7":"7-Tage-Vorhersage","powered":"Daten: Open-Meteo.com","err":"Vorhersage vorübergehend nicht verfügbar"},
+        "nl": {"lbl":"Live voorspelling","h2":"Surfcondities in Ngor","now":"Nu","height":"Golfhoogte","period":"Periode","dir":"Richting","swell":"Deining","wind":"Wind","temp":"Watertemp.","day7":"7-daagse voorspelling","powered":"Data: Open-Meteo.com","err":"Voorspelling tijdelijk niet beschikbaar"},
+        "ar": {"lbl":"توقعات مباشرة","h2":"أحوال الأمواج في نغور","now":"الآن","height":"ارتفاع الموج","period":"الفترة","dir":"الاتجاه","swell":"الموج الطويل","wind":"الرياح","temp":"حرارة الماء","day7":"توقعات 7 أيام","powered":"البيانات: Open-Meteo.com","err":"التوقعات غير متاحة مؤقتاً"},
+    }
+    n = 0
+    for lang in LANGS:
+        rel  = "index.html" if lang == "en" else f"{lang}/index.html"
+        path_f = os.path.join(DEMO_DIR, rel)
+        if not os.path.isfile(path_f):
+            continue
+        with open(path_f, encoding="utf-8") as f:
+            h = f.read()
+        # Remove any existing home forecast block to avoid duplication
+        h = _re.sub(r'\s*<!-- home-forecast-start -->.*?<!-- home-forecast-end -->', '', h, flags=_re.DOTALL)
+        marker = "\n  <!-- ig-feed-start -->"
+        if marker not in h:
+            print(f"  home forecast: ig-feed marker not found in {rel}, skipping")
+            continue
+        c = FC_COPY.get(lang, FC_COPY["en"])
+        _bg_l = "#f4f6f9"
+        _bg_w = "#fff"
+        fc_html = f"""
+  <!-- home-forecast-start -->
+  {wave_top(_bg_w, _bg_l)}
+  <section class="section sec-light" id="home-surf-forecast">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:40px" class="reveal">
+        <span class="s-label">{c["lbl"]}</span>
+        <h2 class="s-title">{c["h2"]}</h2>
+      </div>
+      <div class="forecast-widget fc-widget reveal"
+           data-lbl-now="{c["now"]}"
+           data-lbl-height="{c["height"]}"
+           data-lbl-period="{c["period"]}"
+           data-lbl-dir="{c["dir"]}"
+           data-lbl-swell="{c["swell"]}"
+           data-lbl-wind="{c["wind"]}"
+           data-lbl-temp="{c["temp"]}"
+           data-lbl-7day="{c["day7"]}"
+           data-lbl-powered="{c["powered"]}"
+           data-lbl-err="{c["err"]}">
+        <div class="fc-loading"><div class="fc-spinner"></div></div>
+      </div>
+    </div>
+  </section>
+  {wave_bottom(_bg_l, _bg_w)}
+  <!-- home-forecast-end -->"""
+        h = h.replace(marker, fc_html + marker, 1)
+        with open(path_f, "w", encoding="utf-8") as f:
+            f.write(h)
+        n += 1
+    print(f"  home forecast section: injected into {n} home pages")
+
 def patch_home_insta_section_all():
     """Inject the Instagram feed section into every home page, just before the blog-preview section.
     Strips any previous ig-feed-start/end block first to avoid duplication."""
@@ -5432,7 +5495,7 @@ def build_surfing(lang):
         <span class="s-label">{SC.get("fc_lbl","Live Forecast")}</span>
         <h2 class="s-title">{SC.get("fc_h2","Surf conditions at Ngor")}</h2>
       </div>
-      <div class="forecast-widget reveal" id="fc-widget"
+      <div class="forecast-widget fc-widget reveal" id="fc-widget"
            data-lbl-now="{SC.get('fc_now','Right now')}"
            data-lbl-height="{SC.get('fc_height','Wave height')}"
            data-lbl-period="{SC.get('fc_period','Period')}"
@@ -6082,6 +6145,9 @@ patch_home_blog_preview_all()
 
 print("Injecting Instagram feed section into home pages…")
 patch_home_insta_section_all()
+
+print("Injecting surf forecast widget into home pages…")
+patch_home_forecast_all()
 
 print("Patching home localized UI leftovers (AR)…")
 patch_home_lang_ui_cleanup_all()
