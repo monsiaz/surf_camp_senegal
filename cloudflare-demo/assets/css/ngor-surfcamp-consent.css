@@ -150,10 +150,87 @@
   margin-top: 8px;
 }
 
-/* ── Preferences modal ──────────────────────────────────────────── */
+/* ── Preferences modal — full dark mode override ───────────────── */
+#cc-main .pm,
+#cc-main .pm * {
+  --cc-bg: #0d1f35;
+  --cc-primary-color: #ffffff;
+  --cc-secondary-color: rgba(255,255,255,0.68);
+  --cc-cookie-category-block-bg: rgba(255,255,255,0.06);
+  --cc-cookie-category-block-border: rgba(255,255,255,0.10);
+  --cc-cookie-category-block-hover-bg: rgba(255,255,255,0.10);
+  --cc-cookie-category-block-hover-border: rgba(255,255,255,0.16);
+  --cc-cookie-category-expanded-block-bg: rgba(255,255,255,0.03);
+  --cc-section-category-border: rgba(255,255,255,0.08);
+}
 #cc-main .pm {
-  border: 1px solid rgba(240, 192, 96, 0.18);
-  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(240,192,96,0.18);
+  box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+  background: #0d1f35 !important;
+  color: #ffffff !important;
+}
+#cc-main .pm__header,
+#cc-main .pm__body,
+#cc-main .pm__section-desc-wrapper {
+  background: #0d1f35 !important;
+  color: #ffffff !important;
+}
+#cc-main .pm__header {
+  border-color: rgba(255,255,255,0.08) !important;
+}
+#cc-main .pm__footer {
+  background: rgba(255,255,255,0.03) !important;
+  border-color: rgba(255,255,255,0.1) !important;
+}
+#cc-main .pm__section {
+  border-color: rgba(255,255,255,0.08) !important;
+}
+#cc-main .pm__section-title-wrapper {
+  background: rgba(255,255,255,0.06) !important;
+  border: 1px solid rgba(255,255,255,0.10) !important;
+  border-radius: 12px !important;
+}
+#cc-main .pm__section-title-wrapper:hover {
+  background: rgba(255,255,255,0.10) !important;
+  border-color: rgba(255,255,255,0.16) !important;
+}
+#cc-main .pm__section-title {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+}
+#cc-main .pm__section-desc,
+#cc-main .pm__section-desc-wrapper p,
+#cc-main .pm__section-desc-wrapper span {
+  color: rgba(255,255,255,0.65) !important;
+}
+#cc-main .pm__section-arrow svg {
+  color: rgba(255,255,255,0.5) !important;
+  fill: rgba(255,255,255,0.5) !important;
+}
+/* Override any inline/computed light backgrounds from the library */
+#cc-main .pm .pm__header,
+#cc-main .pm .pm__body,
+#cc-main .pm .pm__footer,
+#cc-main .pm .pm__section,
+#cc-main .pm .pm__section--expandable,
+#cc-main .pm .pm__section-desc-wrapper,
+#cc-main .pm .pm__table-head,
+#cc-main .pm .pm__table-tr {
+  background-color: #0d1f35 !important;
+}
+#cc-main .pm .pm__close-btn svg {
+  stroke: rgba(255,255,255,0.5) !important;
+}
+#cc-main .pm .pm__close-btn:hover svg {
+  stroke: #fff !important;
+}
+/* Ensure the PM overlay wrapper doesn't have white bg */
+#cc-main .pm__overlay {
+  background: rgba(0,0,0,0.65) !important;
+}
+/* Footer buttons row */
+#cc-main .pm__btn-group {
+  border-color: rgba(255,255,255,0.08) !important;
 }
 
 #cc-main .pm__btn,
