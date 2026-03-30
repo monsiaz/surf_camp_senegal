@@ -55,29 +55,8 @@
     </div>
   </div>
 
-  <section style="padding:40px 24px 0;background:#f8fafc">
-    <div class="container" style="max-width:500px">
-      <div id="avail-calendar" class="ac-wrap"></div>
-    </div>
-  </section>
   <link rel="stylesheet" href="/assets/css/availability-calendar.css?v=20260330j">
   <script src="/assets/js/availability-calendar.js?v=20260330j"></script>
-  <script>
-  (function _initCal(){
-    if(typeof initAvailabilityCalendar==='undefined'){setTimeout(_initCal,100);return;}
-    initAvailabilityCalendar('avail-calendar',{
-      room:'dormitory',
-      onDatesSelected:function(ci,co,room){
-        var a=document.getElementById('f-arrive');
-        var l=document.getElementById('f-leave');
-        if(a)a.value=ci;
-        if(l)l.value=co;
-        var sec=document.getElementById('booking-section');
-        if(sec)setTimeout(function(){sec.scrollIntoView({behavior:'smooth',block:'start'})},100);
-      }
-    });
-  })();
-  </script>
 
   <section class="section" id="booking-section" style="padding-top:40px;padding-bottom:48px">
     <div class="container">
@@ -148,16 +127,12 @@
               </select>
             </div>
 
-            <div class="form-row">
-              <div class="form-group">
-                <label class="form-label" for="f-arrive">متى تصل؟</label>
-                <input type="date" id="f-arrive" class="form-input f-arrive">
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="f-leave">متى تغادر؟</label>
-                <input type="date" id="f-leave" class="form-input f-leave">
-                <div id="err-date" class="booking-field-error" style="display:none" role="status">يجب أن يكون تاريخ المغادرة بعد تاريخ الوصول.</div>
-              </div>
+            <div class="form-group">
+              <label class="form-label">متى تصل؟ / متى تغادر؟</label>
+              <div id="avail-calendar" class="ac-wrap" style="max-width:100%"></div>
+              <input type="hidden" id="f-arrive" class="f-arrive">
+              <input type="hidden" id="f-leave" class="f-leave">
+              <div id="err-date" class="booking-field-error" style="display:none" role="status">يجب أن يكون تاريخ المغادرة بعد تاريخ الوصول.</div>
             </div>
 
             <div id="price-summary" style="display:none;margin-bottom:20px;padding:16px 20px;border-radius:14px;background:linear-gradient(135deg,#f0fdf4 0%,#ecfdf5 100%);border:1px solid #bbf7d0"></div>
@@ -329,7 +304,19 @@
   }
   if (fArrive) fArrive.addEventListener('change', updatePriceSummary);
   if (fLeave) fLeave.addEventListener('change', updatePriceSummary);
-  setTimeout(updatePriceSummary, 500);
+
+  /* ── Init calendar inline in the form ─── */
+  (function _initCal(){
+    if(typeof initAvailabilityCalendar==='undefined'){setTimeout(_initCal,100);return;}
+    initAvailabilityCalendar('avail-calendar',{
+      room:'dormitory',
+      onDatesSelected:function(ci,co){
+        if(fArrive){ fArrive.value=ci; fArrive.dispatchEvent(new Event('change',{bubbles:true})); }
+        if(fLeave){ fLeave.value=co; fLeave.dispatchEvent(new Event('change',{bubbles:true})); }
+        updatePriceSummary();
+      }
+    });
+  })();
 
   function clearFieldErrors() {
     ['f-fname','f-email','f-level','f-arrive','f-leave'].forEach(function(id) {
