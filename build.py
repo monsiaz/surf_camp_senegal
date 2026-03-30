@@ -665,6 +665,7 @@ def build_footer(lang, flag_href_override=None):
                 "de":"Lizenziert und Zertifiziert vom Senegalesischen Surfverband",
                 "nl":"Erkend en Gecertificeerd door de Senegalese Surfbond",
                 "ar":"مرخص ومعتمد من الاتحاد السنغالي للسرف"}
+    CERT_H4 = {"en":"Accreditation","fr":"Accréditation","es":"Acreditación","it":"Accreditamento","de":"Akkreditierung","nl":"Accreditatie","ar":"الاعتماد"}
     COPY  = {"en":"© 2025 Ngor Surfcamp Teranga. All rights reserved.",
              "fr":"© 2025 Ngor Surfcamp Teranga. Tous droits réservés.",
              "es":"© 2025 Ngor Surfcamp Teranga. Todos los derechos reservados.",
@@ -691,14 +692,6 @@ def build_footer(lang, flag_href_override=None):
           <a href="https://www.instagram.com/ngorsurfcampteranga" target="_blank" class="soc-btn ig" aria-label="Instagram"><span style="display:inline-flex">{IG_ICO}</span></a>
           <a href="https://www.tiktok.com/@ngorsurfcampteranga" target="_blank" class="soc-btn tt" aria-label="TikTok"><span style="display:inline-flex">{TT_ICO}</span></a>
         </div>
-        <div class="footer-fss-cert">
-          <div class="fss-logo-wrap">
-            <img src="{FSS_LOGO}" alt="FSS" width="38" height="38" loading="lazy">
-          </div>
-          <div class="fss-cert-txt">
-            <strong>{FSS_CERT[lang]}</strong>
-          </div>
-        </div>
       </div>
       <div class="footer-col"><h4>{EXP[lang]}</h4>{links_html}</div>
       <div class="footer-col">
@@ -711,6 +704,17 @@ def build_footer(lang, flag_href_override=None):
         <a href="https://www.instagram.com/ngorsurfcampteranga" target="_blank">Instagram</a>
         <a href="https://www.tiktok.com/@ngorsurfcampteranga" target="_blank">TikTok</a>
         <a href="https://wa.me/221789257025" target="_blank">{escape(ui_chrome("wa", lang))}</a>
+      </div>
+      <div class="footer-col footer-col-cert">
+        <h4>{CERT_H4[lang]}</h4>
+        <div class="footer-fss-cert">
+          <div class="fss-logo-wrap">
+            <img src="{FSS_LOGO}" alt="FSS" width="38" height="38" loading="lazy">
+          </div>
+          <div class="fss-cert-txt">
+            <strong>{FSS_CERT[lang]}</strong>
+          </div>
+        </div>
       </div>
     </div>
     <div class="footer-bottom">
