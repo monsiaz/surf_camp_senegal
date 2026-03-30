@@ -80,14 +80,26 @@
     return Math.round((b - a) / 86400000);
   }
 
-  function isInRange(dateStr) {
-    if (!checkin || !hovDate) return false;
-    var d = parseD(dateStr), ci = parseD(checkin);
-    var end = checkout ? parseD(checkout) : parseD(hovDate);
-    return d > ci && d < end;
+  /** Preview range between check-in and hovered day — DOM only (no full re-render). */
+  function updateHoverRangeHighlight() {
+    if (!container) return;
+    container.querySelectorAll('.ac-day:not(.ac-past)').forEach(function (cell) {
+      var ds = cell.dataset.date;
+      var show = false;
+      if (checkin && !checkout && hovDate) {
+        var tD = parseD(ds).getTime();
+        var tI = parseD(checkin).getTime();
+        var tH = parseD(hovDate).getTime();
+        var lo = Math.min(tI, tH);
+        var hi = Math.max(tI, tH);
+        show = tD > lo && tD < hi;
+      }
+      cell.classList.toggle('ac-range', show);
+    });
   }
 
   function ensureDataAndRender() {
+    hovDate = null;
     var key = localYmd(currentMonth);
     if (cache[key]) { render(cache[key]); return; }
     container.innerHTML = '<div class="ac-loading">Loading…</div>';
@@ -134,7 +146,6 @@
 
       if (dateStr === checkin) cls += ' ac-checkin';
       if (dateStr === checkout) cls += ' ac-checkout';
-      if (checkin && isInRange(dateStr)) cls += ' ac-range';
 
       var tooltip = '';
       if (!isPast && info) {
@@ -200,15 +211,27 @@
 
     container.querySelectorAll('.ac-tab').forEach(function (btn) {
       btn.onclick = function () {
+        hovDate = null;
         roomFilter = btn.dataset.room;
         ensureDataAndRender();
       };
     });
 
+    var acGrid = container.querySelector('.ac-grid');
+    if (acGrid) {
+      acGrid.onmouseleave = function () {
+        hovDate = null;
+        updateHoverRangeHighlight();
+      };
+    }
+
     /**
      * Check-in must be on a bookable night (not past, has availability).
      * Check-out is the departure morning: allow any future day after check-in,
      * even if that calendar day shows "full" (no night sold that day).
+     *
+     * Important: do NOT call render() on mouseenter — rebuilding the grid breaks
+     * click targeting (mousedown/up on different nodes). Only toggle .ac-range.
      */
     container.querySelectorAll('.ac-day:not(.ac-past)').forEach(function (cell) {
       cell.onclick = function () {
@@ -217,8 +240,9 @@
         if (!checkin || checkout) {
           if (isFull) return;
           checkin = d; checkout = null;
-        } else if (d > checkin) {
+        } else if (parseD(d).getTime() > parseD(checkin).getTime()) {
           checkout = d;
+          hovDate = null;
           if (onDatesSelected) onDatesSelected(checkin, checkout, roomFilter);
         } else {
           if (isFull) return;
@@ -229,10 +253,12 @@
       cell.onmouseenter = function () {
         if (checkin && !checkout) {
           hovDate = cell.dataset.date;
-          render(days);
+          updateHoverRangeHighlight();
         }
       };
     });
+
+    updateHoverRangeHighlight();
   }
 
   window.initAvailabilityCalendar = function (el, opts) {
