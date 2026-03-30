@@ -6188,12 +6188,14 @@
   }
 }
 
-/* ── 3c. Hero eyebrow: prevent nav overlap on desktop ────────────── */
+/* ── 3c. Hero layout: prevent overlap + bottom breathing room ─────── */
 .hero-eyebrow{position:relative;z-index:1;margin-top:16px}
-.hero-content{padding-top:80px}
+.hero-content{padding-top:80px;padding-bottom:40px}
 @media(min-width:769px){
-  .hero-content{padding-top:96px}
+  .hero-content{padding-top:96px;padding-bottom:56px}
 }
+.home-proof-strip{margin-top:24px;padding-top:32px;padding-bottom:32px}
+.home-proof-google{margin-top:16px}
 
 /* ── 3b. IG grid safety: ensure 3-col on all mobile ──────────────── */
 @media(max-width:480px){
