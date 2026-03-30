@@ -264,6 +264,7 @@ for _cat_en, _cdata in BLOG_CATS.items():
 
 _WIX = "/assets/images/wix"
 LOGO = f"{_WIX}/c2467f_a31779010ce34c4c8c61cc5868d81f31.webp"
+FSS_LOGO = "/assets/images/logo-federation.png"
 
 IMGS = {
     "home":    f"{_WIX}/df99f9_da0cf7c72b1a4606bcfa1f7c8e089dc4f000.webp",
@@ -642,11 +643,20 @@ def build_footer(lang, flag_href_override=None):
         f'hreflang="{LANG_LOCALE[l]}" title="{LANG_NAMES[l]}">{flag(l,22)}</a>'
         for l in LANGS
     ])
-    ABOUT = {"en":"Premium surf camp on Ngor Island, Dakar, Senegal. All levels. Licensed by the Senegalese Federation of Surfing.",
-             "fr":"Surf camp premium sur l'île de Ngor, Dakar, Sénégal. Tous niveaux. Agréé Fédération Sénégalaise de Surf.",
-             "es":"Surf camp premium en la isla de Ngor, Dakar, Senegal. Todos los niveles. Licenciado.",
-             "it":"Surf camp premium sull'isola di Ngor, Dakar, Senegal. Tutti i livelli. Autorizzato.",
-             "de":"Premium Surfcamp auf Ngor Island, Dakar, Senegal. Alle Level. Lizenziert.","nl":"Premium surfkamp op Ngor Island, Dakar, Senegal. Alle niveaus. Erkend door de Senegalese Surfbond.","ar":"مخيم ركوب أمواج متميز في جزيرة نغور، داكار، السنغال. جميع المستويات. مرخص من الاتحاد السنغالي للأمواج."}
+    ABOUT = {"en":"Premium surf camp on Ngor Island, Dakar, Senegal. All levels welcome.",
+             "fr":"Surf camp premium sur l'île de Ngor, Dakar, Sénégal. Tous niveaux bienvenus.",
+             "es":"Surf camp premium en la isla de Ngor, Dakar, Senegal. Todos los niveles bienvenidos.",
+             "it":"Surf camp premium sull'isola di Ngor, Dakar, Senegal. Tutti i livelli benvenuti.",
+             "de":"Premium Surfcamp auf Ngor Island, Dakar, Senegal. Alle Level willkommen.",
+             "nl":"Premium surfkamp op Ngor Island, Dakar, Senegal. Alle niveaus welkom.",
+             "ar":"مخيم ركوب أمواج متميز في جزيرة نغور، داكار، السنغال. جميع المستويات مرحب بها."}
+    FSS_CERT = {"en":"Licensed &amp; Certified by the Senegalese Surfing Federation",
+                "fr":"Licencié et Certifié auprès de la Fédération Sénégalaise de Surf",
+                "es":"Licenciado y Certificado por la Federación Senegalesa de Surf",
+                "it":"Autorizzato e Certificato dalla Federazione Senegalese di Surf",
+                "de":"Lizenziert und Zertifiziert vom Senegalesischen Surfverband",
+                "nl":"Erkend en Gecertificeerd door de Senegalese Surfbond",
+                "ar":"مرخص ومعتمد من الاتحاد السنغالي للسرف"}
     COPY  = {"en":"© 2025 Ngor Surfcamp Teranga. All rights reserved.",
              "fr":"© 2025 Ngor Surfcamp Teranga. Tous droits réservés.",
              "es":"© 2025 Ngor Surfcamp Teranga. Todos los derechos reservados.",
@@ -672,6 +682,10 @@ def build_footer(lang, flag_href_override=None):
           <a href="https://wa.me/221789257025" target="_blank" class="soc-btn wa" aria-label="{escape(ui_chrome('wa', lang))}"><span style="display:inline-flex">{WA_ICO}</span></a>
           <a href="https://www.instagram.com/ngorsurfcampteranga" target="_blank" class="soc-btn ig" aria-label="Instagram"><span style="display:inline-flex">{IG_ICO}</span></a>
           <a href="https://www.tiktok.com/@ngorsurfcampteranga" target="_blank" class="soc-btn tt" aria-label="TikTok"><span style="display:inline-flex">{TT_ICO}</span></a>
+        </div>
+        <div class="footer-fss-cert">
+          <img src="{FSS_LOGO}" alt="Fédération Sénégalaise de Surf" width="52" height="52" loading="lazy">
+          <span>{FSS_CERT[lang]}</span>
         </div>
       </div>
       <div class="footer-col"><h4>{EXP[lang]}</h4>{links_html}</div>
@@ -1035,12 +1049,12 @@ ISLAND_GUIDE_UI = {
 }
 
 ISLAND_HUB_GUIDES_SECTION = {
-    "en": {"lbl": "Guides", "h2": "Plan your time on Ngor", "sub": "Deep dives written with local operators and up-to-date visitor tips."},
-    "fr": {"lbl": "Guides", "h2": "Organisez votre temps à Ngor", "sub": "Guides détaillés, conseils actuels et regard local."},
-    "es": {"lbl": "Guías", "h2": "Organiza tu tiempo en Ngor", "sub": "Guías prácticas con información actualizada."},
-    "it": {"lbl": "Guide", "h2": "Organizza il tuo tempo a Ngor", "sub": "Guide pratiche con consigli aggiornati."},
-    "de": {"lbl": "Guides", "h2": "Plant eure Zeit auf Ngor", "sub": "Tiefe Einblicke und aktuelle Besuchertipps."},
-    "nl": {"lbl": "Gidsen", "h2": "Plan je tijd op Ngor", "sub": "Uitgebreide gidsen met actuele bezoekerstips."},
+    "en": {"lbl": "Guides", "h2": "Plan your time on Ngor", "sub": "Deep dives written with local guides — from pirogue crossings to hidden surf spots and the best fish shacks."},
+    "fr": {"lbl": "Guides", "h2": "Organisez votre temps à Ngor", "sub": "Guides détaillés rédigés avec les locaux — traversées en pirogue, spots cachés et meilleures baraques à poisson."},
+    "es": {"lbl": "Guías", "h2": "Organiza tu tiempo en Ngor", "sub": "Guías escritas con los locales — cruces en piragua, spots secretos y los mejores chiringuitos de pescado."},
+    "it": {"lbl": "Guide", "h2": "Organizza il tuo tempo a Ngor", "sub": "Guide scritte con operatori locali — traversate in piroga, spot nascosti e le migliori baracchine di pesce."},
+    "de": {"lbl": "Guides", "h2": "Plant eure Zeit auf Ngor", "sub": "Mit lokalen Guides erstellt — Pirogenüberfahrten, versteckte Surfspots und die besten Fischbuden."},
+    "nl": {"lbl": "Gidsen", "h2": "Plan je tijd op Ngor", "sub": "Geschreven met lokale gidsen — pirogevaarten, verborgen surfspots en de beste viskraampjes."},
     "ar": {"lbl": "الأدلة", "h2": "خطط لوقتك في نغور", "sub": "أدلة متعمقة مع نصائح الزوار المحدثة."},
 }
 
@@ -2199,24 +2213,24 @@ def patch_home_discover_section_all():
     DISC_L = {
         "fr": {"lbl":"Découvrir","h2":"Tout au Ngor Surfcamp",
                "c1_t":"La Surf House","c1_d":"Chambres cosy, piscine, vue mer, repas sénégalais. Votre maison au bord de l'océan.","c1_btn":"Découvrir",
-               "c2_t":"L'Île de Ngor","c2_d":"Pas de voitures, vagues de classe mondiale, héritage de The Endless Summer. Une perle au large de Dakar.","c2_btn":"Découvrir",
-               "c3_t":"Le Surf","c3_d":"Analyse vidéo professionnelle, sessions personnalisées, tous niveaux. Coachs agréés.","c3_btn":"Découvrir"},
+               "c2_t":"L'Île de Ngor","c2_d":"Pas de voitures, lineups déserts, héritage de The Endless Summer. À 5 min en pirogue de Dakar, un monde à part.","c2_btn":"Découvrir",
+               "c3_t":"Le Surf","c3_d":"Vagues consistantes 365 jours par an, lineups déserts, coachs certifiés ISA. Le secret surf le mieux gardé d'Afrique de l'Ouest.","c3_btn":"Découvrir"},
         "es": {"lbl":"Descubrir","h2":"Todo en Ngor Surfcamp",
                "c1_t":"La Surf House","c1_d":"Habitaciones acogedoras, piscina, vistas al mar, comidas senegalesas. Tu hogar junto al océano.","c1_btn":"Descubrir",
-               "c2_t":"Isla de Ngor","c2_d":"Sin coches, olas de clase mundial, legado de The Endless Summer. Una joya frente a Dakar.","c2_btn":"Descubrir",
-               "c3_t":"El Surf","c3_d":"Análisis de video profesional, sesiones personalizadas, todos los niveles. Entrenadores certificados.","c3_btn":"Descubrir"},
+               "c2_t":"Isla de Ngor","c2_d":"Sin coches, lineups vacíos, legado de The Endless Summer. A 5 min en piragua de Dakar, otro mundo.","c2_btn":"Descubrir",
+               "c3_t":"El Surf","c3_d":"Olas consistentes 365 días al año, lineups tranquilos, coaches certificados ISA. El secreto surf mejor guardado de África Occidental.","c3_btn":"Descubrir"},
         "it": {"lbl":"Scoprire","h2":"Tutto al Ngor Surfcamp",
                "c1_t":"La Surf House","c1_d":"Camere accoglienti, piscina, vista mare, pasti senegalesi. La tua casa sull'oceano.","c1_btn":"Scopri",
-               "c2_t":"Isola di Ngor","c2_d":"Niente macchine, onde di livello mondiale, eredità di The Endless Summer. Un gioiello al largo di Dakar.","c2_btn":"Scopri",
-               "c3_t":"Il Surf","c3_d":"Analisi video professionale, sessioni personalizzate, tutti i livelli. Coach abilitati.","c3_btn":"Scopri"},
+               "c2_t":"Isola di Ngor","c2_d":"Niente auto, lineup deserti, eredità di The Endless Summer. A 5 min in piroga da Dakar, un altro mondo.","c2_btn":"Scopri",
+               "c3_t":"Il Surf","c3_d":"Onde consistenti 365 giorni l'anno, lineup vuoti, coach certificati ISA. Il segreto surf meglio custodito dell'Africa Occidentale.","c3_btn":"Scopri"},
         "de": {"lbl":"Entdecken","h2":"Alles im Ngor Surfcamp",
                "c1_t":"Das Surf House","c1_d":"Gemütliche Zimmer, Pool, Meerblick, tägliche senegalesische Mahlzeiten. Ihr Zuhause am Ozean.","c1_btn":"Entdecken",
-               "c2_t":"Ngor Island","c2_d":"Keine Autos, Weltklasse-Wellen, das Erbe von The Endless Summer. Ein Juwel vor Dakar.","c2_btn":"Entdecken",
-               "c3_t":"Surfen","c3_d":"Professionelle Videoanalyse, personalisierte Sessions, alle Level. Lizenzierte Coaches.","c3_btn":"Entdecken"},
+               "c2_t":"Ngor Island","c2_d":"Keine Autos, leere Lineups, das Erbe von The Endless Summer. 5 min mit der Piroge von Dakar — eine andere Welt.","c2_btn":"Entdecken",
+               "c3_t":"Surfen","c3_d":"Konstante Wellen 365 Tage im Jahr, leere Lineups, ISA-zertifizierte Coaches. Westafrikas bestgehütetes Surfgeheimnis.","c3_btn":"Entdecken"},
         "nl": {"lbl":"Ontdek","h2":"Alles bij Ngor Surfcamp",
                "c1_t":"De Surf House","c1_d":"Gezellige kamers, zwembad, zeezicht, dagelijkse Senegalese maaltijden. Jouw thuis aan de oceaan.","c1_btn":"Ontdekken",
-               "c2_t":"Ngor Eiland","c2_d":"Geen auto's, wereldklasse golven, erfenis van The Endless Summer. Een juweel voor de kust van Dakar.","c2_btn":"Ontdekken",
-               "c3_t":"Surfen","c3_d":"Professionele video-analyse, gepersonaliseerde sessies, alle niveaus. Erkende coaches.","c3_btn":"Ontdekken"},
+               "c2_t":"Ngor Eiland","c2_d":"Geen auto's, lege lineups, erfenis van The Endless Summer. 5 min per pirogue van Dakar — een andere wereld.","c2_btn":"Ontdekken",
+               "c3_t":"Surfen","c3_d":"Consistente golven 365 dagen per jaar, lege lineups, ISA-gecertificeerde coaches. Het best bewaarde surfgeheim van West-Afrika.","c3_btn":"Ontdekken"},
         "ar": {"lbl":"اكتشف","h2":"كل شيء في نغور سيرف كامب",
                "c1_t":"بيت الأمواج","c1_d":"غرف مريحة، مسبح، إطلالة على البحر، وجبات سنغالية يومية. منزلك بجانب المحيط.","c1_btn":"اكتشف",
                "c2_t":"جزيرة نغور","c2_d":"لا سيارات، أمواج عالمية المستوى، إرث The Endless Summer. جوهرة قبالة داكار.","c2_btn":"اكتشف",
@@ -2857,7 +2871,7 @@ HOME_PROOF_L10N = {
         "f1_d": "Morning & afternoon — spots chosen by forecast",
         "f2_n": "1964",
         "f2_t": "Endless Summer",
-        "f2_d": "The film that put Ngor on the map",
+        "f2_d": "The cult film that put Ngor on the global surf map",
         "f3_n": "All",
         "f3_t": "levels",
         "f3_d": "Beginner to advanced — Abu, best surf guide in Dakar",
@@ -2870,7 +2884,7 @@ HOME_PROOF_L10N = {
         "f1_d": "Matin & après-midi — spots selon les conditions",
         "f2_n": "1964",
         "f2_t": "Endless Summer",
-        "f2_d": "Le film qui a révélé Ngor au monde",
+        "f2_d": "Le film culte qui a placé Ngor sur la carte du surf mondial",
         "f3_n": "Tous",
         "f3_t": "niveaux",
         "f3_d": "Débutant à confirmé — Abu, meilleur guide surf de Dakar",
@@ -2883,7 +2897,7 @@ HOME_PROOF_L10N = {
         "f1_d": "Mañana y tarde — spots según las condiciones",
         "f2_n": "1964",
         "f2_t": "Endless Summer",
-        "f2_d": "La película que puso Ngor en el mapa",
+        "f2_d": "La película de culto que puso Ngor en el mapa del surf mundial",
         "f3_n": "Todos",
         "f3_t": "los niveles",
         "f3_d": "Principiante a avanzado — Abu, mejor guía surf de Dakar",
@@ -2896,7 +2910,7 @@ HOME_PROOF_L10N = {
         "f1_d": "Mattina e pomeriggio — spot scelti in base alle condizioni",
         "f2_n": "1964",
         "f2_t": "Endless Summer",
-        "f2_d": "Il film che ha messo Ngor sulla mappa",
+        "f2_d": "Il film culto che ha messo Ngor sulla mappa del surf mondiale",
         "f3_n": "Tutti",
         "f3_t": "i livelli",
         "f3_d": "Da principiante ad avanzato — Abu, miglior guida surf di Dakar",
@@ -2909,7 +2923,7 @@ HOME_PROOF_L10N = {
         "f1_d": "Morgens & nachmittags — Spots nach Forecast ausgewählt",
         "f2_n": "1964",
         "f2_t": "Endless Summer",
-        "f2_d": "Der Film, der Ngor weltweit bekannt machte",
+        "f2_d": "Der Kultfilm, der Ngor auf die Surf-Weltkarte brachte",
         "f3_n": "Alle",
         "f3_t": "Level",
         "f3_d": "Anfänger bis Profi — Abu, bester Surfguide in Dakar",
@@ -2922,7 +2936,7 @@ HOME_PROOF_L10N = {
         "f1_d": "Ochtend & middag — spots gekozen op basis van de voorspelling",
         "f2_n": "1964",
         "f2_t": "Endless Summer",
-        "f2_d": "De film die Ngor op de kaart zette",
+        "f2_d": "De cultfilm die Ngor op de wereldwijde surfkaart zette",
         "f3_n": "Alle",
         "f3_t": "niveaus",
         "f3_d": "Beginner tot gevorderd — Abu, beste surfgids van Dakar",
@@ -3827,7 +3841,7 @@ def build_booking(lang):
             {incl_items}
           </div>
           <div style="padding:14px 18px;border-radius:12px;background:rgba(10,37,64,0.04);border:1px solid rgba(10,37,64,0.08);display:flex;align-items:center;gap:12px">
-            <span style="font-size:20px">🛡️</span>
+            <img src="{FSS_LOGO}" alt="Fédération Sénégalaise de Surf" width="44" height="44" loading="lazy" style="flex-shrink:0">
             <div>
               <div style="font-weight:700;font-size:13px;color:var(--navy)">{g("trust")}</div>
               <div style="font-size:12px;color:#9ca3af">{g("isa_sub")}</div>
@@ -4224,11 +4238,11 @@ SURF_PAGE_COPY = {
         "h1": "Surfing in Ngor",
         "tag": "Surf better, live slower, feel the difference",
         "lbl_intro": "Surf at Ngor",
-        "p1": "At Ngor Surfcamp Teranga, we mix world-class waves with laid-back island vibes and expert surf coaching that actually moves the needle.",
-        "p2": "Whether you are chasing your first green wave or refining your turns, we guide your progression at your rhythm in the heart of West Africa’s surf culture.",
-        "p3": "At Ngor Surfcamp, your surf journey goes beyond the waves. With expert coaching and a relaxed island lifestyle, we help you find your best surf and your flow.",
-        "p4": "Surf better and feel connected: two sessions a day — morning and afternoon — taken to the best spot according to forecast and swell. Our surf guide Abu, rated the best surf guide in Dakar, knows exactly how to place you on the wave. Fast progression guaranteed.",
-        "p5": "From sunrise surf to sunset chill, you will grow in and out of the water, surrounded by people who share the same passion.",
+        "p1": "West Africa may not be the first place you think of for waves, but it has a serious surf pedigree. On the Cabo Verde Peninsula, Dakar picks up both northern and southern hemisphere swells \u2014 making it one of the most consistent surf destinations on the planet, 365 days a year.",
+        "p2": "While Morocco’s famous spots draw hundreds of surfers at a time, Ngor’s lineups remain refreshingly uncrowded. Hit dawn patrol and you may share a session with fewer than half a dozen riders — an unspoken camaraderie in warm Atlantic water, just a short flight from Europe.",
+        "p3": "Two sessions a day — morning and afternoon — at the best spot chosen by forecast and swell. Our surf guide Abu, rated the best in Dakar by our guests, knows exactly how to position you on the wave. Whether you are chasing your first green wave or refining your cutback, we guide your progression at your rhythm.",
+        "p4": "Video analysis, free surf theory classes and personalised coaching make every session count. The instructors are local surfers with ISA qualifications who grew up on these reefs — they read these waves the way only locals can.",
+        "p5": "Beyond the water, Ngor Island life takes over: no cars, no noise, just the sound of waves and the warmth of Senegalese teranga. From sunrise sessions to rooftop sunsets with African beats and fresh fish from the local shacks, you will grow in and out of the surf, surrounded by like-minded riders from around the world.",
         "thumb_lbl": "What you get",
         "thumb_h2": "Professional surf experience",
         "thumbs": [
@@ -4243,21 +4257,21 @@ SURF_PAGE_COPY = {
         "lvl_lbl": "Your level at Ngor",
         "lvl_h2": "Your level at Ngor",
         "beg_t": "Beginner",
-        "beg_d": "Never surfed, or just tried once or twice. You will start on a foam board on Ngor Left, a forgiving wave perfect for learning. By the end of your stay, you will be standing and riding.",
+        "beg_d": "Never surfed, or just tried once or twice. You will start on a foam board at Ngor Left, a forgiving sandy-bottom wave perfect for building confidence. The warm water and gentle sets make learning feel natural — by the end of your stay, you will be standing and riding green waves.",
         "int_t": "Intermediate",
-        "int_d": "You can consistently pop up and ride down the line. Ready to work on turns, reading waves, and timing your take-off. Ngor Right on smaller days will become your playground.",
+        "int_d": "You can consistently pop up and ride down the line. Ready to work on turns, reading waves and timing your take-off. Ngor Right on smaller days becomes your playground — a fast, hollow reef break made famous by The Endless Summer film.",
         "adv_t": "Advanced",
-        "adv_d": "You surf turns and are pushing your performance. Ngor Right at full size is your wave: powerful, fast and demanding. Video analysis will fast-track your specific weaknesses.",
+        "adv_d": "You surf turns and are pushing your performance. Ngor Right at full size is the wave — powerful, fast and demanding, with enough face to play with on the drop. Our coaches will also take you to the southern breaks of Les Almadies when conditions align. Video analysis will fast-track your specific weaknesses.",
         "team_lbl": "Our team",
         "team_h2": "Why Ngor Surfcamp Teranga?",
-        "team_intro": "Meet Ben (owner & coach), Abu (head surf guide — rated the best surf guide in Dakar by our guests) and Arame (chef). Together they create an experience guests describe as 'feeling like home': impeccable organisation, expert coaching and food that earns five stars on its own.",
+        "team_intro": "Meet Ben (owner & coach), Abu (head surf guide — rated the best in Dakar by our guests) and Arame (chef). Together they create an experience that international press and guests alike describe as ‘feeling like home’: impeccable organisation, expert coaching and authentic Senegalese cuisine that earns five stars on its own.",
         "team_isa": "The instructors are local surfers with industry-standard ISA qualifications and national diplomas.",
         "gal_h2": "Our surf trips in action",
         "cta_h2": "Meet like-minded surfers from around the world",
         "cta_sub": "Ngor Island, Dakar, Senegal. WhatsApp: +221 78 925 70 25",
         "book": "Book your surf package",
         "badge_isa": "ISA certified",
-        "badge_fed": "Senegalese Federation",
+        "badge_fed": "Licenced by FSS",
         "badge_loc": "Local knowledge",
         "lb_close": "Close",
         "wa_btn": "WhatsApp",
@@ -4268,11 +4282,11 @@ SURF_PAGE_COPY = {
         "h1": "Surf à Ngor",
         "tag": "Surfez mieux, vivez plus lentement, ressentez la différence",
         "lbl_intro": "Le surf à Ngor",
-        "p1": "À Ngor Surfcamp Teranga, nous mélangeons des vagues de très haut niveau, une ambiance d’île décontractée et un coaching surf expert qui fait vraiment la différence.",
-        "p2": "Que vous visiez votre première vague verte ou que vous peaufiniez vos virages, nous accompagnons votre progression à votre rythme, au cœur de la culture surf d’Afrique de l’Ouest.",
-        "p3": "Au Ngor Surfcamp, votre parcours surf va au-delà des vagues. Avec un coaching expert et un mode de vie d’île posé, nous vous aidons à trouver votre meilleur surf et votre flow.",
-        "p4": "Surfez mieux et progressez vite : deux sessions par jour — matin et après-midi — sur les meilleurs spots sélectionnés selon les conditions. Notre guide Abu, élu meilleur guide de surf de Dakar par nos clients, sait exactement comment vous placer sur la vague.",
-        "p5": "Du lever de soleil sur l’eau au chill du coucher du soleil, vous grandirez dans et hors de l’eau, entouré de personnes qui partagent la même passion.",
+        "p1": "L’Afrique de l’Ouest n’est peut-être pas la première destination surf qui vient à l’esprit, pourtant elle possède un pédigrée inégalable. Sur la presqu’île du Cap-Vert, Dakar capte les houles des deux hémisphères — ce qui en fait l’une des destinations surf les plus consistantes au monde, 365 jours par an.",
+        "p2": "Alors que les spots marocains attirent des centaines de surfeurs, les lineups de Ngor restent déserts. Partez au dawn patrol et vous partagerez la session avec moins d’une demi-douzaine de riders — une complicité tacite dans les eaux chaudes de l’Atlantique, à quelques heures d’avion de l’Europe.",
+        "p3": "Deux sessions par jour — matin et après-midi — sur le meilleur spot sélectionné selon les prévisions et le swell. Notre guide Abu, élu meilleur guide de surf de Dakar par nos clients, sait exactement comment vous placer sur la vague. Que vous visiez votre première vague verte ou que vous peaufiniez votre cutback, nous guidons votre progression à votre rythme.",
+        "p4": "Analyse vidéo, cours de théorie gratuits et coaching personnalisé : chaque session compte. Les instructeurs sont des surfeurs locaux certifiés ISA, qui ont grandi sur ces récifs — ils lisent ces vagues comme seuls les locaux savent le faire.",
+        "p5": "Hors de l’eau, la vie de l’île de Ngor prend le relais : pas de voitures, pas de bruit, juste le son des vagues et la chaleur de la teranga sénégalaise. Des sessions à l’aube aux couchers de soleil sur les toits aux rythmes africains, avec du poisson frais des baraques locales, vous grandirez dans et hors du surf, entouré de riders du monde entier.",
         "thumb_lbl": "Ce que nous proposons",
         "thumb_h2": "Une expérience surf professionnelle",
         "thumbs": [
@@ -4287,11 +4301,11 @@ SURF_PAGE_COPY = {
         "lvl_lbl": "Votre niveau à Ngor",
         "lvl_h2": "Votre niveau à Ngor",
         "beg_t": "Débutant",
-        "beg_d": "Jamais surfé, ou essayé une ou deux fois. Vous commencez sur mousse à Ngor Left, vague indulgente. À la fin du séjour, vous serez debout et en train de rider.",
+        "beg_d": "Jamais surfé, ou essayé une ou deux fois. Vous commencerez sur mousse à Ngor Left, une vague douce sur fond de sable, idéale pour prendre confiance. L'eau chaude et les séries régulières rendent l'apprentissage naturel — en fin de séjour, vous serez debout sur des vagues vertes.",
         "int_t": "Intermédiaire",
-        "int_d": "Vous enchaînez pop-up et ligne. Prêt à travailler virages, lecture des vagues et timing. Ngor Right les petits jours devient votre terrain de jeu.",
+        "int_d": "Vous enchaînez pop-up et ride sur la ligne. Prêt à travailler virages, lecture des vagues et timing. Ngor Right les petits jours devient votre terrain de jeu — un reef break rapide et creux rendu célèbre par le film The Endless Summer.",
         "adv_t": "Avancé",
-        "adv_d": "Vous enchaînez les virages et cherchez la performance. Ngor Right taille réelle est votre vague : puissante et exigeante. L’analyse vidéo accélère vos axes de progrès.",
+        "adv_d": "Vous enchaînez les virages et cherchez la performance. Ngor Right taille réelle est la vague — puissante, rapide et exigeante, avec assez de face pour s’exprimer au take-off. Nos coachs vous emmènent aussi sur les breaks sud des Almadies quand les conditions s’alignent. L’analyse vidéo accélère vos axes de progrès.",
         "team_lbl": "Notre équipe",
         "team_h2": "Pourquoi Ngor Surfcamp Teranga ?",
         "team_intro": "Rencontrez Ben (propriétaire & coach), Abu (guide surf principal — élu meilleur guide de surf de Dakar) et Arame (chef). Ensemble, ils créent une expérience que nos clients décrivent comme \'se sentir chez soi\' : organisation impeccable, coaching expert et une cuisine cinq étoiles.",
@@ -4301,7 +4315,7 @@ SURF_PAGE_COPY = {
         "cta_sub": "Île de Ngor, Dakar, Sénégal. WhatsApp : +221 78 925 70 25",
         "book": "Réserver votre package surf",
         "badge_isa": "Certifié ISA",
-        "badge_fed": "Fédération sénégalaise",
+        "badge_fed": "Licencié FSS",
         "badge_loc": "Connaissance locale",
         "lb_close": "Fermer",
         "wa_btn": "WhatsApp",
@@ -4312,11 +4326,11 @@ SURF_PAGE_COPY = {
         "h1": "Surf en Ngor",
         "tag": "Surfea mejor, vive más despacio, siente la diferencia",
         "lbl_intro": "Surf en Ngor",
-        "p1": "En Ngor Surfcamp Teranga combinamos olas de nivel mundial, ambiente isleño relajado y coaching surf experto que marca la diferencia.",
-        "p2": "Tanto si persigues tu primera ola verde como si afinas tus giros, guiamos tu progresión a tu ritmo, en el corazón de la cultura surf de África Occidental.",
-        "p3": "En Ngor Surfcamp tu viaje surf va más allá del mar. Con coaching experto y un estilo de vida isleño tranquilo, te ayudamos a encontrar tu mejor surf y tu flow.",
-        "p4": "Progresa rápido: dos sesiones al día — mañana y tarde — en los mejores spots elegidos según las condiciones. Nuestro guía Abu, elegido mejor guía de surf de Dakar por nuestros clientes, sabe exactamente cómo colocarte en la ola.",
-        "p5": "Del amanecer en el agua al relax al atardecer, crecerás dentro y fuera del mar, rodeado de quienes comparten la misma pasión.",
+        "p1": "Puede que África Occidental no sea lo primero que pienses para surfear, pero su pedigrí es innegable. En la península de Cabo Verde, Dakar recibe swells de ambos hemisferios — convirtiéndolo en uno de los destinos surf más consistentes del planeta, los 365 días del año.",
+        "p2": "Mientras los spots famosos de Marruecos atraen cientos de surfistas, los lineups de Ngor permanecen tranquilos. Sal al dawn patrol y compartirás sesión con menos de media docena de riders — complicidad tácita en aguas cálidas del Atlántico, a pocas horas de vuelo de Europa.",
+        "p3": "Dos sesiones al día — mañana y tarde — en el mejor spot elegido según previsiones y swell. Nuestro guía Abu, elegido mejor guía de surf de Dakar por nuestros clientes, sabe exactamente cómo colocarte en la ola. Tanto si persigues tu primera ola verde como si afinas tu cutback, guiamos tu progresión a tu ritmo.",
+        "p4": "Análisis de vídeo, clases de teoría gratuitas y coaching personalizado: cada sesión cuenta. Los instructores son surfistas locales con cualificación ISA que crecieron en estos arrecifes — leen estas olas como solo un local puede hacerlo.",
+        "p5": "Fuera del agua, la vida en la isla de Ngor toma el relevo: sin coches, sin ruido, solo el sonido de las olas y la calidez de la teranga senegalesa. De las sesiones al amanecer a las puestas de sol en azoteas con ritmos africanos y pescado fresco de los chiringuitos locales, crecerás dentro y fuera del surf, rodeado de riders de todo el mundo.",
         "thumb_lbl": "Lo que ofrecemos",
         "thumb_h2": "Experiencia surf profesional",
         "thumbs": [
@@ -4345,7 +4359,7 @@ SURF_PAGE_COPY = {
         "cta_sub": "Isla de Ngor, Dakar, Senegal. WhatsApp: +221 78 925 70 25",
         "book": "Reserva tu paquete surf",
         "badge_isa": "Certificado ISA",
-        "badge_fed": "Federación senegalesa",
+        "badge_fed": "Licenciado FSS",
         "badge_loc": "Conocimiento local",
         "lb_close": "Cerrar",
         "wa_btn": "WhatsApp",
@@ -4356,11 +4370,11 @@ SURF_PAGE_COPY = {
         "h1": "Surf a Ngor",
         "tag": "Surfa meglio, vivi più lentamente, senti la differenza",
         "lbl_intro": "Il surf a Ngor",
-        "p1": "A Ngor Surfcamp Teranga uniamo onde di livello mondiale, atmosfera isola rilassata e coaching surf esperto che fa davvero la differenza.",
-        "p2": "Che tu punti alla tua prima onda verde o a perfezionare le curve, guidiamo la tua progressione al tuo ritmo, nel cuore della cultura surf dell’Africa occidentale.",
-        "p3": "Al Ngor Surfcamp il tuo percorso surf va oltre le onde. Con coaching esperto e uno stile di vita isola easy, ti aiutiamo a trovare il tuo miglior surf e il tuo flow.",
-        "p4": "Progredisci velocemente: due sessioni al giorno — mattina e pomeriggio — nei migliori spot scelti in base alle condizioni. La nostra guida Abu, eletta miglior guida surf di Dakar dagli ospiti, sa esattamente come posizionarti sull\'onda.",
-        "p5": "Dall’alba in acqua al relax al tramonto, crescerai dentro e fuori dall’acqua, circondato da chi condivide la stessa passione.",
+        "p1": "L’Africa Occidentale forse non è la prima meta che viene in mente per il surf, eppure vanta un pedigree innegabile. Sulla penisola di Capo Verde, Dakar intercetta gli swell di entrambi gli emisferi — rendendola una delle destinazioni surf più consistenti al mondo, 365 giorni l’anno.",
+        "p2": "Mentre gli spot più famosi del Marocco attirano centinaia di surfisti, i lineup di Ngor restano piacevolmente vuoti. Esci all’alba e potresti condividere la sessione con meno di mezza dozzina di rider — una complicità tacita nelle acque calde dell’Atlantico, a poche ore di volo dall’Europa.",
+        "p3": "Due sessioni al giorno — mattina e pomeriggio — nello spot migliore scelto in base alle previsioni e allo swell. La nostra guida Abu, votata la migliore di Dakar dai nostri ospiti, sa esattamente come posizionarti sull’onda. Che tu stia cercando la tua prima onda verde o perfezionando il cutback, guidiamo la tua progressione al tuo ritmo.",
+        "p4": "Analisi video, lezioni di teoria gratuite e coaching personalizzato: ogni sessione conta. Gli istruttori sono surfisti locali con qualifiche ISA, cresciuti su queste scogliere — leggono queste onde come solo un locale sa fare.",
+        "p5": "Fuori dall’acqua, la vita sull’isola di Ngor prende il sopravvento: niente auto, niente rumore, solo il suono delle onde e il calore della teranga senegalese. Dalle sessioni all’alba ai tramonti sui tetti con ritmi africani e pesce fresco, crescerai dentro e fuori dal surf, circondato da rider di tutto il mondo.",
         "thumb_lbl": "Cosa offriamo",
         "thumb_h2": "Esperienza surf professionale",
         "thumbs": [
@@ -4389,7 +4403,7 @@ SURF_PAGE_COPY = {
         "cta_sub": "Isola di Ngor, Dakar, Senegal. WhatsApp: +221 78 925 70 25",
         "book": "Prenota il pacchetto surf",
         "badge_isa": "Certificato ISA",
-        "badge_fed": "Federazione senegalese",
+        "badge_fed": "Autorizzato FSS",
         "badge_loc": "Conoscenza locale",
         "lb_close": "Chiudi",
         "wa_btn": "WhatsApp",
@@ -4400,11 +4414,11 @@ SURF_PAGE_COPY = {
         "h1": "Surfen in Ngor",
         "tag": "Surf besser, lebe langsamer, spüre den Unterschied",
         "lbl_intro": "Surf in Ngor",
-        "p1": "Bei Ngor Surfcamp Teranga verbinden wir Wellen auf Weltniveau, entspannte Inselatmosphäre und professionelles Surf-Coaching, das wirklich weiterbringt.",
-        "p2": "Ob erste grüne Welle oder saubere Turns — wir begleiten deinen Fortschritt in deinem Tempo, im Herzen der Surf-Kultur Westafrikas.",
-        "p3": "Im Ngor Surfcamp geht deine Surf-Reise über die Wellen hinaus. Mit erfahrenen Coaches und entspanntem Insel-Leben helfen wir dir, dein bestes Surf-Flow zu finden.",
-        "p4": "Schneller Fortschritt: zwei Sessions täglich — morgens und nachmittags — an den besten Spots, ausgewählt nach Swell und Forecast. Unser Surfguide Abu, von unseren Gästen zum besten Surfguide in Dakar gekürt, weiß genau, wie er dich in der Welle platziert.",
-        "p5": "Vom Sonnenaufgang-Session bis zum Chill bei Sonnenuntergang wächst du im und am Wasser — umgeben von Menschen mit derselben Leidenschaft.",
+        "p1": "Westafrika ist vielleicht nicht das Erste, woran man beim Surfen denkt, doch die Region hat ein einzigartiges Pedigree. Auf der Halbinsel Cap-Vert fängt Dakar Swells beider Hemisphären ein — und zählt damit zu den konstantesten Surfdestinationen der Welt, 365 Tage im Jahr.",
+        "p2": "Während Marokkos berühmte Spots Hunderte Surfer anziehen, bleiben Ngors Lineups angenehm leer. Beim Dawn Patrol teilst du die Session vielleicht mit weniger als einem halben Dutzend Ridern — stille Verbundenheit im warmen Atlantik, nur wenige Flugstunden von Europa.",
+        "p3": "Zwei Sessions täglich — morgens und nachmittags — am besten Spot nach Forecast und Swell. Unser Surfguide Abu, von unseren Gästen als bester Guide Dakars gewählt, weiß genau, wie er dich auf der Welle positioniert. Ob du deine erste grüne Welle ansteuerst oder deinen Cutback verfeinerst — wir begleiten deinen Fortschritt in deinem Tempo.",
+        "p4": "Videoanalyse, kostenlose Surf-Theoriestunden und individuelles Coaching: jede Session zählt. Die Instruktoren sind lokale Surfer mit ISA-Qualifikation, die auf diesen Riffen aufgewachsen sind — sie lesen diese Wellen wie nur Einheimische es können.",
+        "p5": "Außerhalb des Wassers übernimmt das Inselleben von Ngor: keine Autos, kein Lärm, nur das Rauschen der Wellen und die Wärme der senegalesischen Teranga. Von Sonnenaufgangssessions bis zu Dachterrassen-Sonnenuntergängen mit afrikanischen Beats und frischem Fisch — du wächst im und außerhalb des Surfs, umgeben von Gleichgesinnten aus aller Welt.",
         "thumb_lbl": "Das erwartet dich",
         "thumb_h2": "Professionelles Surf-Erlebnis",
         "thumbs": [
@@ -4433,7 +4447,7 @@ SURF_PAGE_COPY = {
         "cta_sub": "Ngor Island, Dakar, Senegal. WhatsApp: +221 78 925 70 25",
         "book": "Surf-Paket buchen",
         "badge_isa": "ISA-zertifiziert",
-        "badge_fed": "Senegalesischer Verband",
+        "badge_fed": "Lizenziert FSS",
         "badge_loc": "Lokales Know-how",
         "lb_close": "Schließen",
         "wa_btn": "WhatsApp",
@@ -4444,11 +4458,11 @@ SURF_PAGE_COPY = {
         "h1": "Surfen in Ngor",
         "tag": "Surf beter, leef langzamer, voel het verschil",
         "lbl_intro": "Surfen bij Ngor",
-        "p1": "Bij Ngor Surfcamp Teranga combineren we wereldklasse golven, ontspannen eilandvibes en professionele surfcoaching die echt impact heeft.",
-        "p2": "Of je nu je eerste groene golf achtervolgt of je turns verfijnt, we begeleiden je voortgang op jouw tempo in het hart van de survcultuur van West-Afrika.",
-        "p3": "Bij Ngor Surfcamp gaat je surfreis verder dan de golven. Met expert-coaching en een ontspannen eilandlevensstijl helpen we je je beste surf te vinden.",
-        "p4": "Snelle progressie: twee sessies per dag — 's ochtends en 's middags — naar de beste spots, gekozen op basis van swell en voorspelling. Onze surfgids Abu, door gasten uitgeroepen tot beste surfgids van Dakar, weet precies hoe hij je op de golf plaatst.",
-        "p5": "Van zonsopgang-surf tot zonsondergang-chill, je groeit in en buiten het water, omringd door mensen met dezelfde passie.",
+        "p1": "West-Afrika is misschien niet de eerste plek die je aan surfen doet denken, maar het heeft een serieus surfpedigree. Op het schiereiland Kaap Verde vangt Dakar swells van beide halfronden op — wat het een van de meest consistente surfbestemmingen ter wereld maakt, 365 dagen per jaar.",
+        "p2": "Terwijl Marokko’s beroemde spots honderden surfers aantrekken, blijven Ngor’s lineups heerlijk leeg. Ga bij zonsopgang het water in en je deelt de sessie misschien met minder dan een half dozijn riders — onuitgesproken verbondenheid in het warme Atlantische water, slechts een korte vlucht van Europa.",
+        "p3": "Twee sessies per dag — ’s ochtends en ’s middags — naar de beste spot gekozen op basis van de voorspelling en swell. Onze surfgids Abu, door onze gasten uitgeroepen tot beste surfgids van Dakar, weet precies hoe hij je op de golf moet positioneren. Of je nu je eerste groene golf najaagt of je cutback verfijnt, we begeleiden je progressie op jouw tempo.",
+        "p4": "Video-analyse, gratis surftheorielessen en persoonlijke coaching: elke sessie telt. De instructeurs zijn lokale surfers met ISA-kwalificaties die op deze riffen zijn opgegroeid — ze lezen deze golven zoals alleen locals dat kunnen.",
+        "p5": "Buiten het water neemt het eilandleven van Ngor het over: geen auto’s, geen lawaai, alleen het geluid van de golven en de warmte van de Senegalese teranga. Van sessies bij zonsopgang tot zonsondergangen op het dak met Afrikaanse beats en verse vis — je groeit in en buiten de surf, omringd door gelijkgestemde riders van over de hele wereld.",
         "thumb_lbl": "Wat je krijgt",
         "thumb_h2": "Professionele surfervaring",
         "thumbs": [
@@ -4477,7 +4491,7 @@ SURF_PAGE_COPY = {
         "cta_sub": "Ngor Island, Dakar, Senegal. WhatsApp: +221 78 925 70 25",
         "book": "Boek je surfpakket",
         "badge_isa": "ISA gecertificeerd",
-        "badge_fed": "Senegalese Federatie",
+        "badge_fed": "Erkend FSS",
         "badge_loc": "Lokale kennis",
         "lb_close": "Sluiten",
         "wa_btn": "WhatsApp",
@@ -4488,11 +4502,11 @@ SURF_PAGE_COPY = {
         "h1": "ركوب الأمواج في نغور",
         "tag": "اركب أفضل، عش بتمهل، أحسس بالفرق",
         "lbl_intro": "الأمواج في نغور",
-        "p1": "في Ngor Surfcamp Teranga، نجمع بين أمواج ذات مستوى عالمي وأجواء الجزيرة المريحة وتدريب احترافي يُحدث فرقاً حقيقياً.",
-        "p2": "سواء كنت تطارد موجتك الخضراء الأولى أو تُصقل منعطفاتك، نوجه تقدمك بإيقاعك الخاص في قلب ثقافة ركوب الأمواج في غرب أفريقيا.",
-        "p3": "في Ngor Surfcamp، تتجاوز رحلة ركوب الأمواج الموج نفسه. مع التدريب المتخصص وأسلوب حياة الجزيرة المريح، نساعدك في إيجاد أفضل ما فيك على الأمواج.",
-        "p4": "تقدم سريع: حصتان يومياً — صباحاً ومساءً — إلى أفضل المواقع المختارة حسب التوقعات. مرشدنا أبو، المُعلَّن عنه من قِبل ضيوفنا أفضل مرشد أمواج في داكار، يعرف تماماً كيف يضعك على الموجة.",
-        "p5": "من جلسات شروق الشمس إلى استرخاء غروب الشمس، تنمو داخل الماء وخارجه، محاطاً بأشخاص يشاركونك نفس الشغف.",
+        "p1": "قد لا تكون غرب أفريقيا أول ما يخطر ببالك لركوب الأمواج، لكنها تمتلك تاريخاً عريقاً في هذا المجال. على شبه جزيرة الرأس الأخضر، تستقبل داكار أمواج من نصفي الكرة الأرضية — مما يجعلها واحدة من أكثر وجهات ركوب الأمواج اتساقاً في العالم، 365 يوماً في السنة.",
+        "p2": "بينما تجذب المغرب مئات راكبي الأمواج، تبقى لاين أب نغور فارغة بشكل منعش. اخرج عند الفجر وقد تشارك الجلسة مع أقل من ستة راكبين — تفاهم صامت في مياه الأطلسي الدافئة، على بعد ساعات قليلة من أوروبا.",
+        "p3": "جلستان يومياً — صباحاً ومساءً — في أفضل موقع يختاره مرشدنا أبو، الذي اختاره ضيوفنا كأفضل مرشد في داكار. سواء كنت تطارد موجتك الخضراء الأولى أو تتقن المناورات، نرشد تقدمك بإيقاعك.",
+        "p4": "تحليل فيديو، دروس نظرية مجانية وتدريب شخصي: كل جلسة مهمة. المدربون سيرفرز محليون حاصلون على شهادة ISA — يقرأون هذه الأمواج كما لا يستطيع أحد سواهم.",
+        "p5": "خارج الماء، تسيطر حياة جزيرة نغور: لا سيارات، لا ضجيج، فقط صوت الأمواج ودفء التيرانجا السنغالية. من جلسات الفجر إلى غروب الشمس على الأسطح مع الإيقاعات الأفريقية والسمك الطازج، ستنمو داخل وخارج الأمواج، محاطاً براكبين من حول العالم.",
         "thumb_lbl": "ما ستحصل عليه",
         "thumb_h2": "تجربة ركوب أمواج احترافية",
         "thumbs": [
@@ -4521,7 +4535,7 @@ SURF_PAGE_COPY = {
         "cta_sub": "جزيرة نغور، داكار، السنغال. واتساب: +221 78 925 70 25",
         "book": "احجز باقة ركوب الأمواج",
         "badge_isa": "معتمد من ISA",
-        "badge_fed": "الاتحاد السنغالي",
+        "badge_fed": "مرخص FSS",
         "badge_loc": "معرفة محلية",
         "lb_close": "إغلاق",
         "wa_btn": "واتساب",
@@ -5174,53 +5188,125 @@ def build_surf_house(lang):
 
 SURF_SPLIT_COPY = {
     "en": {
-        "h2_waves":      "World-class waves,<br>West African soul",
+        "h2_waves":      "World-class waves,<br>uncrowded lineups",
         "lbl_coaching":  "Expert Coaching",
         "h2_coaching":   "Two sessions a day,<br>guided by Abu",
         "lbl_community": "Island Life",
-        "h2_community":  "More than surfing —<br>a way of life",
+        "h2_community":  "No cars, no noise —<br>just island life",
+        "fc_lbl": "Live Forecast",
+        "fc_h2": "Surf conditions at Ngor",
+        "fc_now": "Right now",
+        "fc_height": "Wave height",
+        "fc_period": "Period",
+        "fc_dir": "Direction",
+        "fc_swell": "Swell",
+        "fc_wind": "Wind",
+        "fc_temp": "Water temp",
+        "fc_7day": "7-day forecast",
+        "fc_powered": "Data: Open-Meteo.com",
+        "fc_err": "Forecast temporarily unavailable",
     },
     "fr": {
-        "h2_waves":      "Des vagues de haut niveau,<br>l'âme de l'Afrique de l'Ouest",
+        "h2_waves":      "Des vagues de haut niveau,<br>des lineups déserts",
         "lbl_coaching":  "Coaching Expert",
         "h2_coaching":   "Deux sessions par jour,<br>guidées par Abu",
         "lbl_community": "Vie d'île",
-        "h2_community":  "Bien plus que le surf —<br>un mode de vie",
+        "h2_community":  "Pas de voitures, pas de bruit —<br>juste la vie d'île",
+        "fc_lbl": "Prévisions en direct",
+        "fc_h2": "Conditions surf à Ngor",
+        "fc_now": "En ce moment",
+        "fc_height": "Hauteur des vagues",
+        "fc_period": "Période",
+        "fc_dir": "Direction",
+        "fc_swell": "Houle",
+        "fc_wind": "Vent",
+        "fc_temp": "Temp. eau",
+        "fc_7day": "Prévisions 7 jours",
+        "fc_powered": "Données : Open-Meteo.com",
+        "fc_err": "Prévisions temporairement indisponibles",
     },
     "es": {
-        "h2_waves":      "Olas de primer nivel,<br>alma del Oeste africano",
+        "h2_waves":      "Olas de primer nivel,<br>lineups vacíos",
         "lbl_coaching":  "Coaching Experto",
         "h2_coaching":   "Dos sesiones al día,<br>guiadas por Abu",
         "lbl_community": "Vida en la Isla",
-        "h2_community":  "Más que surf —<br>una forma de vivir",
+        "h2_community":  "Sin coches, sin ruido —<br>solo vida isleña",
+        "fc_lbl": "Previsión en directo",
+        "fc_h2": "Condiciones surf en Ngor",
+        "fc_now": "Ahora mismo",
+        "fc_height": "Altura de ola",
+        "fc_period": "Período",
+        "fc_dir": "Dirección",
+        "fc_swell": "Oleaje",
+        "fc_wind": "Viento",
+        "fc_temp": "Temp. agua",
+        "fc_7day": "Previsión 7 días",
+        "fc_powered": "Datos: Open-Meteo.com",
+        "fc_err": "Previsión no disponible temporalmente",
     },
     "it": {
         "h2_waves":      "Onde mondiali,<br>anima dell'Africa Occidentale",
         "lbl_coaching":  "Coaching Esperto",
         "h2_coaching":   "Due sessioni al giorno,<br>guidate da Abu",
         "lbl_community": "Vita sull'Isola",
-        "h2_community":  "Più del surf —<br>uno stile di vita",
+        "h2_community":  "Niente auto, niente rumore —<br>solo vita isolana",
+        "fc_lbl": "Previsioni live",
+        "fc_h2": "Condizioni surf a Ngor",
+        "fc_now": "In questo momento",
+        "fc_height": "Altezza onde",
+        "fc_period": "Periodo",
+        "fc_dir": "Direzione",
+        "fc_swell": "Mareggiata",
+        "fc_wind": "Vento",
+        "fc_temp": "Temp. acqua",
+        "fc_7day": "Previsioni 7 giorni",
+        "fc_powered": "Dati: Open-Meteo.com",
+        "fc_err": "Previsioni temporaneamente non disponibili",
     },
     "de": {
-        "h2_waves":      "Weltklasse-Wellen,<br>westafrikanischer Geist",
+        "h2_waves":      "Weltklasse-Wellen,<br>leere Lineups",
         "lbl_coaching":  "Expertencoaching",
         "h2_coaching":   "Zwei Sessions täglich,<br>begleitet von Abu",
         "lbl_community": "Inselleben",
-        "h2_community":  "Mehr als surfen —<br>eine Lebensweise",
+        "h2_community":  "Keine Autos, kein Lärm —<br>nur Inselleben",
+        "fc_lbl": "Live-Vorhersage",
+        "fc_h2": "Surfbedingungen in Ngor",
+        "fc_now": "Gerade jetzt",
+        "fc_height": "Wellenhöhe",
+        "fc_period": "Periode",
+        "fc_dir": "Richtung",
+        "fc_swell": "Dünung",
+        "fc_wind": "Wind",
+        "fc_temp": "Wassertemp.",
+        "fc_7day": "7-Tage-Vorhersage",
+        "fc_powered": "Daten: Open-Meteo.com",
+        "fc_err": "Vorhersage vorübergehend nicht verfügbar",
     },
     "nl": {
-        "h2_waves":      "Wereldklasse golven,<br>West-Afrikaanse ziel",
+        "h2_waves":      "Wereldklasse golven,<br>lege lineups",
         "lbl_coaching":  "Expert Coaching",
         "h2_coaching":   "Twee sessies per dag,<br>begeleid door Abu",
         "lbl_community": "Eilandleven",
-        "h2_community":  "Meer dan surfen —<br>een levensstijl",
+        "h2_community":  "Geen auto’s, geen lawaai —<br>alleen eilandleven",
+        "fc_lbl": "Live voorspelling",
+        "fc_h2": "Surfcondities in Ngor",
+        "fc_now": "Nu",
+        "fc_height": "Golfhoogte",
+        "fc_period": "Periode",
+        "fc_dir": "Richting",
+        "fc_swell": "Deining",
+        "fc_wind": "Wind",
+        "fc_temp": "Watertemp.",
+        "fc_7day": "7-daagse voorspelling",
+        "fc_powered": "Data: Open-Meteo.com",
+        "fc_err": "Voorspelling tijdelijk niet beschikbaar",
     },
     "ar": {
-        "h2_waves":      "أمواج عالمية،<br>روح غرب أفريقيا",
+        "h2_waves":      "أمواج عالمية،<br>لاين أب فارغة",
         "lbl_coaching":  "تدريب احترافي",
         "h2_coaching":   "جلستان يومياً<br>بإرشاد أبو",
         "lbl_community": "حياة الجزيرة",
-        "h2_community":  "أكثر من تصفح —<br>أسلوب حياة",
+        "h2_community":  "بلا سيارات، بلا ضجيج —<br>فقط حياة الجزيرة",
     },
 }
 
@@ -5236,14 +5322,25 @@ def build_surfing(lang):
     def pe(txt):
         return escape(fix_em(txt))
 
+    FEAT_ICONS = [
+        ("feat-coaching", "var(--fire)"),
+        ("feat-guide",    "var(--ocean)"),
+        ("feat-video",    "var(--navy)"),
+        ("feat-theory",   "var(--fire)"),
+        ("feat-location", "var(--ocean)"),
+        ("feat-transfer", "var(--navy)"),
+        ("icon-checklist","var(--fire)"),
+    ]
     thumbs_html = ""
-    for i, key in enumerate(SURF_WIX_THUMBS):
-        url = IMGS[key]
+    for i, (icon_key, color) in enumerate(FEAT_ICONS):
+        if i >= len(C["thumbs"]):
+            break
         cap = C["thumbs"][i]
+        svg = FEAT_SVG_INLINE.get(icon_key, "")
         thumbs_html += (
-            f'<div class="surf-thumb-card reveal"><div class="surf-thumb-img">'
-            f'<img src="{url}" alt="{pe(cap)}" loading="lazy" width="640" height="420"></div>'
-            f'<h3 class="surf-thumb-title">{pe(cap)}</h3></div>'
+            f'<div class="surf-feat-card reveal">'
+            f'<div class="surf-feat-icon" style="color:{color}">{svg}</div>'
+            f'<h3 class="surf-feat-title">{pe(cap)}</h3></div>'
         )
 
     gal_items = build_gallery_thumb_buttons(
@@ -5315,16 +5412,40 @@ def build_surfing(lang):
   </section>
 
   {wave_top(_BG_LIGHT, _BG_WHITE)}
-  <section class="section sec-light">
+  <section class="section sec-light" id="surf-forecast">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:48px" class="reveal">
+        <span class="s-label">{SC.get("fc_lbl","Live Forecast")}</span>
+        <h2 class="s-title">{SC.get("fc_h2","Surf conditions at Ngor")}</h2>
+      </div>
+      <div class="forecast-widget reveal" id="fc-widget"
+           data-lbl-now="{SC.get('fc_now','Right now')}"
+           data-lbl-height="{SC.get('fc_height','Wave height')}"
+           data-lbl-period="{SC.get('fc_period','Period')}"
+           data-lbl-dir="{SC.get('fc_dir','Direction')}"
+           data-lbl-swell="{SC.get('fc_swell','Swell')}"
+           data-lbl-wind="{SC.get('fc_wind','Wind')}"
+           data-lbl-temp="{SC.get('fc_temp','Water temp')}"
+           data-lbl-7day="{SC.get('fc_7day','7-day forecast')}"
+           data-lbl-powered="{SC.get('fc_powered','Data: Open-Meteo.com')}"
+           data-lbl-err="{SC.get('fc_err','Forecast temporarily unavailable')}">
+        <div class="fc-loading"><div class="fc-spinner"></div></div>
+      </div>
+    </div>
+  </section>
+  {wave_bottom(_BG_LIGHT, _BG_WHITE)}
+
+  {wave_top(_BG_WHITE, _BG_LIGHT)}
+  <section class="section">
     <div class="container">
       <div style="text-align:center;margin-bottom:48px" class="reveal">
         <span class="s-label">{pe(C["thumb_lbl"])}</span>
         <h2 class="s-title">{pe(C["thumb_h2"])}</h2>
       </div>
-      <div class="surf-thumb-grid reveal">{thumbs_html}</div>
+      <div class="surf-feat-grid reveal">{thumbs_html}</div>
     </div>
   </section>
-  {wave_bottom(_BG_LIGHT, _BG_WHITE)}
+  {wave_bottom(_BG_WHITE, _BG_LIGHT)}
 
   <section class="section">
     <div class="container">
@@ -5351,7 +5472,7 @@ def build_surfing(lang):
         <p style="font-size:17px;color:#374151;line-height:1.85;margin-top:16px;text-align:left;font-weight:600">{pe(C["team_isa"])}</p>
         <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:32px">
           <div style="display:flex;align-items:center;gap:10px;padding:12px 20px;border-radius:50px;background:#fff;box-shadow:0 2px 12px rgba(10,37,64,0.08)"><span style="color:var(--fire);font-size:20px">★</span><span style="font-weight:600;font-size:14px">{pe(C["badge_isa"])}</span></div>
-          <div style="display:flex;align-items:center;gap:10px;padding:12px 20px;border-radius:50px;background:#fff;box-shadow:0 2px 12px rgba(10,37,64,0.08)"><span style="width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;color:var(--navy)" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3 8-7 9-4-1-7-4-7-9V6l7-3z"/><path d="M9 12l2 2 4-5"/></svg></span><span style="font-weight:600;font-size:14px">{pe(C["badge_fed"])}</span></div>
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 20px;border-radius:50px;background:#fff;box-shadow:0 2px 12px rgba(10,37,64,0.08)"><img src="{FSS_LOGO}" alt="FSS" width="28" height="28" loading="lazy" style="flex-shrink:0"><span style="font-weight:600;font-size:14px">{pe(C["badge_fed"])}</span></div>
           <div style="display:flex;align-items:center;gap:10px;padding:12px 20px;border-radius:50px;background:#fff;box-shadow:0 2px 12px rgba(10,37,64,0.08)"><span style="color:var(--ocean);font-size:20px">🌊</span><span style="font-weight:600;font-size:14px">{pe(C["badge_loc"])}</span></div>
         </div>
       </div>
@@ -6388,6 +6509,13 @@ verify_hreflang_alternate_count()
 
 write_sitemaps_and_robots()
 patch_legacy_public_host_all()
+
+# Copy FSS federation logo from content/images to assets
+_fss_logo_src = os.path.join(_BASE_DIR, "content", "images", "logo-federation.png")
+_fss_logo_dst = os.path.join(DEMO_DIR, "assets", "images", "logo-federation.png")
+if os.path.isfile(_fss_logo_src):
+    shutil.copy2(_fss_logo_src, _fss_logo_dst)
+    print("✓ logo-federation.png copied to assets/images/")
 
 # Copy static/ folder (CMS admin, etc.) into the output
 _static_src = os.path.join(_BASE_DIR, "static")

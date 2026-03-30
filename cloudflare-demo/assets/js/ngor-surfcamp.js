@@ -116,3 +116,68 @@ function maxIdx(){return Math.max(0,total-visCount());}
 function go(idx){const max=maxIdx();cur=Math.max(0,Math.min(idx,max));const card=cards[0];const cardW=card?card.getBoundingClientRect().width:0;const gap=gapForTrack(track);track.style.transform='translateX(-'+(cur*(cardW+gap))+'px)';}
 go(0);let resizeTimer;window.addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>{go(Math.min(cur,maxIdx()));},200);},{passive:true});setInterval(()=>{if(cur<maxIdx())go(cur+1);else go(0);},bookingMode?6000:5000);}
 bindTrack(document.getElementById('reviews-inner'));bindTrack(document.getElementById('booking-reviews-inner'));document.querySelectorAll('.rc-text').forEach(el=>{el.addEventListener('click',()=>el.classList.toggle('expanded'));el.style.cursor='pointer';if(!el.title||!String(el.title).trim())el.title='Click to expand';});})();
+/* ══ Surf Forecast Widget — Open-Meteo API ══ */
+(function(){
+  var w=document.getElementById('fc-widget');
+  if(!w)return;
+  var L={now:w.dataset.lblNow||'Right now',height:w.dataset.lblHeight||'Wave height',
+    period:w.dataset.lblPeriod||'Period',dir:w.dataset.lblDir||'Direction',
+    swell:w.dataset.lblSwell||'Swell',wind:w.dataset.lblWind||'Wind',
+    temp:w.dataset.lblTemp||'Water temp',sevenday:w.dataset.lbl7day||'7-day forecast',
+    powered:w.dataset.lblPowered||'Data: Open-Meteo.com',
+    err:w.dataset.lblErr||'Forecast temporarily unavailable'};
+
+  var DIRS=['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
+  function degToDir(d){return DIRS[Math.round(d/22.5)%16];}
+  function dayName(iso){var d=new Date(iso+'T12:00:00');return d.toLocaleDateString(undefined,{weekday:'short'});}
+  function dayDate(iso){var d=new Date(iso+'T12:00:00');return d.toLocaleDateString(undefined,{day:'numeric',month:'short'});}
+
+  var mURL='https://marine-api.open-meteo.com/v1/marine?latitude=14.75&longitude=-17.51'+
+    '&current=wave_height,wave_direction,wave_period,swell_wave_height,swell_wave_direction,swell_wave_period'+
+    '&hourly=sea_surface_temperature&daily=wave_height_max,wave_period_max,swell_wave_height_max'+
+    '&timezone=Africa/Dakar&forecast_days=7';
+  var wURL='https://api.open-meteo.com/v1/forecast?latitude=14.75&longitude=-17.51'+
+    '&current=wind_speed_10m,wind_direction_10m&timezone=Africa/Dakar&forecast_days=1';
+
+  Promise.all([fetch(mURL).then(function(r){return r.json();}),
+               fetch(wURL).then(function(r){return r.json();})])
+  .then(function(res){
+    var m=res[0],wd=res[1];
+    var c=m.current||{};
+    var wc=wd.current||{};
+    var sst='--';
+    if(m.hourly&&m.hourly.sea_surface_temperature){
+      var temps=m.hourly.sea_surface_temperature.filter(function(v){return v!==null;});
+      if(temps.length)sst=Math.round(temps[0])+'°C';
+    }
+    var windKt=wc.wind_speed_10m?Math.round(wc.wind_speed_10m/1.852):0;
+    var windDir=wc.wind_direction_10m?degToDir(wc.wind_direction_10m):'';
+
+    var html='<p style="font-size:13px;text-transform:uppercase;letter-spacing:0.06em;color:var(--fire);font-weight:700;margin:0 0 16px;text-align:center">'+L.now+'</p>';
+    html+='<div class="fc-current">';
+    html+='<div class="fc-stat"><div class="fc-stat-icon">🌊</div><div class="fc-stat-val">'+(c.wave_height||'--')+'<span class="fc-stat-unit">m</span></div><div class="fc-stat-lbl">'+L.height+'</div></div>';
+    html+='<div class="fc-stat"><div class="fc-stat-icon">⏱</div><div class="fc-stat-val">'+(c.wave_period?c.wave_period.toFixed(1):'--')+'<span class="fc-stat-unit">s</span></div><div class="fc-stat-lbl">'+L.period+'</div></div>';
+    html+='<div class="fc-stat"><div class="fc-stat-icon">🧭</div><div class="fc-stat-val">'+(c.wave_direction?degToDir(c.wave_direction):'--')+'</div><div class="fc-stat-lbl">'+L.dir+'</div></div>';
+    html+='<div class="fc-stat"><div class="fc-stat-icon">〰️</div><div class="fc-stat-val">'+(c.swell_wave_height||'--')+'<span class="fc-stat-unit">m</span></div><div class="fc-stat-lbl">'+L.swell+'</div></div>';
+    html+='<div class="fc-stat"><div class="fc-stat-icon">💨</div><div class="fc-stat-val">'+windKt+'<span class="fc-stat-unit">kt</span></div><div class="fc-stat-lbl">'+L.wind+' '+windDir+'</div></div>';
+    html+='<div class="fc-stat"><div class="fc-stat-icon">🌡</div><div class="fc-stat-val">'+sst+'</div><div class="fc-stat-lbl">'+L.temp+'</div></div>';
+    html+='</div>';
+
+    if(m.daily&&m.daily.wave_height_max){
+      var days=m.daily.time||[];
+      var maxH=m.daily.wave_height_max||[];
+      var ceil=Math.max.apply(null,maxH.map(function(v){return v||0;}))||2;
+      html+='<div class="fc-chart-wrap"><p class="fc-chart-title">'+L.sevenday+'</p><div class="fc-chart">';
+      for(var i=0;i<days.length&&i<7;i++){
+        var h=maxH[i]||0;
+        var pct=Math.max(8,Math.round((h/ceil)*100));
+        html+='<div class="fc-bar-group"><div class="fc-bar-wrap"><div class="fc-bar" style="height:'+pct+'%"><span class="fc-bar-val">'+h.toFixed(1)+'m</span></div></div><div class="fc-bar-day">'+dayName(days[i])+'</div><div class="fc-bar-date">'+dayDate(days[i])+'</div></div>';
+      }
+      html+='</div></div>';
+    }
+    html+='<div class="fc-credit"><a href="https://open-meteo.com/" target="_blank" rel="noopener">'+L.powered+'</a></div>';
+    w.innerHTML=html;
+  }).catch(function(){
+    w.innerHTML='<div class="fc-err">'+L.err+'</div>';
+  });
+})();
