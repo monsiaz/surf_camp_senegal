@@ -4831,8 +4831,9 @@ def insta_section(lang: str, context: str = "home") -> str:
     context: 'home' | 'surf-house' | 'surfing'
     """
     photos = _IG_PHOTOS.get(context, _IG_PHOTOS["home"])
-    # Pair with real IG post URLs (no embed, just href on click)
-    post_urls = [f"https://www.instagram.com/p/{sc}/" for sc in _IG_ALL_POSTS]
+    # Each image filename IS the shortcode → link directly to that post
+    _ctx_posts = _IG_POSTS.get(context, _IG_POSTS["home"])
+    post_urls = [f"https://www.instagram.com/p/{sc}/" for sc in _ctx_posts]
     t = _IG_COPY
     is_rtl = lang == "ar"
     dir_attr = ' dir="rtl"' if is_rtl else ""
