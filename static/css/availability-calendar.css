@@ -11,8 +11,11 @@
 .ac-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;padding:8px 12px 12px}
 .ac-dow{text-align:center;font-size:11px;font-weight:700;color:#94a3b8;padding:6px 0;text-transform:uppercase;letter-spacing:0.05em}
 .ac-empty{padding:6px}
-.ac-day{position:relative;text-align:center;padding:8px 2px 6px;border-radius:8px;cursor:pointer;transition:all .12s;min-height:48px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px}
+.ac-day{position:relative;text-align:center;padding:8px 2px 6px;border-radius:8px;cursor:pointer;transition:background .12s,opacity .12s;min-height:48px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 .ac-day:hover:not(.ac-past):not(.ac-full){background:#f0f9ff;transform:scale(1.05)}
+/* Scale overlaps the next cell → second click hits check-in; disable while choosing checkout */
+.ac-wrap.ac-picking-checkout .ac-day:hover{transform:none!important}
+.ac-wrap.ac-picking-checkout .ac-day.ac-checkin{transform:none!important}
 .ac-wrap.ac-picking-checkout .ac-day.ac-full:not(.ac-past):hover{background:#fff1eb}
 .ac-num{font-size:14px;font-weight:600;color:#1e293b;line-height:1}
 .ac-price{font-size:10px;font-weight:700;color:#16a34a;line-height:1}
@@ -26,7 +29,7 @@
 /* After check-in: departure day is often "full" (no night) but must stay clickable */
 .ac-wrap.ac-picking-checkout .ac-day.ac-full:not(.ac-past){cursor:pointer;opacity:.88}
 .ac-wrap.ac-picking-checkout .ac-day.ac-full:not(.ac-past) .ac-num{text-decoration:none;color:#991b1b}
-.ac-wrap.ac-picking-checkout .ac-day.ac-full:not(.ac-past):hover{background:#fff1eb;transform:scale(1.04);opacity:1}
+.ac-wrap.ac-picking-checkout .ac-day.ac-full:not(.ac-past):hover{background:#fff1eb;transform:none;opacity:1}
 .ac-day.ac-past{cursor:default;opacity:.3}
 .ac-day.ac-checkin{background:#ff5a1f!important;border-radius:8px 0 0 8px}
 .ac-day.ac-checkin .ac-num,.ac-day.ac-checkin .ac-price{color:#fff!important}

@@ -223,19 +223,12 @@
         hovDate = null;
         updateHoverRangeHighlight();
       };
-    }
-
-    /**
-     * Check-in must be on a bookable night (not past, has availability).
-     * Check-out is the departure morning: allow any future day after check-in,
-     * even if that calendar day shows "full" (no night sold that day).
-     *
-     * Important: do NOT call render() on mouseenter — rebuilding the grid breaks
-     * click targeting (mousedown/up on different nodes). Only toggle .ac-range.
-     */
-    container.querySelectorAll('.ac-day:not(.ac-past)').forEach(function (cell) {
-      cell.onclick = function () {
-        var d = cell.dataset.date;
+      /* One handler on the grid: clicks on .ac-num / .ac-price still hit the right day (closest .ac-day) */
+      acGrid.onclick = function (ev) {
+        var cell = ev.target.closest('.ac-day');
+        if (!cell || !acGrid.contains(cell) || cell.classList.contains('ac-past')) return;
+        var d = cell.getAttribute('data-date');
+        if (!d) return;
         var isFull = cell.classList.contains('ac-full');
         if (!checkin || checkout) {
           if (isFull) return;
@@ -250,9 +243,20 @@
         }
         render(days);
       };
+    }
+
+    /**
+     * Check-in must be on a bookable night (not past, has availability).
+     * Check-out is the departure morning: allow any future day after check-in,
+     * even if that calendar day shows "full" (no night sold that day).
+     *
+     * Important: do NOT call render() on mouseenter — rebuilding the grid breaks
+     * click targeting. Only toggle .ac-range.
+     */
+    container.querySelectorAll('.ac-day:not(.ac-past)').forEach(function (cell) {
       cell.onmouseenter = function () {
         if (checkin && !checkout) {
-          hovDate = cell.dataset.date;
+          hovDate = cell.getAttribute('data-date');
           updateHoverRangeHighlight();
         }
       };
