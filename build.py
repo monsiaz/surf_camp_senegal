@@ -5614,6 +5614,9 @@ def build_surfing(lang):
 
 # ─── Surf Conditions page ────────────────────────────────────────────────────
 
+
+# ─── Surf Conditions page ────────────────────────────────────────────────────
+
 def _load_surf_history():
     """Load pre-generated 2025 historical surf data."""
     import json as _j
@@ -5626,69 +5629,122 @@ def _load_surf_history():
 
 
 def build_surf_conditions_page(lang):
-    pfx  = LANG_PFX[lang]
-    slug = SLUG[lang].get("surf-conditions", "surf-conditions")
+    """Full surf conditions & forecast page — live data + 2025 historical recap."""
+    pfx       = LANG_PFX[lang]
+    slug      = SLUG[lang].get("surf-conditions", "surf-conditions")
     book_href = f"{pfx}/{SLUG[lang]['booking']}/"
     surf_href = f"{pfx}/{SLUG[lang]['surfing']}/"
     history   = _load_surf_history()
 
+    # ── Translations ──────────────────────────────────────────────────────────
     T = {
-        "title":     {"en":"Surf Forecast Ngor Island | Wave Conditions Dakar","fr":"Prévisions Surf Ngor | Conditions Vagues Dakar","es":"Previsiones Surf Ngor | Condiciones Olas Dakar","it":"Previsioni Surf Ngor | Condizioni Onde Dakar","de":"Surfvorhersage Ngor Island | Wellenbedingungen Dakar","nl":"Surfvoorspelling Ngor | Golfcondities Dakar","ar":"توقعات السيرف نغور | أحوال الأمواج داكار"},
-        "meta":      {"en":"Live surf conditions and 16-day forecast for Ngor Island, Dakar. Wave height, swell, wind, water temperature and monthly surf ratings for all levels based on 2025 historical data.","fr":"Conditions surf en direct et prévisions 16 jours pour l'île de Ngor, Dakar. Hauteur des vagues, houle, vent, température de l'eau et meilleures périodes basées sur les données historiques 2025.","es":"Condiciones de surf en vivo y previsiones a 16 días para la isla de Ngor, Dakar. Altura de ola, swell, viento y mejores épocas por nivel según datos históricos de 2025.","it":"Condizioni surf in diretta e previsioni 16 giorni per Ngor Island, Dakar. Altezza onde, mareggiata, vento e migliori periodi per livello basati su dati storici 2025.","de":"Live-Surfbedingungen und 16-Tage-Vorhersage für Ngor Island, Dakar. Wellenhöhe, Dünung, Wind und beste Surfzeiten nach Level basierend auf historischen Daten 2025.","nl":"Live surfcondities en 16-daagse voorspelling voor Ngor Island, Dakar. Golfhoogte, deining, wind en beste surftijden per niveau op basis van historische data 2025.","ar":"أحوال الأمواج المباشرة وتوقعات 16 يوماً لجزيرة نغور، داكار. ارتفاع الموج والحوله والرياح وأفضل المواسم حسب المستوى استناداً إلى بيانات 2025."},
-        "h1":        {"en":"Surf Conditions at Ngor Island","fr":"Conditions Surf à Ngor","es":"Condiciones de Surf en Ngor","it":"Condizioni Surf a Ngor","de":"Surfbedingungen Ngor Island","nl":"Surfcondities Ngor Island","ar":"أحوال الأمواج في جزيرة نغور"},
-        "sub":       {"en":"Live data · updated every hour · Ngor Island, Dakar, Senegal","fr":"Données en direct · mises à jour toutes les heures · Île de Ngor, Dakar","es":"Datos en vivo · actualizados cada hora · Isla de Ngor, Dakar","it":"Dati in tempo reale · aggiornati ogni ora · Ngor Island, Dakar","de":"Live-Daten · stündlich aktualisiert · Ngor Island, Dakar","nl":"Live data · elk uur bijgewerkt · Ngor Island, Dakar","ar":"بيانات مباشرة · تُحدَّث كل ساعة · جزيرة نغور، داكار"},
-        "now_lbl":   {"en":"Right now","fr":"En ce moment","es":"Ahora mismo","it":"In questo momento","de":"Gerade jetzt","nl":"Nu","ar":"الآن"},
-        "wave_h":    {"en":"Wave height","fr":"Hauteur des vagues","es":"Altura de ola","it":"Altezza onde","de":"Wellenhöhe","nl":"Golfhoogte","ar":"ارتفاع الموج"},
-        "period":    {"en":"Period","fr":"Période","es":"Período","it":"Periodo","de":"Periode","nl":"Periode","ar":"الفترة"},
-        "direction": {"en":"Direction","fr":"Direction","es":"Dirección","it":"Direzione","de":"Richtung","nl":"Richting","ar":"الاتجاه"},
-        "swell_h":   {"en":"Swell","fr":"Houle","es":"Swell","it":"Mareggiata","de":"Dünung","nl":"Deining","ar":"الحوله"},
-        "wind":      {"en":"Wind","fr":"Vent","es":"Viento","it":"Vento","de":"Wind","nl":"Wind","ar":"الرياح"},
-        "water_t":   {"en":"Water temp.","fr":"Temp. eau","es":"Temp. agua","it":"Temp. acqua","de":"Wassertemp.","nl":"Watertemp.","ar":"حرارة الماء"},
-        "quality":   {"en":"Surf quality","fr":"Qualité surf","es":"Calidad surf","it":"Qualità surf","de":"Surfqualität","nl":"Surfkwaliteit","ar":"جودة السيرف"},
-        "fc_lbl":    {"en":"16-Day Forecast","fr":"Prévisions 16 Jours","es":"Previsión 16 Días","it":"Previsioni 16 Giorni","de":"16-Tage-Vorhersage","nl":"16-Daagse Voorspelling","ar":"توقعات 16 يوماً"},
-        "fc_sub":    {"en":"Open-Meteo marine forecasts updated every 6 hours. Peak daily wave height at Ngor Island.","fr":"Prévisions marines Open-Meteo mises à jour toutes les 6 heures. Hauteur maximale quotidienne à l'île de Ngor.","es":"Previsiones marinas Open-Meteo actualizadas cada 6 horas. Altura máxima diaria en la isla de Ngor.","it":"Previsioni marine Open-Meteo aggiornate ogni 6 ore. Altezza massima giornaliera a Ngor Island.","de":"Open-Meteo-Meeresvorhersagen alle 6 Stunden aktualisiert. Maximale tägliche Wellenhöhe auf Ngor Island.","nl":"Open-Meteo marine voorspellingen elke 6 uur bijgewerkt. Maximale dagelijkse golfhoogte bij Ngor Island.","ar":"توقعات Open-Meteo البحرية تُحدَّث كل 6 ساعات. أقصى ارتفاع يومي للموج في جزيرة نغور."},
-        "hist_lbl":  {"en":"2025 Season in Review","fr":"Bilan de la saison 2025","es":"Balance de la temporada 2025","it":"Stagione 2025 in retrospettiva","de":"Saison 2025 im Rückblick","nl":"Seizoen 2025 terugblik","ar":"مراجعة موسم 2025"},
-        "hist_h2":   {"en":"Best months to surf Ngor Island","fr":"Les meilleurs mois pour surfer à Ngor","es":"Los mejores meses para surfear en Ngor","it":"I migliori mesi per fare surf a Ngor","de":"Die besten Monate für Surfen auf Ngor","nl":"De beste maanden om te surfen op Ngor","ar":"أفضل الأشهر للسيرف في نغور"},
-        "hist_sub":  {"en":"Monthly averages for wave height, swell and wind based on 2025 ERA5 ocean reanalysis data. Select your level to see the best months for your surfing.","fr":"Moyennes mensuelles de hauteur de vague, houle et vent basées sur les données de réanalyse ERA5 2025. Sélectionnez votre niveau pour voir les meilleurs mois.","es":"Medias mensuales de altura de ola, swell y viento basadas en datos ERA5 de 2025. Selecciona tu nivel para ver los mejores meses para tu surf.","it":"Medie mensili di altezza onda, mareggiata e vento basate sui dati ERA5 2025. Seleziona il tuo livello per vedere i migliori mesi.","de":"Monatliche Mittelwerte für Wellenhöhe, Dünung und Wind basierend auf ERA5-Daten 2025. Wähle dein Level, um die besten Monate zu sehen.","nl":"Maandelijkse gemiddelden voor golfhoogte, deining en wind op basis van ERA5-data 2025. Selecteer je niveau om de beste maanden te zien.","ar":"متوسطات شهرية لارتفاع الموج والحوله والرياح استناداً إلى بيانات ERA5 لعام 2025. اختر مستواك لترى أفضل الأشهر."},
-        "month_lbl": {"en":"Monthly overview","fr":"Aperçu mensuel","es":"Vista mensual","it":"Panoramica mensile","de":"Monatsübersicht","nl":"Maandoverzicht","ar":"النظرة الشهرية"},
-        "lev_beg":   {"en":"Beginner","fr":"Débutant","es":"Principiante","it":"Principiante","de":"Anfänger","nl":"Beginner","ar":"مبتدئ"},
-        "lev_int":   {"en":"Intermediate","fr":"Intermédiaire","es":"Intermedio","it":"Intermedio","de":"Fortgeschritten","nl":"Gemiddeld","ar":"متوسط"},
-        "lev_adv":   {"en":"Advanced","fr":"Avancé","es":"Avanzado","it":"Avanzato","de":"Profi","nl":"Gevorderd","ar":"متقدم"},
-        "chart_wave":{"en":"Avg. wave height (m)","fr":"Hauteur vagues moy. (m)","es":"Altura ola media (m)","it":"Altezza onde media (m)","de":"Mittl. Wellenhöhe (m)","nl":"Gem. golfhoogte (m)","ar":"متوسط ارتفاع الموج (م)"},
-        "chart_wind":{"en":"Avg. wind (kt)","fr":"Vent moyen (kt)","es":"Viento medio (kt)","it":"Vento medio (kt)","de":"Mittl. Wind (kt)","nl":"Gem. wind (kt)","ar":"متوسط الرياح (عقدة)"},
-        "score_lbl": {"en":"Surf score (0 to 10)","fr":"Score surf (0 à 10)","es":"Puntuación surf (0 a 10)","it":"Punteggio surf (0 a 10)","de":"Surf-Score (0 bis 10)","nl":"Surfscore (0 tot 10)","ar":"نقاط السيرف (0 إلى 10)"},
-        "info_h2":   {"en":"Understanding surf conditions at Ngor Island","fr":"Comprendre les conditions surf à l'île de Ngor","es":"Entender las condiciones de surf en la isla de Ngor","it":"Capire le condizioni surf a Ngor Island","de":"Surfbedingungen auf Ngor Island verstehen","nl":"Surfcondities op Ngor Island begrijpen","ar":"فهم أحوال الأمواج في جزيرة نغور"},
-        "info_p1":   {"en":"Ngor Island sits on the Cabo Verde Peninsula, exposed to Atlantic swells from both northern and southern hemispheres. This unique positioning makes it one of West Africa's most consistent surf spots, with rideable waves recorded on every single day of 2025. The surf season follows a clear rhythm: powerful North Atlantic swells from November through April drive the best surf of the year, the transition months of May and October offer solid mid-range conditions, while the calmer months of June through September bring smaller but still surfable waves with lighter winds.","fr":"L'île de Ngor est située sur la presqu'île du Cap-Vert, exposée aux houles atlantiques des deux hémisphères. Cette position unique en fait l'un des spots surf les plus réguliers d'Afrique de l'Ouest, avec des vagues surfables enregistrées chaque jour de 2025. La saison surf suit un rythme clair : les puissantes houles nord-atlantiques de novembre à avril génèrent les meilleures conditions de l'année, les mois de transition mai et octobre offrent des conditions solides intermédiaires, tandis que les mois plus calmes de juin à septembre apportent des vagues plus petites mais toujours surfables avec des vents plus légers.","es":"La isla de Ngor se encuentra en la península de Cabo Verde, expuesta a los swells atlánticos de ambos hemisferios. Esta posición única la convierte en uno de los spots de surf más consistentes de África Occidental, con olas surfeables registradas todos y cada uno de los días de 2025. La temporada de surf sigue un ritmo claro: los potentes swells del Atlántico Norte de noviembre a abril generan las mejores condiciones del año, los meses de transición mayo y octubre ofrecen condiciones sólidas de nivel medio, mientras que los meses más tranquilos de junio a septiembre traen olas más pequeñas pero siempre surfeables con vientos más ligeros.","it":"Ngor Island si trova sulla penisola di Capo Verde, esposta agli swell atlantici di entrambi gli emisferi. Questa posizione unica la rende uno dei punti surf più consistenti dell'Africa Occidentale, con onde navigabili registrate ogni singolo giorno del 2025. La stagione surf segue un ritmo chiaro: i potenti swell del Nord Atlantico da novembre ad aprile generano le migliori condizioni dell'anno, i mesi di transizione maggio e ottobre offrono condizioni solide di livello medio, mentre i mesi più calmi da giugno a settembre portano onde più piccole ma sempre navigabili con venti più leggeri.","de":"Ngor Island liegt auf der Halbinsel Kap Verde und ist atlantischen Swells aus beiden Hemisphären ausgesetzt. Diese einzigartige Lage macht es zu einem der konstantesten Surfspots Westafrikas, mit fahrbaren Wellen an jedem einzelnen Tag des Jahres 2025. Die Surfsaison folgt einem klaren Rhythmus: Starke Nordatlantik-Swells von November bis April erzeugen die besten Bedingungen des Jahres, die Übergangsmonate Mai und Oktober bieten solide mittlere Bedingungen, während die ruhigeren Monate Juni bis September kleinere, aber immer noch fahrbare Wellen mit leichteren Winden bringen.","nl":"Ngor Island ligt op het Kaap Verde-schiereiland, blootgesteld aan Atlantische swells vanuit beide hemisferen. Deze unieke ligging maakt het tot een van de meest consistente surfspots in West-Afrika, met surffbare golven geregistreerd op elke dag van 2025. Het surfseizoen volgt een duidelijk ritme: krachtige Noord-Atlantische swells van november tot april genereren de beste condities van het jaar, de overgangsmaanden mei en oktober bieden solide middenniveau-condities, terwijl de rustigere maanden juni tot september kleinere maar nog steeds surffbare golven brengen met lichtere winden.","ar":"تقع جزيرة نغور في شبه جزيرة رأس الأخضر، معرضة لأمواج الأطلسي من كلا نصفي الكرة الأرضية. هذا الموقع الفريد يجعلها واحدة من أكثر نقاط السيرف استمرارية في غرب أفريقيا، مع أمواج صالحة للركوب مسجلة في كل يوم واحد من أيام 2025. يتبع موسم السيرف إيقاعاً واضحاً: تولد الأمواج القوية من شمال الأطلسي بين نوفمبر وأبريل أفضل الظروف في العام، بينما تقدم أشهر الانتقال مايو وأكتوبر ظروفاً متوسطة قوية، في حين تجلب الأشهر الأهدأ من يونيو إلى سبتمبر أمواجاً أصغر لكن لا تزال قابلة للركوب مع رياح خفيفة."},
-        "info_p2":   {"en":"Wave period is as important as height when reading Ngor's surf. Periods above 10 seconds signal powerful ground swell from distant North Atlantic storms, producing the long, clean walls that make Ngor Right one of West Africa's most iconic waves. Shorter periods of 6 to 9 seconds reflect local wind swell, which creates the gentle and forgiving conditions ideal for beginners at Ngor Left. Morning sessions are generally the cleanest: the prevailing north-northwest trade winds blow offshore at dawn, tidying up the surface before typically turning cross-shore or onshore by midday.","fr":"La période des vagues est aussi importante que la hauteur pour lire le surf de Ngor. Des périodes supérieures à 10 secondes signalent une houle de fond puissante provenant de tempêtes lointaines dans l'Atlantique Nord, produisant les murs longs et propres qui font de Ngor Right l'une des vagues les plus iconiques d'Afrique de l'Ouest. Des périodes plus courtes de 6 à 9 secondes reflètent une houle de vent locale, créant les conditions douces et indulgentes idéales pour les débutants à Ngor Left. Les sessions matinales sont généralement les plus propres : les alizés dominants nord-nord-ouest soufflent offshore à l'aube, ordonnant la surface avant de passer généralement croisés ou onshore vers midi.","es":"La período de ola es tan importante como la altura para leer el surf de Ngor. Los períodos superiores a 10 segundos señalan un poderoso ground swell de tormentas lejanas en el Atlántico Norte, produciendo las paredes largas y limpias que hacen de Ngor Right una de las olas más icónicas de África Occidental. Los períodos más cortos de 6 a 9 segundos reflejan swell de viento local, que crea las condiciones suaves e indulgentes ideales para principiantes en Ngor Left. Las sesiones matutinas son generalmente las más limpias: los vientos alisios dominantes del norte-noroeste soplan offshore al amanecer, ordenando la superficie antes de girar generalmente cruzados u onshore al mediodía.","it":"Il periodo delle onde è importante quanto l'altezza per leggere il surf di Ngor. I periodi superiori a 10 secondi segnalano potenti ground swell da lontane tempeste nell'Atlantico del Nord, producendo le lunghe pareti pulite che rendono Ngor Right una delle onde più iconiche dell'Africa Occidentale. I periodi più brevi da 6 a 9 secondi riflettono swell di vento locale, che crea le condizioni morbide e perdonanti ideali per i principianti a Ngor Left. Le sessioni mattutine sono generalmente le più pulite: i venti alisei dominanti da nord-nordovest soffiano offshore all'alba, ordinando la superficie prima di girare generalmente trasversali o onshore verso mezzogiorno.","de":"Die Wellenperiode ist genauso wichtig wie die Höhe beim Lesen des Surfs auf Ngor. Perioden über 10 Sekunden signalisieren kraftvollen Grundswell von fernen Nordatlantikstürmen, der die langen, sauberen Wände produziert, die Ngor Right zu einer der ikonischsten Wellen Westafrikas machen. Kürzere Perioden von 6 bis 9 Sekunden spiegeln lokalen Windswell wider, der die sanften und verzeihenden Bedingungen schafft, die für Anfänger an Ngor Left ideal sind. Frühsessions sind generell die saubersten: Die vorherrschenden Nordnordwest-Passatwinde wehen bei Tagesanbruch offshore und halten die Oberfläche glatt, bevor sie typischerweise um die Mittagszeit quer oder onshore drehen.","nl":"De golfperiode is net zo belangrijk als de hoogte bij het lezen van de surf op Ngor. Perioden boven 10 seconden signaleren krachtige ground swell van verre Noord-Atlantische stormen, die de lange, schone muren produceren die Ngor Right tot een van de meest iconische golven van West-Afrika maken. Kortere perioden van 6 tot 9 seconden weerspiegelen lokale windswell, die de zachte en vergevingsgezinde condities creëert die ideaal zijn voor beginners bij Ngor Left. Ochtendsessies zijn over het algemeen het schoonst: de overheersende noord-noordwestelijke passaatwinden waaien bij zonsopgang offshore, waardoor het oppervlak wordt gladgestreken voordat ze typisch rond het middaguur dwars of onshore draaien.","ar":"الفترة الزمنية للموج لا تقل أهمية عن الارتفاع عند قراءة سيرف نغور. تشير الفترات التي تتجاوز 10 ثوانٍ إلى حوله أرضية قوية من عواصف بعيدة في شمال الأطلسي، مما ينتج الجدران الطويلة والنظيفة التي تجعل نغور رايت واحدة من أكثر الأمواج أيقونية في غرب أفريقيا. تعكس الفترات الأقصر من 6 إلى 9 ثوانٍ حوله رياح محلية، مما يخلق الظروف اللطيفة والمغفرة المثالية للمبتدئين في نغور ليفت. الجلسات الصباحية هي الأنظف عموماً: تهب الرياح التجارية الشمالية الشمالية الغربية السائدة offshore عند الفجر، مما يرتب السطح قبل أن تتحول عادةً عرضية أو onshore بحلول منتصف النهار."},
-        "cta_h2":    {"en":"Ready to surf these conditions?","fr":"Prêt à surfer ces conditions ?","es":"¿Listo para surfear estas condiciones?","it":"Pronto a surfare queste condizioni?","de":"Bereit, diese Bedingungen zu surfen?","nl":"Klaar om deze condities te surfen?","ar":"مستعد لركوب هذه الأمواج؟"},
-        "cta_p":     {"en":"Our coaches choose the best spot each morning based on the live forecast. Stay with us and surf Ngor at its best.","fr":"Nos coachs choisissent le meilleur spot chaque matin selon les prévisions en direct. Séjournez avec nous et surfez Ngor au meilleur de sa forme.","es":"Nuestros coaches eligen el mejor spot cada mañana según las previsiones en vivo. Alójate con nosotros y surfea Ngor en su mejor momento.","it":"I nostri coach scelgono il posto migliore ogni mattina in base alle previsioni in tempo reale. Soggiorna con noi e surfa Ngor al suo meglio.","de":"Unsere Coaches wählen jeden Morgen den besten Spot basierend auf der Live-Vorhersage. Bleib bei uns und surfe Ngor in seiner besten Form.","nl":"Onze coaches kiezen elke ochtend de beste spot op basis van de live-voorspelling. Verblijf bij ons en surf Ngor op zijn best.","ar":"يختار مدربونا أفضل موقع كل صباح بناءً على التوقعات المباشرة. أقم معنا واركب أمواج نغور في أوج جمالها."},
-        "book_btn":  {"en":"Book Your Stay","fr":"Réserver mon séjour","es":"Reservar mi estancia","it":"Prenota il soggiorno","de":"Aufenthalt buchen","nl":"Verblijf boeken","ar":"احجز إقامتك"},
-        "load_err":  {"en":"Live conditions temporarily unavailable.","fr":"Conditions en direct temporairement indisponibles.","es":"Condiciones en vivo temporalmente no disponibles.","it":"Condizioni in tempo reale temporaneamente non disponibili.","de":"Live-Bedingungen vorübergehend nicht verfügbar.","nl":"Live-condities tijdelijk niet beschikbaar.","ar":"الأحوال المباشرة غير متاحة مؤقتاً."},
-        "powered":   {"en":"Surf data: Open-Meteo Marine API","fr":"Données surf : Open-Meteo Marine API","es":"Datos surf: Open-Meteo Marine API","it":"Dati surf: Open-Meteo Marine API","de":"Surfdaten: Open-Meteo Marine API","nl":"Surfdata: Open-Meteo Marine API","ar":"بيانات السيرف: Open-Meteo Marine API"},
-        "months":    {"en":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"fr":["Jan","Fév","Mar","Avr","Mai","Jun","Jul","Aoû","Sep","Oct","Nov","Déc"],"es":["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"],"it":["Gen","Feb","Mar","Apr","Mag","Giu","Lug","Ago","Set","Ott","Nov","Dic"],"de":["Jan","Feb","Mär","Apr","Mai","Jun","Jul","Aug","Sep","Okt","Nov","Dez"],"nl":["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Aug","Sep","Okt","Nov","Dec"],"ar":["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"]},
-        "surf_coaching":{"en":"Surf coaching","fr":"Coaching surf","es":"Coaching surf","it":"Coaching surf","de":"Surf-Coaching","nl":"Surfcoaching","ar":"تدريب السيرف"},
+        "title":      {"en":"Surf Forecast Ngor Island | Wave Conditions Dakar","fr":"Prévisions Surf Ngor | Conditions Vagues Dakar","es":"Previsiones Surf Ngor | Condiciones Olas Dakar","it":"Previsioni Surf Ngor | Condizioni Onde Dakar","de":"Surfvorhersage Ngor Island | Wellenbedingungen Dakar","nl":"Surfvoorspelling Ngor | Golfcondities Dakar","ar":"توقعات السيرف نغور | أحوال الأمواج داكار"},
+        "meta":       {"en":"Live surf conditions, 16-day forecast and 2025 seasonal data for Ngor Island, Dakar. Compare Ngor surf with France and Morocco. Wave height, swell, wind, water temperature for all levels.","fr":"Conditions surf en direct, prévisions 16 jours et données saisonnières 2025 pour l'île de Ngor, Dakar. Comparaison avec la France et le Maroc. Hauteur des vagues, houle, vent, température de l'eau.","es":"Condiciones de surf en vivo, previsiones a 16 días y datos estacionales 2025 para la isla de Ngor, Dakar. Comparación con Francia y Marruecos. Altura de ola, swell, viento y temperatura del agua.","it":"Condizioni surf in diretta, previsioni 16 giorni e dati stagionali 2025 per Ngor Island, Dakar. Confronto con Francia e Marocco. Altezza onde, mareggiata, vento, temperatura dell'acqua.","de":"Live-Surfbedingungen, 16-Tage-Vorhersage und Saisondaten 2025 für Ngor Island, Dakar. Vergleich mit Frankreich und Marokko. Wellenhöhe, Dünung, Wind, Wassertemperatur.","nl":"Live surfcondities, 16-daagse voorspelling en seizoensdata 2025 voor Ngor Island, Dakar. Vergelijking met Frankrijk en Marokko. Golfhoogte, deining, wind, watertemperatuur.","ar":"أحوال أمواج مباشرة وتوقعات 16 يوماً وبيانات موسمية لعام 2025 لجزيرة نغور بداكار. مقارنة مع فرنسا والمغرب. ارتفاع الموج والحوله والرياح وحرارة الماء."},
+        "h1":         {"en":"Surf Conditions at Ngor Island","fr":"Conditions Surf à Ngor","es":"Condiciones de Surf en Ngor","it":"Condizioni Surf a Ngor","de":"Surfbedingungen auf Ngor Island","nl":"Surfcondities bij Ngor Island","ar":"أحوال الأمواج في جزيرة نغور"},
+        "sub":        {"en":"Live data from Open-Meteo · updated every hour · Ngor Island, Dakar, Senegal","fr":"Données en direct Open-Meteo · actualisées chaque heure · Île de Ngor, Dakar, Sénégal","es":"Datos en vivo Open-Meteo · actualizados cada hora · Isla de Ngor, Dakar, Senegal","it":"Dati in diretta Open-Meteo · aggiornati ogni ora · Ngor Island, Dakar, Senegal","de":"Live-Daten Open-Meteo · stündlich aktualisiert · Ngor Island, Dakar, Senegal","nl":"Live data Open-Meteo · elk uur bijgewerkt · Ngor Island, Dakar, Senegal","ar":"بيانات مباشرة Open-Meteo · تُحدَّث كل ساعة · جزيرة نغور، داكار، السنغال"},
+        # How data works
+        "how_lbl":    {"en":"How this data works","fr":"Comment fonctionnent ces données","es":"Cómo funcionan estos datos","it":"Come funzionano questi dati","de":"Wie diese Daten funktionieren","nl":"Hoe deze data werkt","ar":"كيف تعمل هذه البيانات"},
+        "how_live":   {"en":"Live conditions","fr":"Conditions en direct","es":"Condiciones en vivo","it":"Condizioni in diretta","de":"Live-Bedingungen","nl":"Live condities","ar":"الأحوال المباشرة"},
+        "how_live_p": {"en":"Wave height, period, swell and wind are fetched directly from the Open-Meteo Marine API each time you load this page. Data is sourced from ECMWF and NOAA ocean models updated every hour.","fr":"La hauteur des vagues, la période, la houle et le vent sont récupérés directement depuis l'API Marine Open-Meteo à chaque chargement de cette page. Les données proviennent des modèles océaniques ECMWF et NOAA, mis à jour toutes les heures.","es":"La altura de ola, período, swell y viento se obtienen directamente de la API Marina Open-Meteo cada vez que cargas esta página. Los datos provienen de los modelos oceánicos ECMWF y NOAA actualizados cada hora.","it":"Altezza onda, periodo, mareggiata e vento vengono recuperati direttamente dall'API Marina Open-Meteo ogni volta che carichi questa pagina. I dati provengono dai modelli oceanici ECMWF e NOAA aggiornati ogni ora.","de":"Wellenhöhe, Periode, Dünung und Wind werden bei jedem Seitenaufruf direkt von der Open-Meteo Marine API abgerufen. Die Daten stammen aus ECMWF- und NOAA-Ozeanmodellen, die stündlich aktualisiert werden.","nl":"Golfhoogte, periode, deining en wind worden direct opgehaald van de Open-Meteo Marine API elke keer dat je deze pagina laadt. De data komt van ECMWF- en NOAA-oceaanmodellen die elk uur worden bijgewerkt.","ar":"يتم جلب ارتفاع الموج والفترة والحوله والرياح مباشرة من واجهة Open-Meteo Marine API في كل مرة تحمّل فيها هذه الصفحة. البيانات مصدرها نماذج ECMWF وNOAA المحيطية المحدَّثة كل ساعة."},
+        "how_fc":     {"en":"16-day forecast","fr":"Prévisions à 16 jours","es":"Previsión a 16 días","it":"Previsioni a 16 giorni","de":"16-Tage-Vorhersage","nl":"16-daagse voorspelling","ar":"توقعات 16 يوماً"},
+        "how_fc_p":   {"en":"The 16-day marine forecast uses the GFS Wave and ECMWF WAM models, recomputed every 6 hours. Accuracy is highest for the first 5 days and diminishes gradually beyond that — a common characteristic of all numerical weather models.","fr":"Les prévisions marines à 16 jours utilisent les modèles GFS Wave et ECMWF WAM, recalculés toutes les 6 heures. La précision est maximale pour les 5 premiers jours et diminue progressivement au-delà — une caractéristique commune à tous les modèles numériques météo.","es":"Las previsiones marinas a 16 días utilizan los modelos GFS Wave y ECMWF WAM, recalculados cada 6 horas. La precisión es máxima para los primeros 5 días y disminuye gradualmente más allá — una característica común a todos los modelos numéricos meteorológicos.","it":"Le previsioni marine a 16 giorni utilizzano i modelli GFS Wave ed ECMWF WAM, ricalcolati ogni 6 ore. La precisione è massima per i primi 5 giorni e diminuisce gradualmente oltre — una caratteristica comune a tutti i modelli numerici meteorologici.","de":"Die 16-Tage-Seegangsvorhersage verwendet die GFS Wave- und ECMWF WAM-Modelle, die alle 6 Stunden neu berechnet werden. Die Genauigkeit ist für die ersten 5 Tage am höchsten und nimmt danach schrittweise ab — eine übliche Eigenschaft aller numerischen Wettermodelle.","nl":"De 16-daagse mariene voorspelling maakt gebruik van de GFS Wave- en ECMWF WAM-modellen, die elke 6 uur opnieuw worden berekend. De nauwkeurigheid is het grootst voor de eerste 5 dagen en neemt daarna geleidelijk af — een gebruikelijke eigenschap van alle numerieke weermodellen.","ar":"تستخدم توقعات 16 يوماً البحرية نماذج GFS Wave وECMWF WAM، التي تُعاد حسابها كل 6 ساعات. الدقة في أعلى مستوياتها خلال أول 5 أيام وتتناقص تدريجياً بعد ذلك — وهي خاصية شائعة لجميع نماذج الطقس العددية."},
+        "how_hist":   {"en":"2025 historical data","fr":"Données historiques 2025","es":"Datos históricos 2025","it":"Dati storici 2025","de":"Historische Daten 2025","nl":"Historische data 2025","ar":"البيانات التاريخية لعام 2025"},
+        "how_hist_p": {"en":"Monthly averages were computed from ERA5 ocean reanalysis data — a validated retrospective dataset from the European Centre for Medium-Range Weather Forecasts. This data was calculated once during site build and embedded directly into the page. It does not require a daily API call.","fr":"Les moyennes mensuelles ont été calculées à partir des données de réanalyse océanique ERA5 — un ensemble de données rétrospectif validé du Centre européen pour les prévisions météorologiques à moyen terme. Ces données ont été calculées une fois lors de la construction du site et intégrées directement dans la page. Elles ne nécessitent pas d'appel API quotidien.","es":"Las medias mensuales se calcularon a partir de datos de reanálisis oceánico ERA5 — un conjunto de datos retrospectivos validado del Centro Europeo de Previsiones Meteorológicas a Plazo Medio. Estos datos se calcularon una vez durante la construcción del sitio y se incrustaron directamente en la página. No requieren una llamada API diaria.","it":"Le medie mensili sono state calcolate dai dati di rianalisi oceanica ERA5 — un dataset retrospettivo validato del Centro Europeo per le Previsioni Meteorologiche a Medio Termine. Questi dati sono stati calcolati una volta durante la costruzione del sito e incorporati direttamente nella pagina. Non richiedono una chiamata API giornaliera.","de":"Die Monatsmittelwerte wurden aus ERA5-Ozeanreanalysedaten berechnet — einem validierten retrospektiven Datensatz des Europäischen Zentrums für mittelfristige Wettervorhersage. Diese Daten wurden einmalig beim Site-Build berechnet und direkt in die Seite eingebettet. Sie erfordern keinen täglichen API-Aufruf.","nl":"De maandgemiddelden werden berekend uit ERA5-oceaanreanalysedata — een gevalideerde retrospectieve dataset van het Europees Centrum voor Weersverwachtingen op Middellange Termijn. Deze data werd eenmalig berekend tijdens de sitebouw en direct in de pagina ingesloten. Er is geen dagelijkse API-aanroep nodig.","ar":"حُسبت المتوسطات الشهرية من بيانات إعادة تحليل المحيطات ERA5 — مجموعة بيانات تاريخية موثقة من المركز الأوروبي للتنبؤات الجوية متوسطة المدى. تمت معالجة هذه البيانات مرة واحدة أثناء بناء الموقع وتضمينها مباشرة في الصفحة، دون الحاجة إلى استدعاء API يومي."},
+        # Current section
+        "now_lbl":    {"en":"Right now","fr":"En ce moment","es":"Ahora mismo","it":"In questo momento","de":"Gerade jetzt","nl":"Nu","ar":"الآن"},
+        "wave_h":     {"en":"Wave height","fr":"Hauteur des vagues","es":"Altura de ola","it":"Altezza onde","de":"Wellenhöhe","nl":"Golfhoogte","ar":"ارتفاع الموج"},
+        "period":     {"en":"Period","fr":"Période","es":"Período","it":"Periodo","de":"Periode","nl":"Periode","ar":"الفترة"},
+        "direction":  {"en":"Direction","fr":"Direction","es":"Dirección","it":"Direzione","de":"Richtung","nl":"Richting","ar":"الاتجاه"},
+        "swell_h":    {"en":"Swell","fr":"Houle","es":"Swell","it":"Mareggiata","de":"Dünung","nl":"Deining","ar":"الحوله"},
+        "wind_lbl":   {"en":"Wind","fr":"Vent","es":"Viento","it":"Vento","de":"Wind","nl":"Wind","ar":"الرياح"},
+        "water_t":    {"en":"Water temp.","fr":"Temp. eau","es":"Temp. agua","it":"Temp. acqua","de":"Wassertemp.","nl":"Watertemp.","ar":"حرارة الماء"},
+        "quality":    {"en":"Surf quality","fr":"Qualité surf","es":"Calidad surf","it":"Qualità surf","de":"Surfqualität","nl":"Surfkwaliteit","ar":"جودة السيرف"},
+        # Forecast
+        "fc_lbl":     {"en":"16-Day Forecast","fr":"Prévisions 16 Jours","es":"Previsión 16 Días","it":"Previsioni 16 Giorni","de":"16-Tage-Vorhersage","nl":"16-Daagse Voorspelling","ar":"توقعات 16 يوماً"},
+        "fc_note":    {"en":"Forecast accuracy is highest for days 1–5. Beyond day 5, use as a general trend indicator.","fr":"La précision des prévisions est maximale pour les jours 1 à 5. Au-delà du 5e jour, utilisez-les comme indicateur de tendance générale.","es":"La precisión de las previsiones es máxima para los días 1–5. Más allá del día 5, úsalas como indicador de tendencia general.","it":"La precisione delle previsioni è massima per i giorni 1–5. Oltre il giorno 5, utilizzarle come indicatore di tendenza generale.","de":"Die Vorhersagegenauigkeit ist für die Tage 1–5 am höchsten. Nach Tag 5 als allgemeiner Trendindikator verwenden.","nl":"Voorspellingsnauwkeurigheid is het hoogst voor dag 1–5. Gebruik het na dag 5 als algemene trendindicator.","ar":"دقة التوقعات في أعلى مستوياتها للأيام 1-5. بعد اليوم 5، استخدمها كمؤشر للاتجاه العام."},
+        # Historical
+        "hist_lbl":   {"en":"2025 Season in Review","fr":"Bilan de la Saison 2025","es":"Balance de la Temporada 2025","it":"Stagione 2025 in Retrospettiva","de":"Saison 2025 im Rückblick","nl":"Seizoen 2025 Terugblik","ar":"مراجعة موسم 2025"},
+        "hist_h2":    {"en":"Best months to surf Ngor Island","fr":"Les meilleurs mois pour surfer à Ngor","es":"Los mejores meses para surfear en Ngor","it":"I migliori mesi per fare surf a Ngor","de":"Die besten Monate zum Surfen auf Ngor","nl":"De beste maanden om te surfen op Ngor","ar":"أفضل الأشهر للسيرف في نغور"},
+        "hist_sub":   {"en":"Monthly averages computed from 2025 ERA5 ocean reanalysis. Select your level for a personalised surf calendar.","fr":"Moyennes mensuelles calculées à partir de la réanalyse ERA5 2025. Sélectionnez votre niveau pour un calendrier surf personnalisé.","es":"Medias mensuales calculadas a partir de la reanálisis ERA5 de 2025. Selecciona tu nivel para un calendario surf personalizado.","it":"Medie mensili calcolate dalla rianalisi ERA5 2025. Seleziona il tuo livello per un calendario surf personalizzato.","de":"Monatsmittelwerte aus der ERA5-Reanalyse 2025. Wähle dein Level für einen personalisierten Surfkalender.","nl":"Maandgemiddelden berekend uit ERA5-reanalyse 2025. Selecteer je niveau voor een gepersonaliseerde surfkalender.","ar":"متوسطات شهرية محسوبة من إعادة تحليل ERA5 لعام 2025. اختر مستواك للحصول على تقويم سيرف مخصص."},
+        "month_lbl":  {"en":"Monthly overview","fr":"Aperçu mensuel","es":"Vista mensual","it":"Panoramica mensile","de":"Monatsübersicht","nl":"Maandoverzicht","ar":"النظرة الشهرية"},
+        "temp_lbl":   {"en":"Water temperature","fr":"Température de l'eau","es":"Temperatura del agua","it":"Temperatura dell'acqua","de":"Wassertemperatur","nl":"Watertemperatuur","ar":"درجة حرارة الماء"},
+        "lev_beg":    {"en":"Beginner","fr":"Débutant","es":"Principiante","it":"Principiante","de":"Anfänger","nl":"Beginner","ar":"مبتدئ"},
+        "lev_int":    {"en":"Intermediate","fr":"Intermédiaire","es":"Intermedio","it":"Intermedio","de":"Fortgeschritten","nl":"Gemiddeld","ar":"متوسط"},
+        "lev_adv":    {"en":"Advanced","fr":"Avancé","es":"Avanzado","it":"Avanzato","de":"Profi","nl":"Gevorderd","ar":"متقدم"},
+        "chart_wave": {"en":"Avg. wave height (m)","fr":"Hauteur vagues moy. (m)","es":"Altura media de ola (m)","it":"Altezza onde media (m)","de":"Mittl. Wellenhöhe (m)","nl":"Gem. golfhoogte (m)","ar":"متوسط ارتفاع الموج (م)"},
+        "chart_wind": {"en":"Avg. wind (kt)","fr":"Vent moyen (kt)","es":"Viento medio (kt)","it":"Vento medio (kt)","de":"Mittl. Wind (kt)","nl":"Gem. wind (kt)","ar":"متوسط الرياح (عقدة)"},
+        "chart_period":{"en":"Avg. wave period (s)","fr":"Période moy. (s)","es":"Período medio (s)","it":"Periodo medio (s)","de":"Mittl. Wellenperiode (s)","nl":"Gem. golfperiode (s)","ar":"متوسط فترة الموج (ث)"},
+        "chart_temp": {"en":"Water temp. (°C)","fr":"Temp. eau (°C)","es":"Temp. agua (°C)","it":"Temp. acqua (°C)","de":"Wassertemp. (°C)","nl":"Watertemp. (°C)","ar":"حرارة الماء (°م)"},
+        "score_lbl":  {"en":"Surf score (0–10)","fr":"Score surf (0–10)","es":"Puntuación surf (0–10)","it":"Punteggio surf (0–10)","de":"Surf-Score (0–10)","nl":"Surfscore (0–10)","ar":"نقاط السيرف (0-10)"},
+        # Season boxes
+        "seas_lbl":   {"en":"Seasonal guide","fr":"Guide saisonnier","es":"Guía estacional","it":"Guida stagionale","de":"Saisonaler Leitfaden","nl":"Seizoensgids","ar":"الدليل الموسمي"},
+        "seas_peak_t": {"en":"Peak season","fr":"Haute saison","es":"Temporada alta","it":"Alta stagione","de":"Hauptsaison","nl":"Hoogseizoen","ar":"موسم الذروة"},
+        "seas_peak_m": {"en":"Nov · Dec · Jan · Feb · Mar · Apr","fr":"Nov · Déc · Jan · Fév · Mar · Avr","es":"Nov · Dic · Ene · Feb · Mar · Abr","it":"Nov · Dic · Gen · Feb · Mar · Apr","de":"Nov · Dez · Jan · Feb · Mär · Apr","nl":"Nov · Dec · Jan · Feb · Mar · Apr","ar":"نوف · ديس · يناير · فبر · مارس · أبر"},
+        "seas_peak_p": {"en":"North Atlantic swells 2–2.5m with long 11–12s periods. Ngor Right at its most powerful. Best for intermediate and advanced surfers.","fr":"Houles nord-atlantiques de 2 à 2,5m avec de longues périodes de 11 à 12s. Ngor Right à son plus puissant. Idéal pour les niveaux intermédiaire et avancé.","es":"Swells del Atlántico Norte de 2 a 2,5m con largos períodos de 11 a 12s. Ngor Right en su momento más potente. Ideal para surfistas de nivel intermedio y avanzado.","it":"Swell del Nord Atlantico da 2 a 2,5m con lunghi periodi da 11 a 12s. Ngor Right al massimo della potenza. Ideale per surfisti di livello intermedio e avanzato.","de":"Nordatlantik-Swells von 2 bis 2,5m mit langen 11–12s-Perioden. Ngor Right auf seinem mächtigsten. Am besten für Fortgeschrittene und Profis.","nl":"Noord-Atlantische swells van 2–2,5m met lange perioden van 11–12s. Ngor Right op zijn krachtigst. Ideaal voor gevorderde en professionele surfers.","ar":"أمواج شمال الأطلسي من 2 إلى 2.5م مع فترات طويلة من 11 إلى 12 ثانية. نغور رايت في أوج قوتها. مثالية للمستويين المتوسط والمتقدم."},
+        "seas_trans_t":{"en":"Transition season","fr":"Saison de transition","es":"Temporada de transición","it":"Stagione di transizione","de":"Übergangssaison","nl":"Overgangsseizoen","ar":"موسم الانتقال"},
+        "seas_trans_m":{"en":"May · Oct","fr":"Mai · Oct","es":"May · Oct","it":"Mag · Ott","de":"Mai · Okt","nl":"Mei · Okt","ar":"مايو · أكتوبر"},
+        "seas_trans_p":{"en":"Mixed conditions: 1.8–2.1m waves, lighter winds. Good for all levels. Water temperature at its most comfortable (25–31°C).","fr":"Conditions mixtes : vagues de 1,8 à 2,1m, vents plus légers. Bon pour tous les niveaux. Température de l'eau à son plus confortable (25–31°C).","es":"Condiciones mixtas: olas de 1,8 a 2,1m, vientos más ligeros. Bueno para todos los niveles. Temperatura del agua en su punto más confortable (25–31°C).","it":"Condizioni miste: onde da 1,8 a 2,1m, venti più leggeri. Ottimo per tutti i livelli. Temperatura dell'acqua al massimo del comfort (25–31°C).","de":"Gemischte Bedingungen: 1,8–2,1m Wellen, leichtere Winde. Gut für alle Level. Wassertemperatur am angenehmsten (25–31°C).","nl":"Gemengde condities: 1,8–2,1m golven, lichtere winden. Goed voor alle niveaus. Watertemperatuur op comfortabelst (25–31°C).","ar":"ظروف متنوعة: أمواج من 1.8 إلى 2.1م ورياح أخف. مناسبة لجميع المستويات. أكثر درجات حرارة الماء راحة (25-31°م)."},
+        "seas_sum_t":  {"en":"Summer season","fr":"Saison estivale","es":"Temporada estival","it":"Stagione estiva","de":"Sommersaison","nl":"Zomerseizoen","ar":"الموسم الصيفي"},
+        "seas_sum_m":  {"en":"Jun · Jul · Aug · Sep","fr":"Jun · Jul · Aoû · Sep","es":"Jun · Jul · Ago · Sep","it":"Giu · Lug · Ago · Set","de":"Jun · Jul · Aug · Sep","nl":"Jun · Jul · Aug · Sep","ar":"يونيو · يوليو · أغسطس · سبتمبر"},
+        "seas_sum_p":  {"en":"Smaller waves (1.4–1.7m) with lighter winds and minimal crowds. Ideal for beginners and longboarders. Water temperature reaches 29–30°C — no wetsuit needed.","fr":"Vagues plus petites (1,4–1,7m) avec des vents plus légers et très peu de monde. Idéal pour les débutants et les longboarders. La température de l'eau atteint 29–30°C — aucune combinaison requise.","es":"Olas más pequeñas (1,4–1,7m) con vientos más ligeros y mínimas multitudes. Ideal para principiantes y longboarders. La temperatura del agua alcanza 29–30°C — sin traje de neopreno necesario.","it":"Onde più piccole (1,4–1,7m) con venti più leggeri e folla minima. Ideale per principianti e longboarder. La temperatura dell'acqua raggiunge i 29–30°C — nessuna muta necessaria.","de":"Kleinere Wellen (1,4–1,7m) mit leichteren Winden und minimalen Menschenmassen. Ideal für Anfänger und Longboarder. Wassertemperatur erreicht 29–30°C — kein Neoprenanzug nötig.","nl":"Kleinere golven (1,4–1,7m) met lichtere winden en minimale drukte. Ideaal voor beginners en longboarders. Watertemperatuur bereikt 29–30°C — geen wetsuit nodig.","ar":"أمواج أصغر (1.4-1.7م) مع رياح أخف وحشود قليلة. مثالية للمبتدئين ولوحات الجلوس الطويلة. درجة حرارة الماء تصل إلى 29-30°م بدون بدلة غوص."},
+        # Comparison radar
+        "cmp_lbl":    {"en":"Spot comparison","fr":"Comparaison de spots","es":"Comparación de spots","it":"Confronto spot","de":"Spot-Vergleich","nl":"Spotvergelijking","ar":"مقارنة الأماكن"},
+        "cmp_h2":     {"en":"Ngor Island vs Europe's top surf spots","fr":"Ngor Island face aux meilleurs spots d'Europe","es":"Ngor Island frente a los mejores spots de Europa","it":"Ngor Island vs i migliori spot europei","de":"Ngor Island vs. Europas Top-Surfspots","nl":"Ngor Island vs. Europa's topsurf spots","ar":"جزيرة نغور مقارنةً بأفضل نقاط السيرف الأوروبية"},
+        "cmp_sub":    {"en":"Six key metrics compared between Ngor Island (Dakar), Hossegor (France) and Taghazout (Morocco). Scores reflect annual averages weighted for a typical surf holiday.","fr":"Six métriques clés comparées entre l'île de Ngor (Dakar), Hossegor (France) et Taghazout (Maroc). Les scores reflètent des moyennes annuelles pondérées pour des vacances surf typiques.","es":"Seis métricas clave comparadas entre la isla de Ngor (Dakar), Hossegor (Francia) y Taghazout (Marruecos). Las puntuaciones reflejan promedios anuales ponderados para unas vacaciones surf típicas.","it":"Sei metriche chiave confrontate tra Ngor Island (Dakar), Hossegor (Francia) e Taghazout (Marocco). I punteggi riflettono medie annuali ponderate per una tipica vacanza surf.","de":"Sechs Schlüsselmetriken im Vergleich zwischen Ngor Island (Dakar), Hossegor (Frankreich) und Taghazout (Marokko). Die Scores spiegeln gewichtete Jahresdurchschnitte für einen typischen Surfurlaub wider.","nl":"Zes kernmetrics vergeleken tussen Ngor Island (Dakar), Hossegor (Frankrijk) en Taghazout (Marokko). Scores weerspiegelen gewogen jaarlijkse gemiddelden voor een typische surfvakantie.","ar":"ست مقاييس رئيسية تُقارن بين جزيرة نغور (داكار) وهوسيغور (فرنسا) وتاغازوت (المغرب). تعكس النقاط متوسطات سنوية موزونة لعطلة سيرف نموذجية."},
+        "cmp_axes":   {"en":["Wave size","Wave quality","Water temp.","Consistency","Uncrowded","Sunshine"],"fr":["Taille des vagues","Qualité des vagues","Temp. eau","Régularité","Peu fréquenté","Ensoleillement"],"es":["Tamaño de ola","Calidad de ola","Temp. agua","Consistencia","Sin masificación","Horas de sol"],"it":["Dimensione onde","Qualità onde","Temp. acqua","Consistenza","Poco affollato","Ore di sole"],"de":["Wellengröße","Wellenqualität","Wassertemp.","Konsistenz","Wenig Andrang","Sonnenschein"],"nl":["Golfgrootte","Golfkwaliteit","Watertemp.","Consistentie","Weinig drukte","Zonneschijn"],"ar":["حجم الموج","جودة الموج","حرارة الماء","الاستمرارية","قلة الازدحام","أشعة الشمس"]},
+        "cmp_note":   {"en":"Scores are indicative annual averages based on typical meteorological conditions for each spot. Individual sessions may vary significantly.","fr":"Les scores sont des moyennes annuelles indicatives basées sur les conditions météorologiques typiques de chaque spot. Les sessions individuelles peuvent varier sensiblement.","es":"Las puntuaciones son medias anuales indicativas basadas en las condiciones meteorológicas típicas de cada spot. Las sesiones individuales pueden variar significativamente.","it":"I punteggi sono medie annuali indicative basate sulle tipiche condizioni meteorologiche di ogni spot. Le sessioni individuali possono variare significativamente.","de":"Die Scores sind indikative Jahresdurchschnitte basierend auf typischen meteorologischen Bedingungen für jeden Spot. Einzelne Sessions können erheblich abweichen.","nl":"Scores zijn indicatieve jaargemiddelden gebaseerd op typische meteorologische condities per spot. Individuele sessies kunnen aanzienlijk variëren.","ar":"النقاط متوسطات سنوية إرشادية مبنية على الظروف الجوية النموذجية لكل موقع. قد تتفاوت الجلسات الفردية بشكل ملحوظ."},
+        # Informational text
+        "info_h2":    {"en":"Reading surf conditions at Ngor Island","fr":"Lire les conditions surf à l'île de Ngor","es":"Leer las condiciones de surf en la isla de Ngor","it":"Come leggere le condizioni surf a Ngor Island","de":"Surfbedingungen auf Ngor Island lesen","nl":"Surfcondities bij Ngor Island begrijpen","ar":"قراءة أحوال الأمواج في جزيرة نغور"},
+        "info_p1":    {"en":"Ngor Island sits on the Cabo Verde Peninsula, exposed to Atlantic swells from both northern and southern hemispheres. This unique positioning makes it one of West Africa's most consistent surf spots, with rideable waves recorded on every single day of 2025. The surf season follows a clear rhythm: powerful North Atlantic swells from November through April drive the best surf of the year, the transition months of May and October offer solid mid-range conditions, while the calmer months of June through September bring smaller but always surfable waves with lighter winds.","fr":"L'île de Ngor est située sur la presqu'île du Cap-Vert, exposée aux houles atlantiques des deux hémisphères. Cette position unique en fait l'un des spots surf les plus réguliers d'Afrique de l'Ouest, avec des vagues surfables enregistrées chaque jour de 2025. La saison surf suit un rythme clair : les puissantes houles nord-atlantiques de novembre à avril génèrent les meilleures conditions de l'année, les mois de transition mai et octobre offrent des conditions solides intermédiaires, tandis que les mois plus calmes de juin à septembre apportent des vagues plus petites mais toujours surfables avec des vents plus légers.","es":"La isla de Ngor se encuentra en la península de Cabo Verde, expuesta a los swells atlánticos de ambos hemisferios. Esta posición única la convierte en uno de los spots de surf más consistentes de África Occidental, con olas surfeables registradas todos los días de 2025. La temporada de surf sigue un ritmo claro: los potentes swells del Atlántico Norte de noviembre a abril generan las mejores condiciones del año, los meses de transición mayo y octubre ofrecen condiciones sólidas de nivel medio, mientras que los meses más tranquilos de junio a septiembre traen olas más pequeñas pero siempre surfeables con vientos más ligeros.","it":"Ngor Island si trova sulla penisola di Capo Verde, esposta agli swell atlantici di entrambi gli emisferi. Questa posizione unica la rende uno dei punti surf più consistenti dell'Africa Occidentale, con onde navigabili registrate ogni singolo giorno del 2025. La stagione surf segue un ritmo chiaro: i potenti swell del Nord Atlantico da novembre ad aprile generano le migliori condizioni dell'anno, i mesi di transizione maggio e ottobre offrono condizioni solide di livello medio, mentre i mesi più calmi da giugno a settembre portano onde più piccole ma sempre navigabili con venti più leggeri.","de":"Ngor Island liegt auf der Halbinsel Kap Verde und ist atlantischen Swells aus beiden Hemisphären ausgesetzt. Diese einzigartige Lage macht es zu einem der konstantesten Surfspots Westafrikas, mit fahrbaren Wellen an jedem einzelnen Tag des Jahres 2025. Die Surfsaison folgt einem klaren Rhythmus: Starke Nordatlantik-Swells von November bis April erzeugen die besten Bedingungen des Jahres, die Übergangsmonate Mai und Oktober bieten solide mittlere Bedingungen, während die ruhigeren Monate Juni bis September kleinere, aber immer noch fahrbare Wellen mit leichteren Winden bringen.","nl":"Ngor Island ligt op het Kaap Verde-schiereiland, blootgesteld aan Atlantische swells vanuit beide hemisferen. Deze unieke ligging maakt het tot een van de meest consistente surfspots in West-Afrika, met surffbare golven geregistreerd op elke dag van 2025. Het surfseizoen volgt een duidelijk ritme: krachtige Noord-Atlantische swells van november tot april genereren de beste condities van het jaar, de overgangsmaanden mei en oktober bieden solide middenniveau-condities, terwijl de rustigere maanden juni tot september kleinere maar nog steeds surffbare golven brengen met lichtere winden.","ar":"تقع جزيرة نغور في شبه جزيرة رأس الأخضر، معرضة لأمواج الأطلسي من كلا نصفي الكرة الأرضية. هذا الموقع الفريد يجعلها واحدة من أكثر نقاط السيرف استمرارية في غرب أفريقيا، مع أمواج صالحة للركوب في كل يوم من أيام 2025. يتبع موسم السيرف إيقاعاً واضحاً: أمواج شمال الأطلسي القوية من نوفمبر إلى أبريل تولد أفضل الظروف، وتقدم أشهر الانتقال (مايو وأكتوبر) ظروفاً متوسطة، بينما تجلب أشهر الصيف من يونيو إلى سبتمبر أمواجاً أصغر مع رياح أخف."},
+        "info_p2":    {"en":"Wave period is as important as height when reading Ngor's surf. Periods above 10 seconds signal powerful ground swell from distant North Atlantic storms, producing the long, clean walls that make Ngor Right one of West Africa's most iconic waves. Shorter periods of 6 to 9 seconds reflect local wind swell, ideal for beginners at Ngor Left. Morning sessions are consistently the cleanest: the north-northwest trade winds blow offshore at dawn before turning cross-shore by midday.","fr":"La période des vagues est aussi importante que la hauteur pour lire le surf de Ngor. Des périodes supérieures à 10 secondes signalent une houle de fond puissante provenant de tempêtes nord-atlantiques lointaines, produisant les murs longs et propres qui font de Ngor Right l'une des vagues les plus iconiques d'Afrique de l'Ouest. Des périodes plus courtes de 6 à 9 secondes reflètent une houle de vent locale, idéale pour les débutants à Ngor Left. Les sessions matinales sont systématiquement les plus propres : les alizés nord-nord-ouest soufflent offshore à l'aube avant de passer croisés vers midi.","es":"El período de las olas es tan importante como la altura para leer el surf de Ngor. Los períodos superiores a 10 segundos señalan una potente groundswell de lejanas tormentas del Atlántico Norte, produciendo las largas y limpias paredes que hacen de Ngor Right una de las olas más icónicas de África Occidental. Los períodos más cortos de 6 a 9 segundos reflejan swells de viento locales, ideales para principiantes en Ngor Left. Las sesiones matutinas son sistemáticamente las más limpias: los vientos alisios del norte-noroeste soplan offshore al amanecer antes de girar cruzados hacia el mediodía.","it":"Il periodo delle onde è importante quanto l'altezza per leggere il surf di Ngor. I periodi superiori a 10 secondi segnalano potenti ground swell da tempeste lontane del Nord Atlantico, producendo le lunghe pareti pulite che rendono Ngor Right una delle onde più iconiche dell'Africa Occidentale. I periodi più brevi da 6 a 9 secondi riflettono swell di vento locali, ideali per principianti a Ngor Left. Le sessioni mattutine sono sistematicamente le più pulite: i venti alisei da nord-nordovest soffiano offshore all'alba prima di girare trasversali verso mezzogiorno.","de":"Die Wellenperiode ist genauso wichtig wie die Höhe beim Lesen des Surfs auf Ngor. Perioden über 10 Sekunden signalisieren kraftvollen Grundswell von fernen Nordatlantikstürmen, der die langen, sauberen Wände produziert, die Ngor Right zu einer der ikonischsten Wellen Westafrikas machen. Kürzere Perioden von 6 bis 9 Sekunden spiegeln lokalen Windswell wider, ideal für Anfänger an Ngor Left. Frühsessions sind durchweg die saubersten: Die Nord-Nordwest-Passatwinde wehen bei Tagesanbruch offshore bevor sie gegen Mittag quer drehen.","nl":"De golfperiode is net zo belangrijk als de hoogte bij het lezen van de surf op Ngor. Perioden boven 10 seconden signaleren krachtige ground swell van verre Noord-Atlantische stormen, die de lange, schone muren produceren die Ngor Right tot een van de meest iconische golven van West-Afrika maken. Kortere perioden van 6 tot 9 seconden weerspiegelen lokale windswell, ideaal voor beginners bij Ngor Left. Ochtendsessies zijn consequent het schoonst: de noord-noordwestelijke passaatwinden waaien bij dageraad offshore voordat ze rond het middaguur dwars draaien.","ar":"الفترة الزمنية للموج لا تقل أهمية عن الارتفاع عند قراءة سيرف نغور. تشير الفترات التي تتجاوز 10 ثوانٍ إلى حوله قوية من عواصف بعيدة في شمال الأطلسي، مما ينتج الجدران الطويلة والنظيفة التي تجعل نغور رايت واحدة من أكثر الأمواج أيقونية في غرب أفريقيا. تعكس الفترات الأقصر من 6 إلى 9 ثوانٍ حوله رياح محلية، مثالية للمبتدئين في نغور ليفت. الجلسات الصباحية هي الأنظف باستمرار: تهب الرياح التجارية الشمالية الشمالية الغربية offshore عند الفجر قبل أن تتحول عرضية بحلول الظهيرة."},
+        "cta_h2":     {"en":"Ready to surf these conditions?","fr":"Prêt à surfer ces conditions ?","es":"¿Listo para surfear estas condiciones?","it":"Pronto a surfare queste condizioni?","de":"Bereit, diese Bedingungen zu surfen?","nl":"Klaar om deze condities te surfen?","ar":"مستعد لركوب هذه الأمواج؟"},
+        "cta_p":      {"en":"Our coaches choose the best spot each morning based on the live forecast. Two sessions a day, warm water, uncrowded lineups.","fr":"Nos coachs choisissent le meilleur spot chaque matin selon les prévisions en direct. Deux sessions par jour, eau chaude, lineups déserts.","es":"Nuestros coaches eligen el mejor spot cada mañana según las previsiones en vivo. Dos sesiones al día, agua cálida, lineups sin gente.","it":"I nostri coach scelgono il posto migliore ogni mattina in base alle previsioni in diretta. Due sessioni al giorno, acqua calda, lineup deserti.","de":"Unsere Coaches wählen jeden Morgen den besten Spot basierend auf der Live-Vorhersage. Zwei Sessions täglich, warmes Wasser, leere Lineups.","nl":"Onze coaches kiezen elke ochtend de beste spot op basis van de live-voorspelling. Twee sessies per dag, warm water, lege lineups.","ar":"يختار مدربونا أفضل موقع كل صباح بناءً على التوقعات المباشرة. جلستان يومياً، ماء دافئ، لاين أب فارغة."},
+        "book_btn":   {"en":"Book Your Stay","fr":"Réserver mon séjour","es":"Reservar mi estancia","it":"Prenota il soggiorno","de":"Aufenthalt buchen","nl":"Verblijf boeken","ar":"احجز إقامتك"},
+        "surf_btn":   {"en":"Surf coaching","fr":"Coaching surf","es":"Coaching surf","it":"Coaching surf","de":"Surf-Coaching","nl":"Surfcoaching","ar":"تدريب السيرف"},
+        "load_err":   {"en":"Live conditions temporarily unavailable.","fr":"Conditions en direct temporairement indisponibles.","es":"Condiciones en vivo temporalmente no disponibles.","it":"Condizioni in tempo reale temporaneamente non disponibili.","de":"Live-Bedingungen vorübergehend nicht verfügbar.","nl":"Live condities tijdelijk niet beschikbaar.","ar":"الأحوال المباشرة غير متاحة مؤقتاً."},
+        "powered":    {"en":"Wave data: Open-Meteo Marine API (free, open source)","fr":"Données vagues : Open-Meteo Marine API (gratuit, open source)","es":"Datos olas: Open-Meteo Marine API (gratis, open source)","it":"Dati onde: Open-Meteo Marine API (gratuita, open source)","de":"Wellendaten: Open-Meteo Marine API (kostenlos, Open Source)","nl":"Golfdata: Open-Meteo Marine API (gratis, open source)","ar":"بيانات الأمواج: Open-Meteo Marine API (مجاني، مفتوح المصدر)"},
+        "months":     {"en":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"fr":["Jan","Fév","Mar","Avr","Mai","Jun","Jul","Aoû","Sep","Oct","Nov","Déc"],"es":["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"],"it":["Gen","Feb","Mar","Apr","Mag","Giu","Lug","Ago","Set","Ott","Nov","Dic"],"de":["Jan","Feb","Mär","Apr","Mai","Jun","Jul","Aug","Sep","Okt","Nov","Dez"],"nl":["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Aug","Sep","Okt","Nov","Dec"],"ar":["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"]},
     }
 
-    def g(key):
-        return T[key].get(lang, T[key]["en"])
+    def g(k): return T[k].get(lang, T[k]["en"])
 
     import json as _j
-    hist_json = _j.dumps(history, ensure_ascii=False, separators=(',',':'))
+    hist_json   = _j.dumps(history, ensure_ascii=False, separators=(',',':'))
     months_json = _j.dumps(g("months"), ensure_ascii=False, separators=(',',':'))
+    axes_json   = _j.dumps(g("cmp_axes"), ensure_ascii=False, separators=(',',':'))
 
     ICO_WAVE   = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12c2-3 4-3 6 0s4 3 6 0 4-3 6 0"/><path d="M2 17c2-3 4-3 6 0s4 3 6 0 4-3 6 0"/><path d="M7 4l3-3 4 3"/><path d="M14 4v3"/></svg>'
-    ICO_PERIOD = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>'
+    ICO_CLK    = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>'
     ICO_DIR    = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2"/><path d="M12 8l-2 8 2-2 2 2z" fill="currentColor" stroke="none"/></svg>'
     ICO_SWELL  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 10c2-3 4-3 6 0s4 3 6 0 4-3 6 0"/><path d="M2 16c2-3 4-3 6 0s4 3 6 0 4-3 6 0"/></svg>'
     ICO_WIND   = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.59 4.59A2 2 0 1111 8H2"/><path d="M12.59 19.41A2 2 0 1014 16H2"/><path d="M17.5 8A2.5 2.5 0 1120 10.5H2"/></svg>'
     ICO_TEMP   = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 14.76V3.5a2.5 2.5 0 00-5 0v11.26a4.5 4.5 0 105 0z"/></svg>'
     ICO_STAR   = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>'
 
-    def stat(key, ico, lbl, col):
-        return (f'<div class="sc-stat sc-stat-{key}">'
+    def stat(k, ico, lbl, col):
+        return (f'<div class="sc-stat sc-stat-{k}">'
                 f'<div class="sc-stat-icon" style="color:{col}">{ico}</div>'
-                f'<div class="sc-stat-val" id="sc-v-{key}">...</div>'
+                f'<div class="sc-stat-val" id="sc-v-{k}">...</div>'
                 f'<div class="sc-stat-lbl">{lbl}</div></div>')
+
+    seas_cards = f"""
+      <div class="sc-seas-grid">
+        <div class="sc-seas-card sc-seas-peak">
+          <div class="sc-seas-badge">{escape(g("seas_peak_t"))}</div>
+          <div class="sc-seas-months">{escape(g("seas_peak_m"))}</div>
+          <p>{escape(g("seas_peak_p"))}</p>
+        </div>
+        <div class="sc-seas-card sc-seas-trans">
+          <div class="sc-seas-badge">{escape(g("seas_trans_t"))}</div>
+          <div class="sc-seas-months">{escape(g("seas_trans_m"))}</div>
+          <p>{escape(g("seas_trans_p"))}</p>
+        </div>
+        <div class="sc-seas-card sc-seas-sum">
+          <div class="sc-seas-badge">{escape(g("seas_sum_t"))}</div>
+          <div class="sc-seas-months">{escape(g("seas_sum_m"))}</div>
+          <p>{escape(g("seas_sum_p"))}</p>
+        </div>
+      </div>"""
 
     html = page_head(g("title"), g("meta"), lang, "surf-conditions", IMGS["surf"])
     html += build_nav("surf-conditions", lang)
@@ -5700,17 +5756,18 @@ def build_surf_conditions_page(lang):
   </header>
 
   {wave_top(_BG_LIGHT, _BG_WHITE)}
+  <!-- ── Live conditions ── -->
   <section class="section sec-light">
     <div class="container">
       <div class="sc-now-label reveal"><span class="s-label sc-pulse-dot">{escape(g("now_lbl"))}</span></div>
       <div class="sc-stats-grid reveal">
-        {stat("wave",  ICO_WAVE,   escape(g("wave_h")),    "var(--ocean)")}
-        {stat("period",ICO_PERIOD, escape(g("period")),    "var(--navy)")}
-        {stat("dir",   ICO_DIR,    escape(g("direction")), "var(--fire)")}
-        {stat("swell", ICO_SWELL,  escape(g("swell_h")),   "var(--ocean)")}
-        {stat("wind",  ICO_WIND,   escape(g("wind")),      "var(--navy)")}
-        {stat("temp",  ICO_TEMP,   escape(g("water_t")),   "var(--fire)")}
-        {stat("qual",  ICO_STAR,   escape(g("quality")),   "var(--fire)")}
+        {stat("wave",  ICO_WAVE,  escape(g("wave_h")),    "var(--ocean)")}
+        {stat("period",ICO_CLK,   escape(g("period")),    "var(--navy)")}
+        {stat("dir",   ICO_DIR,   escape(g("direction")), "var(--fire)")}
+        {stat("swell", ICO_SWELL, escape(g("swell_h")),   "var(--ocean)")}
+        {stat("wind",  ICO_WIND,  escape(g("wind_lbl")),  "var(--navy)")}
+        {stat("temp",  ICO_TEMP,  escape(g("water_t")),   "var(--fire)")}
+        {stat("qual",  ICO_STAR,  escape(g("quality")),   "var(--fire)")}
       </div>
       <div id="sc-ctx" class="sc-ctx-text reveal" aria-live="polite"></div>
       <p class="sc-powered"><a href="https://open-meteo.com/" target="_blank" rel="noopener">{escape(g("powered"))}</a></p>
@@ -5718,54 +5775,112 @@ def build_surf_conditions_page(lang):
   </section>
   {wave_bottom(_BG_LIGHT, _BG_WHITE)}
 
+  <!-- ── 16-day forecast ── -->
   <section class="section">
     <div class="container">
-      <div style="text-align:center;margin-bottom:32px" class="reveal">
+      <div style="text-align:center;margin-bottom:28px" class="reveal">
         <span class="s-label">{escape(g("fc_lbl"))}</span>
-        <p style="font-size:13.5px;color:var(--muted);margin-top:8px;max-width:620px;margin-left:auto;margin-right:auto">{escape(g("fc_sub"))}</p>
+        <p class="sc-fc-note">{escape(g("fc_note"))}</p>
       </div>
       <div id="sc-strip" class="sc-forecast-strip reveal"><div class="fc-loading"><div class="fc-spinner"></div></div></div>
     </div>
   </section>
 
   {wave_top(_BG_LIGHT, _BG_WHITE)}
+  <!-- ── Season guide ── -->
   <section class="section sec-light">
     <div class="container">
       <div style="text-align:center;margin-bottom:32px" class="reveal">
+        <span class="s-label">{escape(g("seas_lbl"))}</span>
+      </div>
+      {seas_cards}
+    </div>
+  </section>
+  {wave_bottom(_BG_LIGHT, _BG_WHITE)}
+
+  <!-- ── Historical 2025 charts ── -->
+  <section class="section">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:28px" class="reveal">
         <span class="s-label">{escape(g("hist_lbl"))}</span>
         <h2 class="s-title">{escape(g("hist_h2"))}</h2>
-        <p style="font-size:15px;color:var(--muted);max-width:680px;margin:14px auto 0;line-height:1.7">{escape(g("hist_sub"))}</p>
+        <p style="font-size:15px;color:var(--muted);max-width:680px;margin:12px auto 0;line-height:1.7">{escape(g("hist_sub"))}</p>
       </div>
       <div class="sc-tabs reveal">
         <button class="sc-tab active" data-panel="all">{escape(g("month_lbl"))}</button>
+        <button class="sc-tab" data-panel="temp">{escape(g("temp_lbl"))}</button>
         <button class="sc-tab" data-panel="beg">{escape(g("lev_beg"))}</button>
         <button class="sc-tab" data-panel="int">{escape(g("lev_int"))}</button>
         <button class="sc-tab" data-panel="adv">{escape(g("lev_adv"))}</button>
       </div>
       <div class="sc-chart-wrap reveal">
-        <div id="sc-p-all"><canvas id="sc-chart-all" height="260"></canvas></div>
-        <div id="sc-p-beg" style="display:none"><canvas id="sc-chart-beg" height="240"></canvas></div>
-        <div id="sc-p-int" style="display:none"><canvas id="sc-chart-int" height="240"></canvas></div>
-        <div id="sc-p-adv" style="display:none"><canvas id="sc-chart-adv" height="240"></canvas></div>
+        <div id="sc-p-all"><canvas id="sc-chart-all" height="280"></canvas></div>
+        <div id="sc-p-temp" style="display:none"><canvas id="sc-chart-temp" height="240"></canvas></div>
+        <div id="sc-p-beg"  style="display:none"><canvas id="sc-chart-beg"  height="240"></canvas></div>
+        <div id="sc-p-int"  style="display:none"><canvas id="sc-chart-int"  height="240"></canvas></div>
+        <div id="sc-p-adv"  style="display:none"><canvas id="sc-chart-adv"  height="240"></canvas></div>
       </div>
+    </div>
+  </section>
+
+  {wave_top(_BG_LIGHT, _BG_WHITE)}
+  <!-- ── Spot comparison radar ── -->
+  <section class="section sec-light">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:28px" class="reveal">
+        <span class="s-label">{escape(g("cmp_lbl"))}</span>
+        <h2 class="s-title">{escape(g("cmp_h2"))}</h2>
+        <p style="font-size:15px;color:var(--muted);max-width:680px;margin:12px auto 0;line-height:1.7">{escape(g("cmp_sub"))}</p>
+      </div>
+      <div class="sc-radar-wrap reveal">
+        <canvas id="sc-chart-radar" style="max-height:440px"></canvas>
+      </div>
+      <p class="sc-radar-note reveal">{escape(g("cmp_note"))}</p>
     </div>
   </section>
   {wave_bottom(_BG_LIGHT, _BG_WHITE)}
 
+  <!-- ── How data works ── -->
   <section class="section">
     <div class="container">
-      <div class="sc-text-block reveal">
-        <h2 class="s-title" style="margin-bottom:24px">{escape(g("info_h2"))}</h2>
-        <p class="surf-story-p">{escape(g("info_p1"))}</p>
-        <p class="surf-story-p" style="margin-top:20px">{escape(g("info_p2"))}</p>
-        <div style="margin-top:36px;display:flex;gap:14px;flex-wrap:wrap">
-          <a href="{surf_href}" class="btn btn-deep">{escape(g("surf_coaching"))}</a>
-          <a href="{book_href}" class="btn btn-fire">{escape(g("book_btn"))}</a>
+      <div class="sc-how-grid reveal">
+        <div class="sc-how-card">
+          <div class="sc-how-icon" style="color:var(--fire)">{ICO_WAVE}</div>
+          <h3>{escape(g("how_live"))}</h3>
+          <p>{escape(g("how_live_p"))}</p>
+        </div>
+        <div class="sc-how-card">
+          <div class="sc-how-icon" style="color:var(--ocean)">{ICO_CLK}</div>
+          <h3>{escape(g("how_fc"))}</h3>
+          <p>{escape(g("how_fc_p"))}</p>
+        </div>
+        <div class="sc-how-card">
+          <div class="sc-how-icon" style="color:var(--navy)">{ICO_SWELL}</div>
+          <h3>{escape(g("how_hist"))}</h3>
+          <p>{escape(g("how_hist_p"))}</p>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- ── Informational text ── -->
+  {wave_top(_BG_LIGHT, _BG_WHITE)}
+  <section class="section sec-light">
+    <div class="container">
+      <div class="sc-text-block reveal" style="max-width:820px">
+        <h2 class="s-title" style="margin-bottom:24px">{escape(g("info_h2"))}</h2>
+        <p class="surf-story-p">{escape(g("info_p1"))}</p>
+        <p class="surf-story-p" style="margin-top:20px">{escape(g("info_p2"))}</p>
+        <div style="margin-top:36px;display:flex;gap:14px;flex-wrap:wrap">
+          <a href="{surf_href}" class="btn btn-deep">{escape(g("surf_btn"))}</a>
+          <a href="{book_href}" class="btn btn-fire">{escape(g("book_btn"))}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  {wave_bottom(_BG_LIGHT, _BG_WHITE)}
+
+  <!-- ── CTA ── -->
   {wave_top(_BG_LIGHT, _BG_NAVY)}
   <div class="cta-band">
     <div class="container">
@@ -5778,27 +5893,29 @@ def build_surf_conditions_page(lang):
     </div>
   </div>
 </main>
+
 <script>
 (function(){{
   var HIST={hist_json};
   var MON={months_json};
+  var AXES={axes_json};
   var DIRS=['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
+  var LI=['en','fr','es','it','de','nl','ar'];
+  var LANG=document.documentElement.lang.split('-')[0]||'en';
   function ddir(d){{return DIRS[Math.round(d/22.5)%16]||'N';}}
   function r1(v){{return Math.round(v*10)/10;}}
   function set(id,v){{var e=document.getElementById(id);if(e)e.textContent=v;}}
-  var LANG=document.documentElement.lang.split('-')[0]||'en';
-  var LI=['en','fr','es','it','de','nl','ar'];
   function tl(arr){{return arr[LI.indexOf(LANG)]||arr[0];}}
-
   function qScore(h,p){{return Math.min(10,Math.round((Math.min(h/3*7,8)+(p>10?2:p>8?1:0))*10)/10);}}
-  var QLBLS=[
-    ['Excellent','Excellent','Excelente','Eccellente','Ausgezeichnet','Uitstekend','ممتاز'],
-    ['Good','Bon','Bueno','Buono','Gut','Goed','جيد'],
-    ['Fair','Correct','Regular','Discreto','Mäßig','Redelijk','معقول'],
-    ['Small','Faible','Pequeño','Piccolo','Gering','Klein','صغير']
-  ];
-  function qLabel(s){{return tl(s>=7?QLBLS[0]:s>=5?QLBLS[1]:s>=3?QLBLS[2]:QLBLS[3]);}}
+  function qLabel(s){{
+    var v=s>=7?['Excellent','Excellent','Excelente','Eccellente','Ausgezeichnet','Uitstekend','ممتاز']:
+           s>=5?['Good','Bon','Bueno','Buono','Gut','Goed','جيد']:
+           s>=3?['Fair','Correct','Regular','Discreto','Mäßig','Redelijk','معقول']:
+                ['Small','Faible','Pequeño','Piccolo','Gering','Klein','صغير'];
+    return tl(v);
+  }}
 
+  /* ── 1. Live fetch ── */
   var mURL='https://marine-api.open-meteo.com/v1/marine?latitude=14.75&longitude=-17.51'+
     '&current=wave_height,wave_direction,wave_period,swell_wave_height'+
     '&daily=wave_height_max,wave_period_max,wind_wave_height_max'+
@@ -5815,30 +5932,33 @@ def build_surf_conditions_page(lang):
     var wh=r1(c.wave_height||0),wp=r1(c.wave_period||0),wd=ddir(c.wave_direction||0);
     var sh=r1(c.swell_wave_height||0);
     var ws=Math.round((wc.wind_speed_10m||0)/1.852),wdw=ddir(wc.wind_direction_10m||0);
-    var wt=(wc.temperature_2m?Math.round(wc.temperature_2m)+'°C':'--');
+    var wt=wc.temperature_2m?Math.round(wc.temperature_2m)+'°C':'--';
     var qs=qScore(c.wave_height||0,c.wave_period||0),ql=qLabel(qs);
-    set('sc-v-wave',wh+'m');
-    set('sc-v-period',wp+'s');
-    set('sc-v-dir',wd);
-    set('sc-v-swell',sh+'m');
-    set('sc-v-wind',ws+'kt'+' · '+wdw);
-    set('sc-v-temp',wt);
-    set('sc-v-qual',qs+' / 10');
+    set('sc-v-wave',wh+'m'); set('sc-v-period',wp+'s'); set('sc-v-dir',wd);
+    set('sc-v-swell',sh+'m'); set('sc-v-wind',ws+'kt · '+wdw);
+    set('sc-v-temp',wt); set('sc-v-qual',qs+' / 10');
 
-    var lvlW=c.wave_height||0,lvlKey=lvlW>2?tl(['advanced','avancé','avanzado','avanzato','Profi','gevorderd','متقدم']):lvlW>1?tl(['all levels','tous niveaux','todos los niveles','tutti i livelli','alle Level','alle niveaus','جميع المستويات']):tl(['beginners','débutants','principiantes','principianti','Anfänger','beginners','المبتدئين']);
+    /* Quality colour on qual card */
+    var qCard=document.querySelector('.sc-stat-qual');
+    if(qCard)qCard.style.borderTop='3px solid '+(qs>=7?'var(--ocean)':qs>=5?'var(--fire)':'rgba(10,37,64,.15)');
+
+    /* Context sentence */
+    var lvl=c.wave_height>2?tl(['advanced surfers','surfeurs avancés','surfistas avanzados','surfisti avanzati','Profis','gevorderde surfers','المتقدمين']):
+            c.wave_height>1?tl(['all levels','tous niveaux','todos los niveles','tutti i livelli','alle Level','alle niveaus','جميع المستويات']):
+            tl(['beginners','débutants','principiantes','principianti','Anfänger','beginners','المبتدئين']);
     var CTPL={{
-      en:'Waves are running at '+wh+'m with a '+wp+'s period from the '+wd+'. The '+sh+'m swell and '+ws+'kt wind make today a '+ql.toLowerCase()+' day, particularly suitable for '+lvlKey+'.',
-      fr:'Les vagues atteignent '+wh+'m avec une période de '+wp+'s en provenance du '+wd+'. La houle de '+sh+'m et le vent de '+ws+' nœuds font de ce jour une session '+ql.toLowerCase()+', particulièrement adaptée aux '+lvlKey+'.',
-      es:'Las olas alcanzan '+wh+'m con un período de '+wp+'s desde el '+wd+'. El swell de '+sh+'m y el viento de '+ws+' nudos hacen de hoy una sesión '+ql.toLowerCase()+', especialmente apta para '+lvlKey+'.',
-      it:'Le onde raggiungono '+wh+'m con un periodo di '+wp+'s da '+wd+'. La mareggiata di '+sh+'m e il vento di '+ws+' nodi rendono oggi una sessione '+ql.toLowerCase()+', particolarmente adatta a '+lvlKey+'.',
-      de:'Die Wellen erreichen '+wh+'m mit einer '+wp+'s Periode aus '+wd+'. Dünung '+sh+'m und Wind '+ws+' Knoten machen heute einen '+ql.toLowerCase()+' Tag, besonders geeignet für '+lvlKey+'.',
-      nl:'De golven bereiken '+wh+'m met een periode van '+wp+'s vanuit '+wd+'. Deining '+sh+'m en wind '+ws+' knopen maken vandaag een '+ql.toLowerCase()+' dag, bijzonder geschikt voor '+lvlKey+'.',
-      ar:'الأمواج تبلغ '+wh+'م بفترة '+wp+'ث من '+wd+'. الحوله '+sh+'م والرياح '+ws+' عقدة تجعل اليوم '+ql+' مناسباً لـ '+lvlKey+'.'
+      en:'Waves at '+wh+'m with a '+wp+'s period from '+wd+'. The '+sh+'m swell and '+ws+'kt winds create a '+ql.toLowerCase()+' surf day, best suited for '+lvl+'.',
+      fr:'Vagues à '+wh+'m avec une période de '+wp+'s en provenance du '+wd+'. La houle de '+sh+'m et le vent de '+ws+' nœuds créent une journée surf '+ql.toLowerCase()+', idéale pour les '+lvl+'.',
+      es:'Olas de '+wh+'m con un período de '+wp+'s desde '+wd+'. La houle de '+sh+'m y los vientos de '+ws+' nudos crean un día surf '+ql.toLowerCase()+', indicado para '+lvl+'.',
+      it:'Onde a '+wh+'m con un periodo di '+wp+'s da '+wd+'. La mareggiata di '+sh+'m e i venti di '+ws+' nodi creano una giornata surf '+ql.toLowerCase()+', indicata per '+lvl+'.',
+      de:'Wellen bei '+wh+'m mit einer '+wp+'s Periode aus '+wd+'. Die '+sh+'m Dünung und '+ws+' Knoten Wind erzeugen einen '+ql.toLowerCase()+' Surftag, optimal für '+lvl+'.',
+      nl:'Golven van '+wh+'m met een periode van '+wp+'s vanuit '+wd+'. De '+sh+'m deining en '+ws+' knopen wind creëren een '+ql.toLowerCase()+' surfdag, ideaal voor '+lvl+'.',
+      ar:'أمواج '+wh+'م بفترة '+wp+'ث من '+wd+'. تخلق الحوله '+sh+'م والرياح '+ws+' عقدة يوم سيرف '+ql+' مناسب لـ'+lvl+'.'
     }};
     var ctx=document.getElementById('sc-ctx');
-    if(ctx)ctx.textContent=CTPL[LANG]||CTPL['en'];
+    if(ctx)ctx.textContent=CTPL[LANG]||CTPL.en;
 
-    /* 16-day forecast strip */
+    /* ── 2. Forecast strip ── */
     var strip=document.getElementById('sc-strip');
     if(strip&&m.daily&&m.daily.time){{
       var days=m.daily.time,wh2=m.daily.wave_height_max,wp2=m.daily.wave_period_max;
@@ -5846,68 +5966,168 @@ def build_surf_conditions_page(lang):
       var out='<div class="sc-fc-row">';
       for(var i=0;i<Math.min(16,days.length);i++){{
         var d=new Date(days[i]+'T12:00:00');
-        var dn=d.toLocaleDateString(undefined,{{weekday:'short'}});
+        var dn=d.toLocaleDateString(undefined,{{weekday:'short'}}).toUpperCase();
         var dm=d.toLocaleDateString(undefined,{{day:'numeric',month:'short'}});
         var h2=wh2[i]||0,p2=wp2?wp2[i]||0:0;
         var ws3=ws2?Math.round((ws2[i]||0)/1.852):0;
         var wd3=wd2?ddir(wd2[i]||0):'';
         var qs2=qScore(h2,p2);
         var cls=qs2>=7?'sc-fc-good':qs2>=4?'sc-fc-fair':'sc-fc-small';
-        var barH=Math.max(6,Math.round(h2/4*100));
-        out+='<div class="sc-fc-card '+cls+'"><div class="sc-fc-day">'+dn+'</div><div class="sc-fc-date">'+dm+'</div><div class="sc-fc-bar-wrap"><div class="sc-fc-bar" style="height:'+barH+'%"></div></div><div class="sc-fc-wh">'+r1(h2)+'m</div><div class="sc-fc-wind">'+ws3+'kt '+wd3+'</div></div>';
+        var barH=Math.max(6,Math.round(h2/3.5*100));
+        var acc=i<5?'':' sc-fc-dim';
+        out+='<div class="sc-fc-card '+cls+acc+'"><div class="sc-fc-day">'+dn+'</div><div class="sc-fc-date">'+dm+'</div>';
+        out+='<div class="sc-fc-bar-wrap"><div class="sc-fc-bar" style="height:'+barH+'%"></div></div>';
+        out+='<div class="sc-fc-wh">'+r1(h2)+'m</div><div class="sc-fc-wind">'+ws3+'kt '+wd3+'</div>';
+        out+=(i<5?'<div class="sc-fc-acc-badge">'+(i===0?tl(['today','auj.','hoy','oggi','heute','vandaag','اليوم']):'')+'</div>':'');
+        out+='</div>';
       }}
-      out+='</div>';
-      strip.innerHTML=out;
+      strip.innerHTML=out+'</div>';
     }}
-  }}).catch(function(){{document.getElementById('sc-strip').innerHTML='<p class="sc-err">{escape(g("load_err"))}</p>';}});
+  }}).catch(function(){{
+    var e=document.getElementById('sc-strip');
+    if(e)e.innerHTML='<p class="sc-err">{escape(g("load_err"))}</p>';
+  }});
 
-  /* Historical charts */
-  function loadChartJs(cb){{if(window.Chart){{cb();return;}}var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js';s.onload=cb;document.head.appendChild(s);}}
-  loadChartJs(function(){{
+  /* ── 3. Charts (Chart.js) ── */
+  function loadCJS(cb){{if(window.Chart){{cb();return;}}var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js';s.onload=cb;document.head.appendChild(s);}}
+
+  loadCJS(function(){{
     var keys=Object.keys(HIST).sort();
     var labels=keys.map(function(k,i){{return MON[i]||k;}});
-    var waveD=keys.map(function(k){{return HIST[k].wave_h;}});
-    var windD=keys.map(function(k){{return HIST[k].wind_s;}});
-    var NAVY='#0a2540',FIRE='#ff5a1f',OCEAN='#0ea5e9',GRID='rgba(10,37,64,0.08)';
-    var fontFam="'Raleway','Inter',system-ui,sans-serif";
-    var fontOpts={{font:{{family:fontFam,size:12}},color:NAVY}};
+    var waveD  =keys.map(function(k){{return HIST[k].wave_h;}});
+    var windD  =keys.map(function(k){{return HIST[k].wind_s;}});
+    var periodD=keys.map(function(k){{return HIST[k].wave_p;}});
+    var tempD  =keys.map(function(k){{return HIST[k].temp;}});
+    var NAVY='#0a2540',FIRE='#ff5a1f',OCEAN='#0ea5e9',AMBER='#f59e0b',GRID='rgba(10,37,64,0.08)';
+    var FF="'Raleway','Inter',system-ui,sans-serif";
+    var baseFont={{family:FF,size:12}};
+    var tickOpts={{font:baseFont,color:NAVY}};
 
-    function mkBase(){{return {{responsive:true,maintainAspectRatio:true,plugins:{{legend:{{position:'top',labels:{{font:{{family:fontFam,size:12}},color:NAVY,boxWidth:12}}}},tooltip:{{backgroundColor:'#0a2540',titleFont:{{family:fontFam}},bodyFont:{{family:fontFam}}}}}},scales:{{x:{{grid:{{color:GRID}},ticks:fontOpts}},y:{{grid:{{color:GRID}},ticks:fontOpts}}}}}};}}
+    function mkOpts(y1lbl,y2lbl){{
+      return {{
+        responsive:true,maintainAspectRatio:true,
+        interaction:{{mode:'index',intersect:false}},
+        plugins:{{
+          legend:{{position:'top',labels:{{font:baseFont,color:NAVY,boxWidth:12,padding:16}}}},
+          tooltip:{{backgroundColor:NAVY,titleFont:{{family:FF,weight:'bold'}},bodyFont:{{family:FF}},padding:10,cornerRadius:8}}
+        }},
+        scales:{{
+          x:{{grid:{{color:GRID}},ticks:tickOpts}},
+          y:{{grid:{{color:GRID}},ticks:Object.assign({{}},tickOpts,{{callback:function(v){{return v+(y1lbl||'');}}}})}},
+          ...(y2lbl?{{y2:{{position:'right',grid:{{drawOnChartArea:false}},ticks:Object.assign({{}},{{color:FIRE}},{{callback:function(v){{return v+y2lbl;}}}})}}}}:{{}})
+        }}
+      }};
+    }}
 
-    var baseOpts=mkBase();
-    baseOpts.scales.y.ticks=Object.assign({{}},fontOpts,{{callback:function(v){{return v+'m';}}}});
-    baseOpts.scales.y2={{position:'right',grid:{{drawOnChartArea:false}},ticks:Object.assign({{}},{{color:FIRE}},{{callback:function(v){{return v+'kt';}}}})}};
-    new Chart(document.getElementById('sc-chart-all'),{{
-      type:'bar',
-      data:{{labels:labels,datasets:[
-        {{label:'{escape(g("chart_wave"))}',data:waveD,backgroundColor:OCEAN+'aa',borderColor:OCEAN,borderWidth:1.5,borderRadius:4}},
-        {{label:'{escape(g("chart_wind"))}',data:windD,type:'line',borderColor:FIRE,backgroundColor:'transparent',borderWidth:2,tension:0.4,pointRadius:5,pointBackgroundColor:FIRE,yAxisID:'y2'}},
-      ]}},options:baseOpts
+    /* Chart 1: Overview — wave + wind + period */
+    (function(){{
+      var opts=mkOpts('m','kt');
+      opts.scales.y3={{position:'right',grid:{{drawOnChartArea:false}},ticks:Object.assign({{}},{{color:AMBER}},{{callback:function(v){{return v+'s';}}}})}};;
+      new Chart(document.getElementById('sc-chart-all'),{{
+        type:'bar',
+        data:{{labels:labels,datasets:[
+          {{label:'{escape(g("chart_wave"))}',data:waveD,backgroundColor:OCEAN+'99',borderColor:OCEAN,borderWidth:2,borderRadius:5,order:3}},
+          {{label:'{escape(g("chart_wind"))}',data:windD,type:'line',borderColor:FIRE,backgroundColor:FIRE+'22',fill:true,tension:0.4,pointRadius:5,pointBackgroundColor:FIRE,borderWidth:2,yAxisID:'y2',order:1}},
+          {{label:'{escape(g("chart_period"))}',data:periodD,type:'line',borderColor:AMBER,backgroundColor:'transparent',tension:0.4,pointRadius:4,pointBackgroundColor:AMBER,borderWidth:2,borderDash:[5,3],yAxisID:'y3',order:2}},
+        ]}},options:opts
+      }});
+    }})();
+
+    /* Chart 2: Water temperature */
+    new Chart(document.getElementById('sc-chart-temp'),{{
+      type:'line',
+      data:{{labels:labels,datasets:[{{
+        label:'{escape(g("chart_temp"))}',
+        data:tempD,
+        borderColor:FIRE,
+        backgroundColor:FIRE+'22',
+        fill:true,tension:0.4,
+        pointRadius:6,pointBackgroundColor:FIRE,pointBorderColor:'#fff',pointBorderWidth:2,
+        borderWidth:2.5
+      }}]}},
+      options:{{
+        responsive:true,maintainAspectRatio:true,
+        interaction:{{mode:'index',intersect:false}},
+        plugins:{{legend:{{labels:{{font:baseFont,color:NAVY}}}},tooltip:{{backgroundColor:NAVY,titleFont:{{family:FF,weight:'bold'}},bodyFont:{{family:FF}},padding:10,cornerRadius:8}}}},
+        scales:{{
+          x:{{grid:{{color:GRID}},ticks:tickOpts}},
+          y:{{grid:{{color:GRID}},ticks:Object.assign({{}},tickOpts,{{callback:function(v){{return v+'°C';}}}}),min:20,max:35}}
+        }}
+      }}
     }});
 
+    /* Level score helper */
     function lScore(h,p,lev){{
       if(lev==='beg'){{if(h<0.4)return 1;if(h<=1.0)return 7+(p>8?2:0);if(h<=1.6)return 5;return 2;}}
       if(lev==='int'){{if(h<0.8)return 2;if(h<=1.5)return 7+(p>9?1:0);if(h<=2.5)return 9+(p>10?1:0);return 5;}}
       if(h<1.5)return 2;if(h<=2.2)return 7+(p>10?1:0);if(h<=3.5)return 10;return 8;
     }}
+
+    /* Charts 3–5: Level scores with data annotation */
     function scoreChart(id,lev,col){{
       var scores=keys.map(function(k){{return Math.min(10,lScore(HIST[k].wave_h,HIST[k].wave_p,lev));}});
-      var bgc=scores.map(function(s){{return s>=8?col+'cc':s>=5?col+'77':col+'33';}});
-      var opts=mkBase();
-      opts.plugins.legend.display=false;
-      opts.scales.y={{min:0,max:10,grid:{{color:GRID}},ticks:Object.assign({{}},fontOpts,{{stepSize:2}})}};
-      new Chart(document.getElementById(id),{{type:'bar',data:{{labels:labels,datasets:[{{label:'{escape(g("score_lbl"))}',data:scores,backgroundColor:bgc,borderColor:col,borderWidth:1.5,borderRadius:5}}]}},options:opts}});
+      var bgc=scores.map(function(s){{return s>=8?col+'dd':s>=5?col+'88':col+'33';}});
+      var opts=mkOpts('');
+      opts.plugins.legend={{display:false}};
+      opts.plugins.tooltip.callbacks={{label:function(ctx){{return ' '+ctx.parsed.y+' / 10';}}}};
+      opts.scales.y=Object.assign({{}},opts.scales.y,{{min:0,max:10,ticks:Object.assign({{}},tickOpts,{{stepSize:2}})}});
+      new Chart(document.getElementById(id),{{
+        type:'bar',
+        data:{{labels:labels,datasets:[{{
+          label:'{escape(g("score_lbl"))}',data:scores,
+          backgroundColor:bgc,borderColor:col,borderWidth:1.5,borderRadius:6,
+        }}]}},
+        options:opts
+      }});
     }}
     scoreChart('sc-chart-beg','beg',OCEAN);
     scoreChart('sc-chart-int','int',FIRE);
     scoreChart('sc-chart-adv','adv',NAVY);
 
+    /* Chart 6: Radar comparison */
+    (function(){{
+      var NGOR   =[7,7,9,10,10,9]; /* wave size, quality, water temp, consistency, uncrowded, sunshine */
+      var FRANCE =[8,9, 4, 6, 4,7];
+      var MOROCCO=[7,8, 7, 7, 6,9];
+      var r_opts={{
+        responsive:true,maintainAspectRatio:true,
+        interaction:{{mode:'point'}},
+        plugins:{{
+          legend:{{position:'top',labels:{{font:baseFont,color:NAVY,boxWidth:12,padding:16}}}},
+          tooltip:{{backgroundColor:NAVY,titleFont:{{family:FF,weight:'bold'}},bodyFont:{{family:FF}},padding:10,cornerRadius:8,callbacks:{{label:function(ctx){{return ' '+ctx.label+' : '+ctx.raw+' / 10';}}}}}}
+        }},
+        scales:{{r:{{
+          min:0,max:10,
+          ticks:{{stepSize:2,font:baseFont,color:NAVY,backdropColor:'transparent',showLabelBackdrop:false}},
+          grid:{{color:GRID}},
+          angleLines:{{color:GRID}},
+          pointLabels:{{font:Object.assign({{}},baseFont,{{size:13,weight:'600'}}),color:NAVY}}
+        }}}}
+      }};
+      new Chart(document.getElementById('sc-chart-radar'),{{
+        type:'radar',
+        data:{{
+          labels:AXES,
+          datasets:[
+            {{label:'Ngor Island (Dakar)',data:NGOR,backgroundColor:OCEAN+'33',borderColor:OCEAN,borderWidth:2.5,pointBackgroundColor:OCEAN,pointRadius:5}},
+            {{label:'Hossegor (France)',  data:FRANCE, backgroundColor:FIRE+'22',borderColor:FIRE,  borderWidth:2,  pointBackgroundColor:FIRE,  pointRadius:4,borderDash:[4,3]}},
+            {{label:'Taghazout (Morocco)',data:MOROCCO,backgroundColor:'#a855f733',borderColor:'#a855f7',borderWidth:2,pointBackgroundColor:'#a855f7',pointRadius:4,borderDash:[2,4]}},
+          ]
+        }},
+        options:r_opts
+      }});
+    }})();
+
+    /* Tab switching */
     document.querySelectorAll('.sc-tab').forEach(function(btn){{
       btn.addEventListener('click',function(){{
         var p=this.dataset.panel;
         document.querySelectorAll('.sc-tab').forEach(function(b){{b.classList.remove('active');}});
         this.classList.add('active');
-        ['all','beg','int','adv'].forEach(function(id){{var el=document.getElementById('sc-p-'+id);if(el)el.style.display=id===p?'block':'none';}});
+        ['all','temp','beg','int','adv'].forEach(function(id){{
+          var el=document.getElementById('sc-p-'+id);
+          if(el)el.style.display=id===p?'block':'none';
+        }});
       }});
     }});
   }});
@@ -5916,6 +6136,7 @@ def build_surf_conditions_page(lang):
     html += build_footer(lang)
     html += page_close()
     return html
+
 
 def build_privacy_policy(lang):
     pfx      = LANG_PFX[lang]
