@@ -148,9 +148,14 @@
 <script>
 (function(){
   var API_KEY = localStorage.getItem('nsc-admin-api-key') || '';
-  if (!API_KEY) {
-    API_KEY = prompt('Clé API Admin (ADMIN_API_KEY) :');
+
+  function ensureApiKey() {
+    if (API_KEY) return API_KEY;
+    var k = prompt('Clé API Admin (ADMIN_API_KEY) requise pour enregistrer :');
+    if (!k) return '';
+    API_KEY = k.trim();
     if (API_KEY) localStorage.setItem('nsc-admin-api-key', API_KEY);
+    return API_KEY;
   }
 
   var ROOM_DEFAULTS = { dormitory: { total: 8, price: 45 }, single: { total: 4, price: 55 }, double: { total: 3, price: 75 } };
@@ -215,17 +220,25 @@
   function fetchData() {
     var y = currentMonth.getFullYear(), m0 = currentMonth.getMonth();
     var r = monthRangeYmd(y, m0);
-    fetch('/api/admin-availability?from=' + encodeURIComponent(r.from) + '&to=' + encodeURIComponent(r.to), {
-      headers: { 'x-api-key': API_KEY }
-    })
+    fetch('/api/availability?from=' + encodeURIComponent(r.from) + '&to=' + encodeURIComponent(r.to))
     .then(function(res){ return res.json(); })
     .then(function(d){
       data = {};
-      (d.rows || []).forEach(function(row){
-        var dk = normalizeDbDate(row.date);
-        if (!dk) return;
+      var days = d.days || {};
+      Object.keys(days).forEach(function(dk){
         if (!data[dk]) data[dk] = {};
-        data[dk][row.room_type] = row;
+        var rooms = days[dk] || {};
+        Object.keys(rooms).forEach(function(rt){
+          var info = rooms[rt] || {};
+          data[dk][rt] = {
+            date: dk,
+            room_type: rt,
+            total: Number(info.total) || 0,
+            booked: Number(info.booked) || 0,
+            price_eur: info.price,
+            notes: null
+          };
+        });
       });
       render();
     })
@@ -446,6 +459,8 @@
 
   document.getElementById('save-btn').addEventListener('click', function(){
     if (selected.size === 0) { showMsg('Sélectionnez au moins un jour (plage ou Ctrl+clic).', false); return; }
+    var key = ensureApiKey();
+    if (!key) { showMsg('Clé API requise pour enregistrer.', false); return; }
     var body = {
       dates: Array.from(selected).sort(),
       room_type: roomType,
@@ -456,7 +471,7 @@
     };
     fetch('/api/admin-availability', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-api-key': API_KEY },
+      headers: { 'Content-Type': 'application/json', 'x-api-key': key },
       body: JSON.stringify(body),
     })
     .then(function(r){ return r.json(); })
