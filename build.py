@@ -708,8 +708,11 @@ def build_footer(lang, flag_href_override=None):
       <div class="footer-col footer-col-cert">
         <h4>{CERT_H4[lang]}</h4>
         <div class="footer-fss-cert">
-          <div class="fss-logo-wrap">
-            <img src="{FSS_LOGO}" alt="FSS" width="38" height="38" loading="lazy">
+          <div class="fss-seal">
+            <div class="fss-logo-wrap">
+              <img src="{FSS_LOGO}" alt="Fédération Sénégalaise de Surf" width="56" height="56" loading="lazy">
+            </div>
+            <div class="fss-seal-ring" aria-hidden="true"></div>
           </div>
           <div class="fss-cert-txt">
             <strong>{FSS_CERT[lang]}</strong>
