@@ -4054,9 +4054,11 @@ def build_booking(lang):
       return '';
     }}
     var docLang = ((document.documentElement.lang || 'en').split('-')[0] || 'en').toLowerCase();
-    var detected = detectFromNavigator();
     var fallback = byLang[docLang] || '+221';
-    var preferred = detected || fallback;
+    // For language-specific pages (fr, it, es, de, nl, ar) the page language
+    // unambiguously identifies the user's country → use it directly.
+    // For English (neutral language), fall back to browser region detection.
+    var preferred = (docLang !== 'en') ? fallback : (detectFromNavigator() || fallback);
     if (hasOption(preferred)) ccSelect.value = preferred;
   }})();
 
