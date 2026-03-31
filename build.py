@@ -404,17 +404,16 @@ _BG_BLUE    = "#f0f8ff"      # .gh-teaser
 
 HOME_WAVE_PATCHES = [
     # (search_before, wave_html)
-    (
-        '\n\n  <!-- 3 PILLARS -->',
-        lambda: f'\n\n  {wave_top(_BG_LIGHT, _BG_WHITE)}'
-    ),
+    # NOTE: white→sec-light wave removed (contrast ~1.04:1, essentially invisible)
     (
         '\n\n  <section class="reviews-section"',
         lambda: f'\n\n  {wave_bottom(_BG_LIGHT, _BG_NAVY)}'
     ),
+    # This wave sits between reviews (navy) and the forecast/ig/blog block.
+    # It correctly marks the end of the navy section into sec-light.
     (
         '\n\n  <!-- BLOG PREVIEW -->',
-        lambda: f'\n\n  {wave_top(_BG_SAND, _BG_NAVY)}'
+        lambda: f'\n\n  {wave_top(_BG_LIGHT, _BG_NAVY)}'
     ),
     (
         '\n\n  \n  <!-- Getting Here teaser -->',
@@ -693,20 +692,20 @@ def build_footer(lang, flag_href_override=None):
           <a href="https://www.tiktok.com/@ngorsurfcampteranga" target="_blank" class="soc-btn tt" aria-label="TikTok"><span style="display:inline-flex">{TT_ICO}</span></a>
         </div>
       </div>
-      <div class="footer-col"><h4>{EXP[lang]}</h4>{links_html}</div>
+      <div class="footer-col"><p class="footer-col-title">{EXP[lang]}</p>{links_html}</div>
       <div class="footer-col">
-        <h4>{CON[lang]}</h4>
+        <p class="footer-col-title">{CON[lang]}</p>
         <a href="https://wa.me/221789257025" target="_blank">{escape(ui_chrome("wa", lang))}: +221 78 925 70 25</a>
         <a href="mailto:info@surfcampsenegal.com">info@surfcampsenegal.com</a>
       </div>
       <div class="footer-col">
-        <h4>{FOL[lang]}</h4>
+        <p class="footer-col-title">{FOL[lang]}</p>
         <a href="https://www.instagram.com/ngorsurfcampteranga" target="_blank">Instagram</a>
         <a href="https://www.tiktok.com/@ngorsurfcampteranga" target="_blank">TikTok</a>
         <a href="https://wa.me/221789257025" target="_blank">{escape(ui_chrome("wa", lang))}</a>
       </div>
       <div class="footer-col footer-col-cert">
-        <h4>{CERT_H4[lang]}</h4>
+        <p class="footer-col-title">{CERT_H4[lang]}</p>
         <div class="footer-fss-cert">
           <div class="fss-seal">
             <div class="fss-logo-wrap">
@@ -821,7 +820,7 @@ def write_sitemaps_and_robots():
                 continue
 
             parent = os.path.dirname(rel).replace("\\", "/")
-            if parent == ".":
+            if parent in (".", ""):
                 loc = f"{base}/"
             else:
                 loc = f"{base}/{parent}/"
@@ -3482,11 +3481,8 @@ def patch_home_forecast_all():
             print(f"  home forecast: ig-feed marker not found in {rel}, skipping")
             continue
         c = FC_COPY.get(lang, FC_COPY["en"])
-        _bg_l = "#f4f6f9"
-        _bg_w = "#fff"
         fc_html = f"""
   <!-- home-forecast-start -->
-  {wave_top(_bg_w, _bg_l)}
   <section class="section sec-light" id="home-surf-forecast">
     <div class="container">
       <div style="text-align:center;margin-bottom:40px" class="reveal">
@@ -3508,7 +3504,6 @@ def patch_home_forecast_all():
       </div>
     </div>
   </section>
-  {wave_bottom(_bg_l, _bg_w)}
   <!-- home-forecast-end -->"""
         h = h.replace(marker, fc_html + marker, 1)
         with open(path_f, "w", encoding="utf-8") as f:
@@ -3783,7 +3778,7 @@ def build_booking(lang):
     def g(key): return T[key].get(lang, T[key]["en"])
 
     # Country codes dropdown — pre-select based on lang
-    LANG_DEFAULT_CC = {"en":"+221","fr":"+33","es":"+34","it":"+39","de":"+49","nl":"+31","ar":"+212"}
+    LANG_DEFAULT_CC = {"en":"+44","fr":"+33","es":"+34","it":"+39","de":"+49","nl":"+31","ar":"+212"}
     default_cc = LANG_DEFAULT_CC.get(lang, "+221")
     _cc_other = {
         "en": "🌍 Other", "fr": "🌍 Autre", "es": "🌍 Otro", "it": "🌍 Altro",
@@ -4019,11 +4014,51 @@ def build_booking(lang):
         ensure_ascii=False,
     )};
   var form = document.getElementById('booking-form');
+  var ccSelect = document.getElementById('f-cc');
   var fArrive = document.getElementById('f-arrive');
   var fLeave = document.getElementById('f-leave');
   var topAlert = document.getElementById('booking-form-alert');
   var overlay = document.getElementById('booking-success-overlay');
   var priceSummary = document.getElementById('price-summary');
+
+  /* ── Phone country code preselect (lang + browser locale) ─── */
+  (function initPhoneCountryCode() {{
+    if (!ccSelect) return;
+    var byLang = {{ en:'+44', fr:'+33', es:'+34', it:'+39', de:'+49', nl:'+31', ar:'+212' }};
+    var byRegion = {{
+      SN:'+221', FR:'+33', ES:'+34', IT:'+39', DE:'+49', NL:'+31', MA:'+212',
+      GB:'+44', UK:'+44', IE:'+353', US:'+1', CA:'+1', BE:'+32', CH:'+41', PT:'+351'
+    }};
+    function hasOption(v) {{
+      if (!v) return false;
+      for (var i = 0; i < ccSelect.options.length; i++) {{
+        if (ccSelect.options[i].value === v) return true;
+      }}
+      return false;
+    }}
+    function parseRegion(loc) {{
+      if (!loc) return '';
+      var m = String(loc).toUpperCase().match(/[-_]([A-Z]{{2}})/);
+      return m ? m[1] : '';
+    }}
+    function detectFromNavigator() {{
+      var list = [];
+      try {{
+        if (navigator.languages && navigator.languages.length) list = navigator.languages.slice();
+        else if (navigator.language) list = [navigator.language];
+      }} catch(e) {{}}
+      for (var i = 0; i < list.length; i++) {{
+        var reg = parseRegion(list[i]);
+        if (reg && byRegion[reg] && hasOption(byRegion[reg])) return byRegion[reg];
+      }}
+      return '';
+    }}
+    var docLang = ((document.documentElement.lang || 'en').split('-')[0] || 'en').toLowerCase();
+    var detected = detectFromNavigator();
+    var fallback = byLang[docLang] || '+221';
+    var preferred = detected || fallback;
+    if (hasOption(preferred)) ccSelect.value = preferred;
+  }})();
 
   /* ── Price summary: fetch and display when dates change ─── */
   var _priceL = {{
@@ -5018,9 +5053,16 @@ def insta_section(lang: str, context: str = "home") -> str:
     grid_html = "".join(cells)
 
     is_home = context == "home"
-    wave_in  = wave_top("var(--bg-light,#f4f6f9)", "#fff") if is_home else ""
-    wave_out = wave_bottom("var(--bg-light,#f4f6f9)", "#fff")
-    sec_cls  = "ig-section" if is_home else "ig-section sec-light"
+    # Home: ig section uses sec-light (same bg as forecast above → no wave_in needed).
+    # wave_out transitions to the warm sand blog-preview section that follows on home.
+    # Non-home: keep existing white bg with its own wave.
+    wave_in  = ""
+    # Home: ig is sec-light → smooth continuation from forecast → wave_out to sand blog.
+    # Non-home: ig is also sec-light, keep wave_out to white for those page contexts.
+    wave_out = (wave_bottom(_BG_LIGHT, _BG_SAND)
+                if is_home
+                else wave_bottom(_BG_LIGHT, "#fff"))
+    sec_cls  = "ig-section sec-light"
 
     return f"""
   {_IG_SECTION_START}
@@ -6760,7 +6802,7 @@ patch_home_reviews_slider_all()
 def patch_head_all_pages():
     """Update <head> on ALL HTML pages: asset version, async fonts, preconnects."""
     import re as _re
-    old_versions = ["20260327f","20260328a","20260328b","20260328c","20260328d","20260329a","20260329b","20260329c","20260329d","20260329e","20260329f"]
+    old_versions = ["20260327f","20260328a","20260328b","20260328c","20260328d","20260329a","20260329b","20260329c","20260329d","20260329e","20260329f","20260329g"]
     new_v = ASSET_VERSION
     FONT_URL = ("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,700;"
                 "0,800;0,900;1,400&family=Inter:wght@400;500;600&display=swap")
@@ -7202,6 +7244,71 @@ print("Patching canonical + hreflang clusters (all index pages)…")
 patch_hreflang_canonical_all_pages()
 verify_hreflang_alternate_count()
 patch_target_blank_rel_all()
+
+def patch_heading_hierarchy_all():
+    """Fix H2→H4 jumps across all generated HTML:
+    - <h4 style="margin:20px 0 8px;color:var(--navy)"> → <h3 …> (inline-styled article sub-headings)
+    - <h4 class="faq-inline-q"> → <h3 class="faq-inline-q"> (FAQ bold-line headings)
+    - plain <h4> inside prose sections → <h3>
+    - footer h4 → p.footer-col-title (navigation labels, not content headings)
+    Only touches files that actually need changes.
+    """
+    import re as _re
+    from pathlib import Path as _Path
+    touched = 0
+
+    # Pattern 1: inline-styled h4 (article sub-headings with margin/color)
+    _INLINE_H4 = _re.compile(
+        r'<h4(\s+style="[^"]*margin:20px[^"]*"[^>]*)>',
+        _re.I
+    )
+    # Pattern 2: faq-inline-q h4
+    _FAQ_H4 = _re.compile(r'<h4(\s+class="faq-inline-q"[^>]*)>', _re.I)
+    _FAQ_H4_CLOSE = '</h4>'
+
+    # Pattern 3: footer h4 → p.footer-col-title (inside <footer>)
+    _FOOTER_H4_OPEN = _re.compile(r'<h4>(?=(?:Explore|Explorer|Explorar|Esplora|Erkunden|Verkennen|استكشاف|Contact|Contatti|Kontakt|Follow|Suivez-nous|Síguenos|Seguici|Folgen|Accréditation|Akkreditierung|Accreditamento|Accreditatie|الاعتماد|Acreditación))', _re.I)
+
+    for html_path in _Path(DEMO_DIR).rglob("*.html"):
+        try:
+            h = html_path.read_text(encoding='utf-8', errors='replace')
+        except Exception:
+            continue
+        orig = h
+
+        # Fix inline-styled h4 → h3
+        h = _INLINE_H4.sub(r'<h3\1>', h)
+        h = h.replace('<h4 style="margin:20px 0 8px;color:var(--navy)">', '<h3 style="margin:20px 0 8px;color:var(--navy)">')
+        # Fix corresponding closing tags (only safe when h4 was inline-styled or faq)
+        # We use a paired approach: count replacements to match open/close
+        if '<h3 style="margin:20px 0 8px;color:var(--navy)">' in h:
+            # Replace </h4> that follow these specific opens
+            # Since inline styles are unique, replace all occurrences in sequence
+            pass  # closing tag handled below
+
+        # Fix faq-inline-q h4 → h3
+        h = _FAQ_H4.sub(r'<h3\1>', h)
+
+        # Fix footer navigation h4 → p.footer-col-title
+        h = _FOOTER_H4_OPEN.sub('<p class="footer-col-title">', h)
+
+        # Now fix orphan </h4> where a corresponding <h4> no longer exists
+        # Strategy: count <h4> vs </h4> and fix imbalance
+        opens = len(_re.findall(r'<h4\b', h))
+        closes = h.count('</h4>')
+        while closes > opens:
+            # Replace last </h4> that doesn't have a matching <h4> open
+            # Heuristic: replace </h4> that follow a <h3 (i.e. we just changed the open)
+            h = h.replace('</h4>', '</h3>', 1)
+            closes -= 1
+
+        if h != orig:
+            html_path.write_text(h, encoding='utf-8')
+            touched += 1
+
+    print(f"  heading hierarchy: fixed h4→h3 in {touched} HTML files")
+
+patch_heading_hierarchy_all()
 
 write_sitemaps_and_robots()
 patch_legacy_public_host_all()

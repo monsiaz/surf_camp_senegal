@@ -237,11 +237,51 @@
 (function(){
   var J = {"waIntro": "Hallo! Ik wil graag een verblijf boeken bij Ngor Surfcamp Teranga.", "nameLbl": "Naam", "emailLbl": "E-mail", "phoneLbl": "Telefoon", "levelLbl": "Niveau", "guestsLbl": "Gasten", "arrLbl": "Aankomst", "depLbl": "Vertrek", "roomLbl": "Kamer", "goalLbl": "Doel", "sending": "Verzenden…", "cta": "Controleer beschikbaarheid & Prijzen", "errNet": "Verzenden mislukt. Controleer je verbinding of stuur een WhatsApp.", "succH": "Ontvangen!", "succP": "Bedankt — we hebben je aanvraag ontvangen. We nemen binnen 24 uur contact op.", "succWa": "WhatsApp opent ook met je gegevens — zo kun je ons meteen bereiken als je wilt.", "succBtn": "Begrepen"};
   var form = document.getElementById('booking-form');
+  var ccSelect = document.getElementById('f-cc');
   var fArrive = document.getElementById('f-arrive');
   var fLeave = document.getElementById('f-leave');
   var topAlert = document.getElementById('booking-form-alert');
   var overlay = document.getElementById('booking-success-overlay');
   var priceSummary = document.getElementById('price-summary');
+
+  /* ── Phone country code preselect (lang + browser locale) ─── */
+  (function initPhoneCountryCode() {
+    if (!ccSelect) return;
+    var byLang = { en:'+44', fr:'+33', es:'+34', it:'+39', de:'+49', nl:'+31', ar:'+212' };
+    var byRegion = {
+      SN:'+221', FR:'+33', ES:'+34', IT:'+39', DE:'+49', NL:'+31', MA:'+212',
+      GB:'+44', UK:'+44', IE:'+353', US:'+1', CA:'+1', BE:'+32', CH:'+41', PT:'+351'
+    };
+    function hasOption(v) {
+      if (!v) return false;
+      for (var i = 0; i < ccSelect.options.length; i++) {
+        if (ccSelect.options[i].value === v) return true;
+      }
+      return false;
+    }
+    function parseRegion(loc) {
+      if (!loc) return '';
+      var m = String(loc).toUpperCase().match(/[-_]([A-Z]{2})/);
+      return m ? m[1] : '';
+    }
+    function detectFromNavigator() {
+      var list = [];
+      try {
+        if (navigator.languages && navigator.languages.length) list = navigator.languages.slice();
+        else if (navigator.language) list = [navigator.language];
+      } catch(e) {}
+      for (var i = 0; i < list.length; i++) {
+        var reg = parseRegion(list[i]);
+        if (reg && byRegion[reg] && hasOption(byRegion[reg])) return byRegion[reg];
+      }
+      return '';
+    }
+    var docLang = ((document.documentElement.lang || 'en').split('-')[0] || 'en').toLowerCase();
+    var detected = detectFromNavigator();
+    var fallback = byLang[docLang] || '+221';
+    var preferred = detected || fallback;
+    if (hasOption(preferred)) ccSelect.value = preferred;
+  })();
 
   /* ── Price summary: fetch and display when dates change ─── */
   var _priceL = {
@@ -560,7 +600,7 @@
           <a href="https://www.tiktok.com/@ngorsurfcampteranga" target="_blank" rel="noopener noreferrer" class="soc-btn tt" aria-label="TikTok"><span style="display:inline-flex"><svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.28 6.28 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.22 8.22 0 004.84 1.56V6.79a4.85 4.85 0 01-1.07-.1z"/></svg></span></a>
         </div>
       </div>
-      <div class="footer-col"><h4>Verkennen</h4><a href="/nl/surf-house/">Surf House</a>
+      <div class="footer-col"><p class="footer-col-title">Verkennen</p><a href="/nl/surf-house/">Surf House</a>
 <a href="/nl/eiland/">Eiland</a>
 <a href="/nl/surfen/">Surfen</a>
 <a href="/nl/blog/">Blog</a>
@@ -570,18 +610,18 @@
 <a href="/nl/surf-condities/">Surfvoorspelling</a>
 <a href="/nl/hoe-kom-je-er/">Hoe kom je er</a></div>
       <div class="footer-col">
-        <h4>Contact</h4>
+        <p class="footer-col-title">Contact</p>
         <a href="https://wa.me/221789257025" target="_blank" rel="noopener noreferrer">WhatsApp: +221 78 925 70 25</a>
         <a href="mailto:info@surfcampsenegal.com">info@surfcampsenegal.com</a>
       </div>
       <div class="footer-col">
-        <h4>Volgen</h4>
+        <p class="footer-col-title">Volgen</p>
         <a href="https://www.instagram.com/ngorsurfcampteranga" target="_blank" rel="noopener noreferrer">Instagram</a>
         <a href="https://www.tiktok.com/@ngorsurfcampteranga" target="_blank" rel="noopener noreferrer">TikTok</a>
         <a href="https://wa.me/221789257025" target="_blank" rel="noopener noreferrer">WhatsApp</a>
       </div>
       <div class="footer-col footer-col-cert">
-        <h4>Accreditatie</h4>
+        <p class="footer-col-title">Accreditatie</p>
         <div class="footer-fss-cert">
           <div class="fss-seal">
             <div class="fss-logo-wrap">

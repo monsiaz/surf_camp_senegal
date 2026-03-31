@@ -109,7 +109,7 @@ def md2html_island(md, lang="en", icons_dir="", ico_base="/assets/images/icons")
 
         if s.startswith("#### "):
             close_lists()
-            out.append(f"<h4>{inline(s[5:])}</h4>")
+            out.append(f"<h3>{inline(s[5:])}</h3>")
         elif s.startswith("### "):
             close_lists()
             out.append(f"<h3>{inline(s[4:])}</h3>")
@@ -207,9 +207,9 @@ def md2html_island(md, lang="en", icons_dir="", ico_base="/assets/images/icons")
             close_lists()
             t2 = s.strip("*")
             if "?" in t2:
-                out.append(f'<h4 class="faq-inline-q">{t2}</h4>')
+                out.append(f'<h3 class="faq-inline-q">{t2}</h3>')
             else:
-                out.append(f"<h4>{t2}</h4>")
+                out.append(f"<h3>{t2}</h3>")
         else:
             close_lists()
             p = inline(s)

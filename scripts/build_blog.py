@@ -435,7 +435,7 @@ def md2html(md, lang="en", pfx=""):
             continue
 
         # Headings
-        if s.startswith("#### "):   close_lists(); out.append(f'<h4>{inline(s[5:])}</h4>')
+        if s.startswith("#### "):   close_lists(); out.append(f'<h3>{inline(s[5:])}</h3>')
         elif s.startswith("### "): close_lists(); out.append(f'<h3>{inline(s[4:])}</h3>')
         elif s.startswith("## "):
             close_lists()
@@ -555,7 +555,7 @@ def md2html(md, lang="en", pfx=""):
         elif s.startswith("**") and s.endswith("**") and s.count("**")==2:
             close_lists()
             t2 = s.strip("*")
-            out.append(f'<h4 class="{"faq-inline-q" if "?" in t2 else ""}">{t2}</h4>')
+            out.append(f'<h3 class="{"faq-inline-q" if "?" in t2 else ""}">{t2}</h3>')
 
         else:
             close_lists()
@@ -696,7 +696,7 @@ def footer_html(lang, pfx):
     PP_SLUG={"en":"privacy-policy","fr":"politique-de-confidentialite","es":"politica-de-privacidad","it":"informativa-sulla-privacy","de":"datenschutzrichtlinie","nl":"privacybeleid","ar":"privacy-policy"}
     PP_LBL={"en":"Privacy Policy","fr":"Politique de confidentialité","es":"Política de privacidad","it":"Informativa sulla privacy","de":"Datenschutzrichtlinie","nl":"Privacybeleid","ar":"سياسة الخصوصية"}
     pp_href=f"{pfx}/{PP_SLUG[lang]}/"
-    return f'<footer><div class="container"><div class="footer-grid"><div><img src="{LOGO}" alt="Ngor Surfcamp Teranga" class="footer-brand-logo" loading="lazy"><p>{ABOUT[lang]}</p><div class="footer-social"><a href="https://wa.me/221789257025" target="_blank" class="soc-btn wa" aria-label="WhatsApp"><span style="display:inline-flex">{WA_ICO}</span></a><a href="https://www.instagram.com/ngorsurfcampteranga" target="_blank" class="soc-btn ig" aria-label="Instagram"><span style="display:inline-flex">{IG}</span></a><a href="https://www.tiktok.com/@ngorsurfcampteranga" target="_blank" class="soc-btn tt" aria-label="TikTok"><span style="display:inline-flex">{TT}</span></a></div></div><div class="footer-col"><h4>{EXP[lang]}</h4>{lk}</div><div class="footer-col"><h4>{"Contact" if lang in ["en","fr","es"] else "Contatti" if lang=="it" else "Kontakt"}</h4><a href="https://wa.me/221789257025" target="_blank">WhatsApp: +221 78 925 70 25</a><a href="mailto:info@surfcampsenegal.com">info@surfcampsenegal.com</a></div><div class="footer-col"><h4>{"Follow" if lang=="en" else "Suivez-nous" if lang=="fr" else "Síguenos" if lang=="es" else "Seguici" if lang=="it" else "Folgen"}</h4><a href="https://www.instagram.com/ngorsurfcampteranga" target="_blank">Instagram</a><a href="https://www.tiktok.com/@ngorsurfcampteranga" target="_blank">TikTok</a></div></div><div class="footer-bottom"><p>{COPY[lang]} &nbsp;·&nbsp; <a href="{pp_href}" class="footer-pp-link">{PP_LBL[lang]}</a></p><div class="footer-flags">{fl}</div></div></div></footer>'
+    return f'<footer><div class="container"><div class="footer-grid"><div><img src="{LOGO}" alt="Ngor Surfcamp Teranga" class="footer-brand-logo" loading="lazy"><p>{ABOUT[lang]}</p><div class="footer-social"><a href="https://wa.me/221789257025" target="_blank" class="soc-btn wa" aria-label="WhatsApp"><span style="display:inline-flex">{WA_ICO}</span></a><a href="https://www.instagram.com/ngorsurfcampteranga" target="_blank" class="soc-btn ig" aria-label="Instagram"><span style="display:inline-flex">{IG}</span></a><a href="https://www.tiktok.com/@ngorsurfcampteranga" target="_blank" class="soc-btn tt" aria-label="TikTok"><span style="display:inline-flex">{TT}</span></a></div></div><div class="footer-col"><p class="footer-col-title">{EXP[lang]}</p>{lk}</div><div class="footer-col"><p class="footer-col-title">{"Contact" if lang in ["en","fr","es"] else "Contatti" if lang=="it" else "Kontakt"}</p><a href="https://wa.me/221789257025" target="_blank">WhatsApp: +221 78 925 70 25</a><a href="mailto:info@surfcampsenegal.com">info@surfcampsenegal.com</a></div><div class="footer-col"><p class="footer-col-title">{"Follow" if lang=="en" else "Suivez-nous" if lang=="fr" else "Síguenos" if lang=="es" else "Seguici" if lang=="it" else "Folgen"}</p><a href="https://www.instagram.com/ngorsurfcampteranga" target="_blank">Instagram</a><a href="https://www.tiktok.com/@ngorsurfcampteranga" target="_blank">TikTok</a></div></div><div class="footer-bottom"><p>{COPY[lang]} &nbsp;·&nbsp; <a href="{pp_href}" class="footer-pp-link">{PP_LBL[lang]}</a></p><div class="footer-flags">{fl}</div></div></div></footer>'
 
 PERSONA_COLORS = {"maya-beginner":("#29b6f6","#e0f7fa"),"jake-weekend":("#ff6b35","#fff3ef"),"lena-committed":("#9c27b0","#f3e5f5"),"carlos-globetrotter":("#0a2540","#e8edf5"),"amara-soul":("#e91e63","#fce4ec")}
 
