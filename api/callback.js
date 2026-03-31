@@ -4,8 +4,22 @@
  * Exchanges the authorization code for an access token, then sends it
  * back to the CMS opener window via postMessage.
  */
+function getCookie(req, key) {
+  const raw = req.headers.cookie || '';
+  const parts = raw.split(';');
+  for (const part of parts) {
+    const idx = part.indexOf('=');
+    if (idx < 0) continue;
+    const k = part.slice(0, idx).trim();
+    if (k !== key) continue;
+    return decodeURIComponent(part.slice(idx + 1).trim());
+  }
+  return '';
+}
+
 export default async function handler(req, res) {
-  const { code, error, error_description } = req.query;
+  const { code, error, error_description, state } = req.query;
+  res.setHeader('Set-Cookie', 'oauth_state=; HttpOnly; Secure; SameSite=Lax; Path=/api/callback; Max-Age=0');
 
   if (error) {
     const html = renderPage('error', { error, message: error_description || error });
@@ -15,6 +29,16 @@ export default async function handler(req, res) {
   if (!code) {
     return res.status(400).setHeader('Content-Type', 'text/html')
       .send(renderPage('error', { error: 'missing_code', message: 'No authorization code received.' }));
+  }
+
+  const expectedState = getCookie(req, 'oauth_state');
+  if (!state || !expectedState || state !== expectedState) {
+    return res.status(400).setHeader('Content-Type', 'text/html').send(
+      renderPage('error', {
+        error: 'invalid_state',
+        message: 'OAuth state mismatch. Restart the login flow.',
+      })
+    );
   }
 
   try {

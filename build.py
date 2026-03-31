@@ -1828,6 +1828,53 @@ def patch_hreflang_canonical_all_pages():
     print(f"  hreflang/canonical: patched {n} pages (skipped {skip} non-cluster or no canonical)")
 
 
+def patch_target_blank_rel_all():
+    """Ensure every target=_blank link has rel=noopener noreferrer."""
+    import re as _re
+    from pathlib import Path as _Path
+
+    def _add_missing_rel(html):
+        return _re.sub(
+            r'(<a\b[^>]*\btarget="_blank")(?![^>]*\brel=)',
+            r'\1 rel="noopener noreferrer"',
+            html,
+            flags=_re.I,
+        )
+
+    rel_pat = _re.compile(
+        r'(<a\b[^>]*\btarget="_blank"[^>]*\brel=)(["\'])([^"\']*)(\2)',
+        _re.I,
+    )
+
+    def _normalize_rel(html):
+        def repl(m):
+            prefix, quote, rel_value, _ = m.groups()
+            tokens = [t for t in rel_value.split() if t]
+            lower = {t.lower() for t in tokens}
+            if "noopener" not in lower:
+                tokens.append("noopener")
+            if "noreferrer" not in lower:
+                tokens.append("noreferrer")
+            return f'{prefix}{quote}{" ".join(tokens)}{quote}'
+
+        return rel_pat.sub(repl, html)
+
+    touched = 0
+    for html_path in _Path(DEMO_DIR).rglob("*.html"):
+        try:
+            h = html_path.read_text(encoding="utf-8", errors="replace")
+        except OSError:
+            continue
+        h2 = _normalize_rel(_add_missing_rel(h))
+        if h2 != h:
+            try:
+                html_path.write_text(h2, encoding="utf-8")
+                touched += 1
+            except OSError:
+                continue
+    print(f"  target=_blank rel hardening: touched {touched} HTML files")
+
+
 def verify_hreflang_alternate_count():
     """Lightweight post-build check: expect 8 alternate hreflang links when canonical exists."""
     import re as _re
@@ -7107,6 +7154,10 @@ if _island_guides:
 else:
     print("  (no island_guides manifest — skip)")
 
+# Keep legacy NL/AR island links valid when localized hub pages are not generated.
+wp("/nl/eiland/", make_redirect("/nl/island/"))
+wp("/ar/ngor-island/", make_redirect("/ar/island/"))
+
 print("Rebuilding Super FAQ (full nl/ar copy) + blog HTML from articles_v2…")
 _scripts_dir = os.path.join(_BASE_DIR, "scripts")
 _rc_faq = subprocess.run(
@@ -7150,6 +7201,7 @@ patch_home_nav_footer_all()
 print("Patching canonical + hreflang clusters (all index pages)…")
 patch_hreflang_canonical_all_pages()
 verify_hreflang_alternate_count()
+patch_target_blank_rel_all()
 
 write_sitemaps_and_robots()
 patch_legacy_public_host_all()

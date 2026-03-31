@@ -80,7 +80,7 @@
   <h1>📋 Réservations</h1>
   <a href="/admin/">← CMS</a>
   <a href="/admin/availability.html">📅 Disponibilités</a>
-  <a href="/booking/" target="_blank">Page Booking ↗</a>
+  <a href="/booking/" target="_blank" rel="noopener noreferrer">Page Booking ↗</a>
 </div>
 
 <div class="wrap">
@@ -208,7 +208,7 @@
       html += '<td><span class="badge badge-' + b.status + '">' + b.status + '</span></td>';
       html += '<td><span class="time-ago" title="' + b.created_at + '">' + timeAgo(b.created_at) + '</span></td>';
       html += '<td>';
-      if (waPhone) html += '<a class="wa-link" href="https://wa.me/' + waPhone.replace('+','') + '?text=' + waText + '" target="_blank">💬 WhatsApp</a>';
+      if (waPhone) html += '<a class="wa-link" href="https://wa.me/' + waPhone.replace('+','') + '?text=' + waText + '" target="_blank" rel="noopener noreferrer">💬 WhatsApp</a>';
       html += '</td>';
       html += '</tr>';
     });

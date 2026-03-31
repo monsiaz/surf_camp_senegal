@@ -317,7 +317,7 @@
 
   <!-- ══ ADMIN BAR ════════════════════════════════════ -->
   <div id="nsc-bar">
-    <a id="nsc-brand" href="https://surf-camp-senegal.vercel.app" target="_blank" rel="noopener">
+    <a id="nsc-brand" href="https://surf-camp-senegal.vercel.app" target="_blank" rel="noopener noreferrer">
       <svg width="26" height="18" viewBox="0 0 28 20" fill="none">
         <path d="M2 14 C6 8,10 6,14 10 C18 14,22 12,26 7" stroke="#f0c060" stroke-width="2.2" stroke-linecap="round" fill="none"/>
         <path d="M2 18 C7 13,11 11,15 14.5 C19 18,23 16,26 12" stroke="#ff5a1f" stroke-width="1.6" stroke-linecap="round" fill="none" opacity=".7"/>
@@ -356,7 +356,7 @@
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
         Enregistré
       </div>
-      <a id="nsc-live" href="https://surf-camp-senegal.vercel.app" target="_blank" rel="noopener">
+      <a id="nsc-live" href="https://surf-camp-senegal.vercel.app" target="_blank" rel="noopener noreferrer">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
         Live
       </a>
@@ -393,41 +393,8 @@
 
     var stored = null;
     try { stored = localStorage.getItem(DECAP_KEY); } catch(e) {}
-    if (stored) { overlay.classList.add('hidden'); }
-
-    function doLogin() {
-      var u = document.getElementById('nsc-u').value.trim();
-      var p = document.getElementById('nsc-p').value;
-      if (!u || !p) return;
-      errBox.classList.remove('show');
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Vérification…';
-      form.style.display = 'none';
-      loader.classList.add('show');
-
-      fetch('/api/password-login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: u, password: p })
-      })
-      .then(function(r) { return r.json(); })
-      .then(function(d) {
-        if (!d.token) { showErr(d.error || 'Identifiants incorrects.'); return; }
-        var decapUser = JSON.stringify({
-          name:        d.ghName  || d.username || 'Admin',
-          login:       d.ghLogin || d.username || 'admin',
-          token:       d.token,
-          backendName: 'github'
-        });
-        try { localStorage.setItem(DECAP_KEY, decapUser); } catch(e) {}
-        window.location.reload();
-      })
-      .catch(function() { showErr('Erreur réseau. Réessayez.'); });
-    }
-
-    submitBtn.addEventListener('click', doLogin);
-    document.getElementById('nsc-p').addEventListener('keydown', function(e) { if (e.key==='Enter') doLogin(); });
-    document.getElementById('nsc-u').addEventListener('keydown', function(e) { if (e.key==='Enter') document.getElementById('nsc-p').focus(); });
+    // Legacy password flow is disabled server-side: always let Decap OAuth UI handle login.
+    overlay.classList.add('hidden');
 
     var _expiredChecked = false;
     var observer = new MutationObserver(function() {
@@ -438,7 +405,7 @@
         if (txt.indexOf('GitHub') !== -1 && !btns[i].closest('#nsc-overlay')) {
           _expiredChecked = true;
           try { localStorage.removeItem(DECAP_KEY); } catch(e) {}
-          overlay.classList.remove('hidden');
+          overlay.classList.add('hidden');
           form.style.display = ''; loader.classList.remove('show');
           if (stored) showErr('Session expirée. Reconnectez-vous.');
           return;
