@@ -102,10 +102,14 @@ jobs:
           git commit -m "chore(cron): daily surf data refresh [skip ci]"
           git push
 
+      - name: Configure Vercel token (strip trailing newline if any)
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          echo "VERCEL_TOKEN=$(echo '${{ secrets.VERCEL_TOKEN }}' | tr -d '[:space:]')" >> $GITHUB_ENV
+
       - name: Deploy to Vercel
         if: steps.changes.outputs.changed == 'true'
         env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
         run: |
