@@ -6803,7 +6803,7 @@ patch_home_reviews_slider_all()
 def patch_head_all_pages():
     """Update <head> on ALL HTML pages: asset version, async fonts, preconnects."""
     import re as _re
-    old_versions = ["20260327f","20260328a","20260328b","20260328c","20260328d","20260329a","20260329b","20260329c","20260329d","20260329e","20260329f","20260329g","20260330o","20260401a"]
+    old_versions = ["20260327f","20260328a","20260328b","20260328c","20260328d","20260329a","20260329b","20260329c","20260329d","20260329e","20260329f","20260329g","20260330o","20260401a","20260401b"]
     new_v = ASSET_VERSION
     FONT_URL = "/assets/fonts/fonts.css"
     OLD_FONT_BLOCKING = _re.compile(
@@ -6837,9 +6837,22 @@ def patch_head_all_pages():
                 if old_v in h:
                     h = h.replace(old_v, new_v)
                     changed = True
-            # Make Google Fonts async (non-blocking)
-            if 'fonts.googleapis.com' in h and 'onload' not in h:
-                h2 = OLD_FONT_BLOCKING.sub(ASYNC_FONT, h, count=1)
+            # Replace ALL Google Fonts references with self-hosted fonts.css
+            if 'fonts.googleapis.com' in h:
+                # Remove preload+onload async pattern (any variant)
+                h2 = _re.sub(
+                    r'<link\b[^>]+fonts\.googleapis\.com[^>]*>\n?',
+                    '', h
+                )
+                # Remove noscript fallback wrapping a Google Fonts link
+                h2 = _re.sub(
+                    r'<noscript>\s*<link\b[^>]+fonts\.googleapis\.com[^>]*>\s*</noscript>\n?',
+                    '', h2
+                )
+                # Inject local fonts.css once (before </head>) if not already there
+                if FONT_URL not in h2 and '</head>' in h2:
+                    h2 = h2.replace('</head>',
+                        f'<link rel="stylesheet" href="{FONT_URL}">\n</head>', 1)
                 if h2 != h:
                     h = h2
                     changed = True
@@ -7371,13 +7384,8 @@ def patch_chart_defer_all():
         "nl/surf-condities/index.html",
         "ar/surf-conditions/index.html",
     ]
-    OLD_START = "  loadCJS(function(){"
-    NEW_START = "  function _runCharts(){loadCJS(function(){"
-    OLD_END   = "    });\n  });\n})();\n</script>"
-    NEW_END   = (
-        "    });\n"
-        "  }\n"
-        "  (function(){"
+    OBSERVER = (
+        "(function(){"
         "var _s=document.querySelector('.sc-chart-wrap');"
         "if(!_s||_s.getBoundingClientRect().top<window.innerHeight+400){"
         "_runCharts();"
@@ -7387,10 +7395,17 @@ def patch_chart_defer_all():
         "},{rootMargin:'400px',threshold:0});"
         "_o.observe(_s);"
         "}"
-        "})();\n"
-        "})();\n"
-        "</script>"
+        "})();"
     )
+    # Pattern 1: virgin unpatched pages
+    OLD_CALL = "  loadCJS(function(){"
+    OLD_TAIL = "    });\n  });\n})();\n</script>"
+    NEW_CALL = "  function _runCharts(){loadCJS(function(){"
+    NEW_TAIL = "    });\n  });\n}\n" + OBSERVER + "\n})();\n</script>"
+    # Pattern 2: wrongly patched pages (missing loadCJS close `});`)
+    WRONG_TAIL = "    });\n  }\n  " + OBSERVER + "\n})();\n</script>"
+    FIXED_TAIL = NEW_TAIL  # same target
+
     changed = 0
     for rel in surf_pages:
         p = os.path.join(DEMO_DIR, rel)
@@ -7398,12 +7413,20 @@ def patch_chart_defer_all():
             continue
         with open(p, encoding="utf-8", errors="replace") as f:
             html = f.read()
-        if OLD_START not in html or OLD_END not in html:
+        # Already correctly patched
+        if NEW_TAIL in html:
             continue
-        html = html.replace(OLD_START, NEW_START).replace(OLD_END, NEW_END)
-        with open(p, "w", encoding="utf-8") as f:
-            f.write(html)
-        changed += 1
+        patched = False
+        if OLD_CALL in html and OLD_TAIL in html:
+            html = html.replace(OLD_CALL, NEW_CALL).replace(OLD_TAIL, NEW_TAIL)
+            patched = True
+        elif WRONG_TAIL in html:
+            html = html.replace(WRONG_TAIL, FIXED_TAIL)
+            patched = True
+        if patched:
+            with open(p, "w", encoding="utf-8") as f:
+                f.write(html)
+            changed += 1
     print(f"  chart.js: deferred with IntersectionObserver on {changed} surf-conditions pages")
 
 patch_webp_images_all()
