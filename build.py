@@ -5849,7 +5849,7 @@ def build_surf_conditions_page(lang):
     <p style="font-size:15px;opacity:0.8;margin-top:10px">{escape(g("sub"))}</p>
   </header>
 
-  {wave_top(_BG_LIGHT, _BG_WHITE)}
+  {wave_top(_BG_LIGHT, _BG_NAVY)}
   <!-- ── Live conditions ── -->
   <section class="section sec-light">
     <div class="container">
@@ -5972,10 +5972,9 @@ def build_surf_conditions_page(lang):
       </div>
     </div>
   </section>
-  {wave_bottom(_BG_LIGHT, _BG_WHITE)}
+  {wave_bottom(_BG_LIGHT, _BG_NAVY)}
 
   <!-- ── CTA ── -->
-  {wave_top(_BG_LIGHT, _BG_NAVY)}
   <div class="cta-band">
     <div class="container">
       <h2>{escape(g("cta_h2"))}</h2>
