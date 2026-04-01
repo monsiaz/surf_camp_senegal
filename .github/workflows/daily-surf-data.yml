@@ -2,28 +2,42 @@ name: Daily surf data refresh
 
 on:
   schedule:
-    # Run at 02:00 UTC every night (3am Paris time / 2am Dakar time)
+    # 02:00 UTC chaque nuit (3h Paris / 2h Dakar)
     - cron: '0 2 * * *'
-  workflow_dispatch:   # allow manual trigger
+  workflow_dispatch:
+
+concurrency:
+  group: vercel-prod-cron
+  cancel-in-progress: true
 
 jobs:
   refresh-and-deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     permissions:
       contents: write
+
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
-      - name: Install Python dependencies
-        run: pip install pillow
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
 
-      - name: Refresh 2025 historical surf data
+      - name: Install dependencies
+        run: |
+          pip install pillow requests
+          npm ci
+
+      - name: Refresh surf data (open-meteo API)
         run: |
           python3 - << 'PYEOF'
           import urllib.request, json, statistics, os
@@ -86,6 +100,8 @@ jobs:
           PYEOF
 
       - name: Build site
+        env:
+          PUBLIC_SITE_URL: https://surf-camp-senegal.vercel.app
         run: python3 build.py
 
       - name: Check for changes
@@ -93,7 +109,7 @@ jobs:
         run: |
           git diff --quiet cloudflare-demo/ && echo "changed=false" >> $GITHUB_OUTPUT || echo "changed=true" >> $GITHUB_OUTPUT
 
-      - name: Commit updated data if changed
+      - name: Commit updated data
         if: steps.changes.outputs.changed == 'true'
         run: |
           git config user.name "github-actions[bot]"
@@ -102,6 +118,14 @@ jobs:
           git commit -m "chore(cron): daily surf data refresh [skip ci]"
           git push
 
+      - name: Restore Vercel project link
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          mkdir -p .vercel
+          printf '{"projectId":"%s","orgId":"%s"}' \
+            "${{ secrets.VERCEL_PROJECT_ID }}" \
+            "${{ secrets.VERCEL_ORG_ID }}" > .vercel/project.json
+
       - name: Deploy to Vercel
         if: steps.changes.outputs.changed == 'true'
         env:
@@ -109,6 +133,5 @@ jobs:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
         run: |
-          npm install -g vercel@latest
-          vercel build --prod --token "$VERCEL_TOKEN" --yes
-          vercel deploy --prebuilt --prod --token "$VERCEL_TOKEN" --yes
+          npx vercel build --prod --token "$VERCEL_TOKEN" --yes
+          npx vercel deploy --prebuilt --prod --token "$VERCEL_TOKEN" --yes

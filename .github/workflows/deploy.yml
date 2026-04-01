@@ -1,7 +1,4 @@
-# Production: Python build + `vercel build` puis `vercel deploy --prebuilt` (fiable pour gros sites statiques).
-# Si le déploiement Git intégré Vercel tourne aussi, tu auras deux builds par push — désactive-le dans
-# Vercel → Project → Settings → Git → Ignored Build Step, ou garde uniquement ce workflow.
-name: Build & Deploy to Vercel
+name: Deploy to Vercel
 
 on:
   push:
@@ -16,53 +13,47 @@ permissions:
   contents: read
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
     timeout-minutes: 20
 
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - name: Set up Node.js
+      - name: Set up Node.js 20
         uses: actions/setup-node@v4
         with:
           node-version: "20"
           cache: npm
 
-      - name: Install deps
+      - name: Install dependencies
         run: |
-          pip install requests
+          pip install pillow requests
           npm ci
 
       - name: Restore Vercel project link
-        env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
         run: |
           mkdir -p .vercel
-          echo '{"projectId":"'"$VERCEL_PROJECT_ID"'","orgId":"'"$VERCEL_ORG_ID"'"}' > .vercel/project.json
+          printf '{"projectId":"%s","orgId":"%s"}' \
+            "${{ secrets.VERCEL_PROJECT_ID }}" \
+            "${{ secrets.VERCEL_ORG_ID }}" > .vercel/project.json
 
-      - name: Build site (python)
+      - name: Build site
         env:
           PUBLIC_SITE_URL: https://surf-camp-senegal.vercel.app
         run: python3 build.py
 
-      - name: Vercel build (prebuilt output)
+      - name: Deploy to Vercel
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-        run: npx vercel build --prod --token "$VERCEL_TOKEN" --yes
-
-      - name: Deploy to Vercel Production
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-        run: npx vercel deploy --prebuilt --prod --token "$VERCEL_TOKEN" --yes
+        run: |
+          npx vercel build --prod --token "$VERCEL_TOKEN" --yes
+          npx vercel deploy --prebuilt --prod --token "$VERCEL_TOKEN" --yes
