@@ -1,5 +1,6 @@
 {
   "outputDirectory": "cloudflare-demo",
+  "buildCommand": "",
   "rewrites": [
     {
       "source": "/:lang(fr|es|it|de|nl|ar)/admin/config.yml",
