@@ -534,8 +534,8 @@ def page_head(title, meta, lang, page_key, og_img="", og_type="website"):
 <meta name="twitter:image" content="{_abs_img}">
 <meta name="robots" content="index,follow">
 {can}
-{hrl}<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+{hrl}
+
 <link rel="preload" href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,700;0,800;0,900;1,400&family=Inter:wght@400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,700;0,800;0,900;1,400&family=Inter:wght@400;500;600&display=swap"></noscript>
 <link rel="stylesheet" href="/assets/css/{ASSET_CSS_MAIN}?v={ASSET_VERSION}">
@@ -1294,8 +1294,8 @@ def build_island_guide_page(guide, lang, all_guides, guide_index):
 <meta property="og:type" content="article">
 <meta name="robots" content="index,follow">
 {chr(10).join(href_lines)}
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+
 <link rel="preload" href="{hero_rel}" as="image" fetchpriority="high">
 <link rel="preload" href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,700;0,800;0,900;1,400&family=Inter:wght@400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,700;0,800;0,900;1,400&family=Inter:wght@400;500;600&display=swap"></noscript>
@@ -6805,17 +6805,13 @@ def patch_head_all_pages():
     import re as _re
     old_versions = ["20260327f","20260328a","20260328b","20260328c","20260328d","20260329a","20260329b","20260329c","20260329d","20260329e","20260329f","20260329g"]
     new_v = ASSET_VERSION
-    FONT_URL = ("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,700;"
-                "0,800;0,900;1,400&family=Inter:wght@400;500;600&display=swap")
+    FONT_URL = "/assets/fonts/fonts.css"
     OLD_FONT_BLOCKING = _re.compile(
         r'<link\s+href="https://fonts\.googleapis\.com/css2[^"]*"\s+rel="stylesheet">'
         r'|<link\s+rel="stylesheet"\s+href="https://fonts\.googleapis\.com/css2[^"]*">',
         _re.DOTALL
     )
-    ASYNC_FONT = (
-        f'<link rel="preload" href="{FONT_URL}" as="style" onload="this.onload=null;this.rel=\'stylesheet\'">'
-        f'<noscript><link rel="stylesheet" href="{FONT_URL}"></noscript>'
-    )
+    ASYNC_FONT = f'<link rel="stylesheet" href="{FONT_URL}">'
     n_updated = 0
     from pathlib import Path as _Path
     for html_path in _Path(DEMO_DIR).rglob("*.html"):
@@ -7337,6 +7333,81 @@ if os.path.isdir(_static_src):
             os.makedirs(os.path.dirname(_dst_path), exist_ok=True)
             shutil.copy2(_src_path, _dst_path)
     print(f"✓ static/ copied to {DEMO_DIR}")
+
+def patch_webp_images_all():
+    """Replace large PNG image references with pre-generated WebP equivalents."""
+    REPLACEMENTS = [
+        ("logo-federation.png",  "logo-federation.webp"),
+        ("icon-location.png",    "icon-location.webp"),
+        ("icon-summary.png",     "icon-summary.webp"),
+        ("icon-coaching.png",    "icon-coaching.webp"),
+        ("icon-federation.png",  "icon-federation.webp"),
+        ("icon-checklist.png",   "icon-checklist.webp"),
+        ("icon-calendar.png",    "icon-calendar.webp"),
+    ]
+    from pathlib import Path as _Path
+    changed = 0
+    for html_path in _Path(DEMO_DIR).rglob("*.html"):
+        try:
+            content = html_path.read_text(errors="replace")
+            new_content = content
+            for old, new in REPLACEMENTS:
+                new_content = new_content.replace(old, new)
+            if new_content != content:
+                html_path.write_text(new_content, encoding="utf-8")
+                changed += 1
+        except Exception:
+            pass
+    print(f"  images: replaced PNG→WebP in {changed} HTML files")
+
+def patch_chart_defer_all():
+    """Wrap Chart.js initialisation in an IntersectionObserver on surf-conditions pages."""
+    surf_pages = [
+        "surf-conditions/index.html",
+        "fr/conditions-surf/index.html",
+        "es/condiciones-surf/index.html",
+        "it/condizioni-surf/index.html",
+        "de/surf-bedingungen/index.html",
+        "nl/surf-condities/index.html",
+        "ar/surf-conditions/index.html",
+    ]
+    OLD_START = "  loadCJS(function(){"
+    NEW_START = "  function _runCharts(){loadCJS(function(){"
+    OLD_END   = "    });\n  });\n})();\n</script>"
+    NEW_END   = (
+        "    });\n"
+        "  }\n"
+        "  (function(){"
+        "var _s=document.querySelector('.sc-chart-wrap');"
+        "if(!_s||_s.getBoundingClientRect().top<window.innerHeight+400){"
+        "_runCharts();"
+        "}else{"
+        "var _o=new IntersectionObserver(function(e){"
+        "if(e[0].isIntersecting){_o.disconnect();_runCharts();}"
+        "},{rootMargin:'400px',threshold:0});"
+        "_o.observe(_s);"
+        "}"
+        "})();\n"
+        "})();\n"
+        "</script>"
+    )
+    changed = 0
+    for rel in surf_pages:
+        p = os.path.join(DEMO_DIR, rel)
+        if not os.path.isfile(p):
+            continue
+        with open(p, encoding="utf-8", errors="replace") as f:
+            html = f.read()
+        if OLD_START not in html or OLD_END not in html:
+            continue
+        html = html.replace(OLD_START, NEW_START).replace(OLD_END, NEW_END)
+        with open(p, "w", encoding="utf-8") as f:
+            f.write(html)
+        changed += 1
+    print(f"  chart.js: deferred with IntersectionObserver on {changed} surf-conditions pages")
+
+patch_webp_images_all()
+patch_chart_defer_all()
 
 if "--deploy" in sys.argv:
     print(

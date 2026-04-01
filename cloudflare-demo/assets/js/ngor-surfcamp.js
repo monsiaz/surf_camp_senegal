@@ -16,6 +16,8 @@ function initHeroVideoLoop(){const vid=document.getElementById('hero-video');if(
       wrap.style.backgroundSize = 'cover';
       wrap.style.backgroundPosition = 'center';
     }
+    // Skip video on mobile to save bandwidth
+    if(window.matchMedia('(max-width:767px)').matches)return;
 
     const jumpToLoopStart = () => {
       try {
@@ -39,6 +41,15 @@ function initHeroVideoLoop(){const vid=document.getElementById('hero-video');if(
       if (vid.currentTime >= LOOP_END_SEC) jumpToLoopStart();
     });
     vid.addEventListener('ended', jumpToLoopStart);
+
+    // Lazy-load: start after page is interactive, not on parse
+    const _startVid=()=>{
+      vid.addEventListener('canplay',()=>vid.play().catch(()=>{}),{once:true});
+      vid.preload='auto';
+      vid.load();
+    };
+    if('requestIdleCallback' in window){requestIdleCallback(_startVid,{timeout:1500});}
+    else{setTimeout(_startVid,500);}
   }
 
   /* ── Home “Getting here” teaser: CARTO light_all (neutral) via Leaflet, lazy-loaded ── */
