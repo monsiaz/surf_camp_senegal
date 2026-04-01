@@ -6803,7 +6803,7 @@ patch_home_reviews_slider_all()
 def patch_head_all_pages():
     """Update <head> on ALL HTML pages: asset version, async fonts, preconnects."""
     import re as _re
-    old_versions = ["20260327f","20260328a","20260328b","20260328c","20260328d","20260329a","20260329b","20260329c","20260329d","20260329e","20260329f","20260329g"]
+    old_versions = ["20260327f","20260328a","20260328b","20260328c","20260328d","20260329a","20260329b","20260329c","20260329d","20260329e","20260329f","20260329g","20260330o"]
     new_v = ASSET_VERSION
     FONT_URL = "/assets/fonts/fonts.css"
     OLD_FONT_BLOCKING = _re.compile(
