@@ -1,7 +1,7 @@
 {
   "outputDirectory": "cloudflare-demo",
-  "buildCommand": "echo 'Pre-built — skipping'",
-  "ignoreCommand": "exit 1",
+  "buildCommand": "echo 'Pre-built by GitHub Actions CI'",
+  "ignoreCommand": "exit 0",
   "rewrites": [
     {
       "source": "/:lang(fr|es|it|de|nl|ar)/admin/config.yml",
