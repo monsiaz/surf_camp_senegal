@@ -15314,6 +15314,7 @@
 .vb-fact ul.block-list li::before { content: '•'; position: absolute; left: 0; color: #0ea5e9; font-size: 16px; line-height: 1.5; }
 
 
+
 /* ── FSS Certification badge (Premium Gold) ── */
 .fss-premium-badge {
     display: inline-flex !important;
@@ -15327,6 +15328,8 @@
     text-decoration: none !important;
     margin-top: 10px !important;
     box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
 }
 .fss-premium-logo {
     width: 40px !important;
@@ -15349,6 +15352,8 @@
     flex-direction: column !important;
     text-align: left !important;
     justify-content: center !important;
+    flex: 1 !important;
+    min-width: 0 !important;
 }
 .fss-premium-text strong {
     color: #fff !important;
@@ -15357,6 +15362,7 @@
     line-height: 1.2 !important;
     margin: 0 !important;
     font-family: var(--fb) !important;
+    white-space: normal !important;
 }
 .fss-premium-text span {
     color: #f0c060 !important;
@@ -15365,7 +15371,9 @@
     line-height: 1.2 !important;
     margin-top: 2px !important;
     font-family: var(--fb) !important;
+    white-space: normal !important;
 }
+
 
 
 /* ══════════════════════════════════════════════════════
