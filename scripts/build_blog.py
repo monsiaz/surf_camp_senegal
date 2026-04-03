@@ -911,15 +911,31 @@ def faq_to_accordion(content_html):
             return heading + "\n" + accordion + remaining
 
         # Pattern 2: alternating <p>Question?</p><p>Answer</p>
+        # Also handles: <p><strong>Question?</strong>...</p><p>Answer</p>
+        # Also handles Arabic question mark ؟
+        QUESTION_MARKS = ('?', '؟')
+
+        def _is_question(text: str) -> bool:
+            """Check if text is a FAQ question (ends with ? or ؟, possibly inside <strong> tags)."""
+            t = re.sub(r'<[^>]+>', '', text).strip()
+            return t.endswith(QUESTION_MARKS)
+
+        def _extract_question(text: str) -> str:
+            """Extract clean question text, stripping <strong> wrapper if present."""
+            # Strip bold wrapper: <strong>Q?</strong>  → Q?
+            m2 = re.match(r'<strong>(.*?)</strong>\s*(?:<br\s*/?>)?\s*$', text.strip(), re.DOTALL)
+            if m2:
+                return m2.group(1).strip()
+            return text.strip()
+
         p_tags = re.findall(r'<p>(.*?)</p>', body, re.DOTALL)
         pairs2 = []
         i = 0
         while i < len(p_tags) - 1:
             candidate = p_tags[i].strip()
             answer = p_tags[i + 1].strip()
-            # question ends with ? and answer doesn't
-            if candidate.endswith('?') and not answer.endswith('?'):
-                pairs2.append((candidate, answer))
+            if _is_question(candidate) and not _is_question(answer):
+                pairs2.append((_extract_question(candidate), answer))
                 i += 2
             else:
                 i += 1
@@ -929,10 +945,17 @@ def faq_to_accordion(content_html):
 
         items = "".join(build_accordion_item(q, a) for q, a in pairs2)
         # Remove all <p> tags from FAQ body that were converted
-        used = set()
-        for q, a in pairs2:
-            used.add(q)
-            used.add(a)
+        orig_questions = {p_tags[j] for j in range(0, len(p_tags)-1, 1)
+                         if _is_question(p_tags[j])}
+        orig_answers = set()
+        j = 0
+        while j < len(p_tags) - 1:
+            if _is_question(p_tags[j]) and not _is_question(p_tags[j+1]):
+                orig_answers.add(p_tags[j+1])
+                j += 2
+            else:
+                j += 1
+        used = orig_questions | orig_answers
         remaining = re.sub(
             r'<p>(.*?)</p>',
             lambda mm: '' if mm.group(1).strip() in used else mm.group(0),
