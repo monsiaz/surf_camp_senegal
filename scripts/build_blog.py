@@ -864,6 +864,112 @@ def cat_name_for(cat_en, lang):
     if not cdata: return cat_en
     return cdata["name"].get(lang, cat_en)
 
+
+def faq_to_accordion(content_html):
+    """Convert FAQ section into semantic accordion markup.
+    Handles both <h3 class="faq-inline-q">Q</h3><p>A</p>
+    and <p>Q?</p><p>A</p> patterns after the FAQ h2.
+    """
+    faq_re = re.compile(
+        r'(<h2[^>]*id=["\']faq["\'][^>]*>.*?</h2>)(.*?)(?=<h2\b|$)',
+        re.DOTALL | re.IGNORECASE
+    )
+
+    def build_accordion_item(q, a):
+        return (
+            f'<div class="faq-item" itemscope itemprop="mainEntity" '
+            f'itemtype="https://schema.org/Question">'
+            f'<button class="faq-q" type="button" '
+            f'onclick="this.closest(\'.faq-item\').classList.toggle(\'open\')" '
+            f'aria-expanded="false">'
+            f'<span itemprop="name">{q}</span>'
+            f'<span class="faq-arrow" aria-hidden="true">▼</span>'
+            f'</button>'
+            f'<div class="faq-a" itemscope itemprop="acceptedAnswer" '
+            f'itemtype="https://schema.org/Answer">'
+            f'<div itemprop="text"><p>{a}</p></div>'
+            f'</div></div>\n'
+        )
+
+    def convert_section(m):
+        heading = m.group(1)
+        body = m.group(2)
+
+        # Pattern 1: <h3 class="faq-inline-q">Q</h3>\s*<p>A</p>
+        pairs = re.findall(
+            r'<h3 class="faq-inline-q">(.*?)</h3>\s*<p>(.*?)</p>',
+            body, re.DOTALL
+        )
+        if pairs:
+            items = "".join(build_accordion_item(q, a) for q, a in pairs)
+            remaining = re.sub(
+                r'<h3 class="faq-inline-q">.*?</h3>\s*<p>.*?</p>',
+                '', body, flags=re.DOTALL
+            )
+            accordion = (
+                f'<div class="faq-accordion" itemscope '
+                f'itemtype="https://schema.org/FAQPage">\n{items}</div>'
+            )
+            return heading + "\n" + accordion + remaining
+
+        # Pattern 2: alternating <p>Question?</p><p>Answer</p>
+        p_tags = re.findall(r'<p>(.*?)</p>', body, re.DOTALL)
+        pairs2 = []
+        i = 0
+        while i < len(p_tags) - 1:
+            candidate = p_tags[i].strip()
+            answer = p_tags[i + 1].strip()
+            # question ends with ? and answer doesn't
+            if candidate.endswith('?') and not answer.endswith('?'):
+                pairs2.append((candidate, answer))
+                i += 2
+            else:
+                i += 1
+
+        if not pairs2:
+            return m.group(0)
+
+        items = "".join(build_accordion_item(q, a) for q, a in pairs2)
+        # Remove all <p> tags from FAQ body that were converted
+        used = set()
+        for q, a in pairs2:
+            used.add(q)
+            used.add(a)
+        remaining = re.sub(
+            r'<p>(.*?)</p>',
+            lambda mm: '' if mm.group(1).strip() in used else mm.group(0),
+            body, flags=re.DOTALL
+        )
+        accordion = (
+            f'<div class="faq-accordion" itemscope '
+            f'itemtype="https://schema.org/FAQPage">\n{items}</div>'
+        )
+        return heading + "\n" + accordion + remaining
+
+    return faq_re.sub(convert_section, content_html)
+
+
+def extract_faq_pairs_md(content_raw):
+    """Extract FAQ Q&A pairs from raw markdown content."""
+    pairs = []
+    lines = content_raw.split('\n')
+    in_faq = False
+    current_q = None
+    for line in lines:
+        s = line.strip()
+        if re.match(r'^## FAQ', s, re.IGNORECASE):
+            in_faq = True
+            continue
+        if in_faq:
+            if s.startswith('## '):
+                break
+            if s.startswith('**') and s.rstrip('* ').endswith('?'):
+                current_q = s.strip('*').strip()
+            elif current_q and s and not s.startswith('[LINK:'):
+                pairs.append((current_q, s))
+                current_q = None
+    return pairs
+
 def build_article(en_art, lang):
     pfx  = LANG_PREFIX[lang]
     en_slug = en_art["slug"]
@@ -886,8 +992,16 @@ def build_article(en_art, lang):
     translated_content = art.get("content_markdown","").strip()
     content_raw = translated_content if translated_content else en_art.get("content_markdown","")
     content = md2html(content_raw, lang, pfx)
+    content = faq_to_accordion(content)
 
-    img = f"/assets/images/{en_slug}.webp" if os.path.exists(f"{DEMO_DIR}/assets/images/{en_slug}.webp") else f"{_WIX}/df99f9_961b0768e713457f93025f4ce6fb1419.webp"
+    _bw_p  = f"{DEMO_DIR}/assets/images/bw-{en_slug}.webp"
+    _col_p = f"{DEMO_DIR}/assets/images/{en_slug}.webp"
+    if os.path.exists(_bw_p):
+        img = f"/assets/images/bw-{en_slug}.webp"
+    elif os.path.exists(_col_p):
+        img = f"/assets/images/{en_slug}.webp"
+    else:
+        img = f"{_WIX}/df99f9_961b0768e713457f93025f4ce6fb1419.webp"
     idx = next((i for i,a in enumerate(arts_en) if a["slug"]==en_slug), 0)
     prev_art = arts_en[idx-1] if idx>0 else None
     next_art = arts_en[idx+1] if idx<len(arts_en)-1 else None
@@ -980,8 +1094,44 @@ def build_article(en_art, lang):
       </div>'''
 
     html = head_html(title[:60], meta_d, lang, can_tag(f"/blog/{en_slug}",lang), hrl_tags(f"/blog/{en_slug}"), img, og_alt=title)
-    # Inject BreadcrumbList JSON-LD right after opening <head> (after <html>)
-    html = html.replace("</head>", crumb_ld + "\n</head>", 1)
+
+    # ── Article JSON-LD ──────────────────────────────────────────────────────
+    _safe_title = title.replace('"', "'")
+    _safe_desc  = meta_d.replace('"', "'")
+    _art_url    = f"{SITE_URL}{LANG_PREFIX[lang]}/blog/{en_slug}/"
+    _img_url    = img if img.startswith("http") else f"{SITE_URL}{img}"
+    _pub_url    = f"{SITE_URL}{LANG_PREFIX['en']}/surfing/"
+    article_ld  = f'''<script type="application/ld+json">
+{{"@context":"https://schema.org","@type":"Article",
+  "headline":"{_safe_title[:110]}",
+  "description":"{_safe_desc}",
+  "image":"{_img_url}",
+  "url":"{_art_url}",
+  "datePublished":"2024-11-01",
+  "dateModified":"2025-04-01",
+  "inLanguage":"{LANG_LOCALE[lang]}",
+  "author":{{"@type":"Person","name":"Abu Diallo","jobTitle":"Surf Guide & Head Coach","url":"{_pub_url}"}},
+  "publisher":{{"@type":"Organization","@id":"{SITE_URL}/#organization","name":"Ngor Surfcamp Teranga","logo":{{"@type":"ImageObject","url":"{SITE_URL}/assets/images/wix/c2467f_a31779010ce34c4c8c61cc5868d81f31.webp"}}}}
+}}
+</script>'''
+
+    # ── FAQPage JSON-LD (if FAQ section present) ─────────────────────────────
+    faq_pairs   = extract_faq_pairs_md(content_raw)
+    faqpage_ld  = ""
+    if faq_pairs:
+        qa_items = ",\n  ".join([
+            f'{{"@type":"Question","name":"{q.replace(chr(34), chr(39))}","acceptedAnswer":{{"@type":"Answer","text":"{a.replace(chr(34), chr(39))}"}}}}'
+            for q, a in faq_pairs
+        ])
+        faqpage_ld = f'''<script type="application/ld+json">
+{{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+  {qa_items}
+]}}
+</script>'''
+
+    # Inject BreadcrumbList + Article + FAQPage JSON-LD before </head>
+    extra_ld = crumb_ld + "\n" + article_ld + ("\n" + faqpage_ld if faqpage_ld else "")
+    html = html.replace("</head>", extra_ld + "\n</head>", 1)
     fq_block = get_footer_quotes(lang)
     html += nav_html("blog", lang, pfx, f"/blog/{en_slug}")
     html += f"""
@@ -1032,7 +1182,9 @@ def build_article(en_art, lang):
 FALLBACK_IMG = "/assets/images/wix/df99f9_961b0768e713457f93025f4ce6fb1419.webp"
 
 def art_img(slug):
-    """Return best available image src for an article."""
+    """Return best available image src for an article (B&W preferred)."""
+    if os.path.exists(f"{DEMO_DIR}/assets/images/bw-{slug}.webp"):
+        return f"/assets/images/bw-{slug}.webp"
     if os.path.exists(f"{DEMO_DIR}/assets/images/{slug}.webp"):
         return f"/assets/images/{slug}.webp"
     return FALLBACK_IMG
