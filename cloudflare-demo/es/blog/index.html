@@ -419,7 +419,27 @@ window.addEventListener('DOMContentLoaded',function(){filterCat('all');});
     <div class="fq-text-wrap" id="fq-wrap-es"><span class="fq-phrase active" data-idx="0">Al océano no le importa tu nivel. Solo le importa tu presencia.</span><span class="fq-phrase" data-idx="1">Sin coches. Sin ruido. Solo el sonido de las olas en Ngor.</span><span class="fq-phrase" data-idx="2">El progreso en el surf se mide en sonrisas, no solo en giros.</span><span class="fq-phrase" data-idx="3">Ngor Right lleva llamando a los surfistas desde 1964. Tu turno.</span><span class="fq-phrase" data-idx="4">El mejor viaje de surf es aquel en el que olvidas revisar el teléfono.</span><span class="fq-phrase" data-idx="5">¿El mejor secreto surf de África Occidental? Ya no lo es tanto.</span><span class="fq-phrase" data-idx="6">Un viaje en piragua separa Dakar del paraíso.</span><span class="fq-phrase" data-idx="7">Surfa mejor. Vive más lento. Siente la diferencia.</span><span class="fq-phrase" data-idx="8">Teranga: el arte senegalés de hacer que cada huésped se sienta como en casa.</span><span class="fq-phrase" data-idx="9">Ngor Left enseña paciencia. Ngor Right la recompensa.</span><span class="fq-phrase" data-idx="10">El Atlántico está cálido aquí. El bienvenido aún más.</span><span class="fq-phrase" data-idx="11">Seis días, seis sesiones, un surf camp que lo cambia todo.</span><span class="fq-phrase" data-idx="12">El coaching real comienza donde terminan las zonas de confort.</span><span class="fq-phrase" data-idx="13">Algunos vienen a Ngor por una semana. Muchos vuelven cada año.</span><span class="fq-phrase" data-idx="14"><strong>El Endless Summer empezó aquí. ¿Dónde empezará el tuyo?</strong></span></div>
     <div class="fq-dots" aria-hidden="true" id="fq-dots-es"><div class="fq-dot active" data-dot="0"></div><div class="fq-dot " data-dot="1"></div><div class="fq-dot " data-dot="2"></div><div class="fq-dot " data-dot="3"></div><div class="fq-dot " data-dot="4"></div></div>
   </div>
-</div><footer><div class="container"><div class="footer-grid"><div class="footer-brand">
+</div>
+<div class="wave-divider-navy-top" aria-hidden="true" style="position:relative; width:100%; height:6vw; min-height:50px; max-height:120px; overflow:hidden; line-height:0; z-index:10; background:transparent; margin-bottom:-2px;">
+  <svg viewBox="0 0 1440 120" preserveAspectRatio="none" style="display:block; width:100%; height:100%;">
+    <defs>
+      <linearGradient id="waveGradDarkTop" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#06111e" />
+        <stop offset="50%" stop-color="#08192c" />
+        <stop offset="100%" stop-color="#06111e" />
+      </linearGradient>
+      <filter id="waveShadowTop" x="-10%" y="-10%" width="120%" height="120%">
+        <feDropShadow dx="0" dy="-4" stdDeviation="6" flood-color="#000" flood-opacity="0.3"/>
+      </filter>
+    </defs>
+    <!-- Back wave (lighter navy, for depth) -->
+    <path d="M0,60 C280,120 500,0 720,60 C940,120 1160,0 1440,60 L1440,120 L0,120 Z" fill="#0a2540" opacity="0.6"/>
+    <!-- Front wave (dark navy with shadow) -->
+    <path d="M0,80 C320,140 420,20 720,80 C1020,140 1120,20 1440,80 L1440,120 L0,120 Z" fill="url(#waveGradDarkTop)" filter="url(#waveShadowTop)"/>
+  </svg>
+</div>
+
+<footer><div class="container"><div class="footer-grid"><div class="footer-brand">
         <a href="/es/" class="footer-brand-mark" aria-label="Ngor Surfcamp Teranga home">
           <img src="/assets/images/wix/c2467f_a31779010ce34c4c8c61cc5868d81f31.webp" alt="" width="152" height="52" class="footer-brand-logo" loading="lazy">
         </a>

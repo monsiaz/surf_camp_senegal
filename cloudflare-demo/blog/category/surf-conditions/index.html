@@ -208,7 +208,27 @@
     <div class="fq-text-wrap" id="fq-wrap-en"><span class="fq-phrase active" data-idx="0">The ocean doesn't care about your level. It only cares about your presence.</span><span class="fq-phrase" data-idx="1">No cars. No noise. Just the sound of waves on Ngor.</span><span class="fq-phrase" data-idx="2">Progress in surfing is measured in smiles, not just turns.</span><span class="fq-phrase" data-idx="3">Ngor Right has been calling surfers since 1964. Your turn.</span><span class="fq-phrase" data-idx="4">The best surf trip is the one where you forget to check your phone.</span><span class="fq-phrase" data-idx="5">West Africa's best-kept surf secret? Not anymore.</span><span class="fq-phrase" data-idx="6">A pirogue ride separates Dakar from paradise.</span><span class="fq-phrase" data-idx="7">Surf better. Live slower. Feel the difference.</span><span class="fq-phrase" data-idx="8">Teranga: the Senegalese art of making every guest feel at home.</span><span class="fq-phrase" data-idx="9">Ngor Left teaches patience. Ngor Right rewards it.</span><span class="fq-phrase" data-idx="10">The Atlantic is warm here. The welcome even warmer.</span><span class="fq-phrase" data-idx="11">Six days, six sessions, one surf camp that changes everything.</span><span class="fq-phrase" data-idx="12">Real coaching starts where comfort zones end.</span><span class="fq-phrase" data-idx="13">Some people come to Ngor for a week. Many come back every year.</span><span class="fq-phrase" data-idx="14">The Endless Summer started here.<strong> Where will yours begin?</strong></span></div>
     <div class="fq-dots" aria-hidden="true" id="fq-dots-en"><div class="fq-dot active" data-dot="0"></div><div class="fq-dot " data-dot="1"></div><div class="fq-dot " data-dot="2"></div><div class="fq-dot " data-dot="3"></div><div class="fq-dot " data-dot="4"></div></div>
   </div>
-</div><footer><div class="container"><div class="footer-grid"><div class="footer-brand">
+</div>
+<div class="wave-divider-navy-top" aria-hidden="true" style="position:relative; width:100%; height:6vw; min-height:50px; max-height:120px; overflow:hidden; line-height:0; z-index:10; background:transparent; margin-bottom:-2px;">
+  <svg viewBox="0 0 1440 120" preserveAspectRatio="none" style="display:block; width:100%; height:100%;">
+    <defs>
+      <linearGradient id="waveGradDarkTop" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#06111e" />
+        <stop offset="50%" stop-color="#08192c" />
+        <stop offset="100%" stop-color="#06111e" />
+      </linearGradient>
+      <filter id="waveShadowTop" x="-10%" y="-10%" width="120%" height="120%">
+        <feDropShadow dx="0" dy="-4" stdDeviation="6" flood-color="#000" flood-opacity="0.3"/>
+      </filter>
+    </defs>
+    <!-- Back wave (lighter navy, for depth) -->
+    <path d="M0,60 C280,120 500,0 720,60 C940,120 1160,0 1440,60 L1440,120 L0,120 Z" fill="#0a2540" opacity="0.6"/>
+    <!-- Front wave (dark navy with shadow) -->
+    <path d="M0,80 C320,140 420,20 720,80 C1020,140 1120,20 1440,80 L1440,120 L0,120 Z" fill="url(#waveGradDarkTop)" filter="url(#waveShadowTop)"/>
+  </svg>
+</div>
+
+<footer><div class="container"><div class="footer-grid"><div class="footer-brand">
         <a href="/" class="footer-brand-mark" aria-label="Ngor Surfcamp Teranga home">
           <img src="/assets/images/wix/c2467f_a31779010ce34c4c8c61cc5868d81f31.webp" alt="" width="152" height="52" class="footer-brand-logo" loading="lazy">
         </a>

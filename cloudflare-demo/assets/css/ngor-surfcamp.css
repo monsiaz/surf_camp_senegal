@@ -15313,7 +15313,7 @@
 .vb-tip ul.block-list li::before { content: '•'; position: absolute; left: 0; color: var(--fire); font-size: 16px; line-height: 1.5; }
 .vb-fact ul.block-list li::before { content: '•'; position: absolute; left: 0; color: #0ea5e9; font-size: 16px; line-height: 1.5; }
 
-/* ── FSS Certification badge (footer) ── */
+/* ── FSS Certification badge (Premium Gold) ── */
 .footer-col-cert {
   display: flex;
   flex-direction: column;
@@ -15325,68 +15325,70 @@
   text-align: left;
 }
 
-.footer-fss-cert {
-  display: flex;
+.fss-premium-badge {
+  display: inline-flex;
   flex-direction: row;
   align-items: center;
   text-align: left;
-  gap: 12px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 10px 14px;
-  border-radius: 8px;
-  margin-top: 4px;
-  transition: background 0.2s ease;
+  gap: 14px;
+  background: var(--navy, #0a2540);
+  border: 1.5px solid var(--sand, #f0c060);
+  padding: 8px 20px 8px 8px;
+  border-radius: 999px;
+  margin-top: 8px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2), inset 0 0 0 1px rgba(240,192,96,0.15);
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-.footer-fss-cert:hover {
-  background: rgba(255, 255, 255, 0.06);
+.fss-premium-badge:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3), inset 0 0 0 1px rgba(240,192,96,0.3);
 }
 
-/* Seal ring wrapper */
-.fss-seal {
-  position: relative;
-  width: 36px;
-  height: 36px;
-  flex-shrink: 0;
-}
-.fss-logo-wrap {
-  width: 36px;
-  height: 36px;
+.fss-premium-logo {
+  width: 44px;
+  height: 44px;
   background: #fff;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15), inset 0 0 0 1px rgba(0,0,0,0.05);
+  border: 1.5px solid var(--sand, #f0c060);
 }
-.fss-logo-wrap img {
-  width: 26px;
-  height: 26px;
+.fss-premium-logo img {
+  width: 32px;
+  height: 32px;
   object-fit: contain;
   transform: scale(1.15);
 }
-.fss-seal-ring {
-  display: none;
-}
 
-/* Text under the seal */
-.fss-cert-txt {
-  flex: 1;
+.fss-premium-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
-.fss-cert-txt strong {
+.fss-premium-text strong {
+  display: block;
+  font-size: 13px;
+  color: #fff;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+}
+.fss-premium-text span {
   display: block;
   font-size: 11px;
-  color: rgba(255,255,255,0.85);
+  color: var(--sand, #f0c060);
   font-weight: 500;
-  line-height: 1.4;
-  font-family: inherit;
-  max-width: none;
+  line-height: 1.3;
+  margin-top: 2px;
 }
 
 [dir="rtl"] .footer-col-cert { align-items: flex-start; }
 [dir="rtl"] .footer-col-cert h4, [dir="rtl"] .footer-col-cert .footer-col-title { text-align: right; }
-[dir="rtl"] .footer-fss-cert { align-items: center; text-align: right; flex-direction: row-reverse; }
+[dir="rtl"] .fss-premium-badge { flex-direction: row-reverse; text-align: right; padding: 8px 8px 8px 20px; }
 /* ══════════════════════════════════════════════════════
    VISUAL BLOCKS v2 — Premium DA
 ══════════════════════════════════════════════════════ */
@@ -25371,3 +25373,27 @@
 }
 .vb-tip ul.block-list li::before { content: '•'; position: absolute; left: 0; color: var(--fire); font-size: 16px; line-height: 1.5; }
 .vb-fact ul.block-list li::before { content: '•'; position: absolute; left: 0; color: #0ea5e9; font-size: 16px; line-height: 1.5; }
+
+/* ── 3D Navy Wave Divider ── */
+.wave-divider-navy {
+  position: relative;
+  width: 100%;
+  height: 6vw;
+  min-height: 50px;
+  max-height: 120px;
+  overflow: hidden;
+  line-height: 0;
+  margin-top: -2px;
+  z-index: 10;
+  background: transparent;
+}
+.wave-divider-navy svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.wave-divider-navy.wave-top {
+  transform: rotate(180deg);
+  margin-top: 0;
+  margin-bottom: -2px;
+}
