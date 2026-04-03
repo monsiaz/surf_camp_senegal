@@ -271,7 +271,7 @@ for _cat_en, _cdata in BLOG_CATS.items():
 
 _WIX = "/assets/images/wix"
 LOGO = f"{_WIX}/c2467f_a31779010ce34c4c8c61cc5868d81f31.webp"
-FSS_LOGO = "/assets/images/logo-federation.png"
+FSS_LOGO = "/assets/images/logo-fede-transparant.png"
 
 IMGS = {
     "home":    f"{_WIX}/df99f9_da0cf7c72b1a4606bcfa1f7c8e089dc4f000.webp",
@@ -657,13 +657,20 @@ def build_footer(lang, flag_href_override=None):
              "de":"Premium Surfcamp auf Ngor Island, Dakar, Senegal. Alle Level willkommen.",
              "nl":"Premium surfkamp op Ngor Island, Dakar, Senegal. Alle niveaus welkom.",
              "ar":"مخيم ركوب أمواج متميز في جزيرة نغور، داكار، السنغال. جميع المستويات مرحب بها."}
-    FSS_CERT = {"en":"Licensed &amp; Certified by the Senegalese Surfing Federation",
-                "fr":"Licencié et Certifié auprès de la Fédération Sénégalaise de Surf",
-                "es":"Licenciado y Certificado por la Federación Senegalesa de Surf",
-                "it":"Autorizzato e Certificato dalla Federazione Senegalese di Surf",
-                "de":"Lizenziert und Zertifiziert vom Senegalesischen Surfverband",
-                "nl":"Erkend en Gecertificeerd door de Senegalese Surfbond",
-                "ar":"مرخص ومعتمد من الاتحاد السنغالي للسرف"}
+    FSS_CERT_LABEL = {"en":"Licensed &amp; Certified",
+                      "fr":"Licencié &amp; Certifié",
+                      "es":"Licenciado &amp; Certificado",
+                      "it":"Autorizzato &amp; Certificato",
+                      "de":"Lizenziert &amp; Zertifiziert",
+                      "nl":"Erkend &amp; Gecertificeerd",
+                      "ar":"مرخص &amp; معتمد"}
+    FSS_CERT_SUB  = {"en":"Fédération Sénégalaise de Surf",
+                     "fr":"Fédération Sénégalaise de Surf",
+                     "es":"Federación Senegalesa de Surf",
+                     "it":"Federazione Senegalese di Surf",
+                     "de":"Senegalesischer Surfverband",
+                     "nl":"Senegalese Surfbond",
+                     "ar":"الاتحاد السنغالي للسرف"}
     CERT_H4 = {"en":"Accreditation","fr":"Accréditation","es":"Acreditación","it":"Accreditamento","de":"Akkreditierung","nl":"Accreditatie","ar":"الاعتماد"}
     COPY  = {"en":"© 2025 Ngor Surfcamp Teranga. All rights reserved.",
              "fr":"© 2025 Ngor Surfcamp Teranga. Tous droits réservés.",
@@ -706,15 +713,13 @@ def build_footer(lang, flag_href_override=None):
       </div>
       <div class="footer-col footer-col-cert">
         <p class="footer-col-title">{CERT_H4[lang]}</p>
-        <div class="footer-fss-cert">
-          <div class="fss-seal">
-            <div class="fss-logo-wrap">
-              <img src="{FSS_LOGO}" alt="Fédération Sénégalaise de Surf" width="56" height="56" loading="lazy">
-            </div>
-            <div class="fss-seal-ring" aria-hidden="true"></div>
+        <div class="fss-premium-badge">
+          <div class="fss-premium-logo">
+            <img src="{FSS_LOGO}" alt="Fédération Sénégalaise de Surf" width="40" height="40" loading="lazy">
           </div>
-          <div class="fss-cert-txt">
-            <strong>{FSS_CERT[lang]}</strong>
+          <div class="fss-premium-text">
+            <strong>{FSS_CERT_LABEL[lang]}</strong>
+            <span>{FSS_CERT_SUB[lang]}</span>
           </div>
         </div>
       </div>
@@ -3964,11 +3969,13 @@ def build_booking(lang):
             <h3 style="font-size:17px;margin-bottom:18px;font-weight:800">{g("incl_h")}</h3>
             {incl_items}
           </div>
-          <div style="padding:14px 18px;border-radius:12px;background:rgba(10,37,64,0.04);border:1px solid rgba(10,37,64,0.08);display:flex;align-items:center;gap:12px">
-            <img src="{FSS_LOGO}" alt="Fédération Sénégalaise de Surf" width="44" height="44" loading="lazy" style="flex-shrink:0">
-            <div>
-              <div style="font-weight:700;font-size:13px;color:var(--navy)">{g("trust")}</div>
-              <div style="font-size:12px;color:#9ca3af">{g("isa_sub")}</div>
+          <div style="display:inline-flex;flex-direction:row;align-items:center;background:#0a2540;border:1.5px solid #c9a227;border-radius:50px;padding:6px 18px 6px 6px;gap:12px;box-shadow:0 4px 14px rgba(0,0,0,0.18);max-width:100%;box-sizing:border-box">
+            <div style="width:44px;height:44px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1.5px solid #c9a227;flex-shrink:0">
+              <img src="{FSS_LOGO}" alt="Fédération Sénégalaise de Surf" width="32" height="32" loading="lazy" style="object-fit:contain;width:32px;height:32px">
+            </div>
+            <div style="display:flex;flex-direction:column;text-align:left">
+              <strong style="color:#fff;font-size:13px;font-weight:700;line-height:1.25;margin:0">Licensed &amp; Certified</strong>
+              <span style="color:#c9a227;font-size:11px;font-weight:500;line-height:1.3;margin-top:2px">Fédération Sénégalaise de Surf</span>
             </div>
           </div>
           {booking_social_proof_block(lang)}
