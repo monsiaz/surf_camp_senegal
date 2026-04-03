@@ -445,10 +445,11 @@ def patch_home_waves_all():
         with open(path, encoding="utf-8", errors="replace") as f:
             h = f.read()
         # Skip if already patched
-        if 'class="wave-top"' in h or 'class="wave-bottom"' in h:
+        if 'class="wave-top"' in h or 'class="wave-bottom"' in h or 'wave-divider-navy' in h:
             # Remove old waves first so we can re-apply cleanly
             import re as _re
             h = _re.sub(r'\s*<div class="wave-(?:top|bottom)"[^>]*>.*?</div>', '', h, flags=_re.DOTALL)
+            h = _re.sub(r'\s*<div[^>]*class="[^"]*wave-divider[^"]*"[^>]*>.*?</div>', '', h, flags=_re.DOTALL)
         h2 = h
         for marker, wave_fn in HOME_WAVE_PATCHES:
             if marker in h2:
@@ -672,6 +673,9 @@ def build_footer(lang, flag_href_override=None):
                      "nl":"Senegalese Surfbond",
                      "ar":"الاتحاد السنغالي للسرف"}
     CERT_H4 = {"en":"Accreditation","fr":"Accréditation","es":"Acreditación","it":"Accreditamento","de":"Akkreditierung","nl":"Accreditatie","ar":"الاعتماد"}
+    GMB_REVIEWS_LBL = {"en":"reviews on Google","fr":"avis sur Google","es":"reseñas en Google",
+                        "it":"recensioni su Google","de":"Bewertungen auf Google",
+                        "nl":"beoordelingen op Google","ar":"مراجعة على Google"}
     COPY  = {"en":"© 2025 Ngor Surfcamp Teranga. All rights reserved.",
              "fr":"© 2025 Ngor Surfcamp Teranga. Tous droits réservés.",
              "es":"© 2025 Ngor Surfcamp Teranga. Todos los derechos reservados.",
@@ -1441,9 +1445,12 @@ def patch_waves_all_pages():
     import re as _re
 
     WAVE_RE = _re.compile(r'\s*<div class="wave-(?:top|bottom)"[^>]*>.*?</div>', _re.DOTALL)
+    WAVE_DIV_RE = _re.compile(r'\s*<div[^>]*class="[^"]*wave-divider[^"]*"[^>]*>.*?</div>', _re.DOTALL)
 
     def _strip_waves(h):
-        return WAVE_RE.sub('', h)
+        h = WAVE_RE.sub('', h)
+        h = WAVE_DIV_RE.sub('', h)
+        return h
 
     # Section class → background colour token
     def _sec_bg(cls):
@@ -3406,9 +3413,15 @@ def patch_home_blog_preview_all():
             title_  = fix_em(art.get("title", en_art.get("title", slug)))[:80]
             meta_   = fix_em(art.get("meta_description", en_art.get("meta_description", "")))[:120]
             cat_    = en_art.get("category", "")
-            # Must check .webp (assets are generated as slug.webp; old code tested .png so every card used FALLBACK_IMG)
+            # Must check .webp (B&W preferred, then colour, then fallback)
+            img_bw   = os.path.join(DEMO_DIR, "assets", "images", f"bw-{slug}.webp")
             img_webp = os.path.join(DEMO_DIR, "assets", "images", f"{slug}.webp")
-            img_src = f"/assets/images/{slug}.webp" if os.path.exists(img_webp) else FALLBACK_IMG
+            if os.path.exists(img_bw):
+                img_src = f"/assets/images/bw-{slug}.webp"
+            elif os.path.exists(img_webp):
+                img_src = f"/assets/images/{slug}.webp"
+            else:
+                img_src = FALLBACK_IMG
             cards_html += (
                 f'\n      <a href="{pfx}/blog/{slug}/" class="card" style="text-decoration:none">'
                 f'\n        <img src="{img_src}" alt="{escape(title_)}" class="card-img" loading="lazy"'

@@ -1035,8 +1035,14 @@ def build_article(en_art, lang):
         r_slug = r["slug"]
         r_art  = arts_by_lang[lang].get(r_slug, r)
         r_title = fix_em(r_art.get("title", r["title"]))
+        r_bw_path  = f"{DEMO_DIR}/assets/images/bw-{r_slug}.webp"
         r_img_path = f"{DEMO_DIR}/assets/images/{r_slug}.webp"
-        r_img_src  = f"/assets/images/{r_slug}.webp" if os.path.exists(r_img_path) else f"{_WIX}/df99f9_961b0768e713457f93025f4ce6fb1419.webp"
+        if os.path.exists(r_bw_path):
+            r_img_src = f"/assets/images/bw-{r_slug}.webp"
+        elif os.path.exists(r_img_path):
+            r_img_src = f"/assets/images/{r_slug}.webp"
+        else:
+            r_img_src = f"{_WIX}/df99f9_961b0768e713457f93025f4ce6fb1419.webp"
         return (
             f'<a href="{pfx}/blog/{r_slug}/" class="card" style="text-decoration:none">'
             f'<img src="{r_img_src}" alt="{r_title}" class="card-img" loading="lazy" width="800" height="530" decoding="async">'
