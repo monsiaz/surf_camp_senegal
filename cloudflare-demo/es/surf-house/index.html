@@ -77,7 +77,24 @@
     </div>
   </section>
 
-  <div class="wave-top" style="background:#ffffff" aria-hidden="true"><svg viewBox="0 0 1440 52" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0 26 C240 50,480 2,720 28 C960 54,1200 4,1440 26 L1440 0 L0 0Z" fill="#f7fafd"/></svg></div>
+  <div class="wave-top" style="background:#ffffff; position:relative; width:100%; height:6vw; min-height:50px; max-height:120px; overflow:hidden; line-height:0; z-index:10; transform: rotate(180deg); margin-top: 0; margin-bottom: -2px;" aria-hidden="true">
+  <svg viewBox="0 0 1440 120" preserveAspectRatio="none" style="display:block; width:100%; height:100%;">
+    <defs>
+      <linearGradient id="waveGrad_f7fafd" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#06111e" />
+        <stop offset="50%" stop-color="#08192c" />
+        <stop offset="100%" stop-color="#06111e" />
+      </linearGradient>
+      <filter id="waveShadow_f7fafd" x="-10%" y="-10%" width="120%" height="120%">
+        <feDropShadow dx="0" dy="-4" stdDeviation="6" flood-color="#000" flood-opacity="0.15"/>
+      </filter>
+    </defs>
+    <!-- Back wave for depth -->
+    <path d="M0,60 C280,120 500,0 720,60 C940,120 1160,0 1440,60 L1440,120 L0,120 Z" fill="#0a2540" opacity="0.6"/>
+    <!-- Front wave with shadow -->
+    <path d="M0,80 C320,140 420,20 720,80 C1020,140 1120,20 1440,80 L1440,120 L0,120 Z" fill="url(#waveGrad_f7fafd)" filter="url(#waveShadow_f7fafd)"/>
+  </svg>
+</div>
   <section class="sh-rooms-sec sec-light">
     <div class="container">
       <div class="sh-rooms-grid">
@@ -95,7 +112,24 @@
     </div>
   </section>
 
-  <div class="wave-bottom" style="background:#f7fafd" aria-hidden="true"><svg viewBox="0 0 1440 52" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0 26 C240 2,480 50,720 24 C960 -2,1200 48,1440 26 L1440 52 L0 52Z" fill="#07192e"/></svg></div>
+  <div class="wave-bottom" style="background:#f7fafd; position:relative; width:100%; height:6vw; min-height:50px; max-height:120px; overflow:hidden; line-height:0; z-index:10; margin-bottom: -2px;" aria-hidden="true">
+  <svg viewBox="0 0 1440 120" preserveAspectRatio="none" style="display:block; width:100%; height:100%;">
+    <defs>
+      <linearGradient id="waveGrad_07192e" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#06111e" />
+        <stop offset="50%" stop-color="#08192c" />
+        <stop offset="100%" stop-color="#06111e" />
+      </linearGradient>
+      <filter id="waveShadow_07192e" x="-10%" y="-10%" width="120%" height="120%">
+        <feDropShadow dx="0" dy="-4" stdDeviation="6" flood-color="#000" flood-opacity="0.15"/>
+      </filter>
+    </defs>
+    <!-- Back wave for depth -->
+    <path d="M0,60 C280,120 500,0 720,60 C940,120 1160,0 1440,60 L1440,120 L0,120 Z" fill="#0a2540" opacity="0.6"/>
+    <!-- Front wave with shadow -->
+    <path d="M0,80 C320,140 420,20 720,80 C1020,140 1120,20 1440,80 L1440,120 L0,120 Z" fill="url(#waveGrad_07192e)" filter="url(#waveShadow_07192e)"/>
+  </svg>
+</div>
   <section class="sh-acc sh-acc--dark">
     <div class="container">
       <header class="sh-acc-head reveal">
@@ -106,7 +140,24 @@
     </div>
   </section>
 
-  <div class="wave-top" style="background:#07192e" aria-hidden="true"><svg viewBox="0 0 1440 52" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0 26 C240 50,480 2,720 28 C960 54,1200 4,1440 26 L1440 0 L0 0Z" fill="#ffffff"/></svg></div>
+  <div class="wave-top" style="background:#07192e; position:relative; width:100%; height:6vw; min-height:50px; max-height:120px; overflow:hidden; line-height:0; z-index:10; transform: rotate(180deg); margin-top: 0; margin-bottom: -2px;" aria-hidden="true">
+  <svg viewBox="0 0 1440 120" preserveAspectRatio="none" style="display:block; width:100%; height:100%;">
+    <defs>
+      <linearGradient id="waveGrad_ffffff" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#06111e" />
+        <stop offset="50%" stop-color="#08192c" />
+        <stop offset="100%" stop-color="#06111e" />
+      </linearGradient>
+      <filter id="waveShadow_ffffff" x="-10%" y="-10%" width="120%" height="120%">
+        <feDropShadow dx="0" dy="-4" stdDeviation="6" flood-color="#000" flood-opacity="0.15"/>
+      </filter>
+    </defs>
+    <!-- Back wave for depth -->
+    <path d="M0,60 C280,120 500,0 720,60 C940,120 1160,0 1440,60 L1440,120 L0,120 Z" fill="#0a2540" opacity="0.6"/>
+    <!-- Front wave with shadow -->
+    <path d="M0,80 C320,140 420,20 720,80 C1020,140 1120,20 1440,80 L1440,120 L0,120 Z" fill="url(#waveGrad_ffffff)" filter="url(#waveShadow_ffffff)"/>
+  </svg>
+</div>
   <section class="sh-meals">
     <div class="container">
       <div class="sh-meals-grid reveal">
@@ -122,7 +173,24 @@
     </div>
   </section>
 
-  <div class="wave-bottom" style="background:#f7fafd" aria-hidden="true"><svg viewBox="0 0 1440 52" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0 26 C240 2,480 50,720 24 C960 -2,1200 48,1440 26 L1440 52 L0 52Z" fill="#ffffff"/></svg></div>
+  <div class="wave-bottom" style="background:#f7fafd; position:relative; width:100%; height:6vw; min-height:50px; max-height:120px; overflow:hidden; line-height:0; z-index:10; margin-bottom: -2px;" aria-hidden="true">
+  <svg viewBox="0 0 1440 120" preserveAspectRatio="none" style="display:block; width:100%; height:100%;">
+    <defs>
+      <linearGradient id="waveGrad_ffffff" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#06111e" />
+        <stop offset="50%" stop-color="#08192c" />
+        <stop offset="100%" stop-color="#06111e" />
+      </linearGradient>
+      <filter id="waveShadow_ffffff" x="-10%" y="-10%" width="120%" height="120%">
+        <feDropShadow dx="0" dy="-4" stdDeviation="6" flood-color="#000" flood-opacity="0.15"/>
+      </filter>
+    </defs>
+    <!-- Back wave for depth -->
+    <path d="M0,60 C280,120 500,0 720,60 C940,120 1160,0 1440,60 L1440,120 L0,120 Z" fill="#0a2540" opacity="0.6"/>
+    <!-- Front wave with shadow -->
+    <path d="M0,80 C320,140 420,20 720,80 C1020,140 1120,20 1440,80 L1440,120 L0,120 Z" fill="url(#waveGrad_ffffff)" filter="url(#waveShadow_ffffff)"/>
+  </svg>
+</div>
   <section class="section sh-bento-sec">
     <div class="container">
       <h2 class="s-title reveal" style="text-align:center;margin-bottom:8px">La isla en imágenes</h2>
@@ -140,7 +208,24 @@
     <div id="lb"><button type="button" id="lb-close" aria-label="Cerrar">✕</button><img id="lb-img" src="" alt=""></div>
   </section>
 
-  <div class="wave-bottom" style="background:#ffffff" aria-hidden="true"><svg viewBox="0 0 1440 52" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0 26 C240 2,480 50,720 24 C960 -2,1200 48,1440 26 L1440 52 L0 52Z" fill="#f7fafd"/></svg></div>
+  <div class="wave-bottom" style="background:#ffffff; position:relative; width:100%; height:6vw; min-height:50px; max-height:120px; overflow:hidden; line-height:0; z-index:10; margin-bottom: -2px;" aria-hidden="true">
+  <svg viewBox="0 0 1440 120" preserveAspectRatio="none" style="display:block; width:100%; height:100%;">
+    <defs>
+      <linearGradient id="waveGrad_f7fafd" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#06111e" />
+        <stop offset="50%" stop-color="#08192c" />
+        <stop offset="100%" stop-color="#06111e" />
+      </linearGradient>
+      <filter id="waveShadow_f7fafd" x="-10%" y="-10%" width="120%" height="120%">
+        <feDropShadow dx="0" dy="-4" stdDeviation="6" flood-color="#000" flood-opacity="0.15"/>
+      </filter>
+    </defs>
+    <!-- Back wave for depth -->
+    <path d="M0,60 C280,120 500,0 720,60 C940,120 1160,0 1440,60 L1440,120 L0,120 Z" fill="#0a2540" opacity="0.6"/>
+    <!-- Front wave with shadow -->
+    <path d="M0,80 C320,140 420,20 720,80 C1020,140 1120,20 1440,80 L1440,120 L0,120 Z" fill="url(#waveGrad_f7fafd)" filter="url(#waveShadow_f7fafd)"/>
+  </svg>
+</div>
   
   <!-- ig-feed-start -->
   
@@ -184,10 +269,44 @@
 
     </div>
   </section>
-  <div class="wave-bottom" style="background:#f7fafd" aria-hidden="true"><svg viewBox="0 0 1440 52" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0 26 C240 2,480 50,720 24 C960 -2,1200 48,1440 26 L1440 52 L0 52Z" fill="#fff"/></svg></div>
+  <div class="wave-bottom" style="background:#f7fafd; position:relative; width:100%; height:6vw; min-height:50px; max-height:120px; overflow:hidden; line-height:0; z-index:10; margin-bottom: -2px;" aria-hidden="true">
+  <svg viewBox="0 0 1440 120" preserveAspectRatio="none" style="display:block; width:100%; height:100%;">
+    <defs>
+      <linearGradient id="waveGrad_fff" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#06111e" />
+        <stop offset="50%" stop-color="#08192c" />
+        <stop offset="100%" stop-color="#06111e" />
+      </linearGradient>
+      <filter id="waveShadow_fff" x="-10%" y="-10%" width="120%" height="120%">
+        <feDropShadow dx="0" dy="-4" stdDeviation="6" flood-color="#000" flood-opacity="0.15"/>
+      </filter>
+    </defs>
+    <!-- Back wave for depth -->
+    <path d="M0,60 C280,120 500,0 720,60 C940,120 1160,0 1440,60 L1440,120 L0,120 Z" fill="#0a2540" opacity="0.6"/>
+    <!-- Front wave with shadow -->
+    <path d="M0,80 C320,140 420,20 720,80 C1020,140 1120,20 1440,80 L1440,120 L0,120 Z" fill="url(#waveGrad_fff)" filter="url(#waveShadow_fff)"/>
+  </svg>
+</div>
   <!-- ig-feed-end -->
 
-  <div class="wave-bottom" style="background:#f7fafd" aria-hidden="true"><svg viewBox="0 0 1440 52" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0 26 C240 2,480 50,720 24 C960 -2,1200 48,1440 26 L1440 52 L0 52Z" fill="#07192e"/></svg></div>
+  <div class="wave-bottom" style="background:#f7fafd; position:relative; width:100%; height:6vw; min-height:50px; max-height:120px; overflow:hidden; line-height:0; z-index:10; margin-bottom: -2px;" aria-hidden="true">
+  <svg viewBox="0 0 1440 120" preserveAspectRatio="none" style="display:block; width:100%; height:100%;">
+    <defs>
+      <linearGradient id="waveGrad_07192e" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#06111e" />
+        <stop offset="50%" stop-color="#08192c" />
+        <stop offset="100%" stop-color="#06111e" />
+      </linearGradient>
+      <filter id="waveShadow_07192e" x="-10%" y="-10%" width="120%" height="120%">
+        <feDropShadow dx="0" dy="-4" stdDeviation="6" flood-color="#000" flood-opacity="0.15"/>
+      </filter>
+    </defs>
+    <!-- Back wave for depth -->
+    <path d="M0,60 C280,120 500,0 720,60 C940,120 1160,0 1440,60 L1440,120 L0,120 Z" fill="#0a2540" opacity="0.6"/>
+    <!-- Front wave with shadow -->
+    <path d="M0,80 C320,140 420,20 720,80 C1020,140 1120,20 1440,80 L1440,120 L0,120 Z" fill="url(#waveGrad_07192e)" filter="url(#waveShadow_07192e)"/>
+  </svg>
+</div>
   
 <div class="wave-divider-navy-top" aria-hidden="true" style="position:relative; width:100%; height:6vw; min-height:50px; max-height:120px; overflow:hidden; line-height:0; z-index:10; background:transparent; margin-bottom:-2px;">
   <svg viewBox="0 0 1440 120" preserveAspectRatio="none" style="display:block; width:100%; height:100%;">

@@ -201,8 +201,24 @@
   </article>
 </main>
 
-<div class="wave-bottom" style="background:#ffffff" aria-hidden="true"><svg viewBox="0 0 1440 52" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0 26 C240 2,480 50,720 24 C960 -2,1200 48,1440 26 L1440 52 L0 52Z" fill="#07192e"/></svg></div>
-<div class="footer-quotes" aria-label="اقتباسات عن ركوب الأمواج" aria-live="polite">
+<div class="wave-bottom" style="background:#ffffff; position:relative; width:100%; height:6vw; min-height:50px; max-height:120px; overflow:hidden; line-height:0; z-index:10; margin-bottom: -2px;" aria-hidden="true">
+  <svg viewBox="0 0 1440 120" preserveAspectRatio="none" style="display:block; width:100%; height:100%;">
+    <defs>
+      <linearGradient id="waveGrad_000" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#000000" />
+        <stop offset="50%" stop-color="#111111" />
+        <stop offset="100%" stop-color="#000000" />
+      </linearGradient>
+      <filter id="waveShadow_000" x="-10%" y="-10%" width="120%" height="120%">
+        <feDropShadow dx="0" dy="-4" stdDeviation="6" flood-color="#000" flood-opacity="0.15"/>
+      </filter>
+    </defs>
+    <!-- Back wave for depth -->
+    <path d="M0,60 C280,120 500,0 720,60 C940,120 1160,0 1440,60 L1440,120 L0,120 Z" fill="#111111" opacity="0.6"/>
+    <!-- Front wave with shadow -->
+    <path d="M0,80 C320,140 420,20 720,80 C1020,140 1120,20 1440,80 L1440,120 L0,120 Z" fill="url(#waveGrad_000)" filter="url(#waveShadow_000)"/>
+  </svg>
+</div> aria-label="اقتباسات عن ركوب الأمواج" aria-live="polite">
   <div class="footer-quotes-inner">
     <div class="fq-icon" aria-hidden="true">&ldquo;</div>
     <div class="fq-text-wrap" id="fq-wrap-ar"><span class="fq-phrase active" data-idx="0">المحيط لا يهتم بمستواك. كل ما يهمه هو حضورك.</span><span class="fq-phrase" data-idx="1">لا سيارات. لا ضجيج. فقط صوت الأمواج عند نغور.</span><span class="fq-phrase" data-idx="2">يُقاس التقدم في ركوب الأمواج بالابتسامات.</span><span class="fq-phrase" data-idx="3">Ngor Right ينادي راكبي الأمواج منذ 1964. حان دورك.</span><span class="fq-phrase" data-idx="4">أفضل رحلة أمواج هي تلك التي تنسى فيها هاتفك.</span><span class="fq-phrase" data-idx="5">أفضل سر للأمواج في غرب أفريقيا? لم يعد سراً.</span><span class="fq-phrase" data-idx="6">رحلة بالقارب تفصل داكار عن الجنة.</span><span class="fq-phrase" data-idx="7">تصفح بشكل أفضل. عش بتمهل. اشعر بالفرق.</span><span class="fq-phrase" data-idx="8">Teranga: فن سنغالي يجعل كل ضيف يشعر بأنه في بيته.</span><span class="fq-phrase" data-idx="9">Ngor Left يعلمك الصبر. Ngor Right يكافئك عليه.</span><span class="fq-phrase" data-idx="10">المحيط الأطلسي دافئء هنا. والترحيب أدفأ.</span><span class="fq-phrase" data-idx="11">ستة أيام وست جلسات ومخيم واحد يغير كل شيء.</span><span class="fq-phrase" data-idx="12">التدريب الحقيقي يبدأ حيث تنتهي مناطق الراحة.</span><span class="fq-phrase" data-idx="13">بعض الناس يأتون إلى نغور لأسبوع. كثيرون يعودون كل عام.</span><span class="fq-phrase" data-idx="14"><strong>بدأ Endless Summer هنا. أين يبدأ صيفك الخالد?</strong></span></div>
