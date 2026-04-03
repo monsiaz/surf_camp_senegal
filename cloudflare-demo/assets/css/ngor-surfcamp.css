@@ -15317,73 +15317,76 @@
 .footer-col-cert {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
 }
 .footer-col-cert h4,
 .footer-col-cert .footer-col-title {
   width: 100%;
-  text-align: center;
+  text-align: left;
 }
 
 .footer-fss-cert {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  text-align: center;
-  gap: 10px;
+  text-align: left;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin-top: 4px;
+  transition: background 0.2s ease;
+}
+.footer-fss-cert:hover {
+  background: rgba(255, 255, 255, 0.06);
 }
 
 /* Seal ring wrapper */
 .fss-seal {
   position: relative;
-  width: 44px;
-  height: 44px;
+  width: 36px;
+  height: 36px;
   flex-shrink: 0;
 }
 .fss-logo-wrap {
-  width: 44px;
-  height: 44px;
+  width: 36px;
+  height: 36px;
   background: #fff;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  box-shadow:
-    0 4px 16px rgba(0,0,0,0.35),
-    0 0 0 2px rgba(255,255,255,0.18),
-    0 0 0 5px rgba(255,255,255,0.06);
-  position: relative;
-  z-index: 1;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 .fss-logo-wrap img {
-  width: 36px;
-  height: 36px;
+  width: 26px;
+  height: 26px;
   object-fit: contain;
-  transform: scale(1.4);
-  transform-origin: 50% 50%;
+  transform: scale(1.15);
 }
-/* Decorative rotating dashed ring */
 .fss-seal-ring {
-  position: absolute;
-  inset: -3px;
-  border-radius: 50%;
-  border: 1px dashed rgba(255,255,255,0.18);
-  pointer-events: none;
+  display: none;
 }
 
 /* Text under the seal */
+.fss-cert-txt {
+  flex: 1;
+}
 .fss-cert-txt strong {
   display: block;
-  font-size: 10px;
+  font-size: 11px;
   color: rgba(255,255,255,0.85);
-  font-weight: 700;
+  font-weight: 500;
   line-height: 1.4;
-  font-family: 'Raleway', sans-serif;
-  max-width: 140px;
+  font-family: inherit;
+  max-width: none;
 }
 
-[dir="rtl"] .footer-fss-cert { align-items: flex-end; text-align: right; }
+[dir="rtl"] .footer-col-cert { align-items: flex-start; }
+[dir="rtl"] .footer-col-cert h4, [dir="rtl"] .footer-col-cert .footer-col-title { text-align: right; }
+[dir="rtl"] .footer-fss-cert { align-items: center; text-align: right; flex-direction: row-reverse; }
 /* ══════════════════════════════════════════════════════
    VISUAL BLOCKS v2 — Premium DA
 ══════════════════════════════════════════════════════ */
