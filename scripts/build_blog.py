@@ -879,9 +879,7 @@ def faq_to_accordion(content_html):
         return (
             f'<div class="faq-item" itemscope itemprop="mainEntity" '
             f'itemtype="https://schema.org/Question">'
-            f'<button class="faq-q" type="button" '
-            f'onclick="this.closest(\'.faq-item\').classList.toggle(\'open\')" '
-            f'aria-expanded="false">'
+            f'<button class="faq-q" type="button" aria-expanded="false">'
             f'<span itemprop="name">{q}</span>'
             f'<span class="faq-arrow" aria-hidden="true">▼</span>'
             f'</button>'
