@@ -444,12 +444,10 @@ def patch_home_waves_all():
             continue
         with open(path, encoding="utf-8", errors="replace") as f:
             h = f.read()
-        # Skip if already patched
-        if 'class="wave-top"' in h or 'class="wave-bottom"' in h or 'wave-divider-navy' in h:
-            # Remove old waves first so we can re-apply cleanly
-            import re as _re
-            h = _re.sub(r'\s*<div class="wave-(?:top|bottom)"[^>]*>.*?</div>', '', h, flags=_re.DOTALL)
-            h = _re.sub(r'\s*<div[^>]*class="[^"]*wave-divider[^"]*"[^>]*>.*?</div>', '', h, flags=_re.DOTALL)
+        # Always strip any existing wave dividers before re-applying to prevent stacking
+        import re as _re
+        h = _re.sub(r'\s*<div class="wave-(?:top|bottom)"[^>]*>.*?</div>', '', h, flags=_re.DOTALL)
+        h = _re.sub(r'\s*<div[^>]*class="[^"]*wave-divider[^"]*"[^>]*>.*?</div>', '', h, flags=_re.DOTALL)
         h2 = h
         for marker, wave_fn in HOME_WAVE_PATCHES:
             if marker in h2:
@@ -702,6 +700,12 @@ def build_footer(lang, flag_href_override=None):
           <a href="https://www.instagram.com/ngorsurfcampteranga" target="_blank" class="soc-btn ig" aria-label="Instagram"><span style="display:inline-flex">{IG_ICO}</span></a>
           <a href="https://www.tiktok.com/@ngorsurfcampteranga" target="_blank" class="soc-btn tt" aria-label="TikTok"><span style="display:inline-flex">{TT_ICO}</span></a>
         </div>
+        <a href="https://www.google.com/maps?cid=14555894641030809667" target="_blank" rel="noopener" class="footer-gmb-badge" aria-label="4.7 — 54 {GMB_REVIEWS_LBL[lang]}">
+          <span class="footer-gmb-logo"><svg viewBox="0 0 24 24" width="16" height="16" xmlns="http://www.w3.org/2000/svg"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg></span>
+          <span class="footer-gmb-stars" aria-hidden="true">★★★★★</span>
+          <span class="footer-gmb-score">4.7</span>
+          <span class="footer-gmb-count">· 54 {GMB_REVIEWS_LBL[lang]}</span>
+        </a>
       </div>
       <div class="footer-col"><p class="footer-col-title">{EXP[lang]}</p>{links_html}</div>
       <div class="footer-col">
@@ -6945,8 +6949,12 @@ def inject_homepage_jsonld():
         if not p.exists():
             continue
         h = p.read_text(encoding="utf-8", errors="replace")
-        if 'LocalBusiness' in h:
+        if 'LocalBusiness' in h and 'aggregateRating' in h:
             continue
+        # If LocalBusiness exists but lacks aggregateRating, strip the old tag and re-inject
+        if 'LocalBusiness' in h and 'aggregateRating' not in h:
+            import re as _re2
+            h = _re2.sub(r'<script type="application/ld\+json">\{"@context":"https://schema\.org","@graph":\[.*?"@type":"LocalBusiness".*?</script>\n?', '', h, flags=_re2.DOTALL)
         _url = f"{SITE_URL}{pfx}/" if pfx else f"{SITE_URL}/"
         ld = _json.dumps({
             "@context": "https://schema.org",
@@ -6978,8 +6986,24 @@ def inject_homepage_jsonld():
                         "opens": "07:00",
                         "closes": "22:00"
                     },
+                    "aggregateRating": {
+                        "@type": "AggregateRating",
+                        "ratingValue": "4.7",
+                        "bestRating": "5",
+                        "worstRating": "1",
+                        "reviewCount": "54",
+                        "url": "https://www.google.com/maps?cid=14555894641030809667"
+                    },
+                    "review": {
+                        "@type": "Review",
+                        "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"},
+                        "author": {"@type": "Person", "name": "Stéphane M."},
+                        "reviewBody": "Best surf camp I've tried! Amazing team, perfect waves every day at Ngor Island. Abu is the best surf guide in Dakar.",
+                        "datePublished": "2025-03-01"
+                    },
                     "sameAs": [
-                        "https://www.instagram.com/ngor_surfcamp_teranga/"
+                        "https://www.instagram.com/ngor_surfcamp_teranga/",
+                        "https://www.google.com/maps?cid=14555894641030809667"
                     ]
                 },
                 {
@@ -7005,6 +7029,96 @@ def inject_homepage_jsonld():
         p.write_text(h, encoding="utf-8")
         n += 1
     print(f"  JSON-LD: injected LocalBusiness+WebSite into {n} homepages")
+
+
+def patch_all_footers():
+    """Replace footer on every HTML page with freshly-generated build_footer() output.
+    Ensures GMB badge and any footer changes propagate to all pages including static ones."""
+    import re as _re
+    FOOTER_RE = _re.compile(r'<footer>.*?</footer>', _re.DOTALL)
+    n = 0
+    for root, dirs, files in os.walk(DEMO_DIR):
+        dirs[:] = [d for d in dirs if not d.startswith('.') and d != 'node_modules']
+        for fn in files:
+            if not fn.endswith('.html'):
+                continue
+            path = os.path.join(root, fn)
+            # Detect language from path
+            rel = os.path.relpath(path, DEMO_DIR).replace("\\", "/")
+            lang = "en"
+            for lg in ["fr", "es", "it", "de", "nl", "ar"]:
+                if rel.startswith(lg + "/"):
+                    lang = lg
+                    break
+            try:
+                with open(path, encoding="utf-8", errors="replace") as f:
+                    h = f.read()
+            except OSError:
+                continue
+            if '<footer>' not in h:
+                continue
+            # Build correct footer for this page's language
+            # For getting-here page, use GETTING_HERE_FLAG_HREF
+            if 'getting-here' in rel or 'comment-venir' in rel or 'como-llegar' in rel:
+                new_footer = build_footer(lang, GETTING_HERE_FLAG_HREF)
+            else:
+                new_footer = build_footer(lang)
+            h2 = FOOTER_RE.sub(new_footer, h, count=1)
+            if h2 != h:
+                with open(path, "w", encoding="utf-8") as f:
+                    f.write(h2)
+                n += 1
+    print(f"  footers refreshed: {n} HTML pages")
+
+
+def inject_nonblog_org_schema():
+    """Inject compact Organization schema (with AggregateRating) on all non-blog, non-homepage pages."""
+    import json as _json
+    from pathlib import Path as _Path
+    import re as _re
+
+    ORG_LD = _json.dumps({
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "@id": f"{SITE_URL}/#organization",
+        "name": "Ngor Surfcamp Teranga",
+        "url": SITE_URL,
+        "logo": f"{SITE_URL}/assets/images/wix/c2467f_a31779010ce34c4c8c61cc5868d81f31.webp",
+        "telephone": "+221789257025",
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.7",
+            "bestRating": "5",
+            "worstRating": "1",
+            "reviewCount": "54",
+            "url": "https://www.google.com/maps?cid=14555894641030809667"
+        },
+        "sameAs": [
+            "https://www.instagram.com/ngor_surfcamp_teranga/",
+            "https://www.google.com/maps?cid=14555894641030809667"
+        ]
+    }, ensure_ascii=False)
+    tag = f'<script type="application/ld+json">{ORG_LD}</script>\n'
+
+    n = 0
+    for html_path in _Path(DEMO_DIR).rglob("index.html"):
+        rel = str(html_path.relative_to(DEMO_DIR)).replace("\\", "/")
+        # Skip homepages (handled by inject_homepage_jsonld)
+        if rel in ("index.html",) or rel.endswith("/index.html") and rel.count("/") == 1 and rel[:2] in ("fr", "es", "it", "de", "nl", "ar"):
+            continue
+        # Skip blog pages
+        if "/blog/" in rel:
+            continue
+        try:
+            h = html_path.read_text(encoding="utf-8", errors="replace")
+        except OSError:
+            continue
+        if '"@type":"Organization"' in h or 'Organization' in h and 'aggregateRating' in h:
+            continue
+        h = h.replace("</head>", tag + "</head>", 1)
+        html_path.write_text(h, encoding="utf-8")
+        n += 1
+    print(f"  JSON-LD: injected Organization+AggregateRating into {n} non-blog pages")
 
 
 def patch_remove_float_wa_all():
@@ -7247,8 +7361,14 @@ if _rc_blog.returncode != 0:
 print("Patching <head> on FAQ/blog output (fonts, asset version)…")
 patch_head_all_pages()
 
+print("Refreshing footer on all HTML pages (GMB badge + translations)…")
+patch_all_footers()
+
 print("Injecting structured data (JSON-LD) on homepages…")
 inject_homepage_jsonld()
+
+print("Injecting Organization+AggregateRating schema on non-blog pages…")
+inject_nonblog_org_schema()
 
 print("Removing legacy floating WhatsApp button (#float-wa) from all HTML…")
 patch_remove_float_wa_all()
