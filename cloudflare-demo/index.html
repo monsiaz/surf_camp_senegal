@@ -49,7 +49,7 @@
   <!-- VIDEO HERO -->
   <section class="hero">
     <div class="hero-video-wrap">
-      <video id="hero-video" loop muted playsinline preload="none" data-autoplay="1" poster="/assets/images/wix/df99f9_da0cf7c72b1a4606bcfa1f7c8e089dc4f000.webp" style="width:100%;height:100%;object-fit:cover;display:block">
+      <video id="hero-video" autoplay loop muted playsinline preload="metadata" poster="/assets/images/wix/df99f9_da0cf7c72b1a4606bcfa1f7c8e089dc4f000.webp" style="width:100%;height:100%;object-fit:cover;display:block">
         <source src="/assets/video/hero-ngor-720p.mp4" type="video/mp4">
         <source src="/assets/video/hero-ngor-480p.mp4" type="video/mp4">
         <source src="/assets/video/hero-ngor-360p.mp4" type="video/mp4">
@@ -771,20 +771,7 @@ document.querySelectorAll('.faq-q').forEach(q => {
 
 /* ── Video hero ──────────────────────────────────────── */
 const vid = document.getElementById('hero-video');
-if(vid){
-  vid.play().catch(() => {
-    vid.style.display = 'none';
-    const wrap = document.querySelector('.hero-video-wrap');
-    if (!wrap) return;
-    const poster = vid.getAttribute('poster');
-    if (poster) {
-      wrap.style.backgroundColor = '#071726';
-      wrap.style.backgroundImage = 'url(' + JSON.stringify(poster) + ')';
-      wrap.style.backgroundSize = 'cover';
-      wrap.style.backgroundPosition = 'center';
-    }
-  });
-}
+if(vid){ vid.play().catch(()=>{}); }
 
 /* ── Booking form → WhatsApp ─────────────────────────── */
 const form = document.getElementById('booking-form');
