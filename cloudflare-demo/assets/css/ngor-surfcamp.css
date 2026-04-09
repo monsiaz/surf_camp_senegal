@@ -41057,3 +41057,94 @@ img{max-width:100%;height:auto}
 }
 .vb-tip ul.block-list li::before { content: '•'; position: absolute; left: 0; color: var(--fire); font-size: 16px; line-height: 1.5; }
 .vb-fact ul.block-list li::before { content: '•'; position: absolute; left: 0; color: #0ea5e9; font-size: 16px; line-height: 1.5; }
+
+/* ══════════════════════════════════════════════════════
+   GETTING HERE — Video card + OSM map
+══════════════════════════════════════════════════════ */
+
+/* ── Video card section ──────────────────────────────── */
+.gh-video-section {
+  padding: 60px 0 0;
+}
+.gh-video-card {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 12px 48px rgba(10,37,64,0.22);
+  background: #000;
+  aspect-ratio: 9/16;
+}
+.gh-video-card video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.gh-video-overlay {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 24px 28px;
+  background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, transparent 100%);
+  color: #fff;
+  pointer-events: none;
+}
+.gh-video-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 50px;
+  padding: 5px 14px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  color: #fff;
+}
+.gh-video-title {
+  font-family: var(--fh);
+  font-size: clamp(18px, 2.2vw, 26px);
+  font-weight: 800;
+  color: #fff;
+  margin: 0 0 4px;
+  line-height: 1.2;
+}
+.gh-video-sub {
+  font-size: 13.5px;
+  color: rgba(255,255,255,0.8);
+  margin: 0;
+}
+/* Play button hint when paused */
+.gh-video-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+/* ── OSM map (replaces Leaflet) ─────────────────────── */
+.gh-osm-map {
+  width: 100%;
+  height: 460px;
+  border: none;
+  display: block;
+  filter: saturate(0.85) contrast(1.05);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .gh-video-card {
+    max-width: 100%;
+    border-radius: 0;
+  }
+  .gh-video-section { padding: 40px 0 0; }
+  .gh-osm-map { height: 320px; }
+}
+
