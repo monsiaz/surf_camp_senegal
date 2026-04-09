@@ -2,26 +2,23 @@
   "name": "surfcampsenegal",
   "version": "1.0.0",
   "type": "module",
+  "description": "Static site for Ngor Surfcamp Teranga — Ngor Island, Dakar, Senegal",
   "engines": {
     "node": ">=20.9.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "python3 build.py && python3 scripts/build_blog.py",
     "build:site": "python3 build.py",
+    "build:blog": "python3 scripts/build_blog.py",
+    "check": "python3 scripts/pre_deploy_check.py",
+    "check:strict": "python3 scripts/pre_deploy_check.py --strict",
     "vercel:build": "vercel build --prod",
     "vercel:deploy": "vercel deploy --prebuilt --prod",
-    "deploy:vercel": "npm run build:site && npm run vercel:build && npm run vercel:deploy"
+    "deploy": "npm run build && python3 scripts/pre_deploy_check.py && npm run vercel:build && npm run vercel:deploy"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",
-    "@vercel/edge": "^1.2.2",
-    "@wix/blog": "^1.0.589",
-    "@wix/data": "^1.0.430",
-    "@wix/sdk": "^1.21.5"
+    "@vercel/edge": "^1.2.2"
   },
   "devDependencies": {
     "vercel": "50.37.3"

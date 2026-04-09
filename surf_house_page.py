@@ -328,3 +328,21 @@ SURF_HOUSE_FEATS = {
         ("icon-checklist", "تنظيف يومي", "تُنظَّف الغرف وتُرتَّب الأسرة يومياً — حتى تتفرغ لركوب الأمواج."),
     ],
 }
+
+# PT/DA fallback entries
+SURF_HOUSE_PAGE["pt"] = dict(SURF_HOUSE_PAGE["es"])
+SURF_HOUSE_PAGE["pt"].update({
+    "title": "Casa de Surf | Ngor Surfcamp Teranga",
+    "meta": "A casa de surf no coração da Ilha de Ngor — quartos com vista para o mar, refeições senegalesesas, piscina e um ambiente perfeito para surfistas.",
+    "h1": "Surf House",
+    "sub": "A nossa casa de surf fica no coração da Ilha de Ngor — sem carros, sem ruído, apenas o Atlântico.",
+})
+SURF_HOUSE_PAGE["da"] = dict(SURF_HOUSE_PAGE["de"])
+SURF_HOUSE_PAGE["da"].update({
+    "title": "Surf House | Ngor Surfcamp Teranga",
+    "meta": "Surf house i hjertet af Ngor Island — havudsigtsværelser, senegalesiske måltider, pool og den perfekte stemning for surfere.",
+    "h1": "Surf House",
+    "sub": "Vores surf house ligger i hjertet af Ngor Island — ingen biler, ingen støj, kun Atlanterhavet.",
+})
+SURF_HOUSE_FEATS["pt"] = list(SURF_HOUSE_FEATS["es"])
+SURF_HOUSE_FEATS["da"] = list(SURF_HOUSE_FEATS["de"])

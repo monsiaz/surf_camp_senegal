@@ -1,0 +1,57 @@
+# Changelog
+
+## [1.0.0 build 5] — 2026-04-09 15:39 UTC
+Status: ✅ PASSED  |  Errors: 0  |  Warnings: 4
+Hash: `e2304a2c`
+### Warnings
+- Known redirect-only page (needs full content): nl/island
+- Known redirect-only page (needs full content): ar/island
+- surf-house old template on known gap pages: ['pt:main-hero', 'da:main-hero']
+- blog/index.html: missing JSON-LD structured data
+
+## [1.0.0 build 4] — 2026-04-09 15:39 UTC
+Status: ❌ FAILED  |  Errors: 2  |  Warnings: 3
+Hash: `e2304a2c`
+### Errors
+- surf-house missing content: ['pt:main-hero', 'da:main-hero']
+- Broken content fragments in: ['blog/surf-trip-to-senegal-what-to-pack/index.html', 'blog/learn-to-surf-dakar/index.html']
+### Warnings
+- Known redirect-only page (needs full content): nl/island
+- Known redirect-only page (needs full content): ar/island
+- blog/index.html: missing JSON-LD structured data
+
+## [1.0.0 build 3] — 2026-04-09 15:39 UTC
+Status: ❌ FAILED  |  Errors: 2  |  Warnings: 2
+Hash: `ca222feb`
+### Errors
+- surf-house missing content: ['en:sh-page-header', 'fr:sh-page-header', 'es:sh-page-header', 'it:sh-page-header', 'de:sh-page-header']
+- Broken content fragments in: ['blog/surf-trip-to-senegal-what-to-pack/index.html', 'blog/learn-to-surf-dakar/index.html']
+### Warnings
+- Known redirect-only page (needs full content): nl/island
+- Known redirect-only page (needs full content): ar/island
+
+## [1.0.0 build 2] — 2026-04-09 15:36 UTC
+Status: ❌ FAILED  |  Errors: 4  |  Warnings: 0
+Hash: `ca222feb`
+### Errors
+- surf-house missing content: ['en:sh-page-header', 'fr:sh-page-header', 'es:sh-page-header', 'it:sh-page-header', 'de:sh-page-header']
+- island missing content: ['nl:main-hero', 'nl:island-discover', 'nl:footer', 'ar:main-hero', 'ar:island-discover']
+- gallery missing content: ['pt:ngor_gallery_filter', 'da:ngor_gallery_filter']
+- Broken content fragments in: ['blog/surf-trip-to-senegal-what-to-pack/index.html', 'blog/learn-to-surf-dakar/index.html']
+
+## [1.0.0 build 1] — 2026-04-09 15:30 UTC
+Status: ❌ FAILED  |  Errors: 9  |  Warnings: 2
+Hash: `4d7b5900`
+### Errors
+- surf-house missing content: ['pt:main-hero', 'da:main-hero']
+- island missing content: ['nl:main-hero', 'nl:discover', 'nl:footer', 'ar:main-hero', 'ar:discover']
+- surfing missing content: ['pt:main-hero', 'da:main-hero']
+- gallery missing content: ['en:cat-filter-btn', 'fr:cat-filter-btn', 'es:cat-filter-btn', 'it:cat-filter-btn', 'de:cat-filter-btn']
+- faq missing content: ['en:faq-accordion', 'fr:faq-accordion', 'es:faq-accordion', 'it:faq-accordion', 'de:faq-accordion']
+- home missing content: ['en:main-hero', 'fr:main-hero', 'es:main-hero', 'it:main-hero', 'de:main-hero']
+- Missing CSS classes: ['faq-accordion']
+- gallery/index.html missing JS: filterCat
+- Broken content fragments in: ['blog/surf-trip-to-senegal-what-to-pack/index.html', 'blog/best-time-to-surf-senegal/index.html', 'blog/complete-guide-surf-camp-dakar-ngor-island/index.html', 'blog/endless-summer-senegal-ngor/index.html', 'blog/learn-to-surf-dakar/index.html']
+### Warnings
+- pt/home: <html> tag missing lang="pt"
+- da/home: <html> tag missing lang="da"

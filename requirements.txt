@@ -1,0 +1,11 @@
+# Python dependencies for the Ngor Surfcamp Teranga build & content pipeline
+# Install: pip install -r requirements.txt
+
+# Image processing (gallery generation, WebP conversion, B&W conversion, logo cleanup)
+Pillow>=11.0.0
+
+# OpenAI API (image labeling, article translation, content generation)
+openai>=1.50.0
+
+# HTTP utilities (used by some maintenance scripts and daily data fetchers)
+requests>=2.31.0

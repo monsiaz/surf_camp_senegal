@@ -10,21 +10,24 @@ concurrency:
   cancel-in-progress: true
 
 permissions:
-  contents: read
+  contents: write   # needed to push version bump commit
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+          cache: pip
 
       - name: Set up Node.js 20
         uses: actions/setup-node@v4
@@ -32,10 +35,11 @@ jobs:
           node-version: "20"
           cache: npm
 
-      - name: Install dependencies
-        run: |
-          pip install pillow requests
-          npm ci
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Install Node dependencies
+        run: npm ci
 
       - name: Restore Vercel project link
         run: |
@@ -48,6 +52,19 @@ jobs:
         env:
           PUBLIC_SITE_URL: https://surf-camp-senegal.vercel.app
         run: python3 build.py
+
+      # ── Quality gate (blocks deploy on critical failures) ───────────────────
+      - name: Pre-deploy quality check
+        run: python3 scripts/pre_deploy_check.py --fix
+
+      # ── Commit version bump + changelog back to repo ────────────────────────
+      - name: Commit version bump
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add version.json CHANGELOG.md || true
+          git diff --cached --quiet || git commit -m "chore: bump build version [skip ci]"
+          git push || true
 
       - name: Deploy to Vercel
         env:

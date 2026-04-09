@@ -114,7 +114,24 @@ document.addEventListener('keydown',(e)=>{if(e.key==='Escape')closeLb();});}
 function initGalleryImgFade(){$$('.gallery-item img').forEach((img)=>{const done=()=>img.classList.add('is-loaded');if(img.complete&&img.naturalWidth>0)done();else{img.addEventListener('load',done,{once:true});img.addEventListener('error',done,{once:true});}});}
 function initTrustStatsMotion(){const block=document.querySelector('.home-proof-strip')||document.querySelector('.trust-stats-block');if(!block)return;const visClass=block.classList.contains('home-proof-strip')?'home-proof--visible':'trust-stats--visible';if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){block.classList.add(visClass);return;}
 const obs=new IntersectionObserver((entries)=>{entries.forEach((e)=>{if(e.isIntersecting){block.classList.add(visClass);obs.unobserve(block);}});},{threshold:0.1,rootMargin:'0px 0px -5% 0px'});obs.observe(block);}
-document.addEventListener('DOMContentLoaded',()=>{initScrollProgress();initHeader();initArticleToc();initHeroText();initHeroVideoLoop();initTrustStatsMotion();initGhTeaserMap();initGalleryLightbox();initGalleryImgFade();initReveal();initFaqPageAccordion();initProseHashLinks();scrollToHashTarget();});window.addEventListener('hashchange',scrollToHashTarget);window.toggleMenu=function(){const links=document.getElementById('nav-links');if(links)links.classList.toggle('open');};window.toggleLangDD=function(e){if(e&&e.stopPropagation)e.stopPropagation();const dd=document.getElementById('lang-dd');if(dd)dd.classList.toggle('open');};document.addEventListener('click',()=>{const dd=document.getElementById('lang-dd');if(dd)dd.classList.remove('open');});})();function copyURL(){navigator.clipboard.writeText(location.href).then(()=>{const el=document.querySelector('.copy-success');if(el){el.style.display='inline';setTimeout(()=>{el.style.display='none';},2000);}});}
+document.addEventListener('DOMContentLoaded',()=>{initScrollProgress();initHeader();initArticleToc();initHeroText();initHeroVideoLoop();initTrustStatsMotion();initGhTeaserMap();initGalleryLightbox();initGalleryImgFade();initReveal();initFaqPageAccordion();initProseHashLinks();scrollToHashTarget();});window.addEventListener('hashchange',scrollToHashTarget);window.toggleMenu=function(){
+  var links=document.getElementById('nav-links');
+  var btn=document.getElementById('nav-toggle');
+  if(!links)return;
+  var isOpen=links.classList.toggle('open');
+  if(btn)btn.classList.toggle('active',isOpen);
+  document.body.style.overflow=isOpen?'hidden':'';
+};
+// Close nav on outside click
+document.addEventListener('click',function(e){
+  var links=document.getElementById('nav-links');
+  var btn=document.getElementById('nav-toggle');
+  if(links&&links.classList.contains('open')&&!links.contains(e.target)&&e.target.id!=='nav-toggle'){
+    links.classList.remove('open');
+    if(btn)btn.classList.remove('active');
+    document.body.style.overflow='';
+  }
+});window.toggleLangDD=function(e){if(e&&e.stopPropagation)e.stopPropagation();const dd=document.getElementById('lang-dd');if(dd)dd.classList.toggle('open');};document.addEventListener('click',()=>{const dd=document.getElementById('lang-dd');if(dd)dd.classList.remove('open');});})();function copyURL(){navigator.clipboard.writeText(location.href).then(()=>{const el=document.querySelector('.copy-success');if(el){el.style.display='inline';setTimeout(()=>{el.style.display='none';},2000);}});}
 function shareWA(){const msg=encodeURIComponent(document.title+' — '+location.href);window.open('https://wa.me/?text='+msg,'_blank');}
 function toggleArticleFaq(btn){const item=btn.closest('.article-faq-item');const isOpen=item.classList.contains('open');const answer=item.querySelector('.article-faq-answer');const section=item.closest('.article-faq-section');if(section){section.querySelectorAll('.article-faq-item.open').forEach(other=>{if(other!==item){other.classList.remove('open');other.querySelector('button').setAttribute('aria-expanded','false');}});}
 item.classList.toggle('open',!isOpen);btn.setAttribute('aria-expanded',String(!isOpen));}

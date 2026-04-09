@@ -222,13 +222,22 @@ def build_surfing_v2(lang):
     html += nav_html("surfing", lang, pfx, "/surfing")
     html += f"""
 <main>
-  <header class="page-header" style="background-image:url('{IMGS['surf']}')" role="banner">
-    <h1>{h1}</h1>
-    <p style="font-style:italic;font-size:20px;opacity:0.9;margin-top:8px">{MOTTO[lang]}</p>
+  <header class="main-hero" style="background-image:url('{IMGS['surf']}')" role="banner">
+    <div class="main-hero-inner">
+      <div class="main-hero-eyebrow">
+        <span class="main-hero-dot"></span>
+        <span>Ngor Surfcamp Teranga</span>
+      </div>
+      <h1 class="main-hero-h1">{h1}</h1>
+      <p class="main-hero-tagline" style="font-style:italic">{MOTTO[lang]}</p>
+      <div class="main-hero-actions">
+        <a href="#main-intro" class="btn btn-outline-white btn-lg">&#8964;</a>
+      </div>
+    </div>
   </header>
 
   <!-- Main intro -->
-  <section class="section">
+  <section id="main-intro" class="section">
     <div class="container">
       <div class="split reveal">
         <div>
@@ -262,7 +271,7 @@ def build_surfing_v2(lang):
           <h2 class="s-title" style="margin-bottom:28px">{YOUR_L[lang]}</h2>
           {levels_html}
         </div>
-        <div class="split-img"><img src="{IMGS['ngor_r']}" alt="Ngor Right point break" loading="lazy" width="600" height="460"></div>
+        <div class="split-img"><img src="{IMGS['coach']}" alt="Surf coaching at Ngor" loading="lazy" width="600" height="460"></div>
       </div>
     </div>
   </section>
@@ -433,12 +442,21 @@ def build_super_faq(lang):
     html += nav_html("faq", lang, pfx, "/faq")
     html += f"""
 <main>
-  <header class="page-header" style="background-image:url('{IMGS['island']}')" role="banner">
-    <h1>{h1}</h1>
-    <p>{hero_p}</p>
+  <header class="main-hero" style="background-image:url('{IMGS['island']}')" role="banner">
+    <div class="main-hero-inner">
+      <div class="main-hero-eyebrow">
+        <span class="main-hero-dot"></span>
+        <span>Ngor Surfcamp Teranga</span>
+      </div>
+      <h1 class="main-hero-h1">{h1}</h1>
+      <p class="main-hero-tagline">{hero_p}</p>
+      <div class="main-hero-actions">
+        <a href="#faq-content" class="btn btn-outline-white btn-lg">&#8964;</a>
+      </div>
+    </div>
   </header>
 
-  <section class="section">
+  <section id="faq-content" class="section">
     <div class="container">
       <div class="faq-layout">
 

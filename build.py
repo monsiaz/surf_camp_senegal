@@ -334,16 +334,41 @@ def build_gallery_thumb_buttons(urls, alt_raw, pe, thumb_w=560, eager_first=Fals
     return "".join(parts)
 
 
+_GAL = "/assets/images/gallery"
 SURF_HOUSE_SHOTS = [
-    f"{_WIX}/df99f9_2ec6248367cd4e21a5e6c26c2b0a1c35.webp",
-    f"{_WIX}/df99f9_eba4c24ec6a746b58d60a975b8d20946.webp",
-    f"{_WIX}/df99f9_d8e77cf4807249f6953119f18be64166.webp",
-    f"{_WIX}/df99f9_753890483d8e4cca8e2051a13f9c558e.webp",
-    f"{_WIX}/df99f9_a18d512828d9487e9a4987b9903960e0.webp",
-    f"{_WIX}/df99f9_dd89cc4d86d4402189d7e9516ce672a3.webp",
-    f"{_WIX}/df99f9_81e322c4e48d4bcbb444c6535daed131.webp",
-    f"{_WIX}/df99f9_bde010e1296b478cbbe4f885c2714338.webp",
+    f"{_GAL}/CAML1124_73024503.webp",
+    f"{_GAL}/CAML1129_2323b4f6.webp",
+    f"{_GAL}/CAML1133_c4e634ba.webp",
+    f"{_GAL}/CAML1136_7887aa9f.webp",
+    f"{_GAL}/CAML1138_615df811.webp",
+    f"{_GAL}/CAML1142_092a767e.webp",
+    f"{_GAL}/CAML1150_c1f8abfe.webp",
+    f"{_GAL}/CAML1100_3a5f7e17.webp",
 ]
+
+SURF_ACTION_SHOTS = [
+    f"{_GAL}/4Y4A1344_890dc276.webp",
+    f"{_GAL}/4Y4A1346_463ff1cc.webp",
+    f"{_GAL}/4Y4A1347_0937fe77.webp",
+    f"{_GAL}/4Y4A1349_2e925d77.webp",
+    f"{_GAL}/4Y4A1351_4cd37638.webp",
+    f"{_GAL}/4Y4A1352_39bf908a.webp",
+    f"{_GAL}/4Y4A1353_cd947b75.webp",
+    f"{_GAL}/4Y4A1354_b7dabb94.webp",
+]
+
+# Labels for the "Explore the Gallery" CTA on landing pages
+EXPLORE_GAL = {
+    "en": "Explore the Gallery",
+    "fr": "Voir toute la galerie",
+    "es": "Ver toda la galería",
+    "it": "Esplora tutta la galleria",
+    "de": "Zur Galerie",
+    "nl": "Bekijk de galerij",
+    "ar": "استكشف المعرض",
+    "pt": "Ver a galeria completa",
+    "da": "Udforsk galleriet",
+}
 
 VIDEO_BASE = "/assets/video/hero-ngor"
 
@@ -467,6 +492,8 @@ FLAG_SVG = {
     "de": '<svg viewBox="0 0 60 40"><rect width="60" height="13" fill="#000"/><rect y="13" width="60" height="14" fill="#DD0000"/><rect y="27" width="60" height="13" fill="#FFCE00"/></svg>',
     "nl": '<svg viewBox="0 0 60 40"><rect width="60" height="13" fill="#AE1C28"/><rect y="13" width="60" height="14" fill="#fff"/><rect y="27" width="60" height="13" fill="#21468B"/></svg>',
     "ar": '<svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#C1272D"/><path d="M30,10 L31.8,16.1 L38.5,16.1 L33,19.9 L35,26 L30,22.1 L25,26 L27,19.9 L21.5,16.1 L28.2,16.1 Z" fill="none" stroke="#006233" stroke-width="1.2"/></svg>',
+    "da": '<svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#C60C30"/><rect x="20" width="8" height="40" fill="#fff"/><rect y="16" width="60" height="8" fill="#fff"/></svg>',
+    "pt": '<svg viewBox="0 0 60 40"><rect width="22" height="40" fill="#006600"/><rect x="22" width="38" height="40" fill="#FF0000"/><circle cx="22" cy="20" r="8" fill="#FFD700" stroke="#006600" stroke-width="1"/></svg>',
 }
 
 def flag(lang, size=22):
@@ -598,7 +625,7 @@ def build_nav(active_key, lang, lang_switcher_hrefs=None):
     return (
         f'<nav id="nav"><div class="nav-inner">'
         f'<a href="{pfx}/" class="nav-logo">'
-        f'<img src="{LOGO}" alt="Ngor Surfcamp Teranga" width="130" height="44" loading="eager"></a>'
+        f'<img src="{LOGO}" alt="Ngor Surfcamp Teranga" width="44" height="44" loading="eager"></a>'
         f'<div class="nav-links" id="nav-links">{items}</div>'
         f'<div class="nav-right">{lang_dd}'
         f'<a href="https://wa.me/221789257025" target="_blank" rel="noopener" class="nav-wa" aria-label="{escape(ui_chrome("wa", lang))}">'
@@ -649,6 +676,15 @@ def build_footer(lang, flag_href_override=None):
         f'hreflang="{LANG_LOCALE[l]}" title="{LANG_NAMES[l]}">{flag(l,22)}</a>'
         for l in LANGS
     ])
+    # Add DA (Danish) and PT (Portuguese) flags — pages exist but outside main LANGS pipeline
+    _EXTRA_LANGS = [("da", "/da/", "da-DK", "Dansk"), ("pt", "/pt/", "pt-PT", "Português")]
+    for _el, _ehref, _elocale, _ename in _EXTRA_LANGS:
+        if _el in FLAG_SVG:
+            _esize = 22; _eh2 = round(_esize*0.667)
+            _eflag = (f'<span style="width:{_esize}px;height:{_eh2}px;display:inline-flex;'
+                      f'border-radius:3px;overflow:hidden;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.22)">'
+                      f'{FLAG_SVG[_el]}</span>')
+            flags_html += f' <a href="{_ehref}" class="footer-flag-link" hreflang="{_elocale}" title="{_ename}">{_eflag}</a>'
     ABOUT = {"en":"Premium surf camp on Ngor Island, Dakar, Senegal. All levels welcome.",
              "fr":"Surf camp premium sur l'île de Ngor, Dakar, Sénégal. Tous niveaux bienvenus.",
              "es":"Surf camp premium en la isla de Ngor, Dakar, Senegal. Todos los niveles bienvenidos.",
@@ -674,6 +710,17 @@ def build_footer(lang, flag_href_override=None):
     GMB_REVIEWS_LBL = {"en":"reviews on Google","fr":"avis sur Google","es":"reseñas en Google",
                         "it":"recensioni su Google","de":"Bewertungen auf Google",
                         "nl":"beoordelingen op Google","ar":"مراجعة على Google"}
+    FSS_LBL = {
+        "en": "Licensed &amp; Certified",
+        "fr": "Agréé &amp; Certifié",
+        "es": "Licenciado &amp; Certificado",
+        "it": "Autorizzato &amp; Certificato",
+        "de": "Lizenziert &amp; Zertifiziert",
+        "nl": "Erkend &amp; Gecertificeerd",
+        "ar": "مرخص ومعتمد",
+        "pt": "Licenciado &amp; Certificado",
+        "da": "Licenseret &amp; Certificeret",
+    }
     COPY  = {"en":"© 2025 Ngor Surfcamp Teranga. All rights reserved.",
              "fr":"© 2025 Ngor Surfcamp Teranga. Tous droits réservés.",
              "es":"© 2025 Ngor Surfcamp Teranga. Todos los derechos reservados.",
@@ -706,6 +753,10 @@ def build_footer(lang, flag_href_override=None):
           <span class="footer-gmb-score">4.7</span>
           <span class="footer-gmb-count">· 54 {GMB_REVIEWS_LBL[lang]}</span>
         </a>
+        <div class="footer-fss-badge" role="img" aria-label="{FSS_LBL[lang]}">
+          <span class="footer-fss-logo-wrap"><img src="/assets/images/logo-fss-badge.webp" alt="FSS" width="36" height="36" loading="lazy"></span>
+          <span class="footer-fss-text"><span class="footer-fss-title">{FSS_LBL[lang]}</span><span class="footer-fss-sub">Fédération Sénégalaise de Surf</span></span>
+        </div>
       </div>
       <div class="footer-col"><p class="footer-col-title">{EXP[lang]}</p>{links_html}</div>
       <div class="footer-col">
@@ -718,18 +769,6 @@ def build_footer(lang, flag_href_override=None):
         <a href="https://www.instagram.com/ngorsurfcampteranga" target="_blank">Instagram</a>
         <a href="https://www.tiktok.com/@ngorsurfcampteranga" target="_blank">TikTok</a>
         <a href="https://wa.me/221789257025" target="_blank">{escape(ui_chrome("wa", lang))}</a>
-      </div>
-      <div class="footer-col footer-col-cert">
-        <p class="footer-col-title">{CERT_H4[lang]}</p>
-        <div class="fss-premium-badge">
-          <div class="fss-premium-logo">
-            <img src="{FSS_LOGO}" alt="Fédération Sénégalaise de Surf" width="40" height="40" loading="lazy">
-          </div>
-          <div class="fss-premium-text">
-            <strong>{FSS_CERT_LABEL[lang]}</strong>
-            <span>{FSS_CERT_SUB[lang]}</span>
-          </div>
-        </div>
       </div>
     </div>
     <div class="footer-bottom">
@@ -1200,7 +1239,7 @@ def build_island_guide_page(guide, lang, all_guides, guide_index):
     deck = (L.get("deck") or "").strip()
     cat = escape(fix_em(L.get("category_label", "Island Guide")))
     hero_base = guide.get("hero_basename", guide["slugs"]["en"])
-    hero_rel = f"/assets/images/{hero_base}.webp"
+    hero_rel = f"/assets/images/bw-{hero_base}.webp"
     hero_abs = f"{SITE_URL.rstrip('/')}{hero_rel}"
     path_here = island_guide_href_path(lang, guide)
     canonical = f"{SITE_URL.rstrip('/')}{path_here}"
@@ -1261,7 +1300,7 @@ def build_island_guide_page(guide, lang, all_guides, guide_index):
         ocb = escape(fix_em(ol.get("category_label", "Island Guide")))
         rel_cards += (
             f'<a href="{ou}" class="card" style="text-decoration:none">'
-            f'<img src="/assets/images/{hb}.webp" alt="{escape(fix_em(ol["h1"]))}" class="card-img" loading="lazy" width="800" height="530" decoding="async">'
+            f'<img src="/assets/images/bw-{hb}.webp" alt="{escape(fix_em(ol["h1"]))}" class="card-img" loading="lazy" width="800" height="530" decoding="async">'
             f'<div class="card-body"><span class="cat-badge island-guide-badge">{ocb}</span>'
             f'<h3 class="card-h3" style="font-size:15px;margin-top:8px">{escape(fix_em(ol["h1"]))}</h3></div></a>'
         )
@@ -1381,7 +1420,7 @@ def build_island_hub_guides_html(lang, guides):
         hb = g.get("hero_basename", g["slugs"]["en"])
         cards.append(
             f'<a href="{u}" class="card island-guide-card" style="text-decoration:none">'
-            f'<img src="/assets/images/{hb}.webp" alt="" class="card-img" loading="lazy" width="400" height="240">'
+            f'<img src="/assets/images/bw-{hb}.webp" alt="" class="card-img" loading="lazy" width="400" height="240">'
             f'<div class="card-body"><span class="cat-badge island-guide-badge">{escape(fix_em(L.get("category_label", "Guide")))}</span>'
             f'<h3 class="card-h3">{escape(fix_em(L["h1"]))}</h3>'
             f'<p class="card-text">{escape(fix_em(L.get("card_teaser", L["meta_description"][:140])))}</p></div></a>'
@@ -1490,14 +1529,15 @@ def patch_waves_all_pages():
             if FQ_MARKER in h:
                 # Detect what's just above: look for last section class in main content
                 idx = h.find(FQ_MARKER)
-                preceding = h[max(0, idx-600):idx]
-                if 'sec-light' in preceding or 'sec-sand' in preceding:
-                    prev_bg = _BG_LIGHT
-                else:
-                    prev_bg = _BG_WHITE
-                wave_html = '\n' + wave_bottom(prev_bg, _BG_NAVY) + '\n'
-                h = h.replace(FQ_MARKER, wave_html + FQ_MARKER, 1)
-                changed = True
+                preceding = h[max(0, idx-2500):idx]
+                if 'cta-band' not in preceding:
+                    if 'sec-light' in preceding or 'sec-sand' in preceding:
+                        prev_bg = _BG_LIGHT
+                    else:
+                        prev_bg = _BG_WHITE
+                    wave_html = '\n' + wave_bottom(prev_bg, _BG_NAVY) + '\n'
+                    h = h.replace(FQ_MARKER, wave_html + FQ_MARKER, 1)
+                    changed = True
 
             # ── Rule 2: insert wave_bottom before .cta-band ──────────────
             CTA_MARKER = '<div class="cta-band"'
@@ -3856,13 +3896,20 @@ def build_booking(lang):
     html += build_nav("booking", lang)
     html += f"""
 <main>
-  <div style="background:linear-gradient(135deg,#07192e 0%,#0a2540 55%,#0f3460 100%);padding:80px 24px 52px;text-align:center" role="banner">
-    <div class="container" style="max-width:680px">
-      <h1 style="font-family:var(--f-head);font-size:clamp(30px,4.8vw,50px);font-weight:900;color:#fff;margin:0 0 16px;line-height:1.12;letter-spacing:-0.02em">{g("h1")}</h1>
-      <p style="color:rgba(255,255,255,0.7);font-size:17px;max-width:520px;margin:0 auto 32px;line-height:1.55">{g("sub")}</p>
-      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">{trust_badges}</div>
+  <header class="main-hero" style="background-image:url('/assets/images/gallery/CAML6902_d756823d.webp')" role="banner">
+    <div class="main-hero-inner">
+      <div class="main-hero-eyebrow">
+        <span class="main-hero-dot"></span>
+        <span>Ngor Surfcamp Teranga</span>
+      </div>
+      <h1 class="main-hero-h1">{g("h1")}</h1>
+      <p class="main-hero-tagline">{g("sub")}</p>
+      <div class="main-hero-actions" style="flex-direction:column;gap:24px;align-items:center">
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">{trust_badges}</div>
+        <a href="#booking-section" class="btn btn-outline-white btn-lg">&#8964;</a>
+      </div>
     </div>
-  </div>
+  </header>
 
   <link rel="stylesheet" href="/assets/css/availability-calendar.css?v={ASSET_VERSION}">
   <script src="/assets/js/availability-calendar.js?v={ASSET_VERSION}"></script>
@@ -4875,8 +4922,8 @@ _IG_PHOTOS = {
         f"{_IG}/DUfqawDgIGJ.webp",    # group of surfers at camp mosaic wall
         f"{_IG}/DTKjjWBAPNl.webp",    # woman smiling at camp entrance
         f"{_IG}/DRRRUDKjFYZ.webp",    # foosball table (social activities)
-        f"{_IG}/DNVJiQjIaxx.webp",    # thiéboudienne (Senegalese fish & rice)
-        f"{_IG}/DQeEuzdgNaY.webp",    # mafé (peanut stew)
+        f"{_IG}/DTV-popgGNG.webp",    # group with surfboards at camp
+        f"{_IG}/DS4iP3-jBut.webp",    # smiling surfer on beach
     ],
     # Surfing — action, waves, beach life (6 photos)
     "surfing": [
@@ -4920,7 +4967,7 @@ _IG_POSTS = {
     "home":       ["DMxiqEtI9UF", "DODf6KGjJtg", "DTfGteJjEno",
                    "DVtZNLUDFyE", "DTV-popgGNG",  "DS4iP3-jBut"],
     "surf-house": ["DOvRcp2DE_g", "DUfqawDgIGJ",  "DTKjjWBAPNl",
-                   "DRRRUDKjFYZ", "DNVJiQjIaxx",  "DQeEuzdgNaY"],
+                   "DRRRUDKjFYZ", "DTV-popgGNG",  "DS4iP3-jBut"],
     "surfing":    ["DODf6KGjJtg", "DU2W_FoDHY_",  "DVtZNLUDFyE",
                    "DTAt7IFDEQj", "DP3plCpCK7L",  "DS4iP3-jBut"],
 }
@@ -5004,14 +5051,14 @@ _IG_COPY = {
                "Group of surfers at camp mosaic wall",
                "Welcoming smile at Ngor Surfcamp entrance",
                "Foosball table in the surf house",
-               "Thiéboudienne — traditional Senegalese fish and rice",
-               "Mafé — Senegalese peanut stew"],
+               "Group of surfers with boards at surf camp",
+               "Happy surfer smiling on Ngor beach"],
         "fr": ["Piscine avec mosaïque colorée au Ngor Surfcamp",
                "Groupe de surfeurs devant le mur en mosaïque",
                "Accueil souriant à l'entrée du Ngor Surfcamp",
                "Baby-foot dans le surf house",
-               "Thiéboudienne — riz au poisson sénégalais",
-               "Mafé — ragoût d'arachide sénégalais"],
+               "Groupe de surfeurs avec leurs planches au camp",
+               "Surfeur heureux souriant sur la plage de Ngor"],
     },
     "alt_surfing": {
         "en": ["Surfer in a perfect barrel at Ngor",
@@ -5085,9 +5132,12 @@ def insta_section(lang: str, context: str = "home") -> str:
     wave_in  = ""
     # Home: ig is sec-light → smooth continuation from forecast → wave_out to sand blog.
     # Non-home: ig is also sec-light, keep wave_out to white for those page contexts.
-    wave_out = (wave_bottom(_BG_LIGHT, _BG_SAND)
-                if is_home
-                else wave_bottom(_BG_LIGHT, "#fff"))
+    if context == "home":
+        wave_out = wave_bottom(_BG_LIGHT, _BG_SAND)
+    elif context in ("surf-house", "surfing"):
+        wave_out = ""  # build_surf_house/build_surfing adds its own wave_out
+    else:
+        wave_out = wave_bottom(_BG_LIGHT, "#fff")
     sec_cls  = "ig-section sec-light"
 
     return f"""
@@ -5167,11 +5217,21 @@ def build_gallery(lang):
     html += build_nav("gallery", lang)
     html += f"""
 <main>
-  <header class="page-header" style="background-image:url('{hero}')" role="banner">
-    <h1>{pe(C["h1"])}</h1>
-    <p>{pe(C["sub"])}</p>
+  <header class="main-hero" style="background-image:url('{hero}')" role="banner">
+    <div class="main-hero-inner">
+      <div class="main-hero-eyebrow">
+        <span class="main-hero-dot"></span>
+        <span>Ngor Surfcamp Teranga</span>
+      </div>
+      <h1 class="main-hero-h1">{pe(C["h1"])}</h1>
+      <p class="main-hero-tagline">{pe(C["sub"])}</p>
+      <div class="main-hero-actions">
+        <a href="{book_href}" class="btn btn-fire btn-lg">{pe(C.get("book", "Book now"))}</a>
+        <a href="#gallery-content" class="btn btn-outline-white btn-lg">&#8964;</a>
+      </div>
+    </div>
   </header>
-  <section class="section gallery-page-section">
+  <section id="gallery-content" class="section gallery-page-section">
     <div class="container">
       <div class="gallery-page-intro reveal">
         <span class="s-label">{pe(C["eyebrow"])}</span>
@@ -5227,7 +5287,11 @@ def build_surf_house(lang):
     faq_href = f"{pfx}/{SLUG[lang]['faq']}/"
     if not faq_href.startswith("/"):
         faq_href = "/" + faq_href.lstrip("/")
+    gal_href = f"{pfx}/{SLUG[lang]['gallery']}/"
+    if not gal_href.startswith("/"):
+        gal_href = "/" + gal_href.lstrip("/")
     lb_aria = escape(fix_em(GALLERY_PAGE_COPY[lang]["lb_close"]))
+    explore_gal_lbl = EXPLORE_GAL.get(lang, EXPLORE_GAL["en"])
 
     def pe(txt):
         return escape(fix_em(txt))
@@ -5279,15 +5343,15 @@ def build_surf_house(lang):
     html += build_nav("surf-house", lang)
     html += f"""
 <main id="main-content">
-  <header class="sh-page-header" style="background-image:url('{IMGS["house"]}')" role="banner">
-    <div class="sh-hero-inner">
-      <div class="sh-hero-eyebrow">
-        <span class="sh-hero-dot"></span>
+  <header class="main-hero" style="background-image:url('{IMGS["house2"]}')" role="banner">
+    <div class="main-hero-inner">
+      <div class="main-hero-eyebrow">
+        <span class="main-hero-dot"></span>
         <span>{pe(C["hero_kicker"])}</span>
       </div>
-      <h1 class="sh-hero-h1">{pe(C["h1"])}</h1>
-      <p class="sh-hero-tagline">{pe(C["tagline"])}</p>
-      <div class="sh-hero-actions">
+      <h1 class="main-hero-h1">{pe(C["h1"])}</h1>
+      <p class="main-hero-tagline">{pe(C["tagline"])}</p>
+      <div class="main-hero-actions">
         <a href="{book_href}" class="btn btn-fire btn-lg">{pe(C["book"])}</a>
         <a href="#sh-logement" class="btn btn-outline-white btn-lg">&#8964;</a>
       </div>
@@ -5339,7 +5403,7 @@ def build_surf_house(lang):
     </div>
   </section>
 
-  {wave_top(_BG_NAVY, _BG_WHITE)}
+  {wave_top(_BG_WHITE, _BG_NAVY)}
   <section class="sh-meals">
     <div class="container">
       <div class="sh-meals-grid reveal">
@@ -5367,6 +5431,9 @@ def build_surf_house(lang):
     <div class="container">
       <h2 class="s-title reveal" style="text-align:center;margin-bottom:32px">{pe(C["gal_h2"])}</h2>
       <div class="gallery-masonry" role="list">{gal_items}</div>
+      <div style="text-align:center;margin-top:36px" class="reveal">
+        <button class="btn btn-ocean btn-lg" onclick="sessionStorage.setItem('ngor_gallery_filter','surf_house');window.location='{gal_href}'">{explore_gal_lbl}</button>
+      </div>
     </div>
     <div id="lb"><button type="button" id="lb-close" aria-label="{lb_aria}">✕</button><img id="lb-img" src="" alt=""></div>
   </section>
@@ -5536,6 +5603,10 @@ def build_surfing(lang):
     book_href = f"{pfx}/{SLUG[lang]['booking']}/"
     if not book_href.startswith("/"):
         book_href = "/" + book_href.lstrip("/")
+    gal_href = f"{pfx}/{SLUG[lang]['gallery']}/"
+    if not gal_href.startswith("/"):
+        gal_href = "/" + gal_href.lstrip("/")
+    explore_gal_lbl = EXPLORE_GAL.get(lang, EXPLORE_GAL["en"])
 
     def pe(txt):
         return escape(fix_em(txt))
@@ -5563,20 +5634,30 @@ def build_surfing(lang):
         )
 
     gal_items = build_gallery_thumb_buttons(
-        IMGS["gallery"][:6], C["gal_h2"], pe, thumb_w=480, eager_first=True
+        SURF_ACTION_SHOTS, C["gal_h2"], pe, thumb_w=480, eager_first=True
     )
 
     html = page_head(C["title"], C["meta"], lang, "surfing", IMGS["surf"])
     html += build_nav("surfing", lang)
     html += f"""
 <main>
-  <header class="page-header" style="background-image:url('{IMGS["surf"]}')" role="banner">
-    <h1>{pe(C["h1"])}</h1>
-    <p style="font-style:italic;font-size:20px;opacity:0.95;margin-top:10px;max-width:640px;margin-left:auto;margin-right:auto">{pe(C["tag"])}</p>
+  <header class="main-hero" style="background-image:url('{IMGS["surf"]}')" role="banner">
+    <div class="main-hero-inner">
+      <div class="main-hero-eyebrow">
+        <span class="main-hero-dot"></span>
+        <span>{pe(C["lbl_intro"])}</span>
+      </div>
+      <h1 class="main-hero-h1">{pe(C["h1"])}</h1>
+      <p class="main-hero-tagline">{pe(C["tag"])}</p>
+      <div class="main-hero-actions">
+        <a href="{book_href}" class="btn btn-fire btn-lg">{pe(C.get("book", "Book now"))}</a>
+        <a href="#surf-story" class="btn btn-outline-white btn-lg">&#8964;</a>
+      </div>
+    </div>
   </header>
 
   <!-- Story split 1: waves + vibe (text-left, img-right) -->
-  <section class="section surf-story-sec">
+  <section id="surf-story" class="section surf-story-sec">
     <div class="container">
       <div class="split surf-story-split reveal">
         <div class="surf-story-text">
@@ -5664,19 +5745,35 @@ def build_surfing(lang):
       <div class="surf-feat-grid reveal">{thumbs_html}</div>
     </div>
   </section>
-  {wave_bottom(_BG_WHITE, _BG_LIGHT)}
 
   <section class="section">
     <div class="container">
-      <div class="split reveal" style="align-items:flex-start">
-        <div>
-          <span class="s-label">{pe(C["lvl_lbl"])}</span>
-          <h2 class="s-title" style="margin-bottom:28px">{pe(C["lvl_h2"])}</h2>
-          <div style="padding:24px;border-radius:14px;border-left:5px solid #29b6f6;background:#29b6f615;margin-bottom:16px"><div style="font-weight:700;font-size:17px;color:#0a2540;margin-bottom:8px">{pe(C["beg_t"])}</div><p style="font-size:14.5px;color:#374151;margin:0">{pe(C["beg_d"])}</p></div>
-          <div style="padding:24px;border-radius:14px;border-left:5px solid #ff6b35;background:#ff6b3515;margin-bottom:16px"><div style="font-weight:700;font-size:17px;color:#0a2540;margin-bottom:8px">{pe(C["int_t"])}</div><p style="font-size:14.5px;color:#374151;margin:0">{pe(C["int_d"])}</p></div>
-          <div style="padding:24px;border-radius:14px;border-left:5px solid #0a2540;background:#0a254015;margin-bottom:16px"><div style="font-weight:700;font-size:17px;color:#0a2540;margin-bottom:8px">{pe(C["adv_t"])}</div><p style="font-size:14.5px;color:#374151;margin:0">{pe(C["adv_d"])}</p></div>
+      <div style="text-align:center;margin-bottom:48px" class="reveal">
+        <span class="s-label">{pe(C["lvl_lbl"])}</span>
+        <h2 class="s-title">{pe(C["lvl_h2"])}</h2>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px" class="reveal">
+        <div style="border-radius:18px;overflow:hidden;box-shadow:0 8px 32px rgba(7,25,46,0.12);background:#fff;border-top:4px solid #29b6f6">
+          <img src="{IMGS["surf2"]}" alt="{pe(C["beg_t"])}" style="width:100%;height:220px;object-fit:cover;display:block" loading="lazy" width="460" height="220">
+          <div style="padding:22px 20px">
+            <div style="display:inline-flex;align-items:center;gap:6px;background:#29b6f615;color:#0288d1;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px">{pe(C["beg_t"])}</div>
+            <p style="font-size:14.5px;color:#374151;margin:0;line-height:1.68">{pe(C["beg_d"])}</p>
+          </div>
         </div>
-        <div class="split-img"><img src="{IMGS["ngor_r"]}" alt="{pe(C["lvl_h2"])}" loading="lazy" width="600" height="460"></div>
+        <div style="border-radius:18px;overflow:hidden;box-shadow:0 8px 32px rgba(7,25,46,0.12);background:#fff;border-top:4px solid #ff6b35">
+          <img src="{IMGS["surf"]}" alt="{pe(C["int_t"])}" style="width:100%;height:220px;object-fit:cover;display:block" loading="lazy" width="460" height="220">
+          <div style="padding:22px 20px">
+            <div style="display:inline-flex;align-items:center;gap:6px;background:#ff6b3515;color:#e85d20;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px">{pe(C["int_t"])}</div>
+            <p style="font-size:14.5px;color:#374151;margin:0;line-height:1.68">{pe(C["int_d"])}</p>
+          </div>
+        </div>
+        <div style="border-radius:18px;overflow:hidden;box-shadow:0 8px 32px rgba(7,25,46,0.12);background:#fff;border-top:4px solid #0a2540">
+          <img src="{IMGS["surf3"]}" alt="{pe(C["adv_t"])}" style="width:100%;height:220px;object-fit:cover;display:block" loading="lazy" width="460" height="220">
+          <div style="padding:22px 20px">
+            <div style="display:inline-flex;align-items:center;gap:6px;background:#0a254015;color:#0a2540;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px">{pe(C["adv_t"])}</div>
+            <p style="font-size:14.5px;color:#374151;margin:0;line-height:1.68">{pe(C["adv_d"])}</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -5703,6 +5800,9 @@ def build_surfing(lang):
     <div class="container">
       <h2 class="s-title reveal" style="text-align:center;margin-bottom:40px">{pe(C["gal_h2"])}</h2>
       <div class="gallery-masonry" role="list">{gal_items}</div>
+      <div style="text-align:center;margin-top:36px" class="reveal">
+        <button class="btn btn-ocean btn-lg" onclick="sessionStorage.setItem('ngor_gallery_filter','surf_action');window.location='{gal_href}'">{explore_gal_lbl}</button>
+      </div>
     </div>
     <div id="lb"><button id="lb-close" aria-label="{pe(C["lb_close"])}">✕</button><img id="lb-img" src="" alt=""></div>
   </section>
@@ -5868,14 +5968,24 @@ def build_surf_conditions_page(lang):
     html += build_nav("surf-conditions", lang)
     html += f"""
 <main>
-  <header class="page-header" style="background-image:url('{IMGS["surf"]}')">
-    <h1>{escape(g("h1"))}</h1>
-    <p style="font-size:15px;opacity:0.8;margin-top:10px">{escape(g("sub"))}</p>
+  <header class="main-hero" style="background-image:url('{IMGS["surf"]}')" role="banner">
+    <div class="main-hero-inner">
+      <div class="main-hero-eyebrow">
+        <span class="main-hero-dot"></span>
+        <span>Ngor Surfcamp Teranga</span>
+      </div>
+      <h1 class="main-hero-h1">{escape(g("h1"))}</h1>
+      <p class="main-hero-tagline">{escape(g("sub"))}</p>
+      <div class="main-hero-actions">
+        <a href="{book_href}" class="btn btn-fire btn-lg">{escape(g("book_btn"))}</a>
+        <a href="#live-conditions" class="btn btn-outline-white btn-lg">&#8964;</a>
+      </div>
+    </div>
   </header>
 
   {wave_top(_BG_LIGHT, _BG_NAVY)}
   <!-- ── Live conditions ── -->
-  <section class="section sec-light">
+  <section id="live-conditions" class="section sec-light">
     <div class="container">
       <div class="sc-now-label reveal"><span class="s-label sc-pulse-dot">{escape(g("now_lbl"))}</span></div>
       <div class="sc-stats-grid reveal">
@@ -7572,9 +7682,199 @@ def patch_chart_defer_all():
 patch_webp_images_all()
 patch_chart_defer_all()
 
-if "--deploy" in sys.argv:
-    print(
-        "\n[!] --deploy (Cloudflare) removed. Push to main → GitHub Actions → Vercel, "
-        "or: vercel build --prod && vercel deploy --prebuilt --prod"
+# Build enhanced gallery pages with tag filter system
+import subprocess as _subprocess
+_gallery_script = os.path.join(_BASE_DIR, "scripts", "build_gallery_enhanced.py")
+if os.path.isfile(_gallery_script):
+    result = _subprocess.run([sys.executable, _gallery_script], capture_output=True, text=True)
+    if result.returncode == 0:
+        print("  gallery: enhanced gallery with filters built ✅")
+    else:
+        print(f"  gallery: build_gallery_enhanced.py error: {result.stderr[:300]}")
+
+# ── Mobile performance: preload LCP, defer cookie CSS, content-visibility ──────
+def _mobile_perf_patch():
+    import re as _re
+    _MOBILE_CSS = """
+/* === MOBILE PERFORMANCE & UX === */
+/* Touch targets */
+.btn,.nav-link,.lang-dd-btn,.lang-dd-item,.nav-wa,.faq-q,.nav-toggle,
+.gallery-item,.footer-flag-link,.footer-col a,.footer-pp-link{min-height:44px}
+.nav-link{display:flex;align-items:center}
+@media(hover:none){.btn:hover{transform:none}.card:hover{box-shadow:var(--s-sm)}.gallery-item:hover{transform:none}.feat:hover{transform:none}}
+@media(max-width:768px){
+  .hero-badge-corner{display:none}
+  .scroll-indicator{display:none}
+  .stats-bar .stats-inner{gap:32px}
+  .section,.section-sm{padding:56px 0}
+  .split{grid-template-columns:1fr;gap:32px}
+  .split-img img{height:260px}
+  .main-hero-h1{font-size:clamp(28px,9vw,44px)}
+  .main-hero-tagline{font-size:14px}
+  .main-hero-actions{gap:10px}
+  .cta-band{padding:56px 0}
+  .container{padding:0 18px}
+  .s-title{font-size:clamp(24px,6vw,38px)}
+}
+@media(max-width:400px){
+  .main-hero-h1{font-size:28px}
+  .btn-lg{padding:13px 24px;font-size:13px}
+  .nav-inner{padding:0 16px;height:60px}
+  .nav-logo img{height:36px}
+}
+body{max-width:100vw;overflow-x:hidden}
+"""
+    _css_path = os.path.join(DEMO_DIR, "assets", "css", "ngor-surfcamp.css")
+    if os.path.isfile(_css_path):
+        _css = open(_css_path, encoding="utf-8").read()
+        if "MOBILE PERFORMANCE" not in _css:
+            _css += _MOBILE_CSS
+            open(_css_path, "w", encoding="utf-8").write(_css)
+
+    _FONT_PRELOADS = (
+        '<link rel="preload" href="/assets/fonts/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7W0Q5nw.woff2" as="font" type="font/woff2" crossorigin>\n'
+        '<link rel="preload" href="/assets/fonts/1Ptug8zYS_SKggPNyC0IT4ttDfA.woff2" as="font" type="font/woff2" crossorigin>\n'
     )
-    sys.exit(2)
+    _CC_OLD = '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css">'
+    _CC_NEW = '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css" media="print" onload="this.media=\'all\'">'
+
+    _patched = 0
+    for _root, _dirs, _files in os.walk(DEMO_DIR):
+        for _fname in _files:
+            if not _fname.endswith(".html"):
+                continue
+            _p = os.path.join(_root, _fname)
+            _html = open(_p, encoding="utf-8", errors="replace").read()
+            _mod = False
+            # Hero LCP preload
+            _m = _re.search(r'class="(?:main-hero|blog-hub-header)[^"]*"\s+style="background-image:url\([\'"]?([^\'")\s]+)[\'"]?\)"', _html)
+            if not _m:
+                _m = _re.search(r'style="background-image:url\([\'"]?([^\'")\s]+)[\'"]?\)"\s[^>]*class="(?:main-hero|blog-hub-header)', _html)
+            if _m and 'rel="preload"' not in _html:
+                _tag = f'<link rel="preload" as="image" href="{_m.group(1)}" fetchpriority="high">\n'
+                _html = _html.replace("</head>", _tag + "</head>", 1)
+                _mod = True
+            # Font preloads
+            if 'preload" href="/assets/fonts/' not in _html:
+                _html = _html.replace("</head>", _FONT_PRELOADS + "</head>", 1)
+                _mod = True
+            # Cookie consent defer
+            if _CC_OLD in _html:
+                _html = _html.replace(_CC_OLD, _CC_NEW)
+                _mod = True
+            if _mod:
+                open(_p, "w", encoding="utf-8").write(_html)
+                _patched += 1
+    print(f"  perf: mobile optimizations applied to {_patched} HTML files ✅")
+
+_mobile_perf_patch()
+
+# ── Ensure FAQ link is in the nav of static pages not fully regenerated ──
+def _patch_faq_in_nav():
+    import re as _re
+    _PAGES = [
+        ("island/index.html",           "",     "FAQ"),
+        ("getting-here/index.html",     "",     "FAQ"),
+        ("fr/ile/index.html",           "/fr",  "FAQ"),
+        ("fr/comment-venir/index.html", "/fr",  "FAQ"),
+        ("es/isla/index.html",          "/es",  "FAQ"),
+        ("es/como-llegar/index.html",   "/es",  "FAQ"),
+        ("it/isola/index.html",         "/it",  "FAQ"),
+        ("it/come-arrivare/index.html", "/it",  "FAQ"),
+        ("de/insel/index.html",         "/de",  "FAQ"),
+        ("de/anreise/index.html",       "/de",  "FAQ"),
+        ("nl/bereikbaarheid/index.html","/nl",  "FAQ"),
+        ("ar/getting-here/index.html",  "/ar",  "الأسئلة الشائعة"),
+        ("da/oe/index.html",            "/da",  "FAQ"),
+        ("da/getting-here/index.html",  "/da",  "FAQ"),
+        ("pt/ilha/index.html",          "/pt",  "FAQ"),
+        ("pt/como-chegar/index.html",   "/pt",  "FAQ"),
+    ]
+    _patched = 0
+    for _rel, _pfx, _label in _PAGES:
+        _fp = os.path.join(DEMO_DIR, _rel)
+        if not os.path.isfile(_fp):
+            continue
+        _html = open(_fp, errors="replace").read()
+        if "faq" in _html[:_html.find("</nav>")].lower():
+            continue
+        _faq_link = f'<a href="{_pfx}/faq/" class="nav-link">{_label}</a>'
+        _new = _re.sub(
+            r'(<a\s[^>]*class="nav-link[^"]*nav-cta[^"]*"[^>]*>)',
+            _faq_link + r"\1", _html, count=1
+        )
+        if _new != _html:
+            open(_fp, "w", encoding="utf-8").write(_new)
+            _patched += 1
+    if _patched:
+        print(f"  nav: FAQ added to {_patched} static pages ✅")
+
+_patch_faq_in_nav()
+
+# ── Fix PT/DA untranslated content (footer + UI strings) ─────────────────────
+def _patch_pt_da_translations():
+    import re as _re
+    _BASE = DEMO_DIR
+    _PT = [
+        ('Surf Camp en Senegal en Ngor Surfcamp', 'Surf Camp no Senegal no Ngor Surfcamp'),
+        ('Vive la relajada vida isleña, la cálida hospitalidad senegalesa y el acceso fácil a algunos de los mejores surf spots de Dakar.',
+         'Vive a vida relaxada da ilha, a calorosa hospitalidade senegalesa e o acesso fácil a alguns dos melhores spots de surf de Dakar.'),
+        ('Isla de Ngor · Dakar · Senegal', 'Ilha de Ngor · Dakar · Senegal'),
+        ('Licenciado por la Federación Senegalesa', 'Licenciado pela Federação Senegalesa'),
+        ('Todos los niveles bienvenidos', 'Todos os níveis bem-vindos'),
+        ('Abierto todo el año', 'Aberto todo o ano'),
+        ('The essentials', 'O essencial'),
+        ('Cómo llegar', 'Como chegar'),
+        ('Llegar a Ngor Island', 'Chegar à Ilha de Ngor'),
+        ('Todo en Ngor Surfcamp', 'Tudo no Ngor Surfcamp'),
+        ('Descubrir', 'Descobrir'),
+        ('Habitaciones, piscina, vista al mar, comidas senegalesas. Tu hogar junto al océano.',
+         'Quartos, piscina, vista para o mar, refeições senegalesas. A tua casa junto ao oceano.'),
+        ('Sin coches, olas de clase mundial, el legado de The Endless Summer.',
+         'Sem carros, ondas de classe mundial, o legado de The Endless Summer.'),
+        ('Análisis de vídeo profesional, sesiones personalizadas, todos los niveles.',
+         'Análise de vídeo profissional, sessões personalizadas, todos os níveis.'),
+        ('Lo que dicen los surfistas', 'O que dizem os surfistas'),
+        ('54 reseñas', '54 avaliações'),
+        ('Ver todos en Google', 'Ver todos no Google'),
+        ('Dejar una reseña', 'Deixar uma avaliação'),
+        ('Listo para surfear? Reserva tu estancia.', 'Pronto para surfar? Reserva a tua estadia.'),
+        ('Planifica tu Viaje', 'Planeia a tua Viagem'),
+        ('>Explore<', '>Explorar<'), ('>Contact<', '>Contacto<'),
+        ('>Follow Us<', '>Siga-nos<'), ('>Surf Forecast<', '>Previsão Surf<'),
+        ('>Getting here<', '>Como chegar<'), ('All rights reserved', 'Todos os direitos reservados'),
+        (_re.compile(r'Premium surf camp on Ngor Island, Dakar, Senegal\. All levels welcome\.'),
+         'Surf camp premium na Ilha de Ngor, Dakar, Senegal. Todos os níveis bem-vindos.'),
+    ]
+    _DA = [
+        ('The essentials', 'Det vigtigste'),
+        ('All levels welcome', 'Alle niveauer velkomne'),
+        ('>Explore<', '>Udforsk<'), ('>Contact<', '>Kontakt<'),
+        ('>Follow Us<', '>Følg os<'), ('>Surf Forecast<', '>Surfudsigt<'),
+        ('>Getting here<', '>Kom hertil<'), ('All rights reserved', 'Alle rettigheder forbeholdes'),
+        (_re.compile(r'Premium surf camp on Ngor Island, Dakar, Senegal\. All levels welcome\.'),
+         'Premium surfcamp på Ngor Island, Dakar, Senegal. Alle niveauer velkomne.'),
+    ]
+    _count = 0
+    for _lang, _repls, _folder in [('pt', _PT, 'pt'), ('da', _DA, 'da')]:
+        _dir = os.path.join(_BASE, _folder)
+        if not os.path.isdir(_dir): continue
+        for _root, _dirs, _files in os.walk(_dir):
+            for _f in _files:
+                if not _f.endswith('.html'): continue
+                _fp = os.path.join(_root, _f)
+                _html = open(_fp, errors='replace').read()
+                _orig = _html
+                for _old, _new in _repls:
+                    if isinstance(_old, _re.Pattern):
+                        _html = _old.sub(_new, _html)
+                    elif _old in _html:
+                        _html = _html.replace(_old, _new)
+                if _html != _orig:
+                    open(_fp, 'w', encoding='utf-8').write(_html)
+                    _count += 1
+    if _count:
+        print(f"  i18n: PT/DA translations fixed on {_count} pages ✅")
+
+_patch_pt_da_translations()
+

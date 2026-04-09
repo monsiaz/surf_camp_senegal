@@ -17,16 +17,16 @@ ASSET_CSS_MAIN = _site_assets_mod.ASSET_CSS_MAIN
 ASSET_JS_MAIN = _site_assets_mod.ASSET_JS_MAIN
 CONTENT  = os.path.join(_BASE_DIR, "content")
 V2_DIR   = f"{CONTENT}/articles_v2/en"
-V2_LANGS  = ["en","fr","es","it","de","nl","ar"]
+V2_LANGS  = ["en","fr","es","it","de","nl","ar","pt","da"]
 V1_DIR   = f"{CONTENT}/articles"
 PAGES_D  = f"{CONTENT}/pages"
 DEMO_DIR = os.path.join(_BASE_DIR, "cloudflare-demo")
 SITE_URL = (os.environ.get("PUBLIC_SITE_URL") or "https://surf-camp-senegal.vercel.app").strip().rstrip("/")
 
-LANGS       = ["en","fr","es","it","de","nl","ar"]
-LANG_NAMES  = {"en":"English","fr":"Français","es":"Español","it":"Italiano","de":"Deutsch","nl":"Nederlands","ar":"العربية"}
-LANG_LOCALE = {"en":"en","fr":"fr-FR","es":"es-ES","it":"it-IT","de":"de-DE","nl":"nl-NL","ar":"ar-MA"}
-LANG_PREFIX = {"en":"","fr":"/fr","es":"/es","it":"/it","de":"/de","nl":"/nl","ar":"/ar"}
+LANGS       = ["en","fr","es","it","de","nl","ar","pt","da"]
+LANG_NAMES  = {"en":"English","fr":"Français","es":"Español","it":"Italiano","de":"Deutsch","nl":"Nederlands","ar":"العربية","pt":"Português","da":"Dansk"}
+LANG_LOCALE = {"en":"en","fr":"fr-FR","es":"es-ES","it":"it-IT","de":"de-DE","nl":"nl-NL","ar":"ar-MA","pt":"pt-PT","da":"da-DK"}
+LANG_PREFIX = {"en":"","fr":"/fr","es":"/es","it":"/it","de":"/de","nl":"/nl","ar":"/ar","pt":"/pt","da":"/da"}
 _WIX = "/assets/images/wix"
 LOGO = f"{_WIX}/c2467f_a31779010ce34c4c8c61cc5868d81f31.webp"
 
@@ -311,12 +311,12 @@ SUM_KW   = ("**SUMMARY:","SUMMARY:","**SYNTHÈSE:","SYNTHÈSE:","**RÉSUMÉ:","R
             "**الخلاصة:","الخلاصة:","**النقاط الرئيسية:","النقاط الرئيسية:")
 
 BLOCK_LABELS = {
-    "tip":      {"en":"Pro Tip","fr":"Conseil Pro","es":"Consejo Pro","it":"Consiglio Pro","de":"Profi-Tipp","nl":"Pro Tip","ar":"نصيحة احترافية"},
-    "fact":     {"en":"Did You Know?","fr":"Le Saviez-Vous ?","es":"¿Sabías Que?","it":"Lo Sapevi?","de":"Wusstest Du?","nl":"Wist je dat?","ar":"هل تعلم؟"},
-    "expert":   {"en":"From the Coaches","fr":"De nos Coachs","es":"De los Coaches","it":"Dai Coach","de":"Von den Coaches","nl":"Van de coaches","ar":"من المدربين"},
-    "checklist":{"en":"Action Checklist","fr":"Liste d'Actions","es":"Lista de Acciones","it":"Lista d'Azioni","de":"Aktionsliste","nl":"Actiechecklist","ar":"قائمة التحقق"},
-    "summary":  {"en":"Key Takeaways","fr":"Points Clés","es":"Puntos Clave","it":"Punti Chiave","de":"Fazit","nl":"Kernpunten","ar":"النقاط الرئيسية"},
-    "note":     {"en":"Note","fr":"Note","es":"Nota","it":"Nota","de":"Hinweis","nl":"Noot","ar":"ملاحظة"},
+    "tip":      {"en":"Pro Tip","fr":"Conseil Pro","es":"Consejo Pro","it":"Consiglio Pro","de":"Profi-Tipp","nl":"Pro Tip","ar":"نصيحة احترافية","pt":"Dica Pro","da":"Pro-tip"},
+    "fact":     {"en":"Did You Know?","fr":"Le Saviez-Vous ?","es":"¿Sabías Que?","it":"Lo Sapevi?","de":"Wusstest Du?","nl":"Wist je dat?","ar":"هل تعلم؟","pt":"Sabia que?","da":"Vidste du?"},
+    "expert":   {"en":"From the Coaches","fr":"De nos Coachs","es":"De los Coaches","it":"Dai Coach","de":"Von den Coaches","nl":"Van de coaches","ar":"من المدربين","pt":"Dos Coaches","da":"Fra coaches"},
+    "checklist":{"en":"Action Checklist","fr":"Liste d'Actions","es":"Lista de Acciones","it":"Lista d'Azioni","de":"Aktionsliste","nl":"Actiechecklist","ar":"قائمة التحقق","pt":"Lista de Ações","da":"Handlingsliste"},
+    "summary":  {"en":"Key Takeaways","fr":"Points Clés","es":"Puntos Clave","it":"Punti Chiave","de":"Fazit","nl":"Kernpunten","ar":"النقاط الرئيسية","pt":"Pontos-chave","da":"Vigtige pointer"},
+    "note":     {"en":"Note","fr":"Note","es":"Nota","it":"Nota","de":"Hinweis","nl":"Noot","ar":"ملاحظة","pt":"Nota","da":"Note"},
 }
 
 PAGE_URL_MAP = {
@@ -424,7 +424,7 @@ def md2html(md, lang="en", pfx=""):
         # TOC
         if s in ("## Contents","## Sommaire","## Tabla de Contenidos","## Indice","## Inhaltsverzeichnis","## Table of Contents","## Contenu"):
             close_lists()
-            TOC_TITLES = {"en":"Contents","fr":"Sommaire","es":"Contenido","it":"Indice","de":"Inhalt","nl":"Inhoud","ar":"المحتويات"}
+            TOC_TITLES = {"en":"Contents","fr":"Sommaire","es":"Contenido","it":"Indice","de":"Inhalt","nl":"Inhoud","ar":"المحتويات","pt":"Conteúdo","da":"Indhold"}
             out.append(f'<nav class="toc-block"><div class="toc-title">{TOC_TITLES.get(lang,"Contents")}</div><ol class="toc-list">')
             i += 1
             while i < len(lines) and (lines[i].strip().startswith("- ") or lines[i].strip().startswith("* ")):
@@ -573,7 +573,7 @@ def md2html(md, lang="en", pfx=""):
 # ════════════════════════════════════════════════════════════════════════════════
 # Load all data + rebuild articles
 # ════════════════════════════════════════════════════════════════════════════════
-FLAG_SVG = {"en":'<svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#fff" stroke-width="8"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#C8102E" stroke-width="5"/><path d="M30,0 V40 M0,20 H60" stroke="#fff" stroke-width="12"/><path d="M30,0 V40 M0,20 H60" stroke="#C8102E" stroke-width="8"/></svg>',"fr":'<svg viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg>',"es":'<svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#c60b1e"/><rect y="10" width="60" height="20" fill="#ffc400"/></svg>',"it":'<svg viewBox="0 0 60 40"><rect width="20" height="40" fill="#009246"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#CE2B37"/></svg>',"de":'<svg viewBox="0 0 60 40"><rect width="60" height="13" fill="#000"/><rect y="13" width="60" height="14" fill="#DD0000"/><rect y="27" width="60" height="13" fill="#FFCE00"/></svg>',"nl":'<svg viewBox="0 0 60 40"><rect width="60" height="13" fill="#AE1C28"/><rect y="13" width="60" height="14" fill="#fff"/><rect y="27" width="60" height="13" fill="#21468B"/></svg>',"ar":'<svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#C1272D"/><path d="M30,10 L31.8,16.1 L38.5,16.1 L33,19.9 L35,26 L30,22.1 L25,26 L27,19.9 L21.5,16.1 L28.2,16.1 Z" fill="none" stroke="#006233" stroke-width="1.2"/></svg>'}
+FLAG_SVG = {"en":'<svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#fff" stroke-width="8"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#C8102E" stroke-width="5"/><path d="M30,0 V40 M0,20 H60" stroke="#fff" stroke-width="12"/><path d="M30,0 V40 M0,20 H60" stroke="#C8102E" stroke-width="8"/></svg>',"fr":'<svg viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg>',"es":'<svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#c60b1e"/><rect y="10" width="60" height="20" fill="#ffc400"/></svg>',"it":'<svg viewBox="0 0 60 40"><rect width="20" height="40" fill="#009246"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#CE2B37"/></svg>',"de":'<svg viewBox="0 0 60 40"><rect width="60" height="13" fill="#000"/><rect y="13" width="60" height="14" fill="#DD0000"/><rect y="27" width="60" height="13" fill="#FFCE00"/></svg>',"nl":'<svg viewBox="0 0 60 40"><rect width="60" height="13" fill="#AE1C28"/><rect y="13" width="60" height="14" fill="#fff"/><rect y="27" width="60" height="13" fill="#21468B"/></svg>',"ar":'<svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#C1272D"/><path d="M30,10 L31.8,16.1 L38.5,16.1 L33,19.9 L35,26 L30,22.1 L25,26 L27,19.9 L21.5,16.1 L28.2,16.1 Z" fill="none" stroke="#006233" stroke-width="1.2"/></svg>',"pt":'<svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#006600"/><rect x="18" width="42" height="40" fill="#FF0000"/><circle cx="18" cy="20" r="9" fill="#FFD700" stroke="#00008B" stroke-width="1.5"/><circle cx="18" cy="20" r="6" fill="#fff"/><circle cx="18" cy="20" r="3.5" fill="#FF0000"/></svg>',"da":'<svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#C60C30"/><rect x="18" width="8" height="40" fill="#fff"/><rect y="16" width="60" height="8" fill="#fff"/></svg>'}
 WA_ICO = '<svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>'
 MENU_ICO = '<svg viewBox="0 0 24 24" fill="none" width="22" height="22"><path d="M3 7h18M3 12h18M3 17h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>'
 CHEV_ICO = '<svg viewBox="0 0 16 16" fill="none" width="14" height="14"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
@@ -625,13 +625,13 @@ def nav_html(active, lang, pfx, page_slug="", lang_urls=None):
     """
     _ps = PAGE_SLUG.get(lang, PAGE_SLUG["en"])
     NAV=[
-        ("",       {"en":"Home","fr":"Accueil","es":"Inicio","it":"Home","de":"Start","nl":"Home","ar":"الرئيسية"}),
-        ("surf-house",{"en":"Surf House","fr":"Surf House","es":"Surf House","it":"Surf House","de":"Surf House","nl":"Surf House","ar":"بيت الأمواج"}),
-        ("island", {"en":"Island","fr":"Île","es":"Isla","it":"Isola","de":"Insel","nl":"Eiland","ar":"الجزيرة"}),
-        ("surfing",{"en":"Surfing","fr":"Surf","es":"Surf","it":"Surf","de":"Surfen","nl":"Surfen","ar":"ركوب الأمواج"}),
-        ("blog",   {"en":"Blog","fr":"Blog","es":"Blog","it":"Blog","de":"Blog","nl":"Blog","ar":"المدونة"}),
-        ("gallery",{"en":"Gallery","fr":"Galerie","es":"Galería","it":"Galleria","de":"Galerie","nl":"Galerij","ar":"معرض الصور"}),
-        ("booking",{"en":"Book Now","fr":"Réserver","es":"Reservar","it":"Prenota","de":"Buchen","nl":"Boeken","ar":"احجز الآن"}),
+        ("",       {"en":"Home","fr":"Accueil","es":"Inicio","it":"Home","de":"Start","nl":"Home","ar":"الرئيسية","pt":"Início","da":"Hjem"}),
+        ("surf-house",{"en":"Surf House","fr":"Surf House","es":"Surf House","it":"Surf House","de":"Surf House","nl":"Surf House","ar":"بيت الأمواج","pt":"Surf House","da":"Surf House"}),
+        ("island", {"en":"Island","fr":"Île","es":"Isla","it":"Isola","de":"Insel","nl":"Eiland","ar":"الجزيرة","pt":"Ilha","da":"Ø"}),
+        ("surfing",{"en":"Surfing","fr":"Surf","es":"Surf","it":"Surf","de":"Surfen","nl":"Surfen","ar":"ركوب الأمواج","pt":"Surf","da":"Surfing"}),
+        ("blog",   {"en":"Blog","fr":"Blog","es":"Blog","it":"Blog","de":"Blog","nl":"Blog","ar":"المدونة","pt":"Blog","da":"Blog"}),
+        ("gallery",{"en":"Gallery","fr":"Galerie","es":"Galería","it":"Galleria","de":"Galerie","nl":"Galerij","ar":"معرض الصور","pt":"Galeria","da":"Galleri"}),
+        ("booking",{"en":"Book Now","fr":"Réserver","es":"Reservar","it":"Prenota","de":"Buchen","nl":"Boeken","ar":"احجز الآن","pt":"Reservar","da":"Book Nu"}),
     ]
     def _item_href(key):
         """Return the localized path for a nav item key."""
@@ -687,14 +687,14 @@ def get_footer_quotes(lang):
 def footer_html(lang, pfx):
     IG='<svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>'
     TT='<svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.28 6.28 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.22 8.22 0 004.84 1.56V6.79a4.85 4.85 0 01-1.07-.1z"/></svg>'
-    LINKS=[("/surf-house",{"en":"Surf House","fr":"Surf House","es":"Surf House","it":"Surf House","de":"Surf House"}),("/island",{"en":"Island","fr":"Île","es":"Isla","it":"Isola","de":"Insel"}),("/surfing",{"en":"Surfing","fr":"Surf","es":"Surf","it":"Surf","de":"Surfen"}),("/blog",{"en":"Blog","fr":"Blog","es":"Blog","it":"Blog","de":"Blog"}),("/gallery",{"en":"Gallery","fr":"Galerie","es":"Galería","it":"Galleria","de":"Galerie"}),("/faq",{"en":"FAQ","fr":"FAQ","es":"FAQ","it":"FAQ","de":"FAQ","nl":"FAQ","ar":"الأسئلة الشائعة"}),("/booking",{"en":"Book Now","fr":"Réserver","es":"Reservar","it":"Prenota","de":"Buchen","nl":"Boeken","ar":"احجز الآن"})]
+    LINKS=[("/surf-house",{"en":"Surf House","fr":"Surf House","es":"Surf House","it":"Surf House","de":"Surf House"}),("/island",{"en":"Island","fr":"Île","es":"Isla","it":"Isola","de":"Insel"}),("/surfing",{"en":"Surfing","fr":"Surf","es":"Surf","it":"Surf","de":"Surfen"}),("/blog",{"en":"Blog","fr":"Blog","es":"Blog","it":"Blog","de":"Blog"}),("/gallery",{"en":"Gallery","fr":"Galerie","es":"Galería","it":"Galleria","de":"Galerie"}),("/faq",{"en":"FAQ","fr":"FAQ","es":"FAQ","it":"FAQ","de":"FAQ","nl":"FAQ","ar":"الأسئلة الشائعة","pt":"FAQ","da":"FAQ"}),("/booking",{"en":"Book Now","fr":"Réserver","es":"Reservar","it":"Prenota","de":"Buchen","nl":"Boeken","ar":"احجز الآن","pt":"Reservar","da":"Book nu"})]
     lk="\n".join([f'<a href="{pfx}{s}/">{l.get(lang,l["en"])}</a>' for s,l in LINKS])
     fl=" ".join([f'<a href="{"" if l=="en" else "/"+l}/" style="opacity:0.45;display:inline-flex" hreflang="{LANG_LOCALE[l]}" title="{LANG_NAMES[l]}">{flag(l,22)}</a>' for l in LANGS])
-    COPY={"en":"© 2025 Ngor Surfcamp Teranga.","fr":"© 2025 Ngor Surfcamp Teranga.","es":"© 2025 Ngor Surfcamp Teranga.","it":"© 2025 Ngor Surfcamp Teranga.","de":"© 2025 Ngor Surfcamp Teranga.","nl":"© 2025 Ngor Surfcamp Teranga.","ar":"© 2025 Ngor Surfcamp Teranga."}
-    ABOUT={"en":"Premium surf camp on Ngor Island, Dakar, Senegal.","fr":"Surf camp premium sur l'île de Ngor, Dakar, Sénégal.","es":"Surf camp premium en la isla de Ngor, Dakar, Senegal.","it":"Surf camp premium sull'isola di Ngor, Dakar, Senegal.","de":"Premium Surfcamp auf Ngor Island, Dakar, Senegal.","nl":"Premium surfkamp op Ngor Island, Dakar, Senegal.","ar":"مخيم أمواج متميز في جزيرة نغور، داكار، السنغال."}
-    EXP={"en":"Explore","fr":"Explorer","es":"Explorar","it":"Esplora","de":"Erkunden","nl":"Verkennen","ar":"استكشاف"}
-    PP_SLUG={"en":"privacy-policy","fr":"politique-de-confidentialite","es":"politica-de-privacidad","it":"informativa-sulla-privacy","de":"datenschutzrichtlinie","nl":"privacybeleid","ar":"privacy-policy"}
-    PP_LBL={"en":"Privacy Policy","fr":"Politique de confidentialité","es":"Política de privacidad","it":"Informativa sulla privacy","de":"Datenschutzrichtlinie","nl":"Privacybeleid","ar":"سياسة الخصوصية"}
+    COPY={"en":"© 2025 Ngor Surfcamp Teranga.","fr":"© 2025 Ngor Surfcamp Teranga.","es":"© 2025 Ngor Surfcamp Teranga.","it":"© 2025 Ngor Surfcamp Teranga.","de":"© 2025 Ngor Surfcamp Teranga.","nl":"© 2025 Ngor Surfcamp Teranga.","ar":"© 2025 Ngor Surfcamp Teranga.","pt":"© 2025 Ngor Surfcamp Teranga.","da":"© 2025 Ngor Surfcamp Teranga."}
+    ABOUT={"en":"Premium surf camp on Ngor Island, Dakar, Senegal.","fr":"Surf camp premium sur l'île de Ngor, Dakar, Sénégal.","es":"Surf camp premium en la isla de Ngor, Dakar, Senegal.","it":"Surf camp premium sull'isola di Ngor, Dakar, Senegal.","de":"Premium Surfcamp auf Ngor Island, Dakar, Senegal.","nl":"Premium surfkamp op Ngor Island, Dakar, Senegal.","ar":"مخيم أمواج متميز في جزيرة نغور، داكار، السنغال.","pt":"Surf camp premium na Ilha de Ngor, Dakar, Senegal.","da":"Premium surflejr på Ngor Island, Dakar, Senegal."}
+    EXP={"en":"Explore","fr":"Explorer","es":"Explorar","it":"Esplora","de":"Erkunden","nl":"Verkennen","ar":"استكشاف","pt":"Explorar","da":"Udforsk"}
+    PP_SLUG={"en":"privacy-policy","fr":"politique-de-confidentialite","es":"politica-de-privacidad","it":"informativa-sulla-privacy","de":"datenschutzrichtlinie","nl":"privacybeleid","ar":"privacy-policy","pt":"politica-de-privacidade","da":"privatlivspolitik"}
+    PP_LBL={"en":"Privacy Policy","fr":"Politique de confidentialité","es":"Política de privacidad","it":"Informativa sulla privacy","de":"Datenschutzrichtlinie","nl":"Privacybeleid","ar":"سياسة الخصوصية","pt":"Política de Privacidade","da":"Privatlivspolitik"}
     pp_href=f"{pfx}/{PP_SLUG[lang]}/"
     return f'<footer><div class="container"><div class="footer-grid"><div><img src="{LOGO}" alt="Ngor Surfcamp Teranga" class="footer-brand-logo" loading="lazy"><p>{ABOUT[lang]}</p><div class="footer-social"><a href="https://wa.me/221789257025" target="_blank" class="soc-btn wa" aria-label="WhatsApp"><span style="display:inline-flex">{WA_ICO}</span></a><a href="https://www.instagram.com/ngorsurfcampteranga" target="_blank" class="soc-btn ig" aria-label="Instagram"><span style="display:inline-flex">{IG}</span></a><a href="https://www.tiktok.com/@ngorsurfcampteranga" target="_blank" class="soc-btn tt" aria-label="TikTok"><span style="display:inline-flex">{TT}</span></a></div></div><div class="footer-col"><p class="footer-col-title">{EXP[lang]}</p>{lk}</div><div class="footer-col"><p class="footer-col-title">{"Contact" if lang in ["en","fr","es"] else "Contatti" if lang=="it" else "Kontakt"}</p><a href="https://wa.me/221789257025" target="_blank">WhatsApp: +221 78 925 70 25</a><a href="mailto:info@surfcampsenegal.com">info@surfcampsenegal.com</a></div><div class="footer-col"><p class="footer-col-title">{"Follow" if lang=="en" else "Suivez-nous" if lang=="fr" else "Síguenos" if lang=="es" else "Seguici" if lang=="it" else "Folgen"}</p><a href="https://www.instagram.com/ngorsurfcampteranga" target="_blank">Instagram</a><a href="https://www.tiktok.com/@ngorsurfcampteranga" target="_blank">TikTok</a></div></div><div class="footer-bottom"><p>{COPY[lang]} &nbsp;·&nbsp; <a href="{pp_href}" class="footer-pp-link">{PP_LBL[lang]}</a></p><div class="footer-flags">{fl}</div></div></div></footer>'
 
@@ -703,7 +703,7 @@ PERSONA_COLORS = {"maya-beginner":("#29b6f6","#e0f7fa"),"jake-weekend":("#ff6b35
 def persona_bar(art_data, lang):
     pids = art_data.get("personas",[]) or ["jake-weekend","carlos-globetrotter"]
     if not pids: return ""
-    LABEL = {"en":"Who is this for?","fr":"Pour qui est cet article ?","es":"¿Para quién?","it":"Per chi è?","de":"Für wen?","nl":"Voor wie is dit?","ar":"لمن هذا المقال؟"}
+    LABEL = {"en":"Who is this for?","fr":"Pour qui est cet article ?","es":"¿Para quién?","it":"Per chi è?","de":"Für wen?","nl":"Voor wie is dit?","ar":"لمن هذا المقال؟","pt":"Para quem é este artigo?","da":"Hvem er denne artikel til?"}
     chips = ""
     for pid in pids[:3]:
         p = personas.get(pid,{})
@@ -727,7 +727,7 @@ def author_card(en_art, lang):
     bio = a.get("bio",{}).get(lang, a.get("bio",{}).get("en",""))
     img_ok = os.path.exists(f"{DEMO_DIR}/assets/images/author-{aid}.webp")
     img_tag = f'<img src="/assets/images/author-{aid}.webp" alt="{name}" class="author-avatar" loading="lazy" width="64" height="64">' if img_ok else f'<div class="author-av-ph">{name[0]}</div>'
-    BY = {"en":"Written by","fr":"Écrit par","es":"Escrito por","it":"Scritto da","de":"Geschrieben von","nl":"Geschreven door","ar":"كتبه"}
+    BY = {"en":"Written by","fr":"Écrit par","es":"Escrito por","it":"Scritto da","de":"Geschrieben von","nl":"Geschreven door","ar":"كتبه","pt":"Escrito por","da":"Skrevet af"}
     return f'<div class="author-card reveal">{img_tag}<div><div style="font-size:11px;color:#9ca3af;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px">{BY.get(lang)}</div><div class="author-name">{name}</div><div class="author-role">{role}</div><div class="author-bio-text">{bio}</div></div></div>'
 
 # Load articles
@@ -796,48 +796,48 @@ for lang in LANGS:
 # ════════════════════════════════════════════════════════════════════════════════
 BLOG_CATS_DATA = {
     "Island Life & Surf Camp": {
-        "slug":  {"en":"island-life","fr":"vie-ile","es":"vida-isla","it":"vita-isola","de":"insel-leben","nl":"eiland-leven","ar":"island-life"},
+        "slug":  {"en":"island-life","fr":"vie-ile","es":"vida-isla","it":"vita-isola","de":"insel-leben","nl":"eiland-leven","ar":"island-life","pt":"vida-na-ilha","da":"oe-liv"},
         "name":  {"en":"Island Life & Surf Camp","fr":"Vie sur l'île & Surf Camp",
-                  "es":"Vida en la isla & Surf Camp","it":"Vita sull'isola & Surf Camp","de":"Inselleben & Surf Camp","nl":"Eilandleven & Surf Camp","ar":"حياة الجزيرة ومخيم السيرف"},
+                  "es":"Vida en la isla & Surf Camp","it":"Vita sull'isola & Surf Camp","de":"Inselleben & Surf Camp","nl":"Eilandleven & Surf Camp","ar":"حياة الجزيرة ومخيم السيرف","pt":"Vida na Ilha & Surf Camp","da":"Øliv & Surf Camp"},
         "desc":  {"en":"Discover what life at Ngor Surf Camp is really like — island living, local culture, what to pack, and why Senegal is an underrated surf destination.",
                   "fr":"Découvrez la vie au Ngor Surf Camp — île sans voitures, culture locale, quoi emporter et pourquoi le Sénégal est une destination surf sous-estimée.",
                   "es":"Descubre cómo es la vida en el Ngor Surf Camp — isla sin coches, cultura local, qué llevar y por qué Senegal es un destino surf infravalorado.",
                   "it":"Scopri com'è la vita al Ngor Surf Camp — isola senza auto, cultura locale, cosa portare e perché il Senegal è una destinazione surf sottovalutata.",
                   "de":"Entdecke das Leben im Ngor Surf Camp — autofreie Insel, lokale Kultur, Packliste und warum Senegal ein unterschätztes Surf-Ziel ist.",
                   "nl":"Ontdek hoe het leven in het Ngor Surf Camp echt is — eilandleven, lokale cultuur, wat te pakken en waarom Senegal een onderschatte surfbestemming is.",
-                  "ar":"اكتشف كيف تبدو الحياة في Ngor Surf Camp — حياة جزيرة وثقافة محلية وما تحزمه ولماذا السنغال وجهة تصفح مقللة من شأنها."},
+                  "ar":"اكتشف كيف تبدو الحياة في Ngor Surf Camp — حياة جزيرة وثقافة محلية وما تحزمه ولماذا السنغال وجهة تصفح مقللة من شأنها.","pt":"Descubra como é a vida no Ngor Surf Camp — ilha sem carros, cultura local, o que levar e por que o Senegal é um destino de surf subestimado.","da":"Oplev livet på Ngor Surf Camp — bilfri ø, lokal kultur, hvad du skal pakke og hvorfor Senegal er en undervurderet surfdestination."},
         "icon": "🏄", "ico_name": "feat-location", "color": "#F59E0B",
     },
     "Surf Conditions & Spots": {
-        "slug":  {"en":"surf-conditions","fr":"conditions-surf","es":"condiciones-surf","it":"condizioni-surf","de":"surf-bedingungen","nl":"surf-omstandigheden","ar":"surf-conditions"},
+        "slug":  {"en":"surf-conditions","fr":"conditions-surf","es":"condiciones-surf","it":"condizioni-surf","de":"surf-bedingungen","nl":"surf-omstandigheden","ar":"surf-conditions","pt":"condicoes-surf","da":"surf-forhold"},
         "name":  {"en":"Surf Conditions & Spots","fr":"Conditions & Spots de Surf",
-                  "es":"Condiciones & Spots de Surf","it":"Condizioni & Spot di Surf","de":"Surf-Bedingungen & Spots","nl":"Surfomstandigheden & Spots","ar":"ظروف وأماكن التصفح"},
+                  "es":"Condiciones & Spots de Surf","it":"Condizioni & Spot di Surf","de":"Surf-Bedingungen & Spots","nl":"Surfomstandigheden & Spots","ar":"ظروف وأماكن التصفح","pt":"Condições & Spots de Surf","da":"Surfforhold & Spots"},
         "desc":  {"en":"Everything about Ngor Island's waves, the best time to surf Senegal, surf season guides and detailed breakdowns of Ngor Right and Left.",
                   "fr":"Tout sur les vagues de l'île de Ngor, la meilleure saison pour surfer au Sénégal et les guides détaillés de Ngor Right et Left.",
                   "es":"Todo sobre las olas de la isla de Ngor, la mejor temporada para surfear en Senegal y guías detalladas de Ngor Right y Left.",
                   "it":"Tutto sulle onde dell'isola di Ngor, il periodo migliore per fare surf in Senegal e guide dettagliate su Ngor Right e Left.",
                   "de":"Alles über die Wellen der Insel Ngor, die beste Surfsaison in Senegal und detaillierte Guides zu Ngor Right und Left.",
                   "nl":"Alles over de golven van Ngor Island, de beste tijd om te surfen in Senegal en gedetailleerde gidsen voor Ngor Right en Left.",
-                  "ar":"كل شيء عن أمواج جزيرة Ngor وأفضل موسم للتصفح في السنغال وأدلة تفصيلية لـ Ngor Right و Left."},
+                  "ar":"كل شيء عن أمواج جزيرة Ngor وأفضل موسم للتصفح في السنغال وأدلة تفصيلية لـ Ngor Right و Left.","pt":"Tudo sobre as ondas da Ilha Ngor, a melhor época para surfar no Senegal e guias detalhados de Ngor Right e Left.","da":"Alt om Ngor Islands bølger, den bedste surfsæson i Senegal og detaljerede guides til Ngor Right og Left."},
         "icon": "🌊", "ico_name": "icon-surf-guide", "color": "#0E7490",
     },
     "Coaching & Progression": {
-        "slug":  {"en":"coaching-progression","fr":"coaching-progression","es":"coaching-progresion","it":"coaching-progressione","de":"coaching-fortschritt","nl":"coaching-progressie","ar":"coaching-progression"},
+        "slug":  {"en":"coaching-progression","fr":"coaching-progression","es":"coaching-progresion","it":"coaching-progressione","de":"coaching-fortschritt","nl":"coaching-progressie","ar":"coaching-progression","pt":"coaching-progressao","da":"coaching-fremskridt"},
         "name":  {"en":"Coaching & Progression","fr":"Coaching & Progression",
-                  "es":"Coaching & Progresión","it":"Coaching & Progressione","de":"Coaching & Fortschritt","nl":"Coaching & Progressie","ar":"التدريب والتقدم"},
+                  "es":"Coaching & Progresión","it":"Coaching & Progressione","de":"Coaching & Fortschritt","nl":"Coaching & Progressie","ar":"التدريب والتقدم","pt":"Coaching & Progressão","da":"Coaching & Fremskridt"},
         "desc":  {"en":"Surf coaching guides, how to improve faster at a surf camp, video analysis, beginner tips and how to choose the best surf camp for your level.",
                   "fr":"Guides de coaching surf, progresser plus vite en surf camp, analyse vidéo, conseils pour débutants et comment choisir le meilleur surf camp.",
                   "es":"Guías de coaching surf, cómo mejorar más rápido en un surf camp, análisis de vídeo, consejos para principiantes y cómo elegir el mejor surf camp.",
                   "it":"Guide al coaching surf, come migliorare più velocemente in un surf camp, analisi video, consigli per principianti e come scegliere il surf camp migliore.",
                   "de":"Surf-Coaching-Guides, wie man im Surfcamp schneller besser wird, Videoanalyse, Anfänger-Tipps und wie man das beste Surfcamp wählt.",
                   "nl":"Surfcoaching-gidsen, sneller verbeteren in een surf camp, videoanalyse, tips voor beginners en het beste surf camp kiezen voor jouw niveau.",
-                  "ar":"أدلة تدريب التصفح وكيفية التحسن بسرعة في مخيم السيرف وتحليل الفيديو ونصائح للمبتدئين وكيفية اختيار أفضل مخيم سيرف لمستواك."},
+                  "ar":"أدلة تدريب التصفح وكيفية التحسن بسرعة في مخيم السيرف وتحليل الفيديو ونصائح للمبتدئين وكيفية اختيار أفضل مخيم سيرف لمستواك.","pt":"Guias de coaching de surf, como melhorar mais rápido em um surf camp, análise de vídeo, dicas para iniciantes e como escolher o melhor surf camp.","da":"Surfcoaching-guides, hvordan man forbedrer sig hurtigere på et surf camp, videoanalyse, begyndertips og valg af det bedste surf camp."},
         "icon": "🎯", "ico_name": "icon-coaching", "color": "#22C55E",
     },
 }
 
-CAT_SLUG_WORD = {"en":"category","fr":"categorie","es":"categoria","it":"categoria","de":"kategorie","nl":"categorie","ar":"categorie"}
-BLOG_SLUG_LG  = {"en":"blog","fr":"blog","es":"blog","it":"blog","de":"blog","nl":"blog","ar":"blog"}
+CAT_SLUG_WORD = {"en":"category","fr":"categorie","es":"categoria","it":"categoria","de":"kategorie","nl":"categorie","ar":"categorie","pt":"categoria","da":"kategori"}
+BLOG_SLUG_LG  = {"en":"blog","fr":"blog","es":"blog","it":"blog","de":"blog","nl":"blog","ar":"blog","pt":"blog","da":"blog"}
 
 # Localized page slugs — mirrors build.py SLUG dict so the blog nav generates correct per-lang URLs
 PAGE_SLUG = {
@@ -848,6 +848,8 @@ PAGE_SLUG = {
     "de": {"surf-house":"surf-house","island":"insel","surfing":"surfen","booking":"buchen","gallery":"galerie","faq":"faq","blog":"blog"},
     "nl": {"surf-house":"surf-house","island":"eiland","surfing":"surfen","booking":"boeken","gallery":"galerij","faq":"faq","blog":"blog"},
     "ar": {"surf-house":"surf-house","island":"ngor-island","surfing":"surf","booking":"reservation","gallery":"galerie","faq":"faq","blog":"blog"},
+    "pt": {"surf-house":"surf-house","island":"ilha","surfing":"surf","booking":"reservar","gallery":"galeria","faq":"faq","blog":"blog"},
+    "da": {"surf-house":"surf-house","island":"oe","surfing":"surf","booking":"book","gallery":"galleri","faq":"faq","blog":"blog"},
 }
 
 def cat_href(cat_en, lang):
@@ -965,7 +967,8 @@ def faq_to_accordion(content_html):
             f'<div class="faq-accordion" itemscope '
             f'itemtype="https://schema.org/FAQPage">\n{items}</div>'
         )
-        return heading + "\n" + accordion + remaining
+        # Drop any stray paragraphs that would leak after the accordion
+        return heading + "\n" + accordion
 
     return faq_re.sub(convert_section, content_html)
 
@@ -1027,22 +1030,22 @@ def build_article(en_art, lang):
     prev_art = arts_en[idx-1] if idx>0 else None
     next_art = arts_en[idx+1] if idx<len(arts_en)-1 else None
 
-    BACK={"en":"Back to Blog","fr":"Retour au Blog","es":"Volver al Blog","it":"Torna al Blog","de":"Zurück zum Blog","nl":"Terug naar Blog","ar":"العودة إلى المدونة"}
-    BOOK={"en":"Book Your Stay","fr":"Réserver","es":"Reservar","it":"Prenota","de":"Buchen","nl":"Boek je verblijf","ar":"احجز إقامتك"}
+    BACK={"en":"Back to Blog","fr":"Retour au Blog","es":"Volver al Blog","it":"Torna al Blog","de":"Zurück zum Blog","nl":"Terug naar Blog","ar":"العودة إلى المدونة","pt":"Voltar ao Blog","da":"Tilbage til Blog"}
+    BOOK={"en":"Book Your Stay","fr":"Réserver","es":"Reservar","it":"Prenota","de":"Buchen","nl":"Boek je verblijf","ar":"احجز إقامتك","pt":"Reservar Estadia","da":"Book dit ophold"}
     REL={"en":"More in this category","fr":"Plus dans cette catégorie","es":"Más de esta categoría",
-         "it":"Altro in questa categoria","de":"Mehr aus dieser Kategorie","nl":"Meer in deze categorie","ar":"المزيد في هذه الفئة"}
-    LANG_L={"en":"Read in:","fr":"Lire en :","es":"Leer en:","it":"Leggi in:","de":"Lesen auf:","nl":"Lees in:","ar":"اقرأ بـ:"}
-    CTA_H={"en":"Ready to surf at Ngor?","fr":"Prêt à surfer à Ngor ?","es":"Listo para surfear en Ngor?","it":"Pronto a surfare a Ngor?","de":"Bereit für Ngor?","nl":"Klaar om te surfen in Ngor?","ar":"هل أنت مستعد للتصفح في Ngor؟"}
-    READ_T={"en":"min read","fr":"min de lecture","es":"min de lectura","it":"min di lettura","de":"Min Lesezeit","nl":"min lezen","ar":"دقيقة قراءة"}
-    PREV_L={"en":"Previous","fr":"Précédent","es":"Anterior","it":"Precedente","de":"Vorheriger","nl":"Vorige","ar":"السابق"}
-    NEXT_L={"en":"Next","fr":"Suivant","es":"Siguiente","it":"Successivo","de":"Nächster","nl":"Volgende","ar":"التالي"}
-    BC={"en":"Home","fr":"Accueil","es":"Inicio","it":"Home","de":"Start","nl":"Home","ar":"الرئيسية"}
-    BL={"en":"Blog","fr":"Blog","es":"Blog","it":"Blog","de":"Blog","nl":"Blog","ar":"المدونة"}
-    SH={"en":"Share:","fr":"Partager :","es":"Compartir:","it":"Condividi:","de":"Teilen:","nl":"Delen:","ar":"شارك:"}
-    CL={"en":"Copy link","fr":"Copier le lien","es":"Copiar enlace","it":"Copia link","de":"Link kopieren","nl":"Kopieer link","ar":"نسخ الرابط"}
-    CD={"en":"Copied!","fr":"Copié !","es":"Copiado!","it":"Copiato!","de":"Kopiert!","nl":"Gekopieerd!","ar":"تم النسخ!"}
+         "it":"Altro in questa categoria","de":"Mehr aus dieser Kategorie","nl":"Meer in deze categorie","ar":"المزيد في هذه الفئة","pt":"Mais nesta categoria","da":"Mere i denne kategori"}
+    LANG_L={"en":"Read in:","fr":"Lire en :","es":"Leer en:","it":"Leggi in:","de":"Lesen auf:","nl":"Lees in:","ar":"اقرأ بـ:","pt":"Leia em:","da":"Læs på:"}
+    CTA_H={"en":"Ready to surf at Ngor?","fr":"Prêt à surfer à Ngor ?","es":"Listo para surfear en Ngor?","it":"Pronto a surfare a Ngor?","de":"Bereit für Ngor?","nl":"Klaar om te surfen in Ngor?","ar":"هل أنت مستعد للتصفح في Ngor؟","pt":"Pronto para surfar em Ngor?","da":"Klar til at surfe i Ngor?"}
+    READ_T={"en":"min read","fr":"min de lecture","es":"min de lectura","it":"min di lettura","de":"Min Lesezeit","nl":"min lezen","ar":"دقيقة قراءة","pt":"min de leitura","da":"min læsning"}
+    PREV_L={"en":"Previous","fr":"Précédent","es":"Anterior","it":"Precedente","de":"Vorheriger","nl":"Vorige","ar":"السابق","pt":"Anterior","da":"Forrige"}
+    NEXT_L={"en":"Next","fr":"Suivant","es":"Siguiente","it":"Successivo","de":"Nächster","nl":"Volgende","ar":"التالي","pt":"Seguinte","da":"Næste"}
+    BC={"en":"Home","fr":"Accueil","es":"Inicio","it":"Home","de":"Start","nl":"Home","ar":"الرئيسية","pt":"Início","da":"Hjem"}
+    BL={"en":"Blog","fr":"Blog","es":"Blog","it":"Blog","de":"Blog","nl":"Blog","ar":"المدونة","pt":"Blog","da":"Blog"}
+    SH={"en":"Share:","fr":"Partager :","es":"Compartir:","it":"Condividi:","de":"Teilen:","nl":"Delen:","ar":"شارك:","pt":"Partilhar:","da":"Del:"}
+    CL={"en":"Copy link","fr":"Copier le lien","es":"Copiar enlace","it":"Copia link","de":"Link kopieren","nl":"Kopieer link","ar":"نسخ الرابط","pt":"Copiar link","da":"Kopiér link"}
+    CD={"en":"Copied!","fr":"Copié !","es":"Copiado!","it":"Copiato!","de":"Kopiert!","nl":"Gekopieerd!","ar":"تم النسخ!","pt":"Copiado!","da":"Kopieret!"}
     SEE_ALL={"en":"See all articles","fr":"Voir tous les articles","es":"Ver todos los artículos",
-             "it":"Vedi tutti gli articoli","de":"Alle Artikel anzeigen","nl":"Alle artikelen","ar":"كل المقالات"}
+             "it":"Vedi tutti gli articoli","de":"Alle Artikel anzeigen","nl":"Alle artikelen","ar":"كل المقالات","pt":"Ver todos os artigos","da":"Se alle artikler"}
 
     # Category info for this article
     cat_display  = cat_name_for(cat, lang)
@@ -1209,7 +1212,7 @@ def build_article(en_art, lang):
 FALLBACK_IMG = "/assets/images/wix/df99f9_961b0768e713457f93025f4ce6fb1419.webp"
 
 def art_img(slug):
-    """Return best available image src for an article (B&W preferred)."""
+    """Return best available image src for an article (B&W preferred for card/preview style)."""
     if os.path.exists(f"{DEMO_DIR}/assets/images/bw-{slug}.webp"):
         return f"/assets/images/bw-{slug}.webp"
     if os.path.exists(f"{DEMO_DIR}/assets/images/{slug}.webp"):
@@ -1220,25 +1223,25 @@ def art_img(slug):
 def build_blog_index(lang):
     """Regenerate blog index with category cards + filter buttons linking to category pages."""
     pfx   = LANG_PREFIX[lang]
-    TITLE = {"en":"Surf Blog","fr":"Blog Surf","es":"Blog Surf","it":"Blog Surf","de":"Surf-Blog","nl":"Surf Blog","ar":"مدونة السيرف"}
+    TITLE = {"en":"Surf Blog","fr":"Blog Surf","es":"Blog Surf","it":"Blog Surf","de":"Surf-Blog","nl":"Surf Blog","ar":"مدونة السيرف","pt":"Blog de Surf","da":"Surf Blog"}
     SUB   = {"en":"Guides, tips and stories from Ngor Island, Dakar",
              "fr":"Guides, conseils et histoires de l'Île de Ngor, Dakar",
              "es":"Guías, consejos e historias de la Isla de Ngor, Dakar",
              "it":"Guide, consigli e storie dall'Isola di Ngor, Dakar",
              "de":"Guides, Tipps und Geschichten von Ngor Island, Dakar",
              "nl":"Gidsen, tips en verhalen van Ngor Island, Dakar",
-             "ar":"أدلة ونصائح وقصص من جزيرة Ngor، داكار"}
+             "ar":"أدلة ونصائح وقصص من جزيرة Ngor، داكار","pt":"Guias, dicas e histórias da Ilha Ngor, Dakar","da":"Guides, tips og historier fra Ngor Island, Dakar"}
     META  = {"en":"Ngor Surfcamp Teranga surf blog. Expert guides, surf tips and stories from Ngor Island, Dakar, Senegal.",
              "fr":"Blog surf du Ngor Surfcamp Teranga. Guides experts, conseils surf et histoires de l'île de Ngor, Dakar, Sénégal.",
              "es":"Blog surf de Ngor Surfcamp Teranga. Guías de expertos, consejos surf e historias de la isla de Ngor, Dakar, Senegal.",
              "it":"Blog surf di Ngor Surfcamp Teranga. Guide di esperti, consigli surf e storie dall'isola di Ngor, Dakar, Senegal.",
              "de":"Surf-Blog von Ngor Surfcamp Teranga. Expertenguides, Surf-Tipps und Geschichten von Ngor Island, Dakar, Senegal.",
              "nl":"Surf blog van Ngor Surfcamp Teranga. Expertgidsen, surftips en verhalen van Ngor Island, Dakar, Senegal.",
-             "ar":"مدونة سيرف Ngor Surfcamp Teranga. أدلة الخبراء ونصائح التصفح وقصص من جزيرة Ngor، داكار، السنغال."}
-    ALL_LBL = {"en":"All","fr":"Tous","es":"Todos","it":"Tutti","de":"Alle","nl":"Alles","ar":"الكل"}
+             "ar":"مدونة سيرف Ngor Surfcamp Teranga. أدلة الخبراء ونصائح التصفح وقصص من جزيرة Ngor، داكار، السنغال.","pt":"Blog de Surf do Ngor Surfcamp Teranga. Guias de especialistas, dicas de surf e histórias da Ilha Ngor, Dakar, Senegal.","da":"Surf Blog fra Ngor Surfcamp Teranga. Ekspertguides, surftips og historier fra Ngor Island, Dakar, Senegal."}
+    ALL_LBL = {"en":"All","fr":"Tous","es":"Todos","it":"Tutti","de":"Alle","nl":"Alles","ar":"الكل","pt":"Todos","da":"Alle"}
     BROWSE  = {"en":"Browse by Category","fr":"Parcourir par catégorie","es":"Explorar por categoría",
-               "it":"Sfoglia per categoria","de":"Nach Kategorie durchsuchen","nl":"Bladeren per categorie","ar":"تصفح حسب الفئة"}
-    ART_LBL = {"en":"articles","fr":"articles","es":"artículos","it":"articoli","de":"Artikel","nl":"artikelen","ar":"مقالات"}
+               "it":"Sfoglia per categoria","de":"Nach Kategorie durchsuchen","nl":"Bladeren per categorie","ar":"تصفح حسب الفئة","pt":"Explorar por categoria","da":"Gennemse efter kategori"}
+    ART_LBL = {"en":"articles","fr":"articles","es":"artículos","it":"articoli","de":"Artikel","nl":"artikelen","ar":"مقالات","pt":"artigos","da":"artikler"}
 
     # Category cards (above-fold browse section)
     cat_cards = ""
@@ -1316,7 +1319,7 @@ def build_blog_index(lang):
     EYEBROW = {"en":"Ngor Island · Dakar · Senegal","fr":"Île de Ngor · Dakar · Sénégal",
                "es":"Isla de Ngor · Dakar · Senegal","it":"Isola di Ngor · Dakar · Senegal",
                "de":"Ngor Island · Dakar · Senegal","nl":"Ngor Island · Dakar · Senegal",
-               "ar":"جزيرة نغور · داكار · السنغال"}
+               "ar":"جزيرة نغور · داكار · السنغال","pt":"Ilha Ngor · Dakar · Senegal","da":"Ngor Island · Dakar · Senegal"}
     html += f"""
 <main>
   <header class="blog-hub-header" role="banner">
@@ -1327,16 +1330,6 @@ def build_blog_index(lang):
     </div>
     <div class="wave-bottom" aria-hidden="true"><svg viewBox="0 0 1440 52" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0 0 C360 52,1080 52,1440 0 L1440 52 L0 52Z" fill="#fff8ec"/></svg></div>
   </header>
-
-  <!-- Category Browse Cards -->
-  <section class="section sec-sand" style="padding:48px 0 32px" aria-label="Categories">
-    <div class="container">
-      <h2 class="s-title" style="margin-bottom:32px;font-size:clamp(20px,3vw,28px)">{BROWSE[lang]}</h2>
-      <div class="cat-cards-grid">
-        {cat_cards}
-      </div>
-    </div>
-  </section>
 
   <!-- All Articles with filter -->
   <div class="blog-filter-bar">
@@ -1382,25 +1375,25 @@ def build_category_page(cat_en, lang):
     c_href = cat_href(cat_en, lang)
     c_slug = cdata["slug"][lang]
 
-    BROWSE_CAT  = {"en":"Browse Category","fr":"Catégorie","es":"Categoría","it":"Categoria","de":"Kategorie","nl":"Categorie","ar":"تصفح الفئة"}
+    BROWSE_CAT  = {"en":"Browse Category","fr":"Catégorie","es":"Categoría","it":"Categoria","de":"Kategorie","nl":"Categorie","ar":"تصفح الفئة","pt":"Categoria","da":"Kategori"}
     ART_IN_CAT  = {"en":"Articles in this category","fr":"Articles de cette catégorie",
                    "es":"Artículos de esta categoría","it":"Articoli in questa categoria",
-                   "de":"Artikel in dieser Kategorie","nl":"Artikelen in deze categorie","ar":"مقالات في هذه الفئة"}
+                   "de":"Artikel in dieser Kategorie","nl":"Artikelen in deze categorie","ar":"مقالات في هذه الفئة","pt":"Artigos nesta categoria","da":"Artikler i denne kategori"}
     OTHER_CATS  = {"en":"Other Categories","fr":"Autres catégories","es":"Otras categorías",
-                   "it":"Altre categorie","de":"Andere Kategorien","nl":"Andere categorieën","ar":"فئات أخرى"}
-    BC          = {"en":"Home","fr":"Accueil","es":"Inicio","it":"Home","de":"Start","nl":"Home","ar":"الرئيسية"}
-    BL          = {"en":"Blog","fr":"Blog","es":"Blog","it":"Blog","de":"Blog","nl":"Blog","ar":"المدونة"}
-    ART_LBL     = {"en":"articles","fr":"articles","es":"artículos","it":"articoli","de":"Artikel","nl":"artikelen","ar":"مقالات"}
-    BOOK        = {"en":"Book Your Stay","fr":"Réserver","es":"Reservar","it":"Prenota","de":"Buchen","nl":"Boek nu","ar":"احجز الآن"}
+                   "it":"Altre categorie","de":"Andere Kategorien","nl":"Andere categorieën","ar":"فئات أخرى","pt":"Outras categorias","da":"Andre kategorier"}
+    BC          = {"en":"Home","fr":"Accueil","es":"Inicio","it":"Home","de":"Start","nl":"Home","ar":"الرئيسية","pt":"Início","da":"Hjem"}
+    BL          = {"en":"Blog","fr":"Blog","es":"Blog","it":"Blog","de":"Blog","nl":"Blog","ar":"المدونة","pt":"Blog","da":"Blog"}
+    ART_LBL     = {"en":"articles","fr":"articles","es":"artículos","it":"articoli","de":"Artikel","nl":"artikelen","ar":"مقالات","pt":"artigos","da":"artikler"}
+    BOOK        = {"en":"Book Your Stay","fr":"Réserver","es":"Reservar","it":"Prenota","de":"Buchen","nl":"Boek nu","ar":"احجز الآن","pt":"Reservar","da":"Book nu"}
     CTA_H       = {"en":"Ready to Surf Ngor?","fr":"Prêt à surfer à Ngor ?","es":"¿Listo para surfear en Ngor?",
-                   "it":"Pronto a surfare a Ngor?","de":"Bereit für Ngor?","nl":"Klaar voor Ngor?","ar":"هل أنت مستعد لـ Ngor؟"}
+                   "it":"Pronto a surfare a Ngor?","de":"Bereit für Ngor?","nl":"Klaar voor Ngor?","ar":"هل أنت مستعد لـ Ngor؟","pt":"Pronto para Ngor?","da":"Klar til Ngor?"}
     CTA_SUB     = {"en":"Join us on Ngor Island — surf lessons, coaching, and an unforgettable Senegal experience.",
                    "fr":"Rejoignez-nous sur l'île de Ngor — cours de surf, coaching et une expérience Sénégal inoubliable.",
                    "es":"Únete a nosotros en la isla de Ngor — clases de surf, coaching y una experiencia inolvidable en Senegal.",
                    "it":"Unisciti a noi sull'isola di Ngor — lezioni di surf, coaching e un'esperienza indimenticabile in Senegal.",
                    "de":"Besuche uns auf Ngor Island — Surfunterricht, Coaching und ein unvergessliches Senegal-Erlebnis.",
                    "nl":"Word lid op Ngor Island — surflessen, coaching en een onvergetelijke Senegal-ervaring.",
-                   "ar":"انضم إلينا في جزيرة Ngor — دروس تصفح وتدريب وتجربة سنغالية لا تُنسى."}
+                   "ar":"انضم إلينا في جزيرة Ngor — دروس تصفح وتدريب وتجربة سنغالية لا تُنسى.","pt":"Junte-se a nós na Ilha Ngor — aulas de surf, coaching e uma experiência senegalesa inesquecível.","da":"Kom med os på Ngor Island — surftimer, coaching og en uforglemmelig senegalesisk oplevelse."}
 
     # Articles in this category
     cat_arts = [a for a in arts_en if a.get("category") == cat_en]

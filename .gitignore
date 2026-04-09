@@ -1,4 +1,4 @@
-# ══ Secrets ══════════════════════════════════════════
+# ══ Secrets & owner docs ══════════════════════════════
 clesapi.txt
 .admin_api_key
 .vercel/
@@ -7,6 +7,14 @@ leafy-brace-*.json
 .env
 .env.neon.local
 .env*.local
+ACCES_PROPRIÉTAIRE.txt
+
+# ══ Client feedback / large PDFs ═════════════════════
+retours/
+
+# ══ Raw image archives (processed assets live in cloudflare-demo/) ═══
+content/images/*.zip
+content/images/extracted/
 
 # ══ Build / Runtime ══════════════════════════════════
 __pycache__/
@@ -16,6 +24,7 @@ node_modules/
 
 # ══ Output / Screenshots ════════════════════════════
 output/
+/tmp/
 
 # ══ Legacy (removed from tracking) ═══════════════════
 _legacy_scripts/

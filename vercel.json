@@ -2,15 +2,15 @@
   "outputDirectory": "cloudflare-demo",
   "rewrites": [
     {
-      "source": "/:lang(fr|es|it|de|nl|ar)/admin/config.yml",
+      "source": "/:lang(fr|es|it|de|nl|ar|pt|da)/admin/config.yml",
       "destination": "/admin/config.yml"
     },
     {
-      "source": "/:lang(fr|es|it|de|nl|ar)/admin",
+      "source": "/:lang(fr|es|it|de|nl|ar|pt|da)/admin",
       "destination": "/admin/index.html"
     },
     {
-      "source": "/:lang(fr|es|it|de|nl|ar)/admin/",
+      "source": "/:lang(fr|es|it|de|nl|ar|pt|da)/admin/",
       "destination": "/admin/index.html"
     }
   ],
