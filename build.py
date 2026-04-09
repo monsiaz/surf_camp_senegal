@@ -274,6 +274,7 @@ for _cat_en, _cdata in BLOG_CATS.items():
         CAT_PAGE_HREF[(_cat_en, _lg)] = f"{_pfx}/{_blog_slug}/{_cat_slug_word}/{_cat_slug}/"
 
 _WIX = "/assets/images/wix"
+_GAL = "/assets/images/gallery"
 LOGO = f"{_WIX}/c2467f_a31779010ce34c4c8c61cc5868d81f31.webp"
 FSS_LOGO = "/assets/images/logo-fede-transparant.png"
 
@@ -290,7 +291,7 @@ IMGS = {
     "ngor_r":  f"{_WIX}/11062b_7f89d2db0ace4027ac4a00928a6aca08.webp",
     "sunset":  f"{_WIX}/df99f9_d6e404dd3cf74396b6ea874cb7021a27.webp",
     "art":     f"{_WIX}/df99f9_d81668a18a9d49d1b5ebb0ea3a0abbc7.webp",
-    "food":    f"{_WIX}/df99f9_753890483d8e4cca8e2051a13f9c558e.webp",
+    "food":    f"{_GAL}/CAML1098.webp",
     "pool":    f"{_WIX}/df99f9_a18d512828d9487e9a4987b9903960e0.webp",
     "review":  f"{_WIX}/df99f9_961b0768e713457f93025f4ce6fb1419.webp",
     "book_bg": f"{_WIX}/df99f9_0d4a03baee4f46b68bc1aa085ed28e35.webp",
@@ -338,7 +339,6 @@ def build_gallery_thumb_buttons(urls, alt_raw, pe, thumb_w=560, eager_first=Fals
     return "".join(parts)
 
 
-_GAL = "/assets/images/gallery"
 SURF_HOUSE_SHOTS = [
     f"{_GAL}/CAML1124_73024503.webp",
     f"{_GAL}/CAML1129_2323b4f6.webp",
@@ -5006,14 +5006,13 @@ _IG_PHOTOS = {
         f"{_IG}/DS4iP3-jBut.webp",    # smiling surfer on beach
     ],
     # Surf House — action, community, people, surf vibes (6 photos)
-    # photo 1 = editorial large featured image; photo 6 = full-width bottom strip
     "surf-house": [
-        f"{_IG}/DTV-popgGNG.webp",    # group with surfboards at camp (hero — large)
-        f"{_IG}/DUfqawDgIGJ.webp",    # group of surfers together after session
-        f"{_IG}/DS4iP3-jBut.webp",    # smiling surfer on beach (personal)
-        f"{_IG}/DTKjjWBAPNl.webp",    # woman smiling at camp entrance
-        f"{_IG}/DRRRUDKjFYZ.webp",    # foosball table (social activities)
-        f"{_IG}/DSw1akLjLNR.webp",    # evening/ambiance at surf house (wide strip)
+        f"{_GAL}/school_ig.webp",    # surf instructor
+        f"{_GAL}/CAML1109.webp",     # group of surfers
+        f"{_GAL}/salon_ig.webp",     # surf camp interior
+        f"{_GAL}/4Y4A1359.webp",     # wave riding
+        f"{_GAL}/CAML1121.webp",     # surf camp terrace
+        f"{_GAL}/sunset_ig.webp",    # sunset
     ],
     # Surfing — action, waves, beach life (6 photos)
     "surfing": [
@@ -5137,18 +5136,18 @@ _IG_COPY = {
                "Surfeur heureux souriant sur la plage de Ngor"],
     },
     "alt_surf_house": {
-        "en": ["Group of surfers with boards at surf camp",
-               "Surfers after a session at Ngor camp",
-               "Happy surfer smiling on Ngor beach",
-               "Welcoming smile at Ngor Surfcamp entrance",
-               "Foosball table in the surf house",
-               "Evening vibes at Ngor Surf House"],
-        "fr": ["Groupe de surfeurs avec leurs planches au camp",
-               "Surfeurs après une session au camp Ngor",
-               "Surfeur heureux souriant sur la plage de Ngor",
-               "Accueil souriant à l'entrée du Ngor Surfcamp",
-               "Baby-foot dans le surf house",
-               "Ambiance soirée à la Ngor Surf House"],
+        "en": ["Surf instructor at Ngor beach",
+               "Group of surfers chilling at the camp",
+               "Surf camp interior and social area",
+               "Surfer riding a wave at Ngor",
+               "Sunny terrace at Ngor Surf House",
+               "Beautiful sunset over the ocean"],
+        "fr": ["Moniteur de surf sur la plage de Ngor",
+               "Groupe de surfeurs se relaxant au camp",
+               "Intérieur et espace social du surf camp",
+               "Surfeur sur une vague à Ngor",
+               "Terrasse ensoleillée à la Ngor Surf House",
+               "Magnifique coucher de soleil sur l'océan"],
     },
     "alt_surfing": {
         "en": ["Surfer in a perfect barrel at Ngor",
@@ -5513,17 +5512,9 @@ def build_surf_house(lang):
         </div>
         <div class="sh-meals-photo sh-meals-photos">
           <img src="{meals_thumb}" alt="{pe(C["meals_h2"])}" width="640" height="280" loading="lazy" decoding="async" referrerpolicy="no-referrer" class="sh-meals-img sh-meals-img--1">
-          <img src="/assets/images/gallery/CAML1100_3a5f7e17.webp" alt="{pe(C["meals_lbl"])}" width="640" height="170" loading="lazy" decoding="async" class="sh-meals-img sh-meals-img--2">
+          <img src="/assets/images/gallery/CAML1103.webp" alt="{pe(C["meals_lbl"])}" width="640" height="170" loading="lazy" decoding="async" class="sh-meals-img sh-meals-img--2">
         </div>
       </div>
-    </div>
-  </section>
-
-  {wave_bottom(_BG_LIGHT, _BG_WHITE)}
-  <section class="section sh-bento-sec">
-    <div class="container">
-      <h2 class="s-title reveal" style="text-align:center;margin-bottom:8px">{pe(C["bento_h2"])}</h2>
-      <div class="sh-bento">{bento_html}</div>
     </div>
   </section>
 
