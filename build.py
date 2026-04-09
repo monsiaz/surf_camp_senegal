@@ -5575,7 +5575,7 @@ def build_surf_house(lang):
         )
 
     quote_img = wix_thumb_url(IMGS["house2"], 720)
-    meals_thumb = wix_thumb_url(IMGS["food"], 640)
+    meals_thumb = "/assets/images/gallery/IMG_1670_426b7213.webp"
 
     html = page_head(C["title"], C["meta"], lang, "surf-house", IMGS["house"])
     html += f'<a class="skip-to-main" href="#main-content">{pe(C["skip"])}</a>'
@@ -5662,8 +5662,8 @@ def build_surf_house(lang):
           <p class="sh-meals-p">{pe(C["meals_p"])}</p>
         </div>
         <div class="sh-meals-photo sh-meals-photos">
-          <img src="{meals_thumb}" alt="{pe(C["meals_h2"])}" width="640" height="280" loading="lazy" decoding="async" referrerpolicy="no-referrer" class="sh-meals-img sh-meals-img--1">
-          <img src="{wix_thumb_url(IMGS['house'], 640)}" alt="{pe(C['meals_lbl'])}" width="640" height="260" loading="lazy" decoding="async" class="sh-meals-img sh-meals-img--2">
+          <img src="{meals_thumb}" alt="{pe(C["meals_h2"])}" width="640" height="320" loading="lazy" decoding="async" class="sh-meals-img sh-meals-img--1">
+          <img src="/assets/images/gallery/8b638f24-081a-4488-a5ac-dc71e7bd42de_25694964.webp" alt="{pe(C['meals_lbl'])}" width="640" height="260" loading="lazy" decoding="async" class="sh-meals-img sh-meals-img--2">
         </div>
       </div>
     </div>
