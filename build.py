@@ -291,7 +291,7 @@ IMGS = {
     "ngor_r":  f"{_WIX}/11062b_7f89d2db0ace4027ac4a00928a6aca08.webp",
     "sunset":  f"{_WIX}/df99f9_d6e404dd3cf74396b6ea874cb7021a27.webp",
     "art":     f"{_WIX}/df99f9_d81668a18a9d49d1b5ebb0ea3a0abbc7.webp",
-    "food":    f"{_GAL}/CAML1098.webp",
+    "food":    f"{_WIX}/df99f9_753890483d8e4cca8e2051a13f9c558e.webp",
     "pool":    f"{_WIX}/df99f9_a18d512828d9487e9a4987b9903960e0.webp",
     "review":  f"{_WIX}/df99f9_961b0768e713457f93025f4ce6fb1419.webp",
     "book_bg": f"{_WIX}/df99f9_0d4a03baee4f46b68bc1aa085ed28e35.webp",
@@ -5468,8 +5468,9 @@ def build_surf_house(lang):
   <section class="sh-rooms-sec sec-light">
     <div class="container">
       <div class="sh-rooms-grid">
-        <div class="sh-rooms-visual reveal">
-          <img src="{quote_img}" alt="{pe(C["quote_h2"])}" width="720" height="540" loading="lazy" decoding="async" referrerpolicy="no-referrer" class="sh-rooms-img">
+        <div class="sh-rooms-visual sh-rooms-photos reveal">
+          <img src="/assets/images/gallery/CAML1098_9e61ecbe.webp" alt="{pe(C['quote_h2'])}" width="640" height="380" loading="lazy" decoding="async" class="sh-rooms-img sh-rooms-img--1">
+          <img src="/assets/images/gallery/CAML1103_74b9018b.webp" alt="{pe(C['rooms_lbl'])}" width="400" height="260" loading="lazy" decoding="async" class="sh-rooms-img sh-rooms-img--2">
         </div>
         <div class="sh-rooms-copy reveal">
           <span class="s-label">{pe(C["rooms_lbl"])}</span>
@@ -5513,7 +5514,7 @@ def build_surf_house(lang):
         </div>
         <div class="sh-meals-photo sh-meals-photos">
           <img src="{meals_thumb}" alt="{pe(C["meals_h2"])}" width="640" height="280" loading="lazy" decoding="async" referrerpolicy="no-referrer" class="sh-meals-img sh-meals-img--1">
-          <img src="/assets/images/gallery/CAML1103.webp" alt="{pe(C["meals_lbl"])}" width="640" height="170" loading="lazy" decoding="async" class="sh-meals-img sh-meals-img--2">
+          <img src="{wix_thumb_url(IMGS['house'], 640)}" alt="{pe(C['meals_lbl'])}" width="640" height="260" loading="lazy" decoding="async" class="sh-meals-img sh-meals-img--2">
         </div>
       </div>
     </div>
