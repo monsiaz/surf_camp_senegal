@@ -7975,8 +7975,8 @@ else:
     print("  (no island_guides manifest — skip)")
 
 # Keep legacy NL/AR island links valid when localized hub pages are not generated.
-wp("/nl/eiland/", make_redirect("/nl/island/"))
-wp("/ar/ngor-island/", make_redirect("/ar/island/"))
+wp("/nl/eiland/", make_redirect("/island/"))
+wp("/ar/ngor-island/", make_redirect("/island/"))
 
 print("Rebuilding Super FAQ (full nl/ar copy) + blog HTML from articles_v2…")
 _scripts_dir = os.path.join(_BASE_DIR, "scripts")
