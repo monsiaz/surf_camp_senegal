@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.0.0 build 11] — 2026-04-09 18:25 UTC
+Status: ✅ PASSED  |  Errors: 0  |  Warnings: 4
+Hash: `a97db486`
+### Warnings
+- Known redirect-only page (needs full content): nl/island
+- Known redirect-only page (needs full content): ar/island
+- surf-house old template on known gap pages: ['pt:main-hero', 'da:main-hero']
+- Footer missing elements in some pages: ['fr/index.html:Privacy Policy', 'ar/index.html:WhatsApp', 'ar/index.html:Privacy Policy']
+
 ## [1.0.0 build 10] — 2026-04-09 18:17 UTC
 Status: ✅ PASSED  |  Errors: 0  |  Warnings: 4
 Hash: `a97db486`
