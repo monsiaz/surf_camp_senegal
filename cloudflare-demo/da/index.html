@@ -687,12 +687,12 @@
   
   var NGOR_ISLAND  = [14.7497, -17.5218];
   var map = L.map('gh-teaser-map', {
-    center: [14.7497, -17.5218],
+    center: [14.745, -17.49],
     zoom: 13,
-    zoomControl: false,
+    zoomControl: true,
     attributionControl: false,
     scrollWheelZoom: false,
-    dragging: false
+    dragging: true
   });
 
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
@@ -700,9 +700,9 @@
     maxZoom: 20,
   }).addTo(map);
 
-  function makeIcon(color, emoji, size) {
+  function makeIcon(color, size) {
     return L.divIcon({
-      html: '<div style="width:' + size + 'px;height:' + size + 'px;border-radius:50%;background:' + color + ';border:3px solid #fff;display:flex;align-items:center;justify-content:center;font-size:' + Math.round(size*0.45) + 'px;box-shadow:0 2px 12px rgba(10,37,64,0.2)">' + emoji + '</div>',
+      html: '<div style="width:' + size + 'px;height:' + size + 'px;border-radius:50%;background:' + color + ';border:3px solid #fff;box-shadow:0 2px 12px rgba(10,37,64,0.2)"></div>',
       className: '',
       iconSize: [size, size],
       iconAnchor: [size/2, size/2],
@@ -710,7 +710,7 @@
     });
   }
 
-  L.marker(NGOR_ISLAND, { icon: makeIcon('#ff5a1f','🏄',40) }).addTo(map);
+  L.marker(NGOR_ISLAND, { icon: makeIcon('#ff5a1f', 24) }).addTo(map);
 })();
 </script>
 <!-- Floating WhatsApp -->

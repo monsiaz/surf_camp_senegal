@@ -2694,7 +2694,7 @@ def patch_home_gh_slider():
     import re as _re
     
     new_ending = (
-        '<div class="gh-teaser-map-preview">\n          <div id="gh-teaser-map" style="width:100%;height:100%;min-height:300px;border-radius:16px;z-index:1;"></div>\n        </div>\n      </div>\n    </div>\n  </section>'
+        '<div class="gh-teaser-map-preview">\n          <div id="gh-teaser-map" style="width:100%;height:100%;min-height:450px;border-radius:16px;z-index:1;"></div>\n        </div>\n      </div>\n    </div>\n  </section>'
     )
     old_pat = _re.compile(
         r'<div class="gh-teaser-map-preview">.*?</div>\s*</div>\s*</div>\s*</section>',
