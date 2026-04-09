@@ -5343,7 +5343,7 @@ def build_surf_house(lang):
     html += build_nav("surf-house", lang)
     html += f"""
 <main id="main-content">
-  <header class="main-hero" style="background-image:url('{IMGS["house2"]}')" role="banner">
+  <header class="main-hero" style="background-image:url('/assets/images/gallery/CAML1113_c1a068bf.webp')" role="banner">
     <div class="main-hero-inner">
       <div class="main-hero-eyebrow">
         <span class="main-hero-dot"></span>
