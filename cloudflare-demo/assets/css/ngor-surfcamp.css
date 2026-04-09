@@ -38620,3 +38620,19 @@ img{max-width:100%;height:auto}
     font-size:12px;
   }
 }
+
+/* ── 10. btn-ocean: Explore the Gallery CTA ─────────────────────── */
+.btn-ocean{
+  background:transparent;
+  color:var(--navy);
+  border:2px solid var(--sand);
+  box-shadow:inset 0 0 0 0 var(--sand);
+  transition:box-shadow .35s var(--spring),color .2s ease,transform .2s var(--spring);
+}
+.btn-ocean:hover{
+  box-shadow:inset 0 0 0 200px var(--sand);
+  color:var(--navy);
+  transform:translateY(-3px);
+}
+.btn-ocean svg{transition:transform .25s var(--spring)}
+.btn-ocean:hover svg{transform:translateX(5px)}

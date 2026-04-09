@@ -5439,7 +5439,7 @@ def build_surf_house(lang):
       <h2 class="s-title reveal" style="text-align:center;margin-bottom:32px">{pe(C["gal_h2"])}</h2>
       <div class="gallery-masonry" role="list">{gal_items}</div>
       <div style="text-align:center;margin-top:36px" class="reveal">
-        <button class="btn btn-ocean btn-lg" onclick="sessionStorage.setItem('ngor_gallery_filter','surf_house');window.location='{gal_href}'">{explore_gal_lbl}</button>
+        <button class="btn btn-ocean btn-lg" onclick="sessionStorage.setItem('ngor_gallery_filter','surf_house');window.location='{gal_href}'">{explore_gal_lbl}<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
       </div>
     </div>
     <div id="lb"><button type="button" id="lb-close" aria-label="{lb_aria}">✕</button><img id="lb-img" src="" alt=""></div>
@@ -5761,7 +5761,7 @@ def build_surfing(lang):
       </div>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px" class="reveal">
         <div style="border-radius:18px;overflow:hidden;box-shadow:0 8px 32px rgba(7,25,46,0.12);background:#fff;border-top:4px solid #29b6f6">
-          <img src="{IMGS["surf2"]}" alt="{pe(C["beg_t"])}" style="width:100%;height:220px;object-fit:cover;display:block" loading="lazy" width="460" height="220">
+          <img src="/assets/images/gallery/school_4583f4a6.webp" alt="{pe(C["beg_t"])}" style="width:100%;height:220px;object-fit:cover;display:block" loading="lazy" width="460" height="220">
           <div style="padding:22px 20px">
             <div style="display:inline-flex;align-items:center;gap:6px;background:#29b6f615;color:#0288d1;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px">{pe(C["beg_t"])}</div>
             <p style="font-size:14.5px;color:#374151;margin:0;line-height:1.68">{pe(C["beg_d"])}</p>
@@ -5808,7 +5808,7 @@ def build_surfing(lang):
       <h2 class="s-title reveal" style="text-align:center;margin-bottom:40px">{pe(C["gal_h2"])}</h2>
       <div class="gallery-masonry" role="list">{gal_items}</div>
       <div style="text-align:center;margin-top:36px" class="reveal">
-        <button class="btn btn-ocean btn-lg" onclick="sessionStorage.setItem('ngor_gallery_filter','surf_action');window.location='{gal_href}'">{explore_gal_lbl}</button>
+        <button class="btn btn-ocean btn-lg" onclick="sessionStorage.setItem('ngor_gallery_filter','surf_action');window.location='{gal_href}'">{explore_gal_lbl}<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
       </div>
     </div>
     <div id="lb"><button id="lb-close" aria-label="{pe(C["lb_close"])}">✕</button><img id="lb-img" src="" alt=""></div>
