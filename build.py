@@ -6060,7 +6060,7 @@ def build_surf_conditions_page(lang):
     html += build_nav("surf-conditions", lang)
     html += f"""
 <main>
-  <header class="main-hero" style="background-image:url('{IMGS["surf"]}')" role="banner">
+  <header class="main-hero main-hero--nowave" style="background-image:url('{IMGS["surf"]}')" role="banner">
     <div class="main-hero-inner">
       <div class="main-hero-eyebrow">
         <span class="main-hero-dot"></span>
@@ -6075,7 +6075,6 @@ def build_surf_conditions_page(lang):
     </div>
   </header>
 
-  {wave_top(_BG_LIGHT, _BG_NAVY)}
   <!-- ── Live conditions ── -->
   <section id="live-conditions" class="section sec-light">
     <div class="container">
