@@ -5005,14 +5005,15 @@ _IG_PHOTOS = {
         f"{_IG}/DTV-popgGNG.webp",    # group with surfboards at camp
         f"{_IG}/DS4iP3-jBut.webp",    # smiling surfer on beach
     ],
-    # Surf House — pool, social spaces, food, welcoming atmosphere (6 photos)
+    # Surf House — action, community, people, surf vibes (6 photos)
+    # photo 1 = editorial large featured image; photo 6 = full-width bottom strip
     "surf-house": [
-        f"{_IG}/DOvRcp2DE_g.webp",    # pool with colourful mosaic wall
-        f"{_IG}/DUfqawDgIGJ.webp",    # group of surfers at camp mosaic wall
+        f"{_IG}/DTV-popgGNG.webp",    # group with surfboards at camp (hero — large)
+        f"{_IG}/DUfqawDgIGJ.webp",    # group of surfers together after session
+        f"{_IG}/DS4iP3-jBut.webp",    # smiling surfer on beach (personal)
         f"{_IG}/DTKjjWBAPNl.webp",    # woman smiling at camp entrance
         f"{_IG}/DRRRUDKjFYZ.webp",    # foosball table (social activities)
-        f"{_IG}/DTV-popgGNG.webp",    # group with surfboards at camp
-        f"{_IG}/DS4iP3-jBut.webp",    # smiling surfer on beach
+        f"{_IG}/DSw1akLjLNR.webp",    # evening/ambiance at surf house (wide strip)
     ],
     # Surfing — action, waves, beach life (6 photos)
     "surfing": [
@@ -5055,8 +5056,8 @@ _IG_ALL_POSTS = [
 _IG_POSTS = {
     "home":       ["DMxiqEtI9UF", "DODf6KGjJtg", "DTfGteJjEno",
                    "DVtZNLUDFyE", "DTV-popgGNG",  "DS4iP3-jBut"],
-    "surf-house": ["DOvRcp2DE_g", "DUfqawDgIGJ",  "DTKjjWBAPNl",
-                   "DRRRUDKjFYZ", "DTV-popgGNG",  "DS4iP3-jBut"],
+    "surf-house": ["DTV-popgGNG",  "DUfqawDgIGJ",  "DS4iP3-jBut",
+                   "DTKjjWBAPNl",  "DRRRUDKjFYZ",  "DSw1akLjLNR"],
     "surfing":    ["DODf6KGjJtg", "DU2W_FoDHY_",  "DVtZNLUDFyE",
                    "DTAt7IFDEQj", "DP3plCpCK7L",  "DS4iP3-jBut"],
 }
@@ -5136,18 +5137,18 @@ _IG_COPY = {
                "Surfeur heureux souriant sur la plage de Ngor"],
     },
     "alt_surf_house": {
-        "en": ["Pool with colourful mosaic at Ngor Surfcamp",
-               "Group of surfers at camp mosaic wall",
+        "en": ["Group of surfers with boards at surf camp",
+               "Surfers after a session at Ngor camp",
+               "Happy surfer smiling on Ngor beach",
                "Welcoming smile at Ngor Surfcamp entrance",
                "Foosball table in the surf house",
-               "Group of surfers with boards at surf camp",
-               "Happy surfer smiling on Ngor beach"],
-        "fr": ["Piscine avec mosaïque colorée au Ngor Surfcamp",
-               "Groupe de surfeurs devant le mur en mosaïque",
+               "Evening vibes at Ngor Surf House"],
+        "fr": ["Groupe de surfeurs avec leurs planches au camp",
+               "Surfeurs après une session au camp Ngor",
+               "Surfeur heureux souriant sur la plage de Ngor",
                "Accueil souriant à l'entrée du Ngor Surfcamp",
                "Baby-foot dans le surf house",
-               "Groupe de surfeurs avec leurs planches au camp",
-               "Surfeur heureux souriant sur la plage de Ngor"],
+               "Ambiance soirée à la Ngor Surf House"],
     },
     "alt_surfing": {
         "en": ["Surfer in a perfect barrel at Ngor",
@@ -5213,6 +5214,7 @@ def insta_section(lang: str, context: str = "home") -> str:
             f'</a>'
         )
     grid_html = "".join(cells)
+    _grid_variant = "ig-grid--editorial" if context == "surf-house" else f"ig-grid--{len(photos)}"
 
     is_home = context == "home"
     # Home: ig section uses sec-light (same bg as forecast above → no wave_in needed).
@@ -5258,7 +5260,7 @@ def insta_section(lang: str, context: str = "home") -> str:
         </a>
       </div>
 
-      <div class="ig-grid ig-grid--{len(photos)} reveal">{grid_html}</div>
+      <div class="ig-grid {_grid_variant} reveal">{grid_html}</div>
 
       <div class="ig-cta reveal">
         <p class="ig-cta-text">
@@ -5484,11 +5486,19 @@ def build_surf_house(lang):
   {wave_bottom(_BG_LIGHT, _BG_NAVY)}
   <section class="sh-acc sh-acc--dark">
     <div class="container">
-      <header class="sh-acc-head reveal">
-        <h2 class="sh-acc-title">{pe(C["acc_h2"])}</h2>
-        <p class="sh-acc-sub">{pe(C["acc_sub"])}</p>
-      </header>
-      <div class="sh-feat-grid">{feat_html}</div>
+      <div class="sh-acc-split">
+        <div class="sh-acc-photo-col reveal">
+          <img src="/assets/images/gallery/CAML1150_c1f8abfe.webp" alt="{pe(C["acc_h2"])}" width="600" height="500" loading="lazy" decoding="async">
+          <span class="sh-acc-photo-badge">Ngor Surf House · Île de Ngor</span>
+        </div>
+        <div class="sh-acc-feats-col reveal">
+          <header class="sh-acc-head">
+            <h2 class="sh-acc-title">{pe(C["acc_h2"])}</h2>
+            <p class="sh-acc-sub">{pe(C["acc_sub"])}</p>
+          </header>
+          <div class="sh-feat-grid">{feat_html}</div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -5501,8 +5511,9 @@ def build_surf_house(lang):
           <h2 class="sh-meals-h2">{pe(C["meals_h2"])}</h2>
           <p class="sh-meals-p">{pe(C["meals_p"])}</p>
         </div>
-        <div class="sh-meals-photo">
-          <img src="{meals_thumb}" alt="" width="640" height="480" loading="lazy" decoding="async" referrerpolicy="no-referrer" class="sh-meals-img">
+        <div class="sh-meals-photo sh-meals-photos">
+          <img src="{meals_thumb}" alt="{pe(C["meals_h2"])}" width="640" height="280" loading="lazy" decoding="async" referrerpolicy="no-referrer" class="sh-meals-img sh-meals-img--1">
+          <img src="/assets/images/gallery/CAML1100_3a5f7e17.webp" alt="{pe(C["meals_lbl"])}" width="640" height="170" loading="lazy" decoding="async" class="sh-meals-img sh-meals-img--2">
         </div>
       </div>
     </div>
