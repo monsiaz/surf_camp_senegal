@@ -66,9 +66,13 @@ LEGACY_PUBLIC_HOSTS = (
 # CONSTANTS
 # ════════════════════════════════════════════════════════════════
 LANGS    = ["en","fr","es","it","de","nl","ar"]
-LANG_PFX = {"en":"","fr":"/fr","es":"/es","it":"/it","de":"/de","nl":"/nl","ar":"/ar"}
-LANG_LOCALE = {"en":"en","fr":"fr-FR","es":"es-ES","it":"it-IT","de":"de-DE","nl":"nl-NL","ar":"ar-MA"}
-LANG_NAMES  = {"en":"English","fr":"Français","es":"Español","it":"Italiano","de":"Deutsch","nl":"Nederlands","ar":"العربية"}
+LANG_PFX = {"en":"","fr":"/fr","es":"/es","it":"/it","de":"/de","nl":"/nl","ar":"/ar","pt":"/pt","da":"/da"}
+LANG_LOCALE = {"en":"en","fr":"fr-FR","es":"es-ES","it":"it-IT","de":"de-DE","nl":"nl-NL","ar":"ar-MA","pt":"pt-PT","da":"da-DK"}
+LANG_NAMES  = {"en":"English","fr":"Français","es":"Español","it":"Italiano","de":"Deutsch","nl":"Nederlands","ar":"العربية","pt":"Português","da":"Dansk"}
+
+# PT and DA exist as fully built pages but are outside the main LANGS build loop
+EXTRA_LANGS = ["pt", "da"]
+ALL_LANGS   = LANGS + EXTRA_LANGS
 
 # Shared UI chrome (nav, footer, lightbox, home fixes) — avoid hard-coded English on localized pages
 UI_CHROME = {
@@ -599,17 +603,20 @@ def build_nav(active_key, lang, lang_switcher_hrefs=None):
 
     # Language dropdown — navigates to correct localized URL
     opts = ""
-    for other_lang in LANGS:
+    for other_lang in ALL_LANGS:
         if other_lang == lang:
             continue
         if lang_switcher_hrefs and other_lang in lang_switcher_hrefs:
             href = lang_switcher_hrefs[other_lang]
-        else:
+        elif other_lang in LANGS:
             other_pfx = LANG_PFX[other_lang]
             if active_key and active_key in SLUG[other_lang]:
                 href = f"{other_pfx}/{SLUG[other_lang][active_key]}/"
             else:
                 href = f"{other_pfx}/"
+        else:
+            # EXTRA_LANGS (pt, da) — link to their home page
+            href = LANG_PFX[other_lang] + "/"
         if not href.startswith("/"):
             href = "/" + href.lstrip("/")
         opts += f'<a class="lang-dd-item" href="{href}" hreflang="{LANG_LOCALE[other_lang]}" role="menuitem">{flag(other_lang,18)} {LANG_NAMES[other_lang]}</a>'
@@ -1603,7 +1610,7 @@ def patch_lang_switcher_all():
     # Build the lang-dd-menu HTML for a given mapping {lang → href}
     def _lang_menu(current_lang, href_map):
         opts = []
-        for lg in LANGS:
+        for lg in ALL_LANGS:
             if lg == current_lang:
                 continue
             href = href_map.get(lg, LANG_PFX[lg] + "/")
