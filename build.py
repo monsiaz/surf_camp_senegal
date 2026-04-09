@@ -660,23 +660,25 @@ for _gh_lang in LANGS:
 
 def build_footer(lang, flag_href_override=None):
     pfx = LANG_PFX[lang]
-    PAGE_LINKS = [
-        ("surf-house", {"en":"Surf House","fr":"Surf House","es":"Surf House","it":"Surf House","de":"Surf House","nl":"Surf House","ar":"بيت الأمواج"}),
-        ("island",     {"en":"Island","fr":"Île","es":"Isla","it":"Isola","de":"Insel","nl":"Eiland","ar":"الجزيرة"}),
-        ("surfing",    {"en":"Surfing","fr":"Surf","es":"Surf","it":"Surf","de":"Surfen","nl":"Surfen","ar":"ركوب الأمواج"}),
-        ("blog",       {"en":"Blog","fr":"Blog","es":"Blog","it":"Blog","de":"Blog","nl":"Blog","ar":"المدونة"}),
-        ("gallery",    {"en":"Gallery","fr":"Galerie","es":"Galería","it":"Galleria","de":"Galerie","nl":"Galerij","ar":"معرض الصور"}),
-        ("faq",        {"en":"FAQ","fr":"FAQ","es":"FAQ","it":"FAQ","de":"FAQ","nl":"FAQ","ar":"الأسئلة الشائعة"}),
-        ("booking",    {"en":"Book Now","fr":"Réserver","es":"Reservar","it":"Prenota","de":"Buchen","nl":"Boeken","ar":"احجز الآن"}),
-        ("surf-conditions", {"en":"Surf Forecast","fr":"Prévisions Surf","es":"Previsiones Surf","it":"Previsioni Surf","de":"Surfvorhersage","nl":"Surfvoorspelling","ar":"توقعات السيرف"}),
+    # Only practical utility links not already prominent in the nav
+    PLAN_LINKS = [
+        ("surf-conditions", {
+            "en":"Surf Forecast","fr":"Prévisions Surf","es":"Previsiones Surf",
+            "it":"Previsioni Surf","de":"Surfvorhersage","nl":"Surfvoorspelling",
+            "ar":"توقعات السيرف","pt":"Previsão Surf","da":"Surfudsigt",
+        }),
     ]
     links_html = "\n".join([
         f'<a href="{pfx}/{SLUG[lang][k]}/">{l.get(lang,l["en"])}</a>'
-        for k,l in PAGE_LINKS
+        for k,l in PLAN_LINKS
     ])
-    GH_L = {"en":"Getting here","fr":"Comment venir","es":"Cómo llegar","it":"Come arrivare","de":"Anreise","nl":"Hoe kom je er","ar":"كيف تصل"}
+    GH_L = {
+        "en":"Getting here","fr":"Comment venir","es":"Cómo llegar",
+        "it":"Come arrivare","de":"Anreise","nl":"Hoe kom je er",
+        "ar":"كيف تصل","pt":"Como chegar","da":"Kom hertil",
+    }
     gh_href = (flag_href_override if flag_href_override is not None else GETTING_HERE_FLAG_HREF)[lang]
-    links_html += f'\n<a href="{gh_href}">{GH_L[lang]}</a>'
+    links_html += f'\n<a href="{gh_href}">{GH_L.get(lang, GH_L["en"])}</a>'
     flag_urls = flag_href_override if flag_href_override is not None else None
     flags_html = " ".join([
         f'<a href="{flag_urls[l] if flag_urls else LANG_PFX[l] + "/"}" class="footer-flag-link" '
@@ -692,13 +694,17 @@ def build_footer(lang, flag_href_override=None):
                       f'border-radius:3px;overflow:hidden;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.22)">'
                       f'{FLAG_SVG[_el]}</span>')
             flags_html += f' <a href="{_ehref}" class="footer-flag-link" hreflang="{_elocale}" title="{_ename}">{_eflag}</a>'
-    ABOUT = {"en":"Premium surf camp on Ngor Island, Dakar, Senegal. All levels welcome.",
-             "fr":"Surf camp premium sur l'île de Ngor, Dakar, Sénégal. Tous niveaux bienvenus.",
-             "es":"Surf camp premium en la isla de Ngor, Dakar, Senegal. Todos los niveles bienvenidos.",
-             "it":"Surf camp premium sull'isola di Ngor, Dakar, Senegal. Tutti i livelli benvenuti.",
-             "de":"Premium Surfcamp auf Ngor Island, Dakar, Senegal. Alle Level willkommen.",
-             "nl":"Premium surfkamp op Ngor Island, Dakar, Senegal. Alle niveaus welkom.",
-             "ar":"مخيم ركوب أمواج متميز في جزيرة نغور، داكار، السنغال. جميع المستويات مرحب بها."}
+    ABOUT = {
+        "en":"Premium surf camp on Ngor Island, Dakar, Senegal. All levels welcome.",
+        "fr":"Surf camp premium sur l'île de Ngor, Dakar, Sénégal. Tous niveaux bienvenus.",
+        "es":"Surf camp premium en la isla de Ngor, Dakar, Senegal. Todos los niveles bienvenidos.",
+        "it":"Surf camp premium sull'isola di Ngor, Dakar, Senegal. Tutti i livelli benvenuti.",
+        "de":"Premium Surfcamp auf Ngor Island, Dakar, Senegal. Alle Level willkommen.",
+        "nl":"Premium surfkamp op Ngor Island, Dakar, Senegal. Alle niveaus welkom.",
+        "ar":"مخيم ركوب أمواج متميز في جزيرة نغور، داكار، السنغال. جميع المستويات مرحب بها.",
+        "pt":"Surf camp premium na Ilha de Ngor, Dakar, Senegal. Todos os níveis bem-vindos.",
+        "da":"Premium surfcamp på Ngor Island, Dakar, Senegal. Alle niveauer velkomne.",
+    }
     FSS_CERT_LABEL = {"en":"Licensed &amp; Certified",
                       "fr":"Licencié &amp; Certifié",
                       "es":"Licenciado &amp; Certificado",
@@ -737,9 +743,13 @@ def build_footer(lang, flag_href_override=None):
               "es":"Política de privacidad","it":"Informativa sulla privacy",
               "de":"Datenschutzrichtlinie","nl":"Privacybeleid","ar":"سياسة الخصوصية"}
     pp_href = f"{pfx}/{SLUG[lang]['privacy-policy']}/"
-    EXP = {"en":"Explore","fr":"Explorer","es":"Explorar","it":"Esplora","de":"Erkunden","nl":"Verkennen","ar":"استكشاف"}
-    CON = {"en":"Contact","fr":"Contact","es":"Contacto","it":"Contatti","de":"Kontakt","nl":"Contact","ar":"اتصل بنا"}
-    FOL = {"en":"Follow Us","fr":"Suivez-nous","es":"Síguenos","it":"Seguici","de":"Folgen","nl":"Volgen","ar":"تابعنا"}
+    EXP = {
+        "en":"Plan your trip","fr":"Infos pratiques","es":"Planifica tu viaje",
+        "it":"Pianifica il viaggio","de":"Reise planen","nl":"Plan je reis",
+        "ar":"خطط لرحلتك","pt":"Planeia a tua viagem","da":"Planlæg din rejse",
+    }
+    CON = {"en":"Contact","fr":"Contact","es":"Contacto","it":"Contatti","de":"Kontakt","nl":"Contact","ar":"اتصل بنا","pt":"Contacto","da":"Kontakt"}
+    FOL = {"en":"Follow Us","fr":"Suivez-nous","es":"Síguenos","it":"Seguici","de":"Folgen","nl":"Volgen","ar":"تابعنا","pt":"Siga-nos","da":"Følg os"}
 
     return f"""<footer>
   <div class="container">
