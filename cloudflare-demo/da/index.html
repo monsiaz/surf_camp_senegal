@@ -24,6 +24,7 @@
 <link rel="alternate" hreflang="da-DK" href="https://surf-camp-senegal.vercel.app/da/">
 
 <link rel="stylesheet" href="/assets/fonts/fonts.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" crossorigin="">
 <link rel="stylesheet" href="/assets/css/ngor-surfcamp.css?v=20260401c">
 <script src="/assets/js/ngor-surfcamp.js?v=20260401c" defer></script>
 
@@ -563,6 +564,43 @@
     </div>
   </div>
 </footer>
+<!-- Leaflet JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js" crossorigin=""></script>
+
+<script>
+/* ── Leaflet Map (Teaser) ─────────────────────────────────────── */
+(function() {
+  var mapEl = document.getElementById('gh-teaser-map');
+  if (!mapEl) return;
+  
+  var NGOR_ISLAND  = [14.7497, -17.5218];
+  var map = L.map('gh-teaser-map', {
+    center: [14.7497, -17.5218],
+    zoom: 13,
+    zoomControl: false,
+    attributionControl: false,
+    scrollWheelZoom: false,
+    dragging: false
+  });
+
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    subdomains: 'abcd',
+    maxZoom: 20,
+  }).addTo(map);
+
+  function makeIcon(color, emoji, size) {
+    return L.divIcon({
+      html: '<div style="width:' + size + 'px;height:' + size + 'px;border-radius:50%;background:' + color + ';border:3px solid #fff;display:flex;align-items:center;justify-content:center;font-size:' + Math.round(size*0.45) + 'px;box-shadow:0 2px 12px rgba(10,37,64,0.2)">' + emoji + '</div>',
+      className: '',
+      iconSize: [size, size],
+      iconAnchor: [size/2, size/2],
+      popupAnchor: [0, -(size/2+4)],
+    });
+  }
+
+  L.marker(NGOR_ISLAND, { icon: makeIcon('#ff5a1f','🏄',40) }).addTo(map);
+})();
+</script>
 <!-- Floating WhatsApp -->
 
 <script>

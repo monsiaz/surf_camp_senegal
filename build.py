@@ -2656,13 +2656,11 @@ patch_home_getting_here_teaser()
 
 
 def patch_home_gh_slider():
-    """Replace the gh-teaser photo slider with an OpenStreetMap iframe on all home pages."""
+    """Replace the gh-teaser photo slider with a Leaflet map preview on all home pages."""
     import re as _re
-    iframe_html = '<iframe class="gh-teaser-map-iframe" src="https://www.openstreetmap.org/export/embed.html?bbox=-17.545%2C14.740%2C-17.505%2C14.762&amp;layer=mapnik&amp;marker=14.7497%2C-17.5218" title="Île de Ngor — OpenStreetMap" loading="lazy" referrerpolicy="no-referrer" style="border:none;width:100%;height:100%;min-height:300px;filter:saturate(0.85) contrast(1.05);"></iframe>'
     
     new_ending = (
-        '<div class="gh-teaser-map-preview">\n          ' + iframe_html
-        + '\n        </div>\n      </div>\n    </div>\n  </section>'
+        '<div class="gh-teaser-map-preview">\n          <div id="gh-teaser-map" style="width:100%;height:100%;min-height:300px;border-radius:16px;z-index:1;"></div>\n        </div>\n      </div>\n    </div>\n  </section>'
     )
     old_pat = _re.compile(
         r'<div class="gh-teaser-map-preview">.*?</div>\s*</div>\s*</div>\s*</section>',
