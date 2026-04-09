@@ -587,7 +587,6 @@ def build_nav(active_key, lang, lang_switcher_hrefs=None):
         ("surf-house",{"en":"Surf House","fr":"Surf House","es":"Surf House","it":"Surf House","de":"Surf House","nl":"Surf House","ar":"بيت الأمواج"}),
         ("island",    {"en":"Island","fr":"Île","es":"Isla","it":"Isola","de":"Insel","nl":"Eiland","ar":"الجزيرة"}),
         ("surfing",   {"en":"Surfing","fr":"Surf","es":"Surf","it":"Surf","de":"Surfen","nl":"Surfen","ar":"ركوب الأمواج"}),
-        ("blog",      {"en":"Blog","fr":"Blog","es":"Blog","it":"Blog","de":"Blog","nl":"Blog","ar":"المدونة"}),
         ("gallery",   {"en":"Gallery","fr":"Galerie","es":"Galería","it":"Galleria","de":"Galerie","nl":"Galerij","ar":"معرض الصور"}),
         ("faq",       {"en":"FAQ","fr":"FAQ","es":"FAQ","it":"FAQ","de":"FAQ","nl":"FAQ","ar":"الأسئلة الشائعة"}),
         ("booking",   {"en":"Book Now","fr":"Réserver","es":"Reservar","it":"Prenota","de":"Buchen","nl":"Boeken","ar":"احجز الآن"}),
@@ -662,6 +661,7 @@ def build_footer(lang, flag_href_override=None):
     pfx = LANG_PFX[lang]
     # Only practical utility links not already prominent in the nav
     PLAN_LINKS = [
+        ("blog", {"en":"Blog","fr":"Blog","es":"Blog","it":"Blog","de":"Blog","nl":"Blog","ar":"المدونة","pt":"Blog","da":"Blog"}),
         ("surf-conditions", {
             "en":"Surf Forecast","fr":"Prévisions Surf","es":"Previsiones Surf",
             "it":"Previsioni Surf","de":"Surfvorhersage","nl":"Surfvoorspelling",
