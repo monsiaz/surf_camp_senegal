@@ -38542,3 +38542,81 @@ body{max-width:100vw;overflow-x:hidden}
 }
 .vb-tip ul.block-list li::before { content: '•'; position: absolute; left: 0; color: var(--fire); font-size: 16px; line-height: 1.5; }
 .vb-fact ul.block-list li::before { content: '•'; position: absolute; left: 0; color: #0ea5e9; font-size: 16px; line-height: 1.5; }
+
+/* ═══════════════════════════════════════════════════════════════
+   MOBILE OPTIMISATION PATCH — appended
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── 1. home-proof-grid: collapse to single column on small phones ── */
+@media(max-width:540px){
+  .home-proof-grid{
+    grid-template-columns:1fr!important;
+    gap:16px!important;
+  }
+}
+
+/* ── 2. Surf forecast: horizontal scroll container on mobile ──────── */
+.sc-fc-scroll-wrap{
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:thin;
+  padding-bottom:4px;
+}
+/* Make sure the row itself doesn't force body overflow */
+@media(max-width:900px){
+  .sc-fc-scroll-wrap{
+    margin:0 -4px;
+    padding:0 4px 8px;
+  }
+}
+
+/* ── 3. Raise very small UI labels to 11px minimum ───────────────── */
+@media(max-width:480px){
+  .ig-cell-overlay-lbl{font-size:11px!important}
+}
+.gallery-filter-label,.gal-tag-count{font-size:11px!important}
+
+/* ── 4. Dead .nav-mobile-open rules override (use #nav-links.open) ── */
+/* These selectors are unused — ensure they don't conflict with
+   the working #nav-links.open overlay */
+.nav-mobile-open .nav-links,
+.nav-mobile-open .nav-link,
+.nav-mobile-open .nav-cta{
+  /* intentionally empty — overridden by #nav-links.open rules */
+  all:revert;
+}
+
+/* ── 5. Ensure all images are responsive (belt & braces) ─────────── */
+img{max-width:100%;height:auto}
+
+/* ── 6. Card images without explicit dimensions: aspect-ratio CLS fix */
+.card-img{
+  aspect-ratio:16/10;
+  width:100%;
+  object-fit:cover;
+  display:block;
+}
+
+/* ── 7. Blog article: comfortable reading measure on all screens ──── */
+@media(max-width:480px){
+  .article-body{
+    font-size:16px;
+    line-height:1.75;
+  }
+  .article-body h2{font-size:clamp(20px,6vw,26px)}
+  .article-body h3{font-size:clamp(17px,5vw,21px)}
+}
+
+/* ── 8. Footer: stack single column sooner (≤420px) ─────────────── */
+@media(max-width:420px){
+  .footer-cols{grid-template-columns:1fr!important}
+}
+
+/* ── 9. Gallery tags: wrap nicely + touch-friendly on mobile ──────── */
+@media(max-width:480px){
+  .gal-tag{
+    min-height:36px;
+    padding:6px 12px;
+    font-size:12px;
+  }
+}

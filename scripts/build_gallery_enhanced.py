@@ -145,13 +145,13 @@ def build_image_grid(images: list) -> str:
 FILTER_CSS = """
 /* ── Gallery Filter Bar v2 ── */
 .gallery-filter-bar{position:sticky;top:68px;z-index:30;display:flex;align-items:center;gap:12px;padding:13px 0;margin:0 -24px 28px;padding-left:24px;padding-right:24px;background:rgba(250,249,247,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(7,25,46,.07);box-shadow:0 2px 18px rgba(7,25,46,.05)}
-.gallery-filter-label{font-size:10px;font-weight:800;color:var(--clr-navy,#07192e);opacity:.4;white-space:nowrap;text-transform:uppercase;letter-spacing:.14em;flex-shrink:0;display:none}
+.gallery-filter-label{font-size:12px;font-weight:800;color:var(--clr-navy,#07192e);opacity:.4;white-space:nowrap;text-transform:uppercase;letter-spacing:.14em;flex-shrink:0;display:none}
 .gallery-tag-btns{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;flex:1;padding-bottom:1px}
 .gallery-tag-btns::-webkit-scrollbar{display:none}
 .gal-tag{display:inline-flex;align-items:center;gap:5px;padding:7px 15px;border-radius:100px;border:1.5px solid rgba(7,25,46,.10);background:transparent;color:rgba(7,25,46,.58);font-size:13px;font-weight:500;cursor:pointer;transition:all .2s ease;white-space:nowrap;flex-shrink:0;line-height:1}
 .gal-tag:hover{border-color:rgba(7,25,46,.32);color:var(--clr-navy,#07192e);background:rgba(7,25,46,.04);transform:translateY(-1px)}
 .gal-tag.active{background:var(--clr-navy,#07192e);border-color:var(--clr-navy,#07192e);color:#fff;box-shadow:0 4px 14px rgba(7,25,46,.22)}
-.gal-tag-count{font-size:10px;font-weight:700;padding:1px 6px;border-radius:8px;background:rgba(7,25,46,.07);color:rgba(7,25,46,.45);line-height:1.5;transition:all .2s ease}
+.gal-tag-count{font-size:12px;font-weight:700;padding:1px 6px;border-radius:8px;background:rgba(7,25,46,.07);color:rgba(7,25,46,.45);line-height:1.5;transition:all .2s ease}
 .gal-tag.active .gal-tag-count{background:rgba(255,255,255,.18);color:rgba(255,255,255,.80)}
 .gallery-count-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}
 .gallery-count{font-size:13px;font-weight:500;color:rgba(7,25,46,.40);transition:opacity .15s}

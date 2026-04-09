@@ -6190,7 +6190,7 @@ def build_surf_conditions_page(lang):
     if(strip&&m.daily&&m.daily.time){{
       var days=m.daily.time,wh2=m.daily.wave_height_max,wp2=m.daily.wave_period_max;
       var ws2=w.daily&&w.daily.wind_speed_10m_max,wd2=w.daily&&w.daily.wind_direction_10m_dominant;
-      var out='<div class="sc-fc-row">';
+      var out='<div class="sc-fc-scroll-wrap"><div class="sc-fc-row">';
       for(var i=0;i<Math.min(16,days.length);i++){{
         var d=new Date(days[i]+'T12:00:00');
         var dn=d.toLocaleDateString(undefined,{{weekday:'short'}}).toUpperCase();
@@ -6208,7 +6208,7 @@ def build_surf_conditions_page(lang):
         out+=(i<5?'<div class="sc-fc-acc-badge">'+(i===0?tl(['today','auj.','hoy','oggi','heute','vandaag','اليوم']):'')+'</div>':'');
         out+='</div>';
       }}
-      strip.innerHTML=out+'</div>';
+      strip.innerHTML=out+'</div></div>';
     }}
   }}).catch(function(){{
     var e=document.getElementById('sc-strip');
@@ -7746,12 +7746,36 @@ body{max-width:100vw;overflow-x:hidden}
             _p = os.path.join(_root, _fname)
             _html = open(_p, encoding="utf-8", errors="replace").read()
             _mod = False
-            # Hero LCP preload
+
+            # Fix duplicate fetchpriority="high" attrs on img tags (defensive cleanup)
+            if _html.count('fetchpriority="high"') > 1:
+                def _dedup_fp(m):
+                    t = m.group(0)
+                    fi = t.find('fetchpriority="high"')
+                    if fi < 0 or t.count('fetchpriority') <= 1:
+                        return t
+                    after = t[fi + len('fetchpriority="high"'):]
+                    cleaned = t[:fi + len('fetchpriority="high"')] + \
+                              after.replace(' fetchpriority="high"', '').replace('fetchpriority="high" ', '')
+                    return cleaned
+                new_html = _re.sub(r'<img[^>]+>', _dedup_fp, _html)
+                if new_html != _html:
+                    _html = new_html
+                    _mod = True
+
+            # Hero LCP preload — main-hero / blog-hub-header background images
             _m = _re.search(r'class="(?:main-hero|blog-hub-header)[^"]*"\s+style="background-image:url\([\'"]?([^\'")\s]+)[\'"]?\)"', _html)
             if not _m:
                 _m = _re.search(r'style="background-image:url\([\'"]?([^\'")\s]+)[\'"]?\)"\s[^>]*class="(?:main-hero|blog-hub-header)', _html)
             if _m and 'rel="preload"' not in _html:
                 _tag = f'<link rel="preload" as="image" href="{_m.group(1)}" fetchpriority="high">\n'
+                _html = _html.replace("</head>", _tag + "</head>", 1)
+                _mod = True
+
+            # Home page LCP: preload first hg-img (gallery strip)
+            _hg = _re.search(r'<img class="hg-img hg-active"\s+src="([^"]+)"', _html)
+            if _hg and 'rel="preload"' not in _html:
+                _tag = f'<link rel="preload" as="image" href="{_hg.group(1)}" fetchpriority="high">\n'
                 _html = _html.replace("</head>", _tag + "</head>", 1)
                 _mod = True
             # Font preloads
