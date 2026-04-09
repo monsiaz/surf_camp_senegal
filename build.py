@@ -3661,6 +3661,156 @@ def patch_home_forecast_all():
         n += 1
     print(f"  home forecast section: injected into {n} home pages")
 
+def patch_home_tribe_section_all():
+    """Inject 'The Tribe' polaroid section into every home page, before the Instagram section."""
+    import re as _re
+    TRIBE_COPY = {
+        "en": {"lbl":"Community", "h2":"The Tribe", "sub":"Good vibes, endless smiles, and memories made in the lineup and around the dinner table."},
+        "fr": {"lbl":"Communauté", "h2":"La Tribu", "sub":"Bonnes ondes, sourires sans fin et souvenirs créés au line-up et autour de la table."},
+        "es": {"lbl":"Comunidad", "h2":"La Tribu", "sub":"Buenas vibras, sonrisas infinitas y recuerdos creados en el agua y alrededor de la mesa."},
+        "it": {"lbl":"Comunità", "h2":"La Tribù", "sub":"Buone vibrazioni, sorrisi infiniti e ricordi creati in acqua e attorno al tavolo."},
+        "de": {"lbl":"Gemeinschaft", "h2":"Der Tribe", "sub":"Gute Vibes, endloses Lächeln und Erinnerungen, die im Lineup und am Esstisch entstehen."},
+        "nl": {"lbl":"Gemeenschap", "h2":"De Tribe", "sub":"Goede vibes, eindeloze glimlachen en herinneringen gemaakt in de line-up en rond de eettafel."},
+        "ar": {"lbl":"المجتمع", "h2":"القبيلة", "sub":"طاقة إيجابية، ابتسامات لا تنتهي، وذكريات تُصنع في الأمواج وحول مائدة العشاء."},
+        "pt": {"lbl":"Comunidade", "h2":"A Tribo", "sub":"Boas energias, sorrisos infinitos e memórias criadas no line-up e à volta da mesa."},
+        "da": {"lbl":"Fællesskab", "h2":"Stammen", "sub":"Gode vibes, endeløse smil og minder skabt i lineuppen og omkring middagsbordet."},
+    }
+    
+    n = 0
+    for lang in ALL_LANGS:
+        rel = "index.html" if lang == "en" else f"{lang}/index.html"
+        path_f = os.path.join(DEMO_DIR, rel)
+        if not os.path.isfile(path_f):
+            continue
+            
+        with open(path_f, encoding="utf-8") as f:
+            h = f.read()
+            
+        # Remove existing if any
+        h = _re.sub(r'\s*<!-- tribe-section-start -->.*?<!-- tribe-section-end -->', '', h, flags=_re.DOTALL)
+        
+        marker = "\n  <!-- ig-feed-start -->"
+        if marker not in h:
+            print(f"  home tribe: ig-feed marker not found in {rel}, skipping")
+            continue
+            
+        c = TRIBE_COPY.get(lang, TRIBE_COPY["en"])
+        
+        tribe_html = f"""
+  <!-- tribe-section-start -->
+  <section class="section sec-light" id="home-tribe" style="position:relative; overflow:hidden; padding: 100px 0; background: #f8fafd;">
+    <!-- Background logo pattern -->
+    <div style="position:absolute; inset:0; opacity:0.03; background-image: url('/assets/images/wix/c2467f_a31779010ce34c4c8c61cc5868d81f31.webp'); background-size: 150px; background-repeat: repeat; mix-blend-mode: multiply; pointer-events:none;"></div>
+    
+    <div class="container" style="position:relative; z-index:2;">
+      <div style="text-align:center; margin-bottom:60px" class="reveal">
+        <span class="s-label" style="color:var(--fire);">{c["lbl"]}</span>
+        <h2 class="s-title" style="font-family:var(--fh); font-weight:900; font-size:clamp(32px, 6vw, 54px); color:var(--navy); margin-bottom:16px;">{c["h2"]}</h2>
+        <p class="s-sub" style="max-width:600px; margin:0 auto;">{c["sub"]}</p>
+      </div>
+
+      <style>
+        .polaroid {{
+          background: #fff;
+          padding: 12px 12px 40px 12px;
+          box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+          position: relative;
+          cursor: pointer;
+          transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s;
+          border-radius: 2px;
+        }}
+        .polaroid img {{
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          filter: contrast(1.05) saturate(1.05);
+          border-radius: 2px;
+        }}
+        .polaroid:hover {{
+          transform: scale(1.08) rotate(0deg) !important;
+          box-shadow: 0 20px 40px rgba(0,0,0,0.2) !important;
+          z-index: 10 !important;
+        }}
+        .pin {{
+          position: absolute;
+          top: -10px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 24px;
+          height: 24px;
+          background: radial-gradient(circle at 30% 30%, #ff7b47, #d94000);
+          border-radius: 50%;
+          box-shadow: inset -2px -2px 4px rgba(0,0,0,0.3), 0 4px 6px rgba(0,0,0,0.4);
+          z-index: 3;
+        }}
+        .pin::after {{
+          content: '';
+          position: absolute;
+          top: 4px;
+          left: 4px;
+          width: 6px;
+          height: 6px;
+          background: rgba(255,255,255,0.6);
+          border-radius: 50%;
+        }}
+        .tape {{
+          position: absolute;
+          top: -12px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 80px;
+          height: 28px;
+          background: rgba(255, 255, 255, 0.5);
+          border: 1px solid rgba(0,0,0,0.05);
+          box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+          z-index: 3;
+          backdrop-filter: blur(2px);
+        }}
+      </style>
+
+      <div class="tribe-board reveal" style="display:flex; flex-wrap:wrap; justify-content:center; gap:20px; max-width:1100px; margin:0 auto; padding: 20px;">
+        
+        <div class="polaroid" style="transform:rotate(-4deg); width:280px; height:320px; z-index:1;">
+          <div class="pin"></div>
+          <img src="/assets/images/gallery/IMG_1664_f3d4f115.webp" alt="Community" loading="lazy">
+        </div>
+
+        <div class="polaroid" style="transform:rotate(3deg); width:260px; height:300px; margin-top:20px; z-index:2;">
+          <div class="tape" style="transform: translateX(-50%) rotate(-5deg);"></div>
+          <img src="/assets/images/gallery/IMG_1670_426b7213.webp" alt="Community" loading="lazy">
+        </div>
+
+        <div class="polaroid" style="transform:rotate(-2deg); width:300px; height:340px; margin-top:-10px; z-index:3;">
+          <div class="pin" style="background: radial-gradient(circle at 30% 30%, #4facfe, #00f2fe);"></div>
+          <img src="/assets/images/gallery/8ae8418d-ae1e-4a83-b2f0-af1ae4d2f5d5_1__6dc87679.webp" alt="Community" loading="lazy">
+        </div>
+
+        <div class="polaroid" style="transform:rotate(5deg); width:270px; height:310px; margin-top:30px; z-index:2;">
+          <div class="tape" style="transform: translateX(-50%) rotate(8deg);"></div>
+          <img src="/assets/images/gallery/IMG_2914_b7d4f11b.webp" alt="Community" loading="lazy">
+        </div>
+
+        <div class="polaroid" style="transform:rotate(-6deg); width:290px; height:330px; margin-top:-20px; z-index:1;">
+          <div class="pin" style="background: radial-gradient(circle at 30% 30%, #f6d365, #fda085);"></div>
+          <img src="/assets/images/gallery/8a1d9617-b508-4dd0-aff1-1b99e86ef123_c7c1b40f.webp" alt="Community" loading="lazy">
+        </div>
+
+        <div class="polaroid" style="transform:rotate(2deg); width:280px; height:320px; margin-top:10px; z-index:2;">
+          <div class="tape" style="transform: translateX(-50%) rotate(-3deg);"></div>
+          <img src="/assets/images/gallery/IMG_1687_3b4e20fd.webp" alt="Community" loading="lazy">
+        </div>
+
+      </div>
+    </div>
+  </section>
+  <!-- tribe-section-end -->"""
+        
+        h = h.replace(marker, tribe_html + marker, 1)
+        with open(path_f, "w", encoding="utf-8") as f:
+            f.write(h)
+        n += 1
+    print(f"  home tribe section: injected into {n} home pages")
+
 def patch_home_insta_section_all():
     """Inject the Instagram feed section into every home page, just before the blog-preview section.
     Strips any previous ig-feed-start/end block first to avoid duplication."""
@@ -7300,6 +7450,7 @@ patch_home_insta_section_all()
 
 print("Injecting surf forecast widget into home pages…")
 patch_home_forecast_all()
+patch_home_tribe_section_all()
 
 print("Patching home localized UI leftovers (AR)…")
 patch_home_lang_ui_cleanup_all()
