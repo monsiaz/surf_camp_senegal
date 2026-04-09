@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.0 build 6] — 2026-04-09 17:46 UTC
+Status: ✅ PASSED  |  Errors: 0  |  Warnings: 3
+Hash: `33c9f9da`
+### Warnings
+- Known redirect-only page (needs full content): nl/island
+- Known redirect-only page (needs full content): ar/island
+- surf-house old template on known gap pages: ['pt:main-hero', 'da:main-hero']
+
 ## [1.0.0 build 5] — 2026-04-09 15:39 UTC
 Status: ✅ PASSED  |  Errors: 0  |  Warnings: 4
 Hash: `e2304a2c`
