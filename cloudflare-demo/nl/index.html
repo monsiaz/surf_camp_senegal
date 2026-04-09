@@ -530,7 +530,28 @@
           </div>
         </div>
         <div class="gh-teaser-map-preview">
-          <div class="gh-preview-map-el" id="gh-preview-map" role="img" aria-label="Ngor Island — map"></div>
+          <div class="gh-slider" aria-label="Photo slideshow"><div class="gh-slider-track"><div class="gh-slide active" data-idx="0"><img src="/assets/images/gallery/4Y4A1355_1ceb02e3.webp" alt="Surf session" loading="eager" width="600" height="380" decoding="async"><div class="gh-slide-overlay"></div></div><div class="gh-slide" data-idx="1"><img src="/assets/images/gallery/CAML1086_397acad4.webp" alt="Ngor Surf Camp" loading="lazy" width="600" height="380" decoding="async"><div class="gh-slide-overlay"></div></div><div class="gh-slide" data-idx="2"><img src="/assets/images/gallery/4Y4A1360_8f3b1641.webp" alt="Wave riding" loading="lazy" width="600" height="380" decoding="async"><div class="gh-slide-overlay"></div></div><div class="gh-slide" data-idx="3"><img src="/assets/images/gallery/CAML1109_303626ae.webp" alt="Camp life" loading="lazy" width="600" height="380" decoding="async"><div class="gh-slide-overlay"></div></div><div class="gh-slide" data-idx="4"><img src="/assets/images/gallery/38b93458-6718-461d-9e88-49510cb86f92_cef22f41.webp" alt="Ngor Island" loading="lazy" width="600" height="380" decoding="async"><div class="gh-slide-overlay"></div></div><div class="gh-slide" data-idx="5"><img src="/assets/images/gallery/DSC01421_a10e8955.webp" alt="Pirogue crossing" loading="lazy" width="600" height="380" decoding="async"><div class="gh-slide-overlay"></div></div></div><button class="gh-slider-arrow prev" aria-label="Previous photo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button><button class="gh-slider-arrow next" aria-label="Next photo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button><div class="gh-slider-dots"><button class="gh-dot active" data-idx="0" aria-label="Photo 1"></button><button class="gh-dot" data-idx="1" aria-label="Photo 2"></button><button class="gh-dot" data-idx="2" aria-label="Photo 3"></button><button class="gh-dot" data-idx="3" aria-label="Photo 4"></button><button class="gh-dot" data-idx="4" aria-label="Photo 5"></button><button class="gh-dot" data-idx="5" aria-label="Photo 6"></button></div></div>
+        <script>
+(function(){
+  var slides=document.querySelectorAll('.gh-slide'),
+      dots=document.querySelectorAll('.gh-dot'),
+      cur=0,timer;
+  function go(n){
+    slides[cur].classList.remove('active');
+    dots[cur].classList.remove('active');
+    cur=(n+slides.length)%slides.length;
+    slides[cur].classList.add('active');
+    dots[cur].classList.add('active');
+  }
+  function next(){go(cur+1);}
+  timer=setInterval(next,4000);
+  dots.forEach(function(d){d.addEventListener('click',function(){clearInterval(timer);go(+this.dataset.idx);timer=setInterval(next,4000);});});
+  var prev=document.querySelector('.gh-slider-arrow.prev'),nxt=document.querySelector('.gh-slider-arrow.next');
+  if(prev)prev.addEventListener('click',function(){clearInterval(timer);go(cur-1);timer=setInterval(next,4000);});
+  if(nxt)nxt.addEventListener('click',function(){clearInterval(timer);go(cur+1);timer=setInterval(next,4000);});
+})();
+</script>
+        
         </div>
       </div>
     </div>

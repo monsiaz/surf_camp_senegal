@@ -2655,6 +2655,78 @@ def patch_home_getting_here_teaser():
 patch_home_getting_here_teaser()
 
 
+def patch_home_gh_slider():
+    """Replace the Leaflet map in the gh-teaser section with a photo slider on all home pages."""
+    import re as _re
+    SLIDES = [
+        ("/assets/images/gallery/4Y4A1355_1ceb02e3.webp",   "Surf session"),
+        ("/assets/images/gallery/CAML1086_397acad4.webp",   "Ngor Surf Camp"),
+        ("/assets/images/gallery/4Y4A1360_8f3b1641.webp",   "Wave riding"),
+        ("/assets/images/gallery/CAML1109_303626ae.webp",   "Camp life"),
+        ("/assets/images/gallery/38b93458-6718-461d-9e88-49510cb86f92_cef22f41.webp", "Ngor Island"),
+        ("/assets/images/gallery/DSC01421_a10e8955.webp",   "Pirogue crossing"),
+    ]
+    dots = ''.join(
+        f'<button class="gh-dot{" active" if i==0 else ""}" data-idx="{i}" aria-label="Photo {i+1}"></button>'
+        for i in range(len(SLIDES))
+    )
+    slides_html = ''.join(
+        f'<div class="gh-slide{" active" if i==0 else ""}" data-idx="{i}">'
+        f'<img src="{src}" alt="{cap}" loading="{("eager" if i==0 else "lazy")}" width="600" height="380" decoding="async">'
+        f'<div class="gh-slide-overlay"></div></div>'
+        for i, (src, cap) in enumerate(SLIDES)
+    )
+    js = ('<script>(function(){'
+          'var slides=document.querySelectorAll(".gh-slide"),'
+          'dots=document.querySelectorAll(".gh-dot"),cur=0,timer;'
+          'function go(n){slides[cur].classList.remove("active");dots[cur].classList.remove("active");'
+          'cur=(n+slides.length)%slides.length;slides[cur].classList.add("active");dots[cur].classList.add("active");}'
+          'function next(){go(cur+1);}timer=setInterval(next,4000);'
+          'dots.forEach(function(d){d.addEventListener("click",function(){clearInterval(timer);go(+this.dataset.idx);timer=setInterval(next,4000);});});'
+          'var prev=document.querySelector(".gh-slider-arrow.prev"),nxt=document.querySelector(".gh-slider-arrow.next");'
+          'if(prev)prev.addEventListener("click",function(){clearInterval(timer);go(cur-1);timer=setInterval(next,4000);});'
+          'if(nxt)nxt.addEventListener("click",function(){clearInterval(timer);go(cur+1);timer=setInterval(next,4000);});'
+          '})();</script>')
+    slider_html = (
+        '<div class="gh-slider" aria-label="Photo slideshow">'
+        '<div class="gh-slider-track">' + slides_html + '</div>'
+        '<button class="gh-slider-arrow prev" aria-label="Previous photo">'
+        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>'
+        '</button>'
+        '<button class="gh-slider-arrow next" aria-label="Next photo">'
+        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>'
+        '</button>'
+        '<div class="gh-slider-dots">' + dots + '</div>'
+        '</div>' + js
+    )
+    new_ending = (
+        '<div class="gh-teaser-map-preview">\n          ' + slider_html
+        + '\n        </div>\n      </div>\n    </div>\n  </section>'
+    )
+    old_pat = _re.compile(
+        r'<div class="gh-teaser-map-preview">.*?</div>\s*</div>\s*</div>\s*</div>\s*</section>',
+        _re.DOTALL
+    )
+    n = 0
+    for lang in LANGS:
+        path = os.path.join(DEMO_DIR, lang, "index.html") if lang else os.path.join(DEMO_DIR, "index.html")
+        if not os.path.isfile(path):
+            continue
+        h = open(path, encoding="utf-8").read()
+        if "gh-teaser-map-preview" not in h:
+            continue
+        new_h = old_pat.sub(new_ending, h)
+        if new_h == h:
+            continue
+        with open(path, "w", encoding="utf-8") as f:
+            f.write(new_h)
+        n += 1
+    print(f"  gh-slider: patched {n} home pages")
+
+
+patch_home_gh_slider()
+
+
 def patch_getting_here_footers():
     """Replace stripped footers on Getting Here pages with full site footer + localized language flags."""
     gh = [
