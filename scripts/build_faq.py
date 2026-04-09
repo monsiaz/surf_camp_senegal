@@ -32,7 +32,7 @@ LANG_PREFIX = {"en":"","fr":"/fr","es":"/es","it":"/it","de":"/de","nl":"/nl","a
 
 IMGS = {
     "surf":   f"{_WIX}/11062b_89a070321f814742a620b190592d51ad.webp",
-    "surf2":  f"{_WIX}/df99f9_dd89cc4d86d4402189d7e9516ce672a3.webp",
+    "surf2":  "/assets/images/gallery/79fd3518-a569-479b-9980-5af713fda22c_1c4694d0.webp",
     "surf3":  f"{_WIX}/df99f9_961b0768e713457f93025f4ce6fb1419.webp",
     "surf4":  f"{_WIX}/df99f9_0d4a03baee4f46b68bc1aa085ed28e35.webp",
     "surf5":  f"{_WIX}/df99f9_796b6115065145eabddfe3ae32b8f4d5.webp",

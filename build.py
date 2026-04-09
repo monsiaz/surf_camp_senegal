@@ -292,9 +292,9 @@ IMGS = {
     "house2":  f"{_WIX}/df99f9_eba4c24ec6a746b58d60a975b8d20946.webp",
     "house3":  f"{_WIX}/df99f9_d8e77cf4807249f6953119f18be64166.webp",
     "island":  f"{_WIX}/df99f9_56b9af6efe2841eea44109b3b08b7da1.webp",
-    "island2": f"{_WIX}/b28af82dbec544138f16e2bc5a85f2cb.webp",
+    "island2": "/assets/images/gallery/Surfing_1_39b1d748.webp",
     "surf":    f"{_WIX}/11062b_89a070321f814742a620b190592d51ad.webp",
-    "surf2":   f"{_WIX}/df99f9_dd89cc4d86d4402189d7e9516ce672a3.webp",
+    "surf2":   "/assets/images/gallery/79fd3518-a569-479b-9980-5af713fda22c_1c4694d0.webp",
     "surf3":   f"{_WIX}/df99f9_961b0768e713457f93025f4ce6fb1419.webp",
     "ngor_r":  f"{_WIX}/11062b_7f89d2db0ace4027ac4a00928a6aca08.webp",
     "sunset":  f"{_WIX}/df99f9_d6e404dd3cf74396b6ea874cb7021a27.webp",
@@ -2445,7 +2445,7 @@ def patch_home_discover_section_all():
             f'          </div>\n'
             f'        </a>\n'
             f'        <a href="{isl_href}" class="card">\n'
-            f'          <img src="/assets/images/wix/b28af82dbec544138f16e2bc5a85f2cb.webp" alt="{L["c2_t"]}" class="card-img" loading="lazy">\n'
+            f'          <img src="/assets/images/gallery/Surfing_1_39b1d748.webp" alt="{L["c2_t"]}" class="card-img" loading="lazy">\n'
             f'          <div class="card-body">\n'
             f'            <h3 class="card-h3">{L["c2_t"]}</h3>\n'
             f'            <p class="card-text">{L["c2_d"]}</p>\n'
@@ -3161,7 +3161,7 @@ HOME_PROOF_L10N = {
 
 # ── Home Gallery: curated images ──────────────────────────────────────
 HOME_GALLERY_IMGS = [
-    f"{_WIX}/df99f9_dd89cc4d86d4402189d7e9516ce672a3.webp",   # surf coaching
+    "/assets/images/gallery/79fd3518-a569-479b-9980-5af713fda22c_1c4694d0.webp",   # surf coaching
     f"{_WIX}/df99f9_2ec6248367cd4e21a5e6c26c2b0a1c35.webp",   # surf house terrace
     f"{_WIX}/df99f9_eba4c24ec6a746b58d60a975b8d20946.webp",   # house & ocean
     f"{_WIX}/11062b_89a070321f814742a620b190592d51ad.webp",   # surf action
@@ -3172,7 +3172,7 @@ HOME_GALLERY_IMGS = [
     f"{_WIX}/df99f9_961b0768e713457f93025f4ce6fb1419.webp",   # surf camp
     f"{_WIX}/df99f9_d8e77cf4807249f6953119f18be64166.webp",   # house interior
     f"{_WIX}/df99f9_d81668a18a9d49d1b5ebb0ea3a0abbc7.webp",   # island art
-    f"{_WIX}/b28af82dbec544138f16e2bc5a85f2cb.webp",          # island aerial
+    "/assets/images/gallery/Surfing_1_39b1d748.webp",          # island aerial
 ]
 
 HOME_GALLERY_L10N = {
