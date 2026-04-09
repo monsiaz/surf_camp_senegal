@@ -176,41 +176,29 @@
   <section class="flights-section">
     <div class="container">
       <div style="text-align:center;margin-bottom:40px">
-        <span class="s-label">Voli dal tuo Paese</span>
-        <h2 class="s-title">Voli dal tuo Paese</h2>
+        <span class="s-label">Voli dal tuo paese</span>
+        <h2 class="s-title">Voli dal tuo paese</h2>
         <p class="s-sub" style="margin:0 auto">Seleziona il tuo paese di partenza</p>
       </div>
-      <div class="country-tabs"><button class="tab-btn active" onclick="switchCountry('it_country')" data-country="it_country"><span style="width:20px;height:13px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="20" height="40" fill="#009246"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#CE2B37"/></svg></span> <span style="font-size:13px">Francia</span></button><button class="tab-btn" onclick="switchCountry('fr')" data-country="fr"><span style="width:20px;height:13px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></span> <span style="font-size:13px">Francia</span></button><button class="tab-btn" onclick="switchCountry('uk')" data-country="uk"><span style="width:20px;height:13px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#fff" stroke-width="8"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#C8102E" stroke-width="5"/><path d="M30,0 V40 M0,20 H60" stroke="#fff" stroke-width="12"/><path d="M30,0 V40 M0,20 H60" stroke="#C8102E" stroke-width="8"/></svg></span> <span style="font-size:13px">Regno Unito</span></button><button class="tab-btn" onclick="switchCountry('us')" data-country="us"><span style="width:20px;height:13px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#B22234"/><rect y="3" width="60" height="3" fill="#fff"/><rect y="9" width="60" height="3" fill="#fff"/><rect y="15" width="60" height="3" fill="#fff"/><rect y="21" width="60" height="3" fill="#fff"/><rect y="27" width="60" height="3" fill="#fff"/><rect y="33" width="60" height="3" fill="#fff"/><rect width="24" height="21" fill="#3C3B6E"/></svg></span> <span style="font-size:13px">USA</span></button><button class="tab-btn" onclick="switchCountry('ca')" data-country="ca"><span style="width:20px;height:13px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="15" height="40" fill="#FF0000"/><rect x="15" width="30" height="40" fill="#fff"/><rect x="45" width="15" height="40" fill="#FF0000"/><text x="30" y="28" text-anchor="middle" font-size="20" fill="#FF0000">🍁</text></svg></span> <span style="font-size:13px">Canada</span></button><button class="tab-btn" onclick="switchCountry('au')" data-country="au"><span style="width:20px;height:13px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#00008B"/><path d="M0,0 L30,20 M30,0 L0,20" stroke="#fff" stroke-width="4"/><path d="M0,0 L30,20 M30,0 L0,20" stroke="#C8102E" stroke-width="2.5"/><path d="M15,0 V20 M0,10 H30" stroke="#fff" stroke-width="6"/><path d="M15,0 V20 M0,10 H30" stroke="#C8102E" stroke-width="4"/></svg></span> <span style="font-size:13px">Australia</span></button></div>
-      <div id="flight-panels"><div class="flight-panel" data-country="it_country" style="display:block">
+      <div class="country-tabs"><button class="tab-btn" onclick="switchCountry('uk')" data-country="uk"><span style="width:20px;height:13px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#fff" stroke-width="8"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#C8102E" stroke-width="5"/><path d="M30,0 V40 M0,20 H60" stroke="#fff" stroke-width="12"/><path d="M30,0 V40 M0,20 H60" stroke="#C8102E" stroke-width="8"/></svg></span> <span style="font-size:13px">Regno Unito</span></button><button class="tab-btn" onclick="switchCountry('fr')" data-country="fr"><span style="width:20px;height:13px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></span> <span style="font-size:13px">Francia</span></button><button class="tab-btn" onclick="switchCountry('es')" data-country="es"><span style="width:20px;height:13px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#AA151B"/><rect y="10" width="60" height="20" fill="#F1BF00"/></svg></span> <span style="font-size:13px">Spagna</span></button><button class="tab-btn" onclick="switchCountry('de')" data-country="de"><span style="width:20px;height:13px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="14" fill="#000"/><rect y="13" width="60" height="14" fill="#DD0000"/><rect y="26" width="60" height="14" fill="#FFCE00"/></svg></span> <span style="font-size:13px">Germania</span></button><button class="tab-btn active" onclick="switchCountry('it')" data-country="it"><span style="width:20px;height:13px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="20" height="40" fill="#009246"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#CE2B37"/></svg></span> <span style="font-size:13px">Italia</span></button><button class="tab-btn" onclick="switchCountry('nl')" data-country="nl"><span style="width:20px;height:13px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="14" fill="#AE1C28"/><rect y="13" width="60" height="14" fill="#fff"/><rect y="26" width="60" height="14" fill="#21468B"/></svg></span> <span style="font-size:13px">Paesi Bassi</span></button><button class="tab-btn" onclick="switchCountry('pt')" data-country="pt"><span style="width:20px;height:13px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#006600"/><rect x="20" width="40" height="40" fill="#FF0000"/></svg></span> <span style="font-size:13px">Portogallo</span></button><button class="tab-btn" onclick="switchCountry('da')" data-country="da"><span style="width:20px;height:13px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#C60C30"/><rect x="18" width="8" height="40" fill="#fff"/><rect y="16" width="60" height="8" fill="#fff"/></svg></span> <span style="font-size:13px">Danimarca</span></button><button class="tab-btn" onclick="switchCountry('ar')" data-country="ar"><span style="width:20px;height:13px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="14" fill="#006233"/><rect y="13" width="60" height="14" fill="#fff"/><rect y="26" width="60" height="14" fill="#000"/><rect x="0" width="16" height="40" fill="#CE1126"/></svg></span> <span style="font-size:13px">Marocco / Golfo</span></button><button class="tab-btn" onclick="switchCountry('us')" data-country="us"><span style="width:20px;height:13px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#B22234"/><rect y="3" width="60" height="3" fill="#fff"/><rect y="9" width="60" height="3" fill="#fff"/><rect y="15" width="60" height="3" fill="#fff"/><rect y="21" width="60" height="3" fill="#fff"/><rect y="27" width="60" height="3" fill="#fff"/><rect y="33" width="60" height="3" fill="#fff"/><rect width="24" height="21" fill="#3C3B6E"/></svg></span> <span style="font-size:13px">USA</span></button><button class="tab-btn" onclick="switchCountry('ca')" data-country="ca"><span style="width:20px;height:13px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="15" height="40" fill="#FF0000"/><rect x="15" width="30" height="40" fill="#fff"/><rect x="45" width="15" height="40" fill="#FF0000"/></svg></span> <span style="font-size:13px">Canada</span></button><button class="tab-btn" onclick="switchCountry('au')" data-country="au"><span style="width:20px;height:13px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#00008B"/><path d="M0,0 L30,20 M30,0 L0,20" stroke="#fff" stroke-width="4"/><path d="M0,0 L30,20 M30,0 L0,20" stroke="#C8102E" stroke-width="2.5"/><path d="M15,0 V20 M0,10 H30" stroke="#fff" stroke-width="6"/><path d="M15,0 V20 M0,10 H30" stroke="#C8102E" stroke-width="4"/></svg></span> <span style="font-size:13px">Australia</span></button></div>
+      <div id="flight-panels"><div class="flight-panel" data-country="uk" style="display:none">
   <div class="flight-header">
     <div style="display:flex;align-items:center;gap:12px">
-      <span style="width:22px;height:15px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="20" height="40" fill="#009246"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#CE2B37"/></svg></span>
+      <span style="width:22px;height:15px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#fff" stroke-width="8"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#C8102E" stroke-width="5"/><path d="M30,0 V40 M0,20 H60" stroke="#fff" stroke-width="12"/><path d="M30,0 V40 M0,20 H60" stroke="#C8102E" stroke-width="8"/></svg></span>
       <div>
-        <div style="font-weight:700;font-size:17px;color:var(--navy)">Francia</div>
-        <div style="font-size:13px;color:var(--muted);margin-top:2px">Rome FCO / Milan MXP / Turin TRN</div>
+        <div style="font-weight:700;font-size:17px;color:var(--navy)">Regno Unito</div>
+        <div style="font-size:13px;color:var(--muted);margin-top:2px">London LHR / LGW / STN</div>
       </div>
     </div>
-    <span style="padding:3px 10px;border-radius:20px;background:rgba(255,90,31,0.12);color:var(--fire);font-size:11px;font-weight:700">Via: Paris, Brussels or Casablanca</span>
+    <span style="padding:3px 10px;border-radius:20px;background:rgba(255,90,31,0.12);color:var(--fire);font-size:11px;font-weight:700">Via: Bruxelles, Parigi o Casablanca</span>
   </div>
   <div class="flight-meta">
-    <div class="flight-meta-item">
-      <span class="fmi-label">Durata del volo</span>
-      <span class="fmi-value">~7-8h</span>
-    </div>
-    <div class="flight-meta-item">
-      <span class="fmi-label">Da</span>
-      <span class="fmi-value">€280–650</span>
-    </div>
-    <div class="flight-meta-item">
-      <span class="fmi-label">Compagnie</span>
-      <span class="fmi-value">ITA Airways, Air France, Neos</span>
-    </div>
+    <div class="flight-meta-item"><span class="fmi-label">Durata del volo</span><span class="fmi-value">~8-10h</span></div>
+    <div class="flight-meta-item"><span class="fmi-label">A partire da</span><span class="fmi-value">£350-700</span></div>
+    <div class="flight-meta-item"><span class="fmi-label">Compagnie aeree</span><span class="fmi-value">Brussels Airlines, Air France, KLM</span></div>
   </div>
-  <p style="font-size:15px;color:#374151;line-height:1.75;margin:16px 0">Dall'Italia, collegati via Parigi (Air France) o Casablanca (Royal Air Maroc). Roma Fiumicino offre le migliori connessioni. Neos opera occasionalmente charter stagionali da città italiane a Dakar.</p>
-  <a href="https://www.google.com/travel/flights/search?q=Rome+to+Dakar+flights" target="_blank" rel="noopener noreferrer" class="btn btn-deep btn-sm" style="display:inline-flex;align-items:center;gap:8px">
-    <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
-    Cerca voli
-  </a>
+  <p style="font-size:15px;color:#374151;line-height:1.75;margin:16px 0">Nessun volo diretto dal Regno Unito a Dakar. Le opzioni migliori sono Brussels Airlines via Bruxelles o Air France via Parigi. Royal Air Maroc via Casablanca è spesso la più economica. Durata: 8-10 ore.</p>
+  <a href="https://www.google.com/travel/flights/search?q=London+to+Dakar+flights" target="_blank" rel="noopener noreferrer" class="btn btn-deep btn-sm" style="display:inline-flex;align-items:center;gap:8px"><svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg> Cerca voli</a>
 </div><div class="flight-panel" data-country="fr" style="display:none">
   <div class="flight-header">
     <div style="display:flex;align-items:center;gap:12px">
@@ -223,54 +211,138 @@
     <span style="padding:3px 10px;border-radius:20px;background:rgba(34,197,94,0.15);color:#22c55e;font-size:11px;font-weight:700">Diretto</span>
   </div>
   <div class="flight-meta">
-    <div class="flight-meta-item">
-      <span class="fmi-label">Durata del volo</span>
-      <span class="fmi-value">~6h</span>
-    </div>
-    <div class="flight-meta-item">
-      <span class="fmi-label">Da</span>
-      <span class="fmi-value">€200–600</span>
-    </div>
-    <div class="flight-meta-item">
-      <span class="fmi-label">Compagnie</span>
-      <span class="fmi-value">Air France, Transavia, Air Sénégal</span>
-    </div>
+    <div class="flight-meta-item"><span class="fmi-label">Durata del volo</span><span class="fmi-value">~6h</span></div>
+    <div class="flight-meta-item"><span class="fmi-label">A partire da</span><span class="fmi-value">€200-600</span></div>
+    <div class="flight-meta-item"><span class="fmi-label">Compagnie aeree</span><span class="fmi-value">Air France, Transavia, Air Sénégal</span></div>
   </div>
-  <p style="font-size:15px;color:#374151;line-height:1.75;margin:16px 0">La rotta più connessa. Air France e Transavia volano diretto da Parigi a Dakar. Prenota con 2-3 mesi di anticipo.</p>
-  <a href="https://www.google.com/travel/flights/search?q=Paris+to+Dakar+flights" target="_blank" rel="noopener noreferrer" class="btn btn-deep btn-sm" style="display:inline-flex;align-items:center;gap:8px">
-    <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
-    Cerca voli
-  </a>
-</div><div class="flight-panel" data-country="uk" style="display:none">
+  <p style="font-size:15px;color:#374151;line-height:1.75;margin:16px 0">Il percorso meglio connesso. Air France e Transavia volano direttamente Parigi-Dakar da CDG e Orly. Prenota 2-3 mesi prima per le migliori tariffe.</p>
+  <a href="https://www.google.com/travel/flights/search?q=Paris+to+Dakar+flights" target="_blank" rel="noopener noreferrer" class="btn btn-deep btn-sm" style="display:inline-flex;align-items:center;gap:8px"><svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg> Cerca voli</a>
+</div><div class="flight-panel" data-country="es" style="display:none">
   <div class="flight-header">
     <div style="display:flex;align-items:center;gap:12px">
-      <span style="width:22px;height:15px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#fff" stroke-width="8"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#C8102E" stroke-width="5"/><path d="M30,0 V40 M0,20 H60" stroke="#fff" stroke-width="12"/><path d="M30,0 V40 M0,20 H60" stroke="#C8102E" stroke-width="8"/></svg></span>
+      <span style="width:22px;height:15px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#AA151B"/><rect y="10" width="60" height="20" fill="#F1BF00"/></svg></span>
       <div>
-        <div style="font-weight:700;font-size:17px;color:var(--navy)">Regno Unito</div>
-        <div style="font-size:13px;color:var(--muted);margin-top:2px">London LHR / LGW / STN</div>
+        <div style="font-weight:700;font-size:17px;color:var(--navy)">Spagna</div>
+        <div style="font-size:13px;color:var(--muted);margin-top:2px">Madrid MAD / Barcelona BCN</div>
       </div>
     </div>
-    <span style="padding:3px 10px;border-radius:20px;background:rgba(255,90,31,0.12);color:var(--fire);font-size:11px;font-weight:700">Via: Brussels, Paris, Amsterdam or Casablanca</span>
+    <span style="padding:3px 10px;border-radius:20px;background:rgba(255,90,31,0.12);color:var(--fire);font-size:11px;font-weight:700">Via: Casablanca o Parigi</span>
   </div>
   <div class="flight-meta">
-    <div class="flight-meta-item">
-      <span class="fmi-label">Durata del volo</span>
-      <span class="fmi-value">~8–10h</span>
-    </div>
-    <div class="flight-meta-item">
-      <span class="fmi-label">Da</span>
-      <span class="fmi-value">£350–700</span>
-    </div>
-    <div class="flight-meta-item">
-      <span class="fmi-label">Compagnie</span>
-      <span class="fmi-value">Brussels Airlines, Air France, KLM</span>
-    </div>
+    <div class="flight-meta-item"><span class="fmi-label">Durata del volo</span><span class="fmi-value">~7-9h</span></div>
+    <div class="flight-meta-item"><span class="fmi-label">A partire da</span><span class="fmi-value">€250-600</span></div>
+    <div class="flight-meta-item"><span class="fmi-label">Compagnie aeree</span><span class="fmi-value">Iberia, Royal Air Maroc, Air France</span></div>
   </div>
-  <p style="font-size:15px;color:#374151;line-height:1.75;margin:16px 0">Nessun volo diretto dal Regno Unito. Le migliori opzioni sono Brussels Airlines via Bruxelles o Air France via Parigi.</p>
-  <a href="https://www.google.com/travel/flights/search?q=London+to+Dakar+flights" target="_blank" rel="noopener noreferrer" class="btn btn-deep btn-sm" style="display:inline-flex;align-items:center;gap:8px">
-    <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
-    Cerca voli
-  </a>
+  <p style="font-size:15px;color:#374151;line-height:1.75;margin:16px 0">Nessun volo diretto dalla Spagna a Dakar. Royal Air Maroc via Casablanca è l&#x27;opzione più popolare. Air France via Parigi è un&#x27;ottima alternativa con frequenze elevate.</p>
+  <a href="https://www.google.com/travel/flights/search?q=Madrid+to+Dakar+flights" target="_blank" rel="noopener noreferrer" class="btn btn-deep btn-sm" style="display:inline-flex;align-items:center;gap:8px"><svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg> Cerca voli</a>
+</div><div class="flight-panel" data-country="de" style="display:none">
+  <div class="flight-header">
+    <div style="display:flex;align-items:center;gap:12px">
+      <span style="width:22px;height:15px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="14" fill="#000"/><rect y="13" width="60" height="14" fill="#DD0000"/><rect y="26" width="60" height="14" fill="#FFCE00"/></svg></span>
+      <div>
+        <div style="font-weight:700;font-size:17px;color:var(--navy)">Germania</div>
+        <div style="font-size:13px;color:var(--muted);margin-top:2px">Frankfurt FRA / Berlin BER / Munich MUC</div>
+      </div>
+    </div>
+    <span style="padding:3px 10px;border-radius:20px;background:rgba(255,90,31,0.12);color:var(--fire);font-size:11px;font-weight:700">Via: Bruxelles, Parigi o Casablanca</span>
+  </div>
+  <div class="flight-meta">
+    <div class="flight-meta-item"><span class="fmi-label">Durata del volo</span><span class="fmi-value">~9-11h</span></div>
+    <div class="flight-meta-item"><span class="fmi-label">A partire da</span><span class="fmi-value">€350-800</span></div>
+    <div class="flight-meta-item"><span class="fmi-label">Compagnie aeree</span><span class="fmi-value">Brussels Airlines, Lufthansa, Air France</span></div>
+  </div>
+  <p style="font-size:15px;color:#374151;line-height:1.75;margin:16px 0">Dalla Germania, Brussels Airlines via Bruxelles è il collegamento più popolare. Lufthansa ha codeshare su alcune rotte. Air France via Parigi è un&#x27;altra opzione affidabile.</p>
+  <a href="https://www.google.com/travel/flights/search?q=Frankfurt+to+Dakar+flights" target="_blank" rel="noopener noreferrer" class="btn btn-deep btn-sm" style="display:inline-flex;align-items:center;gap:8px"><svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg> Cerca voli</a>
+</div><div class="flight-panel" data-country="it" style="display:block">
+  <div class="flight-header">
+    <div style="display:flex;align-items:center;gap:12px">
+      <span style="width:22px;height:15px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="20" height="40" fill="#009246"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#CE2B37"/></svg></span>
+      <div>
+        <div style="font-weight:700;font-size:17px;color:var(--navy)">Italia</div>
+        <div style="font-size:13px;color:var(--muted);margin-top:2px">Rome FCO / Milan MXP</div>
+      </div>
+    </div>
+    <span style="padding:3px 10px;border-radius:20px;background:rgba(255,90,31,0.12);color:var(--fire);font-size:11px;font-weight:700">Via: Parigi o Casablanca</span>
+  </div>
+  <div class="flight-meta">
+    <div class="flight-meta-item"><span class="fmi-label">Durata del volo</span><span class="fmi-value">~8-10h</span></div>
+    <div class="flight-meta-item"><span class="fmi-label">A partire da</span><span class="fmi-value">€300-700</span></div>
+    <div class="flight-meta-item"><span class="fmi-label">Compagnie aeree</span><span class="fmi-value">Air France, Royal Air Maroc, ITA Airways</span></div>
+  </div>
+  <p style="font-size:15px;color:#374151;line-height:1.75;margin:16px 0">Nessun volo diretto dall&#x27;Italia a Dakar. Air France via Parigi (da Roma o Milano) è l&#x27;opzione più comune. Royal Air Maroc via Casablanca è spesso più economica. Durata: 8-10 ore.</p>
+  <a href="https://www.google.com/travel/flights/search?q=Rome+to+Dakar+flights" target="_blank" rel="noopener noreferrer" class="btn btn-deep btn-sm" style="display:inline-flex;align-items:center;gap:8px"><svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg> Cerca voli</a>
+</div><div class="flight-panel" data-country="nl" style="display:none">
+  <div class="flight-header">
+    <div style="display:flex;align-items:center;gap:12px">
+      <span style="width:22px;height:15px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="14" fill="#AE1C28"/><rect y="13" width="60" height="14" fill="#fff"/><rect y="26" width="60" height="14" fill="#21468B"/></svg></span>
+      <div>
+        <div style="font-weight:700;font-size:17px;color:var(--navy)">Paesi Bassi</div>
+        <div style="font-size:13px;color:var(--muted);margin-top:2px">Amsterdam AMS / Rotterdam RTM</div>
+      </div>
+    </div>
+    <span style="padding:3px 10px;border-radius:20px;background:rgba(255,90,31,0.12);color:var(--fire);font-size:11px;font-weight:700">Via: Bruxelles o Parigi</span>
+  </div>
+  <div class="flight-meta">
+    <div class="flight-meta-item"><span class="fmi-label">Durata del volo</span><span class="fmi-value">~8-9h</span></div>
+    <div class="flight-meta-item"><span class="fmi-label">A partire da</span><span class="fmi-value">€300-650</span></div>
+    <div class="flight-meta-item"><span class="fmi-label">Compagnie aeree</span><span class="fmi-value">KLM, Brussels Airlines, Air France</span></div>
+  </div>
+  <p style="font-size:15px;color:#374151;line-height:1.75;margin:16px 0">Da Amsterdam, la connessione più breve a Dakar è via Bruxelles con Brussels Airlines o via Parigi con Air France. KLM a volte offre connessioni via altri hub. Durata: 8-9 ore.</p>
+  <a href="https://www.google.com/travel/flights/search?q=Amsterdam+to+Dakar+flights" target="_blank" rel="noopener noreferrer" class="btn btn-deep btn-sm" style="display:inline-flex;align-items:center;gap:8px"><svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg> Cerca voli</a>
+</div><div class="flight-panel" data-country="pt" style="display:none">
+  <div class="flight-header">
+    <div style="display:flex;align-items:center;gap:12px">
+      <span style="width:22px;height:15px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#006600"/><rect x="20" width="40" height="40" fill="#FF0000"/></svg></span>
+      <div>
+        <div style="font-weight:700;font-size:17px;color:var(--navy)">Portogallo</div>
+        <div style="font-size:13px;color:var(--muted);margin-top:2px">Lisbon LIS / Porto OPO</div>
+      </div>
+    </div>
+    <span style="padding:3px 10px;border-radius:20px;background:rgba(255,90,31,0.12);color:var(--fire);font-size:11px;font-weight:700">Via: Casablanca o Parigi</span>
+  </div>
+  <div class="flight-meta">
+    <div class="flight-meta-item"><span class="fmi-label">Durata del volo</span><span class="fmi-value">~6-8h</span></div>
+    <div class="flight-meta-item"><span class="fmi-label">A partire da</span><span class="fmi-value">€250-600</span></div>
+    <div class="flight-meta-item"><span class="fmi-label">Compagnie aeree</span><span class="fmi-value">TAP Air Portugal, Royal Air Maroc, Air France</span></div>
+  </div>
+  <p style="font-size:15px;color:#374151;line-height:1.75;margin:16px 0">Il Portogallo è uno dei paesi europei più vicini al Senegal. TAP Air Portugal e Royal Air Maroc offrono connessioni via Casablanca. Lisbona è l&#x27;hub principale. Durata: 6-8 ore.</p>
+  <a href="https://www.google.com/travel/flights/search?q=Lisbon+to+Dakar+flights" target="_blank" rel="noopener noreferrer" class="btn btn-deep btn-sm" style="display:inline-flex;align-items:center;gap:8px"><svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg> Cerca voli</a>
+</div><div class="flight-panel" data-country="da" style="display:none">
+  <div class="flight-header">
+    <div style="display:flex;align-items:center;gap:12px">
+      <span style="width:22px;height:15px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#C60C30"/><rect x="18" width="8" height="40" fill="#fff"/><rect y="16" width="60" height="8" fill="#fff"/></svg></span>
+      <div>
+        <div style="font-weight:700;font-size:17px;color:var(--navy)">Danimarca</div>
+        <div style="font-size:13px;color:var(--muted);margin-top:2px">Copenhagen CPH / Billund BLL</div>
+      </div>
+    </div>
+    <span style="padding:3px 10px;border-radius:20px;background:rgba(255,90,31,0.12);color:var(--fire);font-size:11px;font-weight:700">Via: Bruxelles, Parigi o Amsterdam</span>
+  </div>
+  <div class="flight-meta">
+    <div class="flight-meta-item"><span class="fmi-label">Durata del volo</span><span class="fmi-value">~10-12h</span></div>
+    <div class="flight-meta-item"><span class="fmi-label">A partire da</span><span class="fmi-value">€500-900</span></div>
+    <div class="flight-meta-item"><span class="fmi-label">Compagnie aeree</span><span class="fmi-value">SAS, Brussels Airlines, Air France</span></div>
+  </div>
+  <p style="font-size:15px;color:#374151;line-height:1.75;margin:16px 0">Dalla Danimarca, connetti a Dakar via Bruxelles, Parigi o Amsterdam. SAS ha spesso codeshare. Durata totale: 10-12 ore. Prenota presto - Dakar è popolare tra i surfisti scandinavi.</p>
+  <a href="https://www.google.com/travel/flights/search?q=Copenhagen+to+Dakar+flights" target="_blank" rel="noopener noreferrer" class="btn btn-deep btn-sm" style="display:inline-flex;align-items:center;gap:8px"><svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg> Cerca voli</a>
+</div><div class="flight-panel" data-country="ar" style="display:none">
+  <div class="flight-header">
+    <div style="display:flex;align-items:center;gap:12px">
+      <span style="width:22px;height:15px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="14" fill="#006233"/><rect y="13" width="60" height="14" fill="#fff"/><rect y="26" width="60" height="14" fill="#000"/><rect x="0" width="16" height="40" fill="#CE1126"/></svg></span>
+      <div>
+        <div style="font-weight:700;font-size:17px;color:var(--navy)">Marocco / Golfo</div>
+        <div style="font-size:13px;color:var(--muted);margin-top:2px">Casablanca CMN / Dubai DXB / Doha DOH</div>
+      </div>
+    </div>
+    <span style="padding:3px 10px;border-radius:20px;background:rgba(255,90,31,0.12);color:var(--fire);font-size:11px;font-weight:700">Diretto da Casablanca — Via hub dal Golfo</span>
+  </div>
+  <div class="flight-meta">
+    <div class="flight-meta-item"><span class="fmi-label">Durata del volo</span><span class="fmi-value">~3-10h</span></div>
+    <div class="flight-meta-item"><span class="fmi-label">A partire da</span><span class="fmi-value">MAD 800-3,000 / AED 1,200-3,500</span></div>
+    <div class="flight-meta-item"><span class="fmi-label">Compagnie aeree</span><span class="fmi-value">Royal Air Maroc, Emirates, Qatar Airways</span></div>
+  </div>
+  <p style="font-size:15px;color:#374151;line-height:1.75;margin:16px 0">Royal Air Maroc vola direttamente Casablanca-Dakar più volte a settimana (~3 ore da Casablanca). Dai paesi del Golfo, connessione via hub europei o Emirates/Qatar Airways. Totale dal Golfo: 8-10 ore.</p>
+  <a href="https://www.google.com/travel/flights/search?q=Casablanca+to+Dakar+flights" target="_blank" rel="noopener noreferrer" class="btn btn-deep btn-sm" style="display:inline-flex;align-items:center;gap:8px"><svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg> Cerca voli</a>
 </div><div class="flight-panel" data-country="us" style="display:none">
   <div class="flight-header">
     <div style="display:flex;align-items:center;gap:12px">
@@ -280,57 +352,33 @@
         <div style="font-size:13px;color:var(--muted);margin-top:2px">New York JFK / Washington IAD / Atlanta ATL</div>
       </div>
     </div>
-    <span style="padding:3px 10px;border-radius:20px;background:rgba(255,90,31,0.12);color:var(--fire);font-size:11px;font-weight:700">Via: Paris, Brussels, Casablanca or Istanbul</span>
+    <span style="padding:3px 10px;border-radius:20px;background:rgba(255,90,31,0.12);color:var(--fire);font-size:11px;font-weight:700">Via: Parigi, Bruxelles o Casablanca</span>
   </div>
   <div class="flight-meta">
-    <div class="flight-meta-item">
-      <span class="fmi-label">Durata del volo</span>
-      <span class="fmi-value">~12–15h</span>
-    </div>
-    <div class="flight-meta-item">
-      <span class="fmi-label">Da</span>
-      <span class="fmi-value">$600–1,300</span>
-    </div>
-    <div class="flight-meta-item">
-      <span class="fmi-label">Compagnie</span>
-      <span class="fmi-value">Delta, Air France, Brussels Airlines</span>
-    </div>
+    <div class="flight-meta-item"><span class="fmi-label">Durata del volo</span><span class="fmi-value">~12-15h</span></div>
+    <div class="flight-meta-item"><span class="fmi-label">A partire da</span><span class="fmi-value">$600-1,300</span></div>
+    <div class="flight-meta-item"><span class="fmi-label">Compagnie aeree</span><span class="fmi-value">Delta, Air France, Brussels Airlines</span></div>
   </div>
-  <p style="font-size:15px;color:#374151;line-height:1.75;margin:16px 0">La maggior parte dei viaggiatori americani fa scalo a Parigi, Bruxelles o Casablanca. Dalla Costa Est, circa 12-14h totali.</p>
-  <a href="https://www.google.com/travel/flights/search?q=New+York+to+Dakar+flights" target="_blank" rel="noopener noreferrer" class="btn btn-deep btn-sm" style="display:inline-flex;align-items:center;gap:8px">
-    <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
-    Cerca voli
-  </a>
+  <p style="font-size:15px;color:#374151;line-height:1.75;margin:16px 0">La maggior parte dei viaggiatori americani passa per Parigi, Bruxelles o Casablanca. Dalla Costa Est: 12-14 ore. Dalla Costa Ovest aggiungere 5-6 ore.</p>
+  <a href="https://www.google.com/travel/flights/search?q=New+York+to+Dakar+flights" target="_blank" rel="noopener noreferrer" class="btn btn-deep btn-sm" style="display:inline-flex;align-items:center;gap:8px"><svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg> Cerca voli</a>
 </div><div class="flight-panel" data-country="ca" style="display:none">
   <div class="flight-header">
     <div style="display:flex;align-items:center;gap:12px">
-      <span style="width:22px;height:15px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="15" height="40" fill="#FF0000"/><rect x="15" width="30" height="40" fill="#fff"/><rect x="45" width="15" height="40" fill="#FF0000"/><text x="30" y="28" text-anchor="middle" font-size="20" fill="#FF0000">🍁</text></svg></span>
+      <span style="width:22px;height:15px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="15" height="40" fill="#FF0000"/><rect x="15" width="30" height="40" fill="#fff"/><rect x="45" width="15" height="40" fill="#FF0000"/></svg></span>
       <div>
         <div style="font-weight:700;font-size:17px;color:var(--navy)">Canada</div>
         <div style="font-size:13px;color:var(--muted);margin-top:2px">Toronto YYZ / Montréal YUL / Vancouver YVR</div>
       </div>
     </div>
-    <span style="padding:3px 10px;border-radius:20px;background:rgba(255,90,31,0.12);color:var(--fire);font-size:11px;font-weight:700">Via: Paris, Brussels, or Casablanca</span>
+    <span style="padding:3px 10px;border-radius:20px;background:rgba(255,90,31,0.12);color:var(--fire);font-size:11px;font-weight:700">Via: Parigi o Bruxelles</span>
   </div>
   <div class="flight-meta">
-    <div class="flight-meta-item">
-      <span class="fmi-label">Durata del volo</span>
-      <span class="fmi-value">~14–18h</span>
-    </div>
-    <div class="flight-meta-item">
-      <span class="fmi-label">Da</span>
-      <span class="fmi-value">CAD 900–1,800</span>
-    </div>
-    <div class="flight-meta-item">
-      <span class="fmi-label">Compagnie</span>
-      <span class="fmi-value">Air France, Brussels Airlines, Air Canada</span>
-    </div>
+    <div class="flight-meta-item"><span class="fmi-label">Durata del volo</span><span class="fmi-value">~14-18h</span></div>
+    <div class="flight-meta-item"><span class="fmi-label">A partire da</span><span class="fmi-value">CAD 900-1,800</span></div>
+    <div class="flight-meta-item"><span class="fmi-label">Compagnie aeree</span><span class="fmi-value">Air France, Brussels Airlines, Air Canada</span></div>
   </div>
-  <p style="font-size:15px;color:#374151;line-height:1.75;margin:16px 0">Da Montreal, Air France via Parigi offre la connessione più naturale. Da Toronto, Brussels Airlines via Bruxelles è un'ottima scelta.</p>
-  <a href="https://www.google.com/travel/flights/search?q=Toronto+to+Dakar+flights" target="_blank" rel="noopener noreferrer" class="btn btn-deep btn-sm" style="display:inline-flex;align-items:center;gap:8px">
-    <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
-    Cerca voli
-  </a>
+  <p style="font-size:15px;color:#374151;line-height:1.75;margin:16px 0">Da Montréal, Air France via Parigi è la connessione più naturale. Da Toronto, Brussels Airlines via Bruxelles. Da Vancouver, oltre 18 ore.</p>
+  <a href="https://www.google.com/travel/flights/search?q=Toronto+to+Dakar+flights" target="_blank" rel="noopener noreferrer" class="btn btn-deep btn-sm" style="display:inline-flex;align-items:center;gap:8px"><svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg> Cerca voli</a>
 </div><div class="flight-panel" data-country="au" style="display:none">
   <div class="flight-header">
     <div style="display:flex;align-items:center;gap:12px">
@@ -340,27 +388,15 @@
         <div style="font-size:13px;color:var(--muted);margin-top:2px">Sydney SYD / Melbourne MEL / Brisbane BNE</div>
       </div>
     </div>
-    <span style="padding:3px 10px;border-radius:20px;background:rgba(255,90,31,0.12);color:var(--fire);font-size:11px;font-weight:700">Via: Dubai, Doha or European hub</span>
+    <span style="padding:3px 10px;border-radius:20px;background:rgba(255,90,31,0.12);color:var(--fire);font-size:11px;font-weight:700">Via: Dubai, Doha o hub europeo</span>
   </div>
   <div class="flight-meta">
-    <div class="flight-meta-item">
-      <span class="fmi-label">Durata del volo</span>
-      <span class="fmi-value">~24–30h</span>
-    </div>
-    <div class="flight-meta-item">
-      <span class="fmi-label">Da</span>
-      <span class="fmi-value">AUD 1,800–3,500</span>
-    </div>
-    <div class="flight-meta-item">
-      <span class="fmi-label">Compagnie</span>
-      <span class="fmi-value">Emirates, Qatar Airways, Air France</span>
-    </div>
+    <div class="flight-meta-item"><span class="fmi-label">Durata del volo</span><span class="fmi-value">~24-30h</span></div>
+    <div class="flight-meta-item"><span class="fmi-label">A partire da</span><span class="fmi-value">AUD 1,800-3,500</span></div>
+    <div class="flight-meta-item"><span class="fmi-label">Compagnie aeree</span><span class="fmi-value">Emirates, Qatar Airways, Air France</span></div>
   </div>
-  <p style="font-size:15px;color:#374151;line-height:1.75;margin:16px 0">Dall'Australia al Senegal è un viaggio lungo — 24-30h con 2 scali. Emirates via Dubai o Qatar Airways via Doha sono le opzioni più comode.</p>
-  <a href="https://www.google.com/travel/flights/search?q=Sydney+to+Dakar+flights" target="_blank" rel="noopener noreferrer" class="btn btn-deep btn-sm" style="display:inline-flex;align-items:center;gap:8px">
-    <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
-    Cerca voli
-  </a>
+  <p style="font-size:15px;color:#374151;line-height:1.75;margin:16px 0">Dall&#x27;Australia al Senegal: 24-30 ore con 2 connessioni. Più comodo: Emirates via Dubai o Qatar Airways via Doha, poi connessione a Dakar.</p>
+  <a href="https://www.google.com/travel/flights/search?q=Sydney+to+Dakar+flights" target="_blank" rel="noopener noreferrer" class="btn btn-deep btn-sm" style="display:inline-flex;align-items:center;gap:8px"><svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg> Cerca voli</a>
 </div></div>
     </div>
   </section>
