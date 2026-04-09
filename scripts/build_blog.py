@@ -1280,8 +1280,8 @@ def build_blog_index(lang):
     for en_art in arts_en:
         en_s     = en_art["slug"]
         a        = arts_by_lang[lang].get(en_s, en_art) if lang!="en" else en_art
-        t        = fix_em(a.get("title", en_art["title"]))[:80]
-        m        = fix_em(a.get("meta_description",""))[:120]
+        t        = fix_em(a.get("title", en_art["title"]))
+        m        = fix_em(a.get("meta_description",""))
         cat_en   = en_art.get("category","")
         cat_disp = cat_name_for(cat_en, lang)
         cat_href_url = cat_href(cat_en, lang)
