@@ -1264,7 +1264,19 @@ def build_island_guide_page(guide, lang, all_guides, guide_index):
     deck = (L.get("deck") or "").strip()
     cat = escape(fix_em(L.get("category_label", "Island Guide")))
     hero_base = guide.get("hero_basename", guide["slugs"]["en"])
+    
+    import os
     hero_rel = f"/assets/images/{hero_base}.webp"
+    # Check standard assets/images directory
+    if os.path.exists(f"/Users/simonazoulay/SurfCampSenegal/cloudflare-demo/assets/images/bw-{hero_base}.webp"):
+        hero_rel = f"/assets/images/bw-{hero_base}.webp"
+    elif not os.path.exists(f"/Users/simonazoulay/SurfCampSenegal/cloudflare-demo/assets/images/{hero_base}.webp"):
+        # If neither exists in standard dir, check gallery dir
+        if os.path.exists(f"/Users/simonazoulay/SurfCampSenegal/cloudflare-demo/assets/images/gallery/bw-{hero_base}.webp"):
+            hero_rel = f"/assets/images/gallery/bw-{hero_base}.webp"
+        elif os.path.exists(f"/Users/simonazoulay/SurfCampSenegal/cloudflare-demo/assets/images/gallery/{hero_base}.webp"):
+            hero_rel = f"/assets/images/gallery/{hero_base}.webp"
+            
     hero_abs = f"{SITE_URL.rstrip('/')}{hero_rel}"
     path_here = island_guide_href_path(lang, guide)
     canonical = f"{SITE_URL.rstrip('/')}{path_here}"
@@ -1443,9 +1455,23 @@ def build_island_hub_guides_html(lang, guides):
         L = g["locales"][lang]
         u = island_guide_href_path(lang, g)
         hb = g.get("hero_basename", g["slugs"]["en"])
+        # Try to use bw- version if the color one doesn't exist
+        img_src = f"/assets/images/{hb}.webp"
+        import os
+        
+        # Check standard assets/images directory
+        if os.path.exists(f"/Users/simonazoulay/SurfCampSenegal/cloudflare-demo/assets/images/bw-{hb}.webp"):
+            img_src = f"/assets/images/bw-{hb}.webp"
+        elif not os.path.exists(f"/Users/simonazoulay/SurfCampSenegal/cloudflare-demo/assets/images/{hb}.webp"):
+            # If neither exists in standard dir, check gallery dir
+            if os.path.exists(f"/Users/simonazoulay/SurfCampSenegal/cloudflare-demo/assets/images/gallery/bw-{hb}.webp"):
+                img_src = f"/assets/images/gallery/bw-{hb}.webp"
+            elif os.path.exists(f"/Users/simonazoulay/SurfCampSenegal/cloudflare-demo/assets/images/gallery/{hb}.webp"):
+                img_src = f"/assets/images/gallery/{hb}.webp"
+        
         cards.append(
             f'<a href="{u}" class="card island-guide-card" style="text-decoration:none">'
-            f'<img src="/assets/images/{hb}.webp" alt="" class="card-img" loading="lazy" width="400" height="240">'
+            f'<img src="{img_src}" alt="" class="card-img" loading="lazy" width="400" height="240">'
             f'<div class="card-body"><span class="cat-badge island-guide-badge">{escape(fix_em(L.get("category_label", "Guide")))}</span>'
             f'<h3 class="card-h3">{escape(fix_em(L["h1"]))}</h3>'
             f'<p class="card-text">{escape(fix_em(L.get("card_teaser", L["meta_description"][:140])))}</p></div></a>'
