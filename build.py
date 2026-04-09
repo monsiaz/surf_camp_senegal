@@ -6316,7 +6316,7 @@ def build_surf_conditions_page(lang):
     html += build_nav("surf-conditions", lang)
     html += f"""
 <main>
-  <header class="main-hero main-hero--nowave" style="background-image:url('{IMGS["surf"]}')" role="banner">
+  <header class="main-hero" style="background-image:url(\'/assets/images/gallery/4Y4A1353_cd947b75.webp\'); background-position: center center;" role="banner">
     <div class="main-hero-inner">
       <div class="main-hero-eyebrow">
         <span class="main-hero-dot"></span>
