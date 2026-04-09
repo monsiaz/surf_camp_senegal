@@ -1198,8 +1198,6 @@ def build_article(en_art, lang):
         </div>
       </div>
       {more_in_cat_html}
-      {art_nav}
-      <div style="margin-top:48px"><a href="{pfx}/blog/" class="btn btn-deep" style="display:inline-flex;align-items:center;gap:8px">← {BACK[lang]}</a></div>
     </div>
     {WAVE_WHITE_TO_DARK}
   </article>
