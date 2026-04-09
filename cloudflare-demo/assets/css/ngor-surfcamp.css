@@ -45837,3 +45837,64 @@ img{max-width:100%;height:auto}
 }
 .vb-tip ul.block-list li::before { content: '•'; position: absolute; left: 0; color: var(--fire); font-size: 16px; line-height: 1.5; }
 .vb-fact ul.block-list li::before { content: '•'; position: absolute; left: 0; color: #0ea5e9; font-size: 16px; line-height: 1.5; }
+
+/* ── Getting Here Teaser Block ──────────────────────── */
+.gh-teaser { padding: 88px 0; background: #fff; position: relative; }
+.gh-teaser-inner {
+  display: grid;
+  grid-template-columns: 5fr 6fr;
+  gap: 64px;
+  align-items: center;
+}
+.gh-teaser-info { position: relative; z-index: 1; }
+.gh-teaser-map-preview {
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  height: 440px;
+  box-shadow: 0 20px 50px rgba(10,37,64,0.13);
+  background: #e8eaed;
+  border: 1px solid rgba(10,37,64,0.08);
+}
+.gh-teaser-map-preview .leaflet-container { width:100% !important; height:100% !important; background:#e8eaed !important; }
+.gh-teaser-map-preview .leaflet-control-attribution { font-size:10px; background:rgba(255,255,255,0.85) !important; }
+#gh-teaser-map, .gh-preview-map-el {
+  width: 100%;
+  height: 100%;
+  min-height: 440px;
+  z-index: 1;
+}
+.gh-teaser-stats {
+  display: flex;
+  gap: 16px;
+  margin: 24px 0 32px;
+  flex-wrap: wrap;
+}
+.gh-ts {
+  display: flex;
+  flex-direction: column;
+  padding: 14px 18px;
+  background: #f8fafd;
+  border-radius: 12px;
+  border: 1px solid rgba(10,37,64,0.09);
+  box-shadow: 0 2px 10px rgba(10,37,64,0.06);
+  min-width: 80px;
+}
+.gh-ts-n { font-family: var(--fh); font-size: 22px; font-weight: 900; color: var(--fire); line-height: 1; }
+.gh-ts-l { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted,#64748b); margin-top: 4px; font-weight: 600; }
+/* Map section (getting-here page) */
+.map-section { padding: 80px 0 0; }
+.map-label-wrap { max-width: var(--max,1280px); margin: 0 auto; padding: 0 32px 40px; }
+#ngor-map { height: 480px; position: relative; z-index: 1; overflow: hidden; }
+@media(max-width:900px){
+  .gh-teaser-inner { grid-template-columns:1fr; gap:36px; }
+  .gh-teaser-map-preview { height:300px; }
+  #gh-teaser-map, .gh-preview-map-el { min-height:300px; }
+  .map-label-wrap { padding: 0 20px 28px; }
+  #ngor-map { height: 320px; }
+}
+@media(max-width:640px){
+  .gh-teaser { padding:56px 0; }
+  .gh-teaser-map-preview { height:240px; }
+  #gh-teaser-map, .gh-preview-map-el { min-height:240px; }
+}
