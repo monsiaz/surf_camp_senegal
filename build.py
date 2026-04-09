@@ -762,7 +762,7 @@ def build_footer(lang, flag_href_override=None):
         <div class="footer-social">
           <a href="https://wa.me/221789257025" target="_blank" class="soc-btn wa" aria-label="{escape(ui_chrome('wa', lang))}"><span style="display:inline-flex">{WA_ICO}</span></a>
           <a href="https://www.instagram.com/ngorsurfcampteranga" target="_blank" class="soc-btn ig" aria-label="Instagram"><span style="display:inline-flex">{IG_ICO}</span></a>
-          <a href="https://www.tiktok.com/@ngorsurfcampteranga" target="_blank" class="soc-btn tt" aria-label="TikTok"><span style="display:inline-flex">{TT_ICO}</span></a>
+          <a href="https://www.tiktok.com/@ngor.surfcampteranga" target="_blank" class="soc-btn tt" aria-label="TikTok"><span style="display:inline-flex">{TT_ICO}</span></a>
         </div>
         <a href="https://www.google.com/maps?cid=14555894641030809667" target="_blank" rel="noopener" class="footer-gmb-badge" aria-label="4.7 — 54 {GMB_REVIEWS_LBL[lang]}">
           <span class="footer-gmb-logo"><svg viewBox="0 0 24 24" width="16" height="16" xmlns="http://www.w3.org/2000/svg"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg></span>
@@ -784,7 +784,7 @@ def build_footer(lang, flag_href_override=None):
       <div class="footer-col">
         <p class="footer-col-title">{FOL[lang]}</p>
         <a href="https://www.instagram.com/ngorsurfcampteranga" target="_blank">Instagram</a>
-        <a href="https://www.tiktok.com/@ngorsurfcampteranga" target="_blank">TikTok</a>
+        <a href="https://www.tiktok.com/@ngor.surfcampteranga" target="_blank">TikTok</a>
         <a href="https://wa.me/221789257025" target="_blank">{escape(ui_chrome("wa", lang))}</a>
       </div>
     </div>
@@ -1256,7 +1256,7 @@ def build_island_guide_page(guide, lang, all_guides, guide_index):
     deck = (L.get("deck") or "").strip()
     cat = escape(fix_em(L.get("category_label", "Island Guide")))
     hero_base = guide.get("hero_basename", guide["slugs"]["en"])
-    hero_rel = f"/assets/images/bw-{hero_base}.webp"
+    hero_rel = f"/assets/images/{hero_base}.webp"
     hero_abs = f"{SITE_URL.rstrip('/')}{hero_rel}"
     path_here = island_guide_href_path(lang, guide)
     canonical = f"{SITE_URL.rstrip('/')}{path_here}"
@@ -1317,7 +1317,7 @@ def build_island_guide_page(guide, lang, all_guides, guide_index):
         ocb = escape(fix_em(ol.get("category_label", "Island Guide")))
         rel_cards += (
             f'<a href="{ou}" class="card" style="text-decoration:none">'
-            f'<img src="/assets/images/bw-{hb}.webp" alt="{escape(fix_em(ol["h1"]))}" class="card-img" loading="lazy" width="800" height="530" decoding="async">'
+            f'<img src="/assets/images/{hb}.webp" alt="{escape(fix_em(ol["h1"]))}" class="card-img" loading="lazy" width="800" height="530" decoding="async">'
             f'<div class="card-body"><span class="cat-badge island-guide-badge">{ocb}</span>'
             f'<h3 class="card-h3" style="font-size:15px;margin-top:8px">{escape(fix_em(ol["h1"]))}</h3></div></a>'
         )
@@ -1437,7 +1437,7 @@ def build_island_hub_guides_html(lang, guides):
         hb = g.get("hero_basename", g["slugs"]["en"])
         cards.append(
             f'<a href="{u}" class="card island-guide-card" style="text-decoration:none">'
-            f'<img src="/assets/images/bw-{hb}.webp" alt="" class="card-img" loading="lazy" width="400" height="240">'
+            f'<img src="/assets/images/{hb}.webp" alt="" class="card-img" loading="lazy" width="400" height="240">'
             f'<div class="card-body"><span class="cat-badge island-guide-badge">{escape(fix_em(L.get("category_label", "Guide")))}</span>'
             f'<h3 class="card-h3">{escape(fix_em(L["h1"]))}</h3>'
             f'<p class="card-text">{escape(fix_em(L.get("card_teaser", L["meta_description"][:140])))}</p></div></a>'
@@ -1552,7 +1552,7 @@ def patch_waves_all_pages():
                         prev_bg = _BG_LIGHT
                     else:
                         prev_bg = _BG_WHITE
-                    wave_html = '\n' + wave_bottom(prev_bg, _BG_NAVY) + '\n'
+                    wave_html = '\n' + wave_bottom(prev_bg, "#000") + '\n'
                     h = h.replace(FQ_MARKER, wave_html + FQ_MARKER, 1)
                     changed = True
 
@@ -1565,7 +1565,7 @@ def patch_waves_all_pages():
                     prev_bg = _BG_LIGHT
                 else:
                     prev_bg = _BG_WHITE
-                wave_html = '\n' + wave_bottom(prev_bg, _BG_NAVY) + '\n'
+                wave_html = '\n' + wave_bottom(prev_bg, "#070f1c") + '\n'
                 h = h.replace(CTA_MARKER, wave_html + CTA_MARKER, 1)
                 changed = True
 
@@ -1584,15 +1584,15 @@ def patch_waves_all_pages():
                     curr_bg = _sec_bg(curr_cls)
                     if prev_bg == curr_bg or curr_bg == _BG_NAVY:
                         continue  # same bg or going to navy (handled elsewhere)
-                    # Insert wave_top before this section
+                    # Use wave_bottom when leaving a colored section (light/sand → white)
+                    # to avoid double-wave artifact. Use wave_top when entering colored section.
                     pos = sec_tags[i].start()
-                    wave_html = wave_top(curr_bg, prev_bg) + '\n  '
+                    if prev_bg in (_BG_LIGHT, _BG_SAND) and curr_bg == _BG_WHITE:
+                        wave_html = wave_bottom(prev_bg, curr_bg) + '\n  '
+                    else:
+                        wave_html = wave_top(curr_bg, prev_bg) + '\n  '
                     h = h[:pos] + wave_html + h[pos:]
                     changed = True
-
-                # Rebuild sec_tags positions after insertions
-                # Also add wave_bottom at end of each sec-light that's followed by white
-                # (simpler: skip this for now — wave_top on next section is enough)
 
             if changed:
                 with open(path, 'w', encoding='utf-8') as f:
@@ -3547,10 +3547,10 @@ def patch_home_blog_preview_all():
             meta_   = fix_em(art.get("meta_description", en_art.get("meta_description", "")))[:120]
             cat_    = en_art.get("category", "")
             # Must check .webp (B&W preferred, then colour, then fallback)
-            img_bw   = os.path.join(DEMO_DIR, "assets", "images", f"bw-{slug}.webp")
+            img_bw   = os.path.join(DEMO_DIR, "assets", "images", f"{slug}.webp")
             img_webp = os.path.join(DEMO_DIR, "assets", "images", f"{slug}.webp")
             if os.path.exists(img_bw):
-                img_src = f"/assets/images/bw-{slug}.webp"
+                img_src = f"/assets/images/{slug}.webp"
             elif os.path.exists(img_webp):
                 img_src = f"/assets/images/{slug}.webp"
             else:
@@ -7561,6 +7561,9 @@ if _rc_blog.returncode != 0:
     print("WARNING: blog legacy rebuild failed (exit %s)" % _rc_blog.returncode)
 print("Patching <head> on FAQ/blog output (fonts, asset version)…")
 patch_head_all_pages()
+
+print("Re-patching wave dividers (surfing/surf-house/gallery built after first pass)…")
+patch_waves_all_pages()
 
 print("Refreshing footer on all HTML pages (GMB badge + translations)…")
 patch_all_footers()

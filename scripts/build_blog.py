@@ -631,6 +631,7 @@ def nav_html(active, lang, pfx, page_slug="", lang_urls=None):
         ("surfing",{"en":"Surfing","fr":"Surf","es":"Surf","it":"Surf","de":"Surfen","nl":"Surfen","ar":"ركوب الأمواج","pt":"Surf","da":"Surfing"}),
         ("blog",   {"en":"Blog","fr":"Blog","es":"Blog","it":"Blog","de":"Blog","nl":"Blog","ar":"المدونة","pt":"Blog","da":"Blog"}),
         ("gallery",{"en":"Gallery","fr":"Galerie","es":"Galería","it":"Galleria","de":"Galerie","nl":"Galerij","ar":"معرض الصور","pt":"Galeria","da":"Galleri"}),
+        ("faq",    {"en":"FAQ","fr":"FAQ","es":"FAQ","it":"FAQ","de":"FAQ","nl":"FAQ","ar":"الأسئلة الشائعة","pt":"FAQ","da":"FAQ"}),
         ("booking",{"en":"Book Now","fr":"Réserver","es":"Reservar","it":"Prenota","de":"Buchen","nl":"Boeken","ar":"احجز الآن","pt":"Reservar","da":"Book Nu"}),
     ]
     def _item_href(key):
@@ -696,7 +697,7 @@ def footer_html(lang, pfx):
     PP_SLUG={"en":"privacy-policy","fr":"politique-de-confidentialite","es":"politica-de-privacidad","it":"informativa-sulla-privacy","de":"datenschutzrichtlinie","nl":"privacybeleid","ar":"privacy-policy","pt":"politica-de-privacidade","da":"privatlivspolitik"}
     PP_LBL={"en":"Privacy Policy","fr":"Politique de confidentialité","es":"Política de privacidad","it":"Informativa sulla privacy","de":"Datenschutzrichtlinie","nl":"Privacybeleid","ar":"سياسة الخصوصية","pt":"Política de Privacidade","da":"Privatlivspolitik"}
     pp_href=f"{pfx}/{PP_SLUG[lang]}/"
-    return f'<footer><div class="container"><div class="footer-grid"><div><img src="{LOGO}" alt="Ngor Surfcamp Teranga" class="footer-brand-logo" loading="lazy"><p>{ABOUT[lang]}</p><div class="footer-social"><a href="https://wa.me/221789257025" target="_blank" class="soc-btn wa" aria-label="WhatsApp"><span style="display:inline-flex">{WA_ICO}</span></a><a href="https://www.instagram.com/ngorsurfcampteranga" target="_blank" class="soc-btn ig" aria-label="Instagram"><span style="display:inline-flex">{IG}</span></a><a href="https://www.tiktok.com/@ngorsurfcampteranga" target="_blank" class="soc-btn tt" aria-label="TikTok"><span style="display:inline-flex">{TT}</span></a></div></div><div class="footer-col"><p class="footer-col-title">{EXP[lang]}</p>{lk}</div><div class="footer-col"><p class="footer-col-title">{"Contact" if lang in ["en","fr","es"] else "Contatti" if lang=="it" else "Kontakt"}</p><a href="https://wa.me/221789257025" target="_blank">WhatsApp: +221 78 925 70 25</a><a href="mailto:info@surfcampsenegal.com">info@surfcampsenegal.com</a></div><div class="footer-col"><p class="footer-col-title">{"Follow" if lang=="en" else "Suivez-nous" if lang=="fr" else "Síguenos" if lang=="es" else "Seguici" if lang=="it" else "Folgen"}</p><a href="https://www.instagram.com/ngorsurfcampteranga" target="_blank">Instagram</a><a href="https://www.tiktok.com/@ngorsurfcampteranga" target="_blank">TikTok</a></div></div><div class="footer-bottom"><p>{COPY[lang]} &nbsp;·&nbsp; <a href="{pp_href}" class="footer-pp-link">{PP_LBL[lang]}</a></p><div class="footer-flags">{fl}</div></div></div></footer>'
+    return f'<footer><div class="container"><div class="footer-grid"><div><img src="{LOGO}" alt="Ngor Surfcamp Teranga" class="footer-brand-logo" loading="lazy"><p>{ABOUT[lang]}</p><div class="footer-social"><a href="https://wa.me/221789257025" target="_blank" class="soc-btn wa" aria-label="WhatsApp"><span style="display:inline-flex">{WA_ICO}</span></a><a href="https://www.instagram.com/ngorsurfcampteranga" target="_blank" class="soc-btn ig" aria-label="Instagram"><span style="display:inline-flex">{IG}</span></a><a href="https://www.tiktok.com/@ngor.surfcampteranga" target="_blank" class="soc-btn tt" aria-label="TikTok"><span style="display:inline-flex">{TT}</span></a></div></div><div class="footer-col"><p class="footer-col-title">{EXP[lang]}</p>{lk}</div><div class="footer-col"><p class="footer-col-title">{"Contact" if lang in ["en","fr","es"] else "Contatti" if lang=="it" else "Kontakt"}</p><a href="https://wa.me/221789257025" target="_blank">WhatsApp: +221 78 925 70 25</a><a href="mailto:info@surfcampsenegal.com">info@surfcampsenegal.com</a></div><div class="footer-col"><p class="footer-col-title">{"Follow" if lang=="en" else "Suivez-nous" if lang=="fr" else "Síguenos" if lang=="es" else "Seguici" if lang=="it" else "Folgen"}</p><a href="https://www.instagram.com/ngorsurfcampteranga" target="_blank">Instagram</a><a href="https://www.tiktok.com/@ngor.surfcampteranga" target="_blank">TikTok</a></div></div><div class="footer-bottom"><p>{COPY[lang]} &nbsp;·&nbsp; <a href="{pp_href}" class="footer-pp-link">{PP_LBL[lang]}</a></p><div class="footer-flags">{fl}</div></div></div></footer>'
 
 PERSONA_COLORS = {"maya-beginner":("#29b6f6","#e0f7fa"),"jake-weekend":("#ff6b35","#fff3ef"),"lena-committed":("#9c27b0","#f3e5f5"),"carlos-globetrotter":("#0a2540","#e8edf5"),"amara-soul":("#e91e63","#fce4ec")}
 
@@ -1018,10 +1019,10 @@ def build_article(en_art, lang):
     content = md2html(content_raw, lang, pfx)
     content = faq_to_accordion(content)
 
-    _bw_p  = f"{DEMO_DIR}/assets/images/bw-{en_slug}.webp"
+    _bw_p  = f"{DEMO_DIR}/assets/images/{en_slug}.webp"
     _col_p = f"{DEMO_DIR}/assets/images/{en_slug}.webp"
     if os.path.exists(_bw_p):
-        img = f"/assets/images/bw-{en_slug}.webp"
+        img = f"/assets/images/{en_slug}.webp"
     elif os.path.exists(_col_p):
         img = f"/assets/images/{en_slug}.webp"
     else:
@@ -1059,10 +1060,10 @@ def build_article(en_art, lang):
         r_slug = r["slug"]
         r_art  = arts_by_lang[lang].get(r_slug, r)
         r_title = fix_em(r_art.get("title", r["title"]))
-        r_bw_path  = f"{DEMO_DIR}/assets/images/bw-{r_slug}.webp"
+        r_bw_path  = f"{DEMO_DIR}/assets/images/{r_slug}.webp"
         r_img_path = f"{DEMO_DIR}/assets/images/{r_slug}.webp"
         if os.path.exists(r_bw_path):
-            r_img_src = f"/assets/images/bw-{r_slug}.webp"
+            r_img_src = f"/assets/images/{r_slug}.webp"
         elif os.path.exists(r_img_path):
             r_img_src = f"/assets/images/{r_slug}.webp"
         else:
@@ -1211,8 +1212,8 @@ FALLBACK_IMG = "/assets/images/wix/df99f9_961b0768e713457f93025f4ce6fb1419.webp"
 
 def art_img(slug):
     """Return best available image src for an article (B&W preferred for card/preview style)."""
-    if os.path.exists(f"{DEMO_DIR}/assets/images/bw-{slug}.webp"):
-        return f"/assets/images/bw-{slug}.webp"
+    if os.path.exists(f"{DEMO_DIR}/assets/images/{slug}.webp"):
+        return f"/assets/images/{slug}.webp"
     if os.path.exists(f"{DEMO_DIR}/assets/images/{slug}.webp"):
         return f"/assets/images/{slug}.webp"
     return FALLBACK_IMG
