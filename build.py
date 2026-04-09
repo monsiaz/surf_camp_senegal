@@ -5487,7 +5487,8 @@ def build_surf_house(lang):
     <div class="container">
       <div class="sh-acc-split">
         <div class="sh-acc-photo-col reveal">
-          <img src="/assets/images/gallery/CAML1150_c1f8abfe.webp" alt="{pe(C["acc_h2"])}" width="600" height="500" loading="lazy" decoding="async">
+          <img src="/assets/images/gallery/CAML1150_c1f8abfe.webp" alt="{pe(C["acc_h2"])}" width="600" height="460" loading="lazy" decoding="async" class="sh-acc-img--1">
+          <img src="/assets/images/gallery/CAML1133_c4e634ba.webp" alt="Piscine Ngor Surf House" width="400" height="260" loading="lazy" decoding="async" class="sh-acc-img--2">
           <span class="sh-acc-photo-badge">Ngor Surf House · Île de Ngor</span>
         </div>
         <div class="sh-acc-feats-col reveal">
