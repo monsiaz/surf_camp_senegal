@@ -5552,6 +5552,253 @@ def build_surf_house(lang):
     return html
 
 
+
+SURF_SPOTS_COPY = {
+    "en": {
+        "lbl": "The Breaks",
+        "h2": "Dakar's Best Surf Spots",
+        "intro": "From the legendary Endless Summer reef break to mellow beginner waves, the Cap Vert peninsula offers a constellation of world-class setups within a 30-minute radius.",
+        "spots": [
+            {
+                "name": "Endless Summer (Ngor Right South)",
+                "level": "Intermediate to Advanced",
+                "desc": "The legendary fast, hollow right-hander immortalized in Bruce Brown's 1966 film. Breaking over a shallow lava reef, it offers 100-200m rides when NW swells align with offshore NE trade winds."
+            },
+            {
+                "name": "N'Gor Right (Northwest Point)",
+                "level": "Intermediate",
+                "desc": "A longer, mellower right point on the island's tip. It wraps NW swells into carveable walls peeling up to 300 meters. Less critical than Endless Summer, it's a perfect playground for progressive turns and longboarders."
+            },
+            {
+                "name": "Vivier (Ngor Lagoon)",
+                "level": "Beginner",
+                "desc": "A protected, sandy-bottom reform wave inside the island's northeastern bay. Offering gentle 1-3ft rollers, it provides a safe, low-risk environment for first-timers and kids learning to surf."
+            },
+            {
+                "name": "Dakar Peninsula Breaks",
+                "level": "All Levels",
+                "desc": "Just a short boat ride and taxi away: Yoff's consistent beachbreaks and right point, Virage's beginner-friendly shorebreak, the Ouakam reef pass, and the heavy, expert-only Secret Spot at Pointe des Almadies."
+            }
+        ]
+    },
+    "fr": {
+        "lbl": "Les Spots",
+        "h2": "Les Meilleurs Spots de Dakar",
+        "intro": "Du légendaire reef break Endless Summer aux vagues douces pour débutants, la presqu'île du Cap-Vert offre une constellation de spots de classe mondiale dans un rayon de 30 minutes.",
+        "spots": [
+            {
+                "name": "Endless Summer (Ngor Right Sud)",
+                "level": "Intermédiaire à Avancé",
+                "desc": "La légendaire droite rapide et creuse immortalisée dans le film de Bruce Brown en 1966. Déroulant sur un récif de lave peu profond, elle offre des rides de 100 à 200m quand la houle NO s'aligne avec les alizés NE offshore."
+            },
+            {
+                "name": "N'Gor Right (Pointe Nord-Ouest)",
+                "level": "Intermédiaire",
+                "desc": "Une longue droite plus douce sur la pointe de l'île. Elle enroule la houle NO en murs massifs déroulant jusqu'à 300 mètres. Moins critique qu'Endless Summer, c'est un terrain de jeu parfait pour les virages progressifs et le longboard."
+            },
+            {
+                "name": "Vivier (Lagon de Ngor)",
+                "level": "Débutant",
+                "desc": "Une vague de reforme protégée sur fond de sable dans la baie nord-est de l'île. Offrant de douces ondulations, elle constitue un environnement sûr et sans risque pour les novices et les enfants qui apprennent à surfer."
+            },
+            {
+                "name": "Les Spots de la Presqu'île",
+                "level": "Tous Niveaux",
+                "desc": "À un court trajet en bateau et taxi : les beachbreaks réguliers et la droite de Yoff, le shorebreak accessible de Virage, la passe de récif de Ouakam, et le Secret Spot des Almadies, lourd et réservé aux experts."
+            }
+        ]
+    },
+    "es": {
+        "lbl": "Los Spots",
+        "h2": "Los Mejores Spots de Dakar",
+        "intro": "Desde el legendario reef break Endless Summer hasta olas suaves para principiantes, la península de Cap Vert ofrece una constelación de configuraciones de clase mundial en un radio de 30 minutos.",
+        "spots": [
+            {
+                "name": "Endless Summer (Ngor Right Sur)",
+                "level": "Intermedio a Avanzado",
+                "desc": "La legendaria derecha rápida y hueca inmortalizada en la película de Bruce Brown de 1966. Rompiendo sobre un arrecife de lava poco profundo, ofrece recorridos de 100-200m cuando los swells del NO se alinean con los vientos alisios del NE offshore."
+            },
+            {
+                "name": "N'Gor Right (Punta Noroeste)",
+                "level": "Intermedio",
+                "desc": "Una derecha más larga y suave en la punta de la isla. Envuelve los swells del NO en paredes maniobrables que rompen hasta 300 metros. Menos crítica que Endless Summer, es un patio de recreo perfecto para giros progresivos y longboarders."
+            },
+            {
+                "name": "Vivier (Laguna de Ngor)",
+                "level": "Principiante",
+                "desc": "Una ola de reforma protegida con fondo de arena dentro de la bahía noreste de la isla. Ofreciendo suaves rodillos de 1-3 pies, proporciona un entorno seguro y de bajo riesgo para principiantes y niños que aprenden a surfear."
+            },
+            {
+                "name": "Spots de la Península de Dakar",
+                "level": "Todos los Niveles",
+                "desc": "A un corto viaje en barco y taxi: los consistentes beachbreaks y la derecha de Yoff, el shorebreak accesible de Virage, el pase de arrecife de Ouakam y el pesado Secret Spot en Pointe des Almadies, solo para expertos."
+            }
+        ]
+    },
+    "it": {
+        "lbl": "Gli Spot",
+        "h2": "I Migliori Spot di Dakar",
+        "intro": "Dal leggendario reef break Endless Summer alle onde dolci per principianti, la penisola di Cap Vert offre una costellazione di setup di livello mondiale in un raggio di 30 minuti.",
+        "spots": [
+            {
+                "name": "Endless Summer (Ngor Right Sud)",
+                "level": "Da Intermedio ad Avanzato",
+                "desc": "La leggendaria destra veloce e tubante immortalata nel film di Bruce Brown del 1966. Rompendo su un reef di lava poco profondo, offre corse di 100-200m quando le mareggiate da NO si allineano con gli alisei da NE offshore."
+            },
+            {
+                "name": "N'Gor Right (Punta Nord-Ovest)",
+                "level": "Intermedio",
+                "desc": "Una destra più lunga e dolce sulla punta dell'isola. Avvolge le mareggiate da NO in pareti manovrabili che srotolano fino a 300 metri. Meno critica di Endless Summer, è un parco giochi perfetto per curve progressive e longboarder."
+            },
+            {
+                "name": "Vivier (Laguna di Ngor)",
+                "level": "Principiante",
+                "desc": "Un'onda di riforma protetta con fondo sabbioso all'interno della baia nord-est dell'isola. Offrendo dolci rulli di 1-3 piedi, fornisce un ambiente sicuro e a basso rischio per i principianti e i bambini che imparano a surfare."
+            },
+            {
+                "name": "Spot della Penisola di Dakar",
+                "level": "Tutti i Livelli",
+                "desc": "A un breve tragitto in barca e taxi: i consistenti beachbreak e la destra di Yoff, l'accessibile shorebreak di Virage, il reef pass di Ouakam e il pesante Secret Spot a Pointe des Almadies, solo per esperti."
+            }
+        ]
+    },
+    "de": {
+        "lbl": "Die Spots",
+        "h2": "Dakars Beste Surfspots",
+        "intro": "Vom legendären Endless Summer Reef Break bis zu sanften Anfängerwellen bietet die Halbinsel Cap Vert eine Konstellation von Weltklasse-Setups in einem Radius von 30 Minuten.",
+        "spots": [
+            {
+                "name": "Endless Summer (Ngor Right Süd)",
+                "level": "Mittelstufe bis Fortgeschritten",
+                "desc": "Die legendäre schnelle, hohle Rechte, die in Bruce Browns Film von 1966 verewigt wurde. Sie bricht über einem flachen Lavariff und bietet 100-200m lange Ritte, wenn NW-Swells mit ablandigen NE-Passatwinden übereinstimmen."
+            },
+            {
+                "name": "N'Gor Right (Nordwestspitze)",
+                "level": "Mittelstufe",
+                "desc": "Eine längere, sanftere rechte Pointbreak an der Spitze der Insel. Sie wickelt NW-Swells in fahrbare Wände, die bis zu 300 Meter abrollen. Weniger kritisch als Endless Summer, ist es ein perfekter Spielplatz für progressive Turns und Longboarder."
+            },
+            {
+                "name": "Vivier (Ngor Lagune)",
+                "level": "Anfänger",
+                "desc": "Eine geschützte Reformwelle mit Sandboden in der nordöstlichen Bucht der Insel. Mit sanften 1-3 Fuß hohen Rollen bietet sie eine sichere, risikoarme Umgebung für Anfänger und Kinder, die surfen lernen."
+            },
+            {
+                "name": "Dakar Halbinsel Spots",
+                "level": "Alle Level",
+                "desc": "Nur eine kurze Boots- und Taxifahrt entfernt: Yoffs beständige Beachbreaks und rechte Pointbreak, Virages anfängerfreundlicher Shorebreak, der Ouakam Reef Pass und der schwere Secret Spot an der Pointe des Almadies, nur für Experten."
+            }
+        ]
+    },
+    "nl": {
+        "lbl": "De Spots",
+        "h2": "Dakars Beste Surfspots",
+        "intro": "Van de legendarische Endless Summer reef break tot zachte beginnersgolven, het schiereiland Cap Vert biedt een constellatie van wereldklasse setups binnen een straal van 30 minuten.",
+        "spots": [
+            {
+                "name": "Endless Summer (Ngor Right Zuid)",
+                "level": "Gemiddeld tot Gevorderd",
+                "desc": "De legendarische snelle, holle rechter die vereeuwigd is in Bruce Browns film uit 1966. Brekend over een ondiep lavarif, biedt het ritten van 100-200m wanneer NW-swells samenvallen met aflandige NE-passaatwinden."
+            },
+            {
+                "name": "N'Gor Right (Noordwestpunt)",
+                "level": "Gemiddeld",
+                "desc": "Een langere, zachtere rechter pointbreak op de punt van het eiland. Het wikkelt NW-swells in berijdbare muren die tot 300 meter afrollen. Minder kritiek dan Endless Summer, het is een perfecte speeltuin voor progressieve bochten en longboarders."
+            },
+            {
+                "name": "Vivier (Ngor Lagune)",
+                "level": "Beginner",
+                "desc": "Een beschermde hervormingsgolf met zandbodem in de noordoostelijke baai van het eiland. Met zachte rollers van 1-3 voet biedt het een veilige, risicoarme omgeving voor beginners en kinderen die leren surfen."
+            },
+            {
+                "name": "Dakar Schiereiland Spots",
+                "level": "Alle Niveaus",
+                "desc": "Slechts een korte boot- en taxirit verwijderd: Yoffs consistente beachbreaks en rechter pointbreak, Virages beginnersvriendelijke shorebreak, de Ouakam reef pass en de zware Secret Spot bij Pointe des Almadies, alleen voor experts."
+            }
+        ]
+    },
+    "ar": {
+        "lbl": "أماكن ركوب الأمواج",
+        "h2": "أفضل أماكن ركوب الأمواج في داكار",
+        "intro": "من شعاب Endless Summer الأسطورية إلى الأمواج الهادئة للمبتدئين، توفر شبه جزيرة الرأس الأخضر مجموعة من الإعدادات ذات المستوى العالمي في دائرة نصف قطرها 30 دقيقة.",
+        "spots": [
+            {
+                "name": "Endless Summer (نغور رايت جنوب)",
+                "level": "متوسط إلى متقدم",
+                "desc": "الموجة اليمنى السريعة والمجوفة الأسطورية التي خلدها فيلم بروس براون عام 1966. تتكسر فوق شعاب حمم بركانية ضحلة، وتوفر جولات بطول 100-200 متر عندما تتوافق أمواج الشمال الغربي مع الرياح التجارية الشمالية الشرقية البحرية."
+            },
+            {
+                "name": "N'Gor Right (النقطة الشمالية الغربية)",
+                "level": "متوسط",
+                "desc": "نقطة يمنى أطول وأكثر هدوءًا على طرف الجزيرة. إنها تلف أمواج الشمال الغربي في جدران قابلة للركوب تتدحرج حتى 300 متر. أقل خطورة من Endless Summer، إنها ملعب مثالي للمنعطفات التقدمية والمتزلجين على الألواح الطويلة."
+            },
+            {
+                "name": "Vivier (بحيرة نغور)",
+                "level": "مبتدئ",
+                "desc": "موجة إصلاح محمية ذات قاع رملي داخل الخليج الشمالي الشرقي للجزيرة. توفر بكرات لطيفة من 1-3 أقدام، وتوفر بيئة آمنة ومنخفضة المخاطر للمبتدئين والأطفال الذين يتعلمون ركوب الأمواج."
+            },
+            {
+                "name": "أماكن شبه جزيرة داكار",
+                "level": "جميع المستويات",
+                "desc": "على بعد رحلة قصيرة بالقارب وسيارة الأجرة: شواطئ Yoff المتسقة والنقطة اليمنى، وشاطئ Virage الصديق للمبتدئين، وممر شعاب Ouakam، و Secret Spot الثقيل المخصص للخبراء فقط في Pointe des Almadies."
+            }
+        ]
+    },
+    "pt": {
+        "lbl": "Os Spots",
+        "h2": "Os Melhores Spots de Dakar",
+        "intro": "Do lendário reef break Endless Summer às ondas suaves para iniciantes, a península de Cap Vert oferece uma constelação de setups de classe mundial num raio de 30 minutos.",
+        "spots": [
+            {
+                "name": "Endless Summer (Ngor Right Sul)",
+                "level": "Intermediário a Avançado",
+                "desc": "A lendária direita rápida e tubular imortalizada no filme de Bruce Brown de 1966. Quebrando sobre um recife de lava raso, oferece passeios de 100-200m quando os swells de NO se alinham com os ventos alísios de NE offshore."
+            },
+            {
+                "name": "N'Gor Right (Ponta Noroeste)",
+                "level": "Intermediário",
+                "desc": "Uma direita mais longa e suave na ponta da ilha. Envolve os swells de NO em paredes manobráveis que descascam até 300 metros. Menos crítica que Endless Summer, é um playground perfeito para curvas progressivas e longboarders."
+            },
+            {
+                "name": "Vivier (Lagoa de Ngor)",
+                "level": "Iniciante",
+                "desc": "Uma onda de reforma protegida com fundo de areia dentro da baía nordeste da ilha. Oferecendo rolos suaves de 1-3 pés, proporciona um ambiente seguro e de baixo risco para iniciantes e crianças que aprendem a surfar."
+            },
+            {
+                "name": "Spots da Península de Dakar",
+                "level": "Todos os Níveis",
+                "desc": "A uma curta viagem de barco e táxi: os consistentes beachbreaks e a direita de Yoff, o shorebreak acessível de Virage, o passe de recife de Ouakam e o pesado Secret Spot em Pointe des Almadies, apenas para especialistas."
+            }
+        ]
+    },
+    "da": {
+        "lbl": "Spots",
+        "h2": "Dakars Bedste Surfspots",
+        "intro": "Fra det legendariske Endless Summer reef break til bløde begynderbølger tilbyder Cap Vert-halvøen en konstellation af verdensklasse setups inden for en radius af 30 minutter.",
+        "spots": [
+            {
+                "name": "Endless Summer (Ngor Right Syd)",
+                "level": "Øvet til Avanceret",
+                "desc": "Den legendariske hurtige, hule højrehåndsbølge udødeliggjort i Bruce Browns film fra 1966. Den bryder over et lavt lavarev og tilbyder 100-200m lange ture, når NV-dønninger stemmer overens med fralands NØ-passatvinde."
+            },
+            {
+                "name": "N'Gor Right (Nordvestpunkt)",
+                "level": "Øvet",
+                "desc": "Et længere, blødere højre pointbreak på øens spids. Det pakker NV-dønninger ind i ridelige vægge, der skræller op til 300 meter. Mindre kritisk end Endless Summer, det er en perfekt legeplads for progressive sving og longboardere."
+            },
+            {
+                "name": "Vivier (Ngor Lagune)",
+                "level": "Begynder",
+                "desc": "En beskyttet reformbølge med sandbund inde i øens nordøstlige bugt. Den tilbyder bløde 1-3 fods ruller og giver et sikkert, lavrisikomiljø for begyndere og børn, der lærer at surfe."
+            },
+            {
+                "name": "Dakar Halvø Spots",
+                "level": "Alle Niveauer",
+                "desc": "Kun en kort båd- og taxatur væk: Yoffs konsekvente beachbreaks og højre pointbreak, Virages begyndervenlige shorebreak, Ouakam reef pass og det tunge Secret Spot ved Pointe des Almadies, kun for eksperter."
+            }
+        ]
+    }
+}
+
 SURF_SPLIT_COPY = {
     "en": {
         "h2_waves":      "World-class waves,<br>uncrowded lineups",
@@ -5692,6 +5939,7 @@ SURF_SPLIT_COPY = {
 def build_surfing(lang):
     C = _site_page_mod.merge_surfing_copy(_BASE_DIR, lang, SURF_PAGE_COPY[lang])
     SC = SURF_SPLIT_COPY.get(lang, SURF_SPLIT_COPY["en"])
+    S_SPOTS = SURF_SPOTS_COPY.get(lang, SURF_SPOTS_COPY["en"])
     pfx = LANG_PFX[lang]
     book_href = f"{pfx}/{SLUG[lang]['booking']}/"
     if not book_href.startswith("/"):
@@ -5805,6 +6053,40 @@ def build_surfing(lang):
   </section>
 
   {wave_top(_BG_LIGHT, _BG_WHITE)}
+  <!-- Surf Spots Section -->
+  <section class="section surf-spots-sec" id="surf-spots" style="background:#fff;">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:64px" class="reveal">
+        <span class="s-label">{pe(S_SPOTS.get("lbl", "The Breaks"))}</span>
+        <h2 class="s-title">{pe(S_SPOTS.get("h2", "Dakar's Best Surf Spots"))}</h2>
+        <p style="max-width:700px;margin:16px auto 0;color:var(--text-light);font-size:1.1rem;line-height:1.6;">
+          {pe(S_SPOTS.get("intro", ""))}
+        </p>
+      </div>
+      <div class="surf-spots-grid reveal">
+"""
+    for i, spot in enumerate(S_SPOTS.get("spots", [])):
+        img_src = IMGS["surf"] if i % 2 == 0 else IMGS["surf2"]
+        if i == 2: img_src = IMGS["island2"]
+        if i == 3: img_src = IMGS["sunset"]
+        html += f"""
+        <div class="surf-spot-card">
+          <div class="surf-spot-img-wrap">
+            <img src="{img_src}" alt="{pe(spot["name"])}" loading="lazy" width="400" height="250" class="surf-spot-img">
+            <div class="surf-spot-level">{pe(spot["level"])}</div>
+          </div>
+          <div class="surf-spot-content">
+            <h3 class="surf-spot-name">{pe(spot["name"])}</h3>
+            <p class="surf-spot-desc">{pe(spot["desc"])}</p>
+          </div>
+        </div>
+        """
+    html += f"""
+      </div>
+    </div>
+  </section>
+  {wave_bottom(_BG_WHITE, _BG_LIGHT)}
+
   <section class="section sec-light" id="surf-forecast">
     <div class="container">
       <div style="text-align:center;margin-bottom:48px" class="reveal">
