@@ -164,6 +164,14 @@ SLUG = {
            "booking":"reservation","gallery":"galerie","faq":"faq","blog":"blog",
            "privacy-policy":"privacy-policy","category":"categorie",
            "surf-conditions":"surf-conditions"},
+    "pt": {"surf-house":"surf-house","island":"ilha","surfing":"surf",
+           "booking":"reservar","gallery":"galeria","faq":"faq","blog":"blog",
+           "privacy-policy":"politica-de-privacidade","category":"categoria",
+           "surf-conditions":"condicoes-surf"},
+    "da": {"surf-house":"surf-house","island":"o","surfing":"surf",
+           "booking":"book","gallery":"galleri","faq":"faq","blog":"blog",
+           "privacy-policy":"privatlivspolitik","category":"kategori",
+           "surf-conditions":"surf-forhold"},
 }
 
 # ── Blog category definitions ─────────────────────────────────────────────
@@ -3567,16 +3575,18 @@ def patch_home_forecast_all():
     """Inject the surf forecast widget into every home page, right before the Instagram section."""
     import re as _re
     FC_COPY = {
-        "en": {"lbl":"Live Forecast","h2":"Surf Conditions at Ngor","now":"Right now","height":"Wave height","period":"Period","dir":"Direction","swell":"Swell","wind":"Wind","temp":"Water temp","day7":"7-day forecast","powered":"Data: Open-Meteo.com","err":"Forecast temporarily unavailable"},
-        "fr": {"lbl":"Prévisions en direct","h2":"Conditions surf à Ngor","now":"En ce moment","height":"Hauteur des vagues","period":"Période","dir":"Direction","swell":"Houle","wind":"Vent","temp":"Temp. eau","day7":"Prévisions 7 jours","powered":"Données : Open-Meteo.com","err":"Prévisions temporairement indisponibles"},
-        "es": {"lbl":"Previsión en directo","h2":"Condiciones surf en Ngor","now":"Ahora mismo","height":"Altura de ola","period":"Período","dir":"Dirección","swell":"Oleaje","wind":"Viento","temp":"Temp. agua","day7":"Previsión 7 días","powered":"Datos: Open-Meteo.com","err":"Previsión no disponible temporalmente"},
-        "it": {"lbl":"Previsioni live","h2":"Condizioni surf a Ngor","now":"In questo momento","height":"Altezza onde","period":"Periodo","dir":"Direzione","swell":"Mareggiata","wind":"Vento","temp":"Temp. acqua","day7":"Previsioni 7 giorni","powered":"Dati: Open-Meteo.com","err":"Previsioni temporaneamente non disponibili"},
-        "de": {"lbl":"Live-Vorhersage","h2":"Surfbedingungen in Ngor","now":"Gerade jetzt","height":"Wellenhöhe","period":"Periode","dir":"Richtung","swell":"Dünung","wind":"Wind","temp":"Wassertemp.","day7":"7-Tage-Vorhersage","powered":"Daten: Open-Meteo.com","err":"Vorhersage vorübergehend nicht verfügbar"},
-        "nl": {"lbl":"Live voorspelling","h2":"Surfcondities in Ngor","now":"Nu","height":"Golfhoogte","period":"Periode","dir":"Richting","swell":"Deining","wind":"Wind","temp":"Watertemp.","day7":"7-daagse voorspelling","powered":"Data: Open-Meteo.com","err":"Voorspelling tijdelijk niet beschikbaar"},
-        "ar": {"lbl":"توقعات مباشرة","h2":"أحوال الأمواج في نغور","now":"الآن","height":"ارتفاع الموج","period":"الفترة","dir":"الاتجاه","swell":"الموج الطويل","wind":"الرياح","temp":"حرارة الماء","day7":"توقعات 7 أيام","powered":"البيانات: Open-Meteo.com","err":"التوقعات غير متاحة مؤقتاً"},
+        "en": {"lbl":"Live Forecast","h2":"Surf Conditions at Ngor","now":"Right now","height":"Wave height","period":"Period","dir":"Direction","swell":"Swell","wind":"Wind","temp":"Water temp","day7":"7-day forecast","powered":"Data: Open-Meteo.com","err":"Forecast temporarily unavailable", "cta":"Detailed Surf Forecast"},
+        "fr": {"lbl":"Prévisions en direct","h2":"Conditions surf à Ngor","now":"En ce moment","height":"Hauteur des vagues","period":"Période","dir":"Direction","swell":"Houle","wind":"Vent","temp":"Temp. eau","day7":"Prévisions 7 jours","powered":"Données : Open-Meteo.com","err":"Prévisions temporairement indisponibles", "cta":"Prévisions Détaillées"},
+        "es": {"lbl":"Previsión en directo","h2":"Condiciones surf en Ngor","now":"Ahora mismo","height":"Altura de ola","period":"Período","dir":"Dirección","swell":"Oleaje","wind":"Viento","temp":"Temp. agua","day7":"Previsión 7 días","powered":"Datos: Open-Meteo.com","err":"Previsión no disponible temporalmente", "cta":"Previsión Detallada"},
+        "it": {"lbl":"Previsioni live","h2":"Condizioni surf a Ngor","now":"In questo momento","height":"Altezza onde","period":"Periodo","dir":"Direzione","swell":"Mareggiata","wind":"Vento","temp":"Temp. acqua","day7":"Previsioni 7 giorni","powered":"Dati: Open-Meteo.com","err":"Previsioni temporaneamente non disponibili", "cta":"Previsioni Dettagliate"},
+        "de": {"lbl":"Live-Vorhersage","h2":"Surfbedingungen in Ngor","now":"Gerade jetzt","height":"Wellenhöhe","period":"Periode","dir":"Richtung","swell":"Dünung","wind":"Wind","temp":"Wassertemp.","day7":"7-Tage-Vorhersage","powered":"Daten: Open-Meteo.com","err":"Vorhersage vorübergehend nicht verfügbar", "cta":"Detaillierte Vorhersage"},
+        "nl": {"lbl":"Live voorspelling","h2":"Surfcondities in Ngor","now":"Nu","height":"Golfhoogte","period":"Periode","dir":"Richting","swell":"Deining","wind":"Wind","temp":"Watertemp.","day7":"7-daagse voorspelling","powered":"Data: Open-Meteo.com","err":"Voorspelling tijdelijk niet beschikbaar", "cta":"Gedetailleerde Voorspelling"},
+        "ar": {"lbl":"توقعات مباشرة","h2":"أحوال الأمواج في نغور","now":"الآن","height":"ارتفاع الموج","period":"الفترة","dir":"الاتجاه","swell":"الموج الطويل","wind":"الرياح","temp":"حرارة الماء","day7":"توقعات 7 أيام","powered":"البيانات: Open-Meteo.com","err":"التوقعات غير متاحة مؤقتاً", "cta":"توقعات مفصلة للأمواج"},
+        "pt": {"lbl":"Previsão ao vivo","h2":"Condições de surf em Ngor","now":"Agora mesmo","height":"Altura da onda","period":"Período","dir":"Direção","swell":"Ondulação","wind":"Vento","temp":"Temp. da água","day7":"Previsão 7 dias","powered":"Dados: Open-Meteo.com","err":"Previsão temporariamente indisponível", "cta":"Previsão Detalhada de Surf"},
+        "da": {"lbl":"Live Udsigt","h2":"Surfforhold ved Ngor","now":"Lige nu","height":"Bølgehøjde","period":"Periode","dir":"Retning","swell":"Dønning","wind":"Vind","temp":"Vandtemp.","day7":"7-dages udsigt","powered":"Data: Open-Meteo.com","err":"Udsigt midlertidigt utilgængelig", "cta":"Detaljeret Surfudsigt"},
     }
     n = 0
-    for lang in LANGS:
+    for lang in ALL_LANGS:
         rel  = "index.html" if lang == "en" else f"{lang}/index.html"
         path_f = os.path.join(DEMO_DIR, rel)
         if not os.path.isfile(path_f):
@@ -3610,6 +3620,11 @@ def patch_home_forecast_all():
            data-lbl-powered="{c["powered"]}"
            data-lbl-err="{c["err"]}">
         <div class="fc-loading"><div class="fc-spinner"></div></div>
+      </div>
+      <div style="text-align:center;margin-top:32px" class="reveal">
+        <a href="{LANG_PFX[lang]}/{SLUG[lang]['surf-conditions']}/" class="btn btn-deep btn-lg">
+          {c["cta"]}
+        </a>
       </div>
     </div>
   </section>
