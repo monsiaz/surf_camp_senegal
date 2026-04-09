@@ -414,23 +414,38 @@ def icon_img(name, size=24):
     return ""
 
 # ── Wave section dividers ──────────────────────────────────────────────
-def wave_top(next_bg, prev_fill):
-    """Wave strip: prev_fill shape on top fading into next_bg below."""
-    return (
-        f'<div class="wave-top" style="background:{next_bg}" aria-hidden="true">'
-        f'<svg viewBox="0 0 1440 52" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">'
-        f'<path d="M0 26 C240 50,480 2,720 28 C960 54,1200 4,1440 26 L1440 0 L0 0Z" fill="{prev_fill}"/>'
-        f'</svg></div>'
-    )
-
 def wave_bottom(prev_bg, next_fill):
-    """Wave strip: prev_bg on top fading into next_fill wave below."""
+    """Single wave divider: section above is prev_bg, section below is next_fill.
+    The wave-bottom SVG fills the bottom portion with next_fill on a prev_bg canvas.
+    Always use this — never wave_top — to avoid double-wave overlap artifacts."""
     return (
         f'<div class="wave-bottom" style="background:{prev_bg}" aria-hidden="true">'
         f'<svg viewBox="0 0 1440 52" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">'
         f'<path d="M0 26 C240 2,480 50,720 24 C960 -2,1200 48,1440 26 L1440 52 L0 52Z" fill="{next_fill}"/>'
         f'</svg></div>'
     )
+
+def wave_top(next_bg, prev_fill):
+    """Deprecated alias — redirects to wave_bottom with swapped args.
+    wave_top(X, Y) == wave_bottom(Y, X) visually; using only wave_bottom everywhere
+    prevents double-wave artifacts when both were placed at the same boundary."""
+    return wave_bottom(prev_fill, next_bg)
+
+
+def _dedup_adjacent_waves(html):
+    """Remove consecutive identical wave-bottom dividers (double-wave artefact guard)."""
+    import re
+    pat = re.compile(
+        r'(<div class="wave-bottom" style="background:#[0-9a-fA-F]+" aria-hidden="true">'
+        r'<svg[^>]*><path[^>]*/></svg></div>)'
+        r'(?:\s*\1)+',
+        re.DOTALL,
+    )
+    prev = None
+    while prev != html:
+        prev = html
+        html = pat.sub(r'\1', html)
+    return html
 
 # Home page background tokens (must match CSS)
 _BG_WHITE   = "#ffffff"
@@ -446,11 +461,11 @@ HOME_WAVE_PATCHES = [
         '\n\n  <section class="reviews-section"',
         lambda: f'\n\n  {wave_bottom(_BG_LIGHT, _BG_NAVY)}'
     ),
-    # This wave sits between reviews (navy) and the forecast/ig/blog block.
-    # It correctly marks the end of the navy section into sec-light.
+    # Wave between reviews (navy) and the forecast/ig/blog block.
+    # Navy section ends → sec-light begins.
     (
         '\n\n  <!-- BLOG PREVIEW -->',
-        lambda: f'\n\n  {wave_top(_BG_LIGHT, _BG_NAVY)}'
+        lambda: f'\n\n  {wave_bottom(_BG_NAVY, _BG_LIGHT)}'
     ),
     (
         '\n\n  \n  <!-- Getting Here teaser -->',
@@ -489,6 +504,7 @@ def patch_home_waves_all():
         for marker, wave_fn in HOME_WAVE_PATCHES:
             if marker in h2:
                 h2 = h2.replace(marker, wave_fn() + marker, 1)
+        h2 = _dedup_adjacent_waves(h2)
         if h2 != h:
             with open(path, "w", encoding="utf-8") as f:
                 f.write(h2)
@@ -1618,17 +1634,13 @@ def patch_waves_all_pages():
                     curr_bg = _sec_bg(curr_cls)
                     if prev_bg == curr_bg or curr_bg == _BG_NAVY:
                         continue  # same bg or going to navy (handled elsewhere)
-                    # Use wave_bottom when leaving a colored section (light/sand → white)
-                    # to avoid double-wave artifact. Use wave_top when entering colored section.
                     pos = sec_tags[i].start()
-                    if prev_bg in (_BG_LIGHT, _BG_SAND) and curr_bg == _BG_WHITE:
-                        wave_html = wave_bottom(prev_bg, curr_bg) + '\n  '
-                    else:
-                        wave_html = wave_top(curr_bg, prev_bg) + '\n  '
+                    wave_html = wave_bottom(prev_bg, curr_bg) + '\n  '
                     h = h[:pos] + wave_html + h[pos:]
                     changed = True
 
             if changed:
+                h = _dedup_adjacent_waves(h)
                 with open(path, 'w', encoding='utf-8') as f:
                     f.write(h)
                 n += 1
