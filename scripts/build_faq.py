@@ -23,6 +23,7 @@ DEMO_DIR = os.path.join(_BASE_DIR, "cloudflare-demo")
 SITE_URL = (os.environ.get("PUBLIC_SITE_URL") or "https://surf-camp-senegal.vercel.app").strip().rstrip("/")
 
 _WIX = "/assets/images/wix"
+_GAL = "/assets/images/gallery"
 LOGO = f"{_WIX}/c2467f_a31779010ce34c4c8c61cc5868d81f31.webp"
 
 LANGS       = ["en","fr","es","it","de","nl","ar"]
