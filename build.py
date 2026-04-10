@@ -39,11 +39,26 @@ _site_assets_spec = importlib.util.spec_from_file_location(
 )
 _site_assets_mod = importlib.util.module_from_spec(_site_assets_spec)
 _site_assets_spec.loader.exec_module(_site_assets_mod)
-# Bump ASSET_VERSION in scripts/site_assets.py after CSS/JS changes (query-string cache bust).
-ASSET_VERSION = _site_assets_mod.ASSET_VERSION
-ASSET_CSS_MAIN = _site_assets_mod.ASSET_CSS_MAIN
+ASSET_CSS_MAIN    = _site_assets_mod.ASSET_CSS_MAIN
 ASSET_CSS_CONSENT = _site_assets_mod.ASSET_CSS_CONSENT
-ASSET_JS_MAIN = _site_assets_mod.ASSET_JS_MAIN
+ASSET_JS_MAIN     = _site_assets_mod.ASSET_JS_MAIN
+
+# Auto cache-bust: hash CSS + JS content so version updates automatically on every change.
+def _asset_version():
+    import hashlib, os as _os
+    _demo = os.path.join(_BASE_DIR, "cloudflare-demo")
+    _paths = [
+        _os.path.join(_demo, "assets", "css", ASSET_CSS_MAIN),
+        _os.path.join(_demo, "assets", "js",  ASSET_JS_MAIN),
+    ]
+    h = hashlib.md5()
+    for p in _paths:
+        if _os.path.exists(p):
+            with open(p, "rb") as f:
+                h.update(f.read())
+    return h.hexdigest()[:8]
+
+ASSET_VERSION = _asset_version()
 
 DEMO_DIR  = os.path.join(_BASE_DIR, "cloudflare-demo")
 CONTENT   = os.path.join(_BASE_DIR, "content")
