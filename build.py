@@ -292,8 +292,9 @@ IMGS = {
     "house2":  f"{_WIX}/df99f9_eba4c24ec6a746b58d60a975b8d20946.webp",
     "house3":  f"{_WIX}/df99f9_d8e77cf4807249f6953119f18be64166.webp",
     "island":  f"{_WIX}/df99f9_56b9af6efe2841eea44109b3b08b7da1.webp",
-    "island2": "/assets/images/gallery/Surfing_1_39b1d748.webp",
-    "surf":    "/assets/images/gallery/79fd3518-a569-479b-9980-5af713fda22c_1c4694d0.webp",
+    "island2":    "/assets/images/gallery/Surfing_1_39b1d748.webp",
+    "surf_hero":  "/assets/images/gallery/0a_hero.webp",
+    "surf":       "/assets/images/gallery/79fd3518-a569-479b-9980-5af713fda22c_1c4694d0.webp",
     "surf2":   "/assets/images/gallery/79fd3518-a569-479b-9980-5af713fda22c_1c4694d0.webp",
     "surf3":   "/assets/images/gallery/4Y4A1346_463ff1cc.webp",
     "ngor_r":  "/assets/images/gallery/4Y4A1354_b7dabb94.webp",
@@ -6138,11 +6139,11 @@ def build_surfing(lang):
         SURF_ACTION_SHOTS, C["gal_h2"], pe, thumb_w=480, eager_first=True
     )
 
-    html = page_head(C["title"], C["meta"], lang, "surfing", IMGS["surf"])
+    html = page_head(C["title"], C["meta"], lang, "surfing", IMGS["surf_hero"])
     html += build_nav("surfing", lang)
     html += f"""
 <main>
-  <header class="main-hero" style="background-image:url('{IMGS["surf"]}')" role="banner">
+  <header class="main-hero" style="background-image:url('{IMGS["surf_hero"]}')" role="banner">
     <div class="main-hero-inner">
       <div class="main-hero-eyebrow">
         <span class="main-hero-dot"></span>
