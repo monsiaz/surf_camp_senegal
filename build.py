@@ -815,10 +815,6 @@ def build_footer(lang, flag_href_override=None):
           <span class="footer-gmb-score">4.7</span>
           <span class="footer-gmb-count">· 54 {GMB_REVIEWS_LBL[lang]}</span>
         </a>
-        <div class="footer-fss-badge" role="img" aria-label="{FSS_LBL[lang]}">
-          <span class="footer-fss-logo-wrap"><img src="/assets/images/logo-fss-badge.webp" alt="FSS" width="36" height="36" loading="lazy"></span>
-          <span class="footer-fss-text"><span class="footer-fss-title">{FSS_LBL[lang]}</span><span class="footer-fss-sub">Fédération Sénégalaise de Surf</span></span>
-        </div>
       </div>
       <div class="footer-col"><p class="footer-col-title">{EXP[lang]}</p>{links_html}</div>
       <div class="footer-col">
@@ -835,6 +831,10 @@ def build_footer(lang, flag_href_override=None):
     </div>
     <div class="footer-bottom">
       <p>{COPY[lang]} &nbsp;·&nbsp; <a href="{pp_href}" class="footer-pp-link">{PP_LBL[lang]}</a></p>
+      <div class="footer-fss-badge footer-fss-bottom" role="img" aria-label="{FSS_LBL[lang]}">
+        <span class="footer-fss-logo-wrap"><img src="/assets/images/logo-fss-badge.webp" alt="FSS" width="32" height="32" loading="lazy"></span>
+        <span class="footer-fss-text"><span class="footer-fss-title">{FSS_LBL[lang]}</span><span class="footer-fss-sub">Fédération Sénégalaise de Surf</span></span>
+      </div>
       <div class="footer-flags" aria-label="{escape(ui_chrome('lang_versions', lang))}">{flags_html}</div>
     </div>
   </div>
