@@ -5468,7 +5468,7 @@ def build_gallery(lang):
     book_href = f"{pfx}/{SLUG[lang]['booking']}/"
     if not book_href.startswith("/"):
         book_href = "/" + book_href.lstrip("/")
-    hero = IMGS["gallery"][0]
+    hero = "/assets/images/gallery/gallery_hero.webp"
 
     def pe(txt):
         return escape(fix_em(txt))
@@ -5491,7 +5491,7 @@ def build_gallery(lang):
     html += build_nav("gallery", lang)
     html += f"""
 <main>
-  <header class="main-hero" style="background-image:url('{hero}')" role="banner">
+  <header class="main-hero" style="background-image:url('{hero}'); background-position: center 45%;" role="banner">
     <div class="main-hero-inner">
       <div class="main-hero-eyebrow">
         <span class="main-hero-dot"></span>
