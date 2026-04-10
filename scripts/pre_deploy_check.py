@@ -51,7 +51,7 @@ SLUG = {
 CRITICAL_STRINGS = {
     # page_key → list of HTML strings that MUST appear
     # NOTE: class names verified against actual generated output
-    "surf-house": ["sh2-hero", "gallery-masonry", "footer"],
+    "surf-house": ["main-hero", "gallery-masonry", "footer"],
     "island":     ["main-hero", "island-discover", "footer"],
     "surfing":    ["surf-feat-grid", "footer"],          # main-hero only on MAIN_LANGS
     "gallery":    ["gallery-masonry", "gal-tag", "ngor_gallery_filter", "footer"],
@@ -73,8 +73,8 @@ REQUIRED_JS = [
     "filterTo",             # gallery filter function
 ]
 
-MIN_PAGES     = 450   # total index.html count
-MIN_ARTICLES  = 20    # EN blog articles
+MIN_PAGES     = 320   # total index.html count (15 articles × 9 langs → ~345 pages)
+MIN_ARTICLES  = 14    # EN blog articles (currently 15 after legacy cleanup)
 MIN_CSS_BYTES = 50_000
 
 # ── Helpers ────────────────────────────────────────────────────────────────────
