@@ -90,6 +90,31 @@ LANG_NAMES  = {"en":"English","fr":"Français","es":"Español","it":"Italiano","
 EXTRA_LANGS = ["pt", "da"]
 ALL_LANGS   = LANGS + EXTRA_LANGS
 
+# ── Blog article localized slug map ────────────────────────────────────────────
+# Single source of truth for all 9 languages. Keep in sync with build_blog.py.
+ARTICLE_SLUG_MAP = {
+  "dakar-surf-spots-for-every-level": {"en":"dakar-surf-spots-for-every-level","fr":"spots-surf-dakar-tous-niveaux","es":"spots-surf-dakar-todos-niveles","it":"spot-surf-dakar-tutti-livelli","de":"surfspots-dakar-alle-levels","nl":"surfspots-dakar-elk-niveau","ar":"spots-surf-dakar-kull-mustawayat","pt":"spots-surf-dakar-todos-niveis","da":"dakar-surfspots-alle-niveauer"},
+  "endless-summer-senegal-ngor": {"en":"endless-summer-senegal-ngor","fr":"ete-sans-fin-ngor-heritage-surf-senegal","es":"verano-sin-fin-ngor-senegal","it":"estate-senza-fine-ngor-senegal","de":"endloser-sommer-ngor-senegal","nl":"endless-summer-ngor-senegals-surferfgoed","ar":"sayf-bila-nihaya-ngor-senegal","pt":"verao-sem-fim-ngor-senegal","da":"den-endloese-sommer-ngor-senegal"},
+  "licensed-surf-camp-senegal": {"en":"licensed-surf-camp-senegal","fr":"surf-camp-agree-senegal","es":"campamento-surf-licenciado-senegal","it":"surf-camp-autorizzato-senegal","de":"lizenziertes-surf-camp-senegal","nl":"surfkamp-licentie-senegal","ar":"mukhayyam-surf-murajjas-senegal","pt":"surf-camp-licenciado-senegal","da":"licenseret-surfcamp-senegal"},
+  "ngor-island-waves-explained": {"en":"ngor-island-waves-explained","fr":"vagues-ile-ngor-expliquees","es":"olas-ngor-island-explicadas","it":"onde-ngor-island-spiegate","de":"wellen-ngor-island-erklaert","nl":"golven-ngor-island-uitgelegd","ar":"amwaj-jazirat-ngor-sharh","pt":"ondas-ngor-island-explicadas","da":"boelger-ngor-island-forklaret"},
+  "senegal-surf-camp-for-beginners": {"en":"senegal-surf-camp-for-beginners","fr":"surf-camp-senegal-debutants","es":"campamento-surf-senegal-principiantes","it":"surf-camp-senegal-principianti","de":"surfcamp-senegal-anfaenger","nl":"surfcamp-senegal-beginners","ar":"mukhayyam-surf-senegal-mubtadin","pt":"surfcamp-senegal-iniciantes","da":"surf-camp-senegal-begyndere"},
+  "senegal-surf-season-by-month": {"en":"senegal-surf-season-by-month","fr":"saison-surf-senegal-mois-par-mois","es":"temporada-surf-senegal-mes-a-mes","it":"stagione-surf-senegal-mese-per-mese","de":"surfsaison-senegal-monat-fuer-monat","nl":"surfseizoen-senegal-per-maand","ar":"mawsim-surf-senegal-shahr-bishahr","pt":"temporada-surf-senegal-mes-a-mes","da":"senegals-surfsaeson-maaned-for-maaned"},
+  "surf-camp-senegal-what-to-expect": {"en":"surf-camp-senegal-what-to-expect","fr":"surf-camp-senegal-quoi-attendre","es":"campamento-surf-senegal-que-esperar","it":"surf-camp-senegal-cosa-aspettarsi","de":"surfcamp-senegal-was-erwartet","nl":"surfcamp-senegal-wat-verwachten","ar":"mukhayyam-surf-senegal-matha-tatawaqqa","pt":"surf-camp-senegal-o-que-esperar","da":"surf-camp-senegal-hvad-forvente"},
+  "surf-coaching-structured-ngor-surfcamp": {"en":"surf-coaching-structured-ngor-surfcamp","fr":"coaching-surf-ngor-surfcamp","es":"coaching-surf-ngor-surfcamp","it":"surf-coaching-ngor-surfcamp","de":"surf-coaching-ngor-surfcamp","nl":"surfcoaching-ngor-surfcamp","ar":"tadrib-surf-ngor-surfcamp","pt":"coaching-surf-ngor-surfcamp","da":"surfcoaching-ngor-surfcamp"},
+  "surf-trip-to-senegal-what-to-pack": {"en":"surf-trip-to-senegal-what-to-pack","fr":"voyage-surf-senegal-liste-valise","es":"viaje-surf-senegal-equipaje","it":"surf-trip-senegal-lista-valigia","de":"surftrip-senegal-packliste","nl":"surftrip-senegal-paklijst","ar":"rihlat-surf-senegal-ma-tahmal","pt":"viagem-surf-senegal-lista","da":"surftrip-senegal-pakkelist"},
+  "surfing-ngor-left-guide": {"en":"surfing-ngor-left-guide","fr":"surfer-ngor-left-guide","es":"surfear-ngor-left-guia","it":"surf-ngor-left-guida","de":"ngor-left-surfen-guide","nl":"surfen-ngor-left-gids","ar":"surf-ngor-left-dalil","pt":"surfar-ngor-left-guia","da":"surfe-ngor-left-guide"},
+  "surfing-ngor-right-guide": {"en":"surfing-ngor-right-guide","fr":"surf-ngor-right-guide","es":"surfear-ngor-right-guia","it":"surf-ngor-right-guida","de":"ngor-right-surfen-guide","nl":"surfen-ngor-right-spotgids","ar":"surf-ngor-right-dalil","pt":"surfar-ngor-right-guia","da":"surfe-ngor-right-spotguide"},
+  "video-analysis-surf-camp-senegal": {"en":"video-analysis-surf-camp-senegal","fr":"analyse-video-surf-camp-senegal","es":"analisis-video-surf-camp-senegal","it":"analisi-video-surf-camp-senegal","de":"videoanalyse-surfcamp-senegal","nl":"videoanalyse-surfkamp-senegal","ar":"tahlil-video-mukhayyam-surf-senegal","pt":"analise-video-surf-camp-senegal","da":"videoanalyse-surf-camp-senegal"},
+  "where-to-stay-for-surfing-in-dakar": {"en":"where-to-stay-for-surfing-in-dakar","fr":"ou-sejourner-surf-dakar","es":"donde-alojarse-surf-dakar","it":"dove-soggiornare-surf-dakar","de":"surfen-dakar-insel-oder-festland","nl":"verblijven-surf-dakar-eiland","ar":"ayna-tiqam-surf-dakar","pt":"onde-ficar-surf-dakar","da":"bolig-surf-dakar-oe-fastland"},
+  "why-choose-surf-camp-senegal": {"en":"why-choose-surf-camp-senegal","fr":"pourquoi-choisir-surfcamp-senegal","es":"por-que-elegir-surf-camp-senegal","it":"perche-scegliere-surf-camp-senegal","de":"warum-surfcamp-senegal","nl":"waarom-surfkamp-senegal","ar":"limatha-mukhayyam-surf-senegal","pt":"por-que-escolher-surf-camp-senegal","da":"hvorfor-vaelge-surfcamp-senegal"},
+  "why-senegal-is-an-underrated-surf-destination": {"en":"why-senegal-is-an-underrated-surf-destination","fr":"senegal-destination-surf-sous-estimee","es":"senegal-destino-surf-infravalorado","it":"senegal-destinazione-surf-sottovalutata","de":"senegal-unterschaetztes-surfziel","nl":"senegal-onderschatte-surfbestemming","ar":"senegal-wajihat-surf-maghmura","pt":"senegal-destino-surf-subestimado","da":"senegal-undervurderet-surfdestination"},
+}
+# Reverse: localized_slug → en_slug (for any lang)
+_LOCAL_SLUG_TO_EN = {}
+for _en_s, _lmap in ARTICLE_SLUG_MAP.items():
+    for _lg, _ls in _lmap.items():
+        _LOCAL_SLUG_TO_EN[(_lg, _ls)] = _en_s
+
 # Shared UI chrome (nav, footer, lightbox, home fixes) — avoid hard-coded English on localized pages
 UI_CHROME = {
     "wa": {
@@ -202,8 +227,8 @@ BLOG_CATS = {
             "de": "insel-leben",
             "nl": "eiland-leven",
             "ar": "island-life",
-            "pt": "vida-ilha",
-            "da": "o-liv",
+            "pt": "vida-na-ilha",
+            "da": "oe-liv",
         },
         "name": {
             "en": "Island Life & Surf Camp",
@@ -275,7 +300,7 @@ BLOG_CATS = {
             "nl": "coaching-progressie",
             "ar": "coaching-progression",
             "pt": "coaching-progressao",
-            "da": "coaching-progression",
+            "da": "coaching-fremskridt",
         },
         "name": {
             "en": "Coaching & Progression",
@@ -307,11 +332,13 @@ BLOG_CATS = {
 CAT_SLUG_FOR_LANG = {}  # (cat_en_name, lang) → slug
 CAT_PAGE_HREF = {}       # (cat_en_name, lang) → full href
 for _cat_en, _cdata in BLOG_CATS.items():
-    for _lg in LANGS:
+    for _lg in ALL_LANGS:
+        if _lg not in SLUG:
+            continue
         _pfx = LANG_PFX[_lg]
         _blog_slug = SLUG[_lg]["blog"]
         _cat_slug_word = SLUG[_lg]["category"]
-        _cat_slug = _cdata["slug"][_lg]
+        _cat_slug = _cdata["slug"].get(_lg, _cdata["slug"]["en"])
         CAT_SLUG_FOR_LANG[(_cat_en, _lg)] = _cat_slug
         CAT_PAGE_HREF[(_cat_en, _lg)] = f"{_pfx}/{_blog_slug}/{_cat_slug_word}/{_cat_slug}/"
 
@@ -745,19 +772,10 @@ def build_footer(lang, flag_href_override=None):
     links_html += f'\n<a href="{gh_href}">{GH_L.get(lang, GH_L["en"])}</a>'
     flag_urls = flag_href_override if flag_href_override is not None else None
     flags_html = " ".join([
-        f'<a href="{flag_urls[l] if flag_urls else LANG_PFX[l] + "/"}" class="footer-flag-link" '
+        f'<a href="{flag_urls[l] if flag_urls and l in flag_urls else LANG_PFX[l] + "/"}" class="footer-flag-link" '
         f'hreflang="{LANG_LOCALE[l]}" title="{LANG_NAMES[l]}">{flag(l,22)}</a>'
-        for l in LANGS
+        for l in ALL_LANGS
     ])
-    # Add DA (Danish) and PT (Portuguese) flags — pages exist but outside main LANGS pipeline
-    _EXTRA_LANGS = [("da", "/da/", "da-DK", "Dansk"), ("pt", "/pt/", "pt-PT", "Português")]
-    for _el, _ehref, _elocale, _ename in _EXTRA_LANGS:
-        if _el in FLAG_SVG:
-            _esize = 22; _eh2 = round(_esize*0.667)
-            _eflag = (f'<span style="width:{_esize}px;height:{_eh2}px;display:inline-flex;'
-                      f'border-radius:3px;overflow:hidden;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.22)">'
-                      f'{FLAG_SVG[_el]}</span>')
-            flags_html += f' <a href="{_ehref}" class="footer-flag-link" hreflang="{_elocale}" title="{_ename}">{_eflag}</a>'
     ABOUT = {
         "en":"Premium surf camp on Ngor Island, Dakar, Senegal. All levels welcome.",
         "fr":"Surf camp premium sur l'île de Ngor, Dakar, Sénégal. Tous niveaux bienvenus.",
@@ -785,10 +803,11 @@ def build_footer(lang, flag_href_override=None):
                      "ar":"الاتحاد السنغالي للسرف",
                      "pt":"Federação Senegalesa de Surf",
                      "da":"Senegalesisk Surf Forbund"}
-    CERT_H4 = {"en":"Accreditation","fr":"Accréditation","es":"Acreditación","it":"Accreditamento","de":"Akkreditierung","nl":"Accreditatie","ar":"الاعتماد"}
+    CERT_H4 = {"en":"Accreditation","fr":"Accréditation","es":"Acreditación","it":"Accreditamento","de":"Akkreditierung","nl":"Accreditatie","ar":"الاعتماد","pt":"Credenciamento","da":"Akkreditering"}
     GMB_REVIEWS_LBL = {"en":"reviews on Google","fr":"avis sur Google","es":"reseñas en Google",
                         "it":"recensioni su Google","de":"Bewertungen auf Google",
-                        "nl":"beoordelingen op Google","ar":"مراجعة على Google"}
+                        "nl":"beoordelingen op Google","ar":"مراجعة على Google",
+                        "pt":"avaliações no Google","da":"anmeldelser på Google"}
     FSS_LBL = {
         "en": "Licensed &amp; Certified",
         "fr": "Agréé &amp; Certifié",
@@ -804,10 +823,15 @@ def build_footer(lang, flag_href_override=None):
              "fr":"© 2025 Ngor Surfcamp Teranga. Tous droits réservés.",
              "es":"© 2025 Ngor Surfcamp Teranga. Todos los derechos reservados.",
              "it":"© 2025 Ngor Surfcamp Teranga. Tutti i diritti riservati.",
-             "de":"© 2025 Ngor Surfcamp Teranga. Alle Rechte vorbehalten.","nl":"© 2025 Ngor Surfcamp Teranga. Alle rechten voorbehouden.","ar":"© 2025 Ngor Surfcamp Teranga. جميع الحقوق محفوظة."}
+             "de":"© 2025 Ngor Surfcamp Teranga. Alle Rechte vorbehalten.",
+             "nl":"© 2025 Ngor Surfcamp Teranga. Alle rechten voorbehouden.",
+             "ar":"© 2025 Ngor Surfcamp Teranga. جميع الحقوق محفوظة.",
+             "pt":"© 2025 Ngor Surfcamp Teranga. Todos os direitos reservados.",
+             "da":"© 2025 Ngor Surfcamp Teranga. Alle rettigheder forbeholdes."}
     PP_LBL = {"en":"Privacy Policy","fr":"Politique de confidentialité",
               "es":"Política de privacidad","it":"Informativa sulla privacy",
-              "de":"Datenschutzrichtlinie","nl":"Privacybeleid","ar":"سياسة الخصوصية"}
+              "de":"Datenschutzrichtlinie","nl":"Privacybeleid","ar":"سياسة الخصوصية",
+              "pt":"Política de privacidade","da":"Privatlivspolitik"}
     pp_href = f"{pfx}/{SLUG[lang]['privacy-policy']}/"
     EXP = {
         "en":"Plan your trip","fr":"Infos pratiques","es":"Planifica tu viaje",
@@ -867,7 +891,7 @@ def page_close():
 
 
 def _sitemap_lang_for_rel(rel: str) -> str:
-    for lg in ["fr", "es", "it", "de", "nl", "ar"]:
+    for lg in [l for l in ALL_LANGS if l != "en"]:
         if rel.startswith(f"{lg}/"):
             return lg
     return "en"
@@ -882,8 +906,9 @@ def _sitemap_path_parts(loc: str) -> list:
 def _sitemap_is_island_guide(parts: list) -> bool:
     if len(parts) == 2 and parts[0] == "island":
         return True
-    _island_words = {"ile", "isla", "isola", "insel", "eiland", "ngor-island"}
-    if len(parts) == 3 and parts[0] in ("fr", "es", "it", "de", "nl", "ar") and parts[1] in _island_words:
+    _island_words = {SLUG[l]["island"] for l in ALL_LANGS if l in SLUG and "island" in SLUG[l]}
+    _non_en_langs = {l for l in ALL_LANGS if l != "en"}
+    if len(parts) == 3 and parts[0] in _non_en_langs and parts[1] in _island_words:
         return True
     return False
 
@@ -892,14 +917,14 @@ def _sitemap_priority(loc: str) -> str:
     parts = _sitemap_path_parts(loc)
     if not parts:
         return "1.0"
-    if len(parts) == 1 and parts[0] in LANGS:
+    if len(parts) == 1 and parts[0] in ALL_LANGS:
         return "1.0"
     if "blog" in parts:
         i = parts.index("blog")
         if i == len(parts) - 1:
             return "0.85"
         # Category pages: blog/category/slug → priority 0.78
-        cat_words = set(SLUG[l]["category"] for l in LANGS)
+        cat_words = set(SLUG[l]["category"] for l in ALL_LANGS if l in SLUG)
         if len(parts) > i + 1 and parts[i + 1] in cat_words:
             return "0.78"
         return "0.65"
@@ -919,13 +944,13 @@ def _sitemap_changefreq(loc: str) -> str:
         if i == len(parts) - 1:
             return "weekly"
         # Category pages update weekly
-        cat_words = set(SLUG[l]["category"] for l in LANGS)
+        cat_words = set(SLUG[l]["category"] for l in ALL_LANGS if l in SLUG)
         if len(parts) > i + 1 and parts[i + 1] in cat_words:
             return "weekly"
         return "monthly"
     if _sitemap_is_island_guide(parts):
         return "monthly"
-    if len(parts) == 1 and parts[0] in LANGS:
+    if len(parts) == 1 and parts[0] in ALL_LANGS:
         return "weekly"
     return "monthly"
 
@@ -933,7 +958,7 @@ def _sitemap_changefreq(loc: str) -> str:
 def write_sitemaps_and_robots():
     """Per-language sitemaps, sitemap index, robots.txt (basic SEO)."""
     base = SITE_URL.rstrip("/")
-    entries = {lg: [] for lg in LANGS}
+    entries = {lg: [] for lg in ALL_LANGS}
 
     for root, dirs, files in os.walk(DEMO_DIR):
         dirs[:] = [d for d in dirs if not d.startswith(".") and d != "node_modules"]
@@ -978,7 +1003,7 @@ def write_sitemaps_and_robots():
             )
             entries[lg].append((loc, line))
 
-    for lg in LANGS:
+    for lg in ALL_LANGS:
         entries[lg].sort(key=lambda x: x[0])
         body = "\n".join(x[1] for x in entries[lg])
         path = os.path.join(DEMO_DIR, f"sitemap-{lg}.xml")
@@ -2136,7 +2161,7 @@ def patch_lang_switcher_all():
             parts = rel.split("/")  # e.g. ['es', 'blog', 'learn-to-surf', 'index.html']
 
             # Determine lang and page type from path
-            lang = parts[0] if parts[0] in LANGS and parts[0] != "en" else "en"
+            lang = parts[0] if parts[0] in ALL_LANGS and parts[0] != "en" else "en"
             rest = parts[1:] if lang != "en" else parts  # drop lang prefix
             # rest[0] is the section, rest[1] is the slug (if article), rest[-1] is index.html
 
@@ -2145,7 +2170,7 @@ def patch_lang_switcher_all():
             # ── Home: index.html or {lang}/index.html ──
             if rest == ["index.html"]:
                 href_map = {}
-                for lg in LANGS:
+                for lg in ALL_LANGS:
                     href_map[lg] = LANG_PFX[lg] + "/" if LANG_PFX[lg] else "/"
 
             # ── Surfing / surf house / gallery / booking / island / privacy ──
@@ -2154,12 +2179,14 @@ def patch_lang_switcher_all():
                 # Map localized path back to EN slug key
                 matched_key = None
                 for key in SLUG.get("en", {}):
-                    if any(SLUG[lg].get(key) == page_dir for lg in LANGS):
+                    if any(SLUG[lg].get(key) == page_dir for lg in ALL_LANGS if lg in SLUG):
                         matched_key = key
                         break
                 if matched_key:
                     href_map = {}
-                    for lg in LANGS:
+                    for lg in ALL_LANGS:
+                        if lg not in SLUG:
+                            continue
                         pfx = LANG_PFX[lg]
                         s = SLUG[lg].get(matched_key, SLUG["en"].get(matched_key, page_dir))
                         href_map[lg] = f"{pfx}/{s}/" if pfx else f"/{s}/"
@@ -2167,42 +2194,56 @@ def patch_lang_switcher_all():
             # ── Blog article: {lang}/blog/{slug}/index.html ──
             if rest[:1] == ["blog"] and len(rest) >= 3 and rest[-1] == "index.html" and href_map is None:
                 # Check if this is a category page: blog/{cat_word}/{cat_slug}/index.html
-                cat_words = {SLUG[lg]["category"]: lg for lg in LANGS}
+                cat_words = {SLUG[lg]["category"]: lg for lg in ALL_LANGS if lg in SLUG}
                 if len(rest) == 4 and rest[1] in cat_words:
                     # Category page: find the EN cat name from slug
                     cat_slug_in_url = rest[2]
-                    # Find matching BLOG_CATS entry
                     matched_cat_en = None
                     for _cen, _cdata in BLOG_CATS.items():
                         if _cdata["slug"].get(lang) == cat_slug_in_url:
                             matched_cat_en = _cen
                             break
                     if matched_cat_en:
-                        href_map = {}
-                        for lg in LANGS:
-                            href_map[lg] = CAT_PAGE_HREF[(matched_cat_en, lg)]
+                        href_map = {lg: CAT_PAGE_HREF[(matched_cat_en, lg)]
+                                    for lg in ALL_LANGS if (matched_cat_en, lg) in CAT_PAGE_HREF}
                     else:
-                        href_map = {lg: f"{LANG_PFX[lg]}/blog/" for lg in LANGS}
+                        href_map = {lg: f"{LANG_PFX[lg]}/blog/" for lg in ALL_LANGS if lg in SLUG}
                 else:
-                    slug = rest[1]
+                    local_slug = rest[1]
+                    en_slug = _LOCAL_SLUG_TO_EN.get((lang, local_slug))
                     href_map = {}
-                    for lg in LANGS:
-                        pfx = LANG_PFX[lg]
-                        href_map[lg] = f"{pfx}/blog/{slug}/" if pfx else f"/blog/{slug}/"
+                    if en_slug and en_slug in ARTICLE_SLUG_MAP:
+                        slugs = ARTICLE_SLUG_MAP[en_slug]
+                        for lg in ALL_LANGS:
+                            if lg not in SLUG:
+                                continue
+                            pfx = LANG_PFX[lg]
+                            ls = slugs.get(lg, slugs["en"])
+                            href_map[lg] = f"{pfx}/blog/{ls}/" if pfx else f"/blog/{ls}/"
+                    else:
+                        for lg in ALL_LANGS:
+                            if lg not in SLUG:
+                                continue
+                            pfx = LANG_PFX[lg]
+                            href_map[lg] = f"{pfx}/blog/{local_slug}/" if pfx else f"/blog/{local_slug}/"
 
             # ── Blog index: {lang}/blog/index.html ──
             elif rest[:1] == ["blog"] and len(rest) == 2 and rest[-1] == "index.html":
                 href_map = {}
-                for lg in LANGS:
+                for lg in ALL_LANGS:
+                    if lg not in SLUG:
+                        continue
                     pfx = LANG_PFX[lg]
                     href_map[lg] = f"{pfx}/blog/" if pfx else "/blog/"
 
             # ── FAQ: {lang}/faq/index.html ──
             elif len(rest) == 2 and rest[-1] == "index.html" and any(
-                rest[0] == SLUG[lg].get("faq", "faq") for lg in LANGS
+                rest[0] == SLUG[lg].get("faq", "faq") for lg in ALL_LANGS if lg in SLUG
             ):
                 href_map = {}
-                for lg in LANGS:
+                for lg in ALL_LANGS:
+                    if lg not in SLUG:
+                        continue
                     pfx = LANG_PFX[lg]
                     faq_slug = SLUG[lg].get("faq", "faq")
                     href_map[lg] = f"{pfx}/{faq_slug}/" if pfx else f"/{faq_slug}/"
@@ -2238,7 +2279,7 @@ def _parse_index_html_rel(rel_path):
     if not inner:
         return "en", []
     parts = inner.split("/")
-    if parts[0] in LANGS:
+    if parts[0] in ALL_LANGS:
         return parts[0], parts[1:]
     return "en", parts
 
@@ -2280,9 +2321,18 @@ def hreflang_paths_for_index(rel_path, island_guides):
         return {lg: _normalize_site_path(f"{LANG_PFX[lg]}/{SLUG[lg]['blog']}/") for lg in LANGS_ALL if lg in SLUG}
 
     if len(segs) == 2 and segs[0] == SLUG[lang]["blog"]:
-        slug = segs[1]
+        local_slug = segs[1]
+        # Resolve to EN slug, then map per-language localized slug
+        en_slug = _LOCAL_SLUG_TO_EN.get((lang, local_slug))
+        if en_slug and en_slug in ARTICLE_SLUG_MAP:
+            slugs = ARTICLE_SLUG_MAP[en_slug]
+            return {
+                lg: _normalize_site_path(f"{LANG_PFX[lg]}/{SLUG[lg]['blog']}/{slugs.get(lg, slugs['en'])}/")
+                for lg in LANGS_ALL if lg in SLUG
+            }
+        # Fallback for unknown articles: use same slug across languages
         return {
-            lg: _normalize_site_path(f"{LANG_PFX[lg]}/{SLUG[lg]['blog']}/{slug}/")
+            lg: _normalize_site_path(f"{LANG_PFX[lg]}/{SLUG[lg]['blog']}/{local_slug}/")
             for lg in LANGS_ALL if lg in SLUG
         }
 
@@ -8447,9 +8497,11 @@ def inject_homepage_jsonld():
 
 def patch_all_footers():
     """Replace footer on every HTML page with freshly-generated build_footer() output.
-    Ensures GMB badge and any footer changes propagate to all pages including static ones."""
+    Ensures GMB badge and any footer changes propagate to all pages including static ones.
+    Also injects correct per-language flag links (not homepage fallback) for each page."""
     import re as _re
     FOOTER_RE = _re.compile(r'<footer>.*?</footer>', _re.DOTALL)
+    _guides = load_island_guides()
     n = 0
     for root, dirs, files in os.walk(DEMO_DIR):
         dirs[:] = [d for d in dirs if not d.startswith('.') and d != 'node_modules']
@@ -8460,7 +8512,7 @@ def patch_all_footers():
             # Detect language from path
             rel = os.path.relpath(path, DEMO_DIR).replace("\\", "/")
             lang = "en"
-            for lg in ["fr", "es", "it", "de", "nl", "ar"]:
+            for lg in [l for l in ALL_LANGS if l != "en"]:
                 if rel.startswith(lg + "/"):
                     lang = lg
                     break
@@ -8471,12 +8523,12 @@ def patch_all_footers():
                 continue
             if '<footer>' not in h:
                 continue
-            # Build correct footer for this page's language
-            # For getting-here page, use GETTING_HERE_FLAG_HREF
-            if 'getting-here' in rel or 'comment-venir' in rel or 'como-llegar' in rel:
-                new_footer = build_footer(lang, GETTING_HERE_FLAG_HREF)
+            # Compute per-language flag override using the same hreflang logic
+            if fn == "index.html":
+                flag_override = hreflang_paths_for_index(rel, _guides) or GETTING_HERE_FLAG_HREF
             else:
-                new_footer = build_footer(lang)
+                flag_override = None
+            new_footer = build_footer(lang, flag_override)
             h2 = FOOTER_RE.sub(new_footer, h, count=1)
             if h2 != h:
                 with open(path, "w", encoding="utf-8") as f:
