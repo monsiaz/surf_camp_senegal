@@ -58,20 +58,61 @@ def md2html_island(md, lang="en", icons_dir="", ico_base="/assets/images/icons")
         t = re.sub(r"\[LINK:[^\]]+\]", mk_ilink, t)
         return t
 
-    TIP_KW = ("**TIP:", "**CONSEIL:", "**TIPP:", "**CONSEJO:", "**CONSIGLIO:")
-    NOTE_KW = ("**NOTE:", "**REMARQUE:", "**HINWEIS:", "**NOTA:")
-    FACT_KW = ("**FACT:", "**FAIT:", "**HECHO:", "**FATTO:", "**FAKT:")
-    EXP_KW = ("**EXPERT:", "**EXPERT ", "**QUOTE:", "**CITATION:")
-    CHKL_KW = ("**CHECKLIST:", "**CHECK:")
-    SUM_KW = ("**SUMMARY:", "**SYNTHÈSE:", "**RESUMEN:", "**SINTESI:", "**FAZIT:", "**ZUSAMMENFASSUNG:")
+    TIP_KW   = ("**TIP:", "**CONSEIL:", "**TIPP:", "**CONSEJO:", "**CONSIGLIO:", "**TIP ")
+    NOTE_KW  = ("**NOTE:", "**REMARQUE:", "**HINWEIS:", "**NOTA:")
+    FACT_KW  = ("**FACT:", "**FAIT:", "**HECHO:", "**FATTO:", "**FAKT:")
+    EXP_KW   = ("**EXPERT:", "**EXPERT ", "**QUOTE:", "**CITATION:")
+    CHKL_KW  = ("**CHECKLIST:", "**CHECK:")
+    SUM_KW   = ("**SUMMARY:", "**SYNTHÈSE:", "**RESUMEN:", "**SINTESI:", "**FAZIT:", "**ZUSAMMENFASSUNG:")
+
+    ALL_KW = TIP_KW + NOTE_KW + FACT_KW + EXP_KW + CHKL_KW + SUM_KW
 
     BLOCK_LABELS = {
-        "tip": {"en": "Pro Tip", "fr": "Conseil Pro", "es": "Consejo Pro", "it": "Consiglio Pro", "de": "Profi-Tipp"},
-        "fact": {"en": "Did You Know", "fr": "Le Saviez-Vous", "es": "Sabías Que", "it": "Lo Sapevi", "de": "Wusstest Du"},
-        "expert": {"en": "From the Coaches", "fr": "Depuis les Coachs", "es": "De los Coaches", "it": "Dai Coach", "de": "Von den Coaches"},
-        "checklist": {"en": "Action Checklist", "fr": "Checklist d'Action", "es": "Lista de Acciones", "it": "Checklist", "de": "Aktionsliste"},
-        "summary": {"en": "Key Takeaways", "fr": "Points Clés", "es": "Puntos Clave", "it": "Punti Chiave", "de": "Wichtige Punkte"},
+        "tip":       {"en": "Pro Tip",          "fr": "Conseil Pro",        "es": "Consejo Pro",       "it": "Consiglio Pro",   "de": "Profi-Tipp",     "nl": "Pro Tip",       "ar": "نصيحة"},
+        "fact":      {"en": "Did You Know",      "fr": "Le Saviez-Vous",     "es": "Sabías Que",        "it": "Lo Sapevi",       "de": "Wusstest Du",    "nl": "Wist Je Dit",   "ar": "هل تعلم"},
+        "expert":    {"en": "From the Coaches",  "fr": "Depuis les Coachs",  "es": "De los Coaches",    "it": "Dai Coach",       "de": "Von den Coaches","nl": "Van de Coaches","ar": "من المدربين"},
+        "checklist": {"en": "Action Checklist",  "fr": "Checklist d'Action", "es": "Lista de Acciones", "it": "Checklist",       "de": "Aktionsliste",   "nl": "Actielijst",    "ar": "قائمة التحقق"},
+        "summary":   {"en": "Key Takeaways",     "fr": "Points Clés",        "es": "Puntos Clave",      "it": "Punti Chiave",    "de": "Wichtige Punkte","nl": "Kernpunten",    "ar": "النقاط الرئيسية"},
     }
+
+    def collect_block_lines(start_idx, keyword_content):
+        """Collect multi-line block content starting from start_idx.
+        Returns (list_of_content_items, new_index)."""
+        items = []
+        if keyword_content.strip():
+            items.append(keyword_content.strip())
+        idx = start_idx + 1
+        while idx < len(lines):
+            line = lines[idx].strip()
+            if not line:
+                if items:
+                    break
+                idx += 1
+                continue
+            if line.startswith("#"):
+                break
+            if any(line.upper().startswith(k.upper()) for k in ALL_KW):
+                break
+            if line.startswith("-") or line.startswith("*") or line.startswith("•"):
+                items.append(line.lstrip("-*•").strip())
+            elif len(line) > 2 and line[0].isdigit() and line[1] == ".":
+                items.append(re.sub(r"^\d+\.\s*", "", line))
+            else:
+                items.append(line)
+            idx += 1
+        return items, idx - 1
+
+    def render_block_items(items, block_type):
+        if not items:
+            return ""
+        if block_type in ("summary", "checklist"):
+            lis = "".join([f"<li>{inline(it)}</li>" for it in items])
+            return f'<ul class="block-list">{lis}</ul>'
+        else:
+            if len(items) > 1 and items[0].startswith("-"):
+                lis = "".join([f"<li>{inline(it.lstrip('-').strip())}</li>" for it in items])
+                return f'<ul class="block-list">{lis}</ul>'
+            return "".join([f"<p>{inline(it.lstrip('-').strip())}</p>" for it in items])
 
     i = 0
     while i < len(lines):
@@ -84,14 +125,10 @@ def md2html_island(md, lang="en", icons_dir="", ico_base="/assets/images/icons")
         if s in ("## Contents", "## Sommaire", "## Tabla de Contenidos", "## Indice", "## Inhaltsverzeichnis"):
             close_lists()
             toc_title = (
-                "Contents"
-                if lang == "en"
-                else "Sommaire"
-                if lang == "fr"
-                else "Contenido"
-                if lang == "es"
-                else "Indice"
-                if lang == "it"
+                "Contents" if lang == "en"
+                else "Sommaire" if lang == "fr"
+                else "Contenido" if lang == "es"
+                else "Indice" if lang == "it"
                 else "Inhalt"
             )
             out.append(
@@ -127,65 +164,90 @@ def md2html_island(md, lang="en", icons_dir="", ico_base="/assets/images/icons")
                 f'<div class="pull-quote">{icon_img("icon-quote", 36, "Quote")}'
                 f'<blockquote class="pq-txt">{inline(s[2:])}</blockquote></div>'
             )
-        elif any(s.upper().startswith(k) for k in TIP_KW):
+
+        elif any(s.upper().startswith(k.upper()) for k in TIP_KW):
             close_lists()
             ct = re.sub(r"^\*\*[^:]+:\*?\*?\s*", "", s)
-            lbl = BLOCK_LABELS["tip"].get(lang, "Tip")
+            items, new_i = collect_block_lines(i, ct)
+            i = new_i
+            lbl = BLOCK_LABELS["tip"].get(lang, "Pro Tip")
+            content_html = render_block_items(items, "tip")
             out.append(
-                f'<div class="vblock vb-tip"><div class="vb-ico">{icon_img("icon-tip", 28, lbl)}</div>'
-                f'<div><span class="vb-label">{lbl}</span><p>{inline(ct)}</p></div></div>'
+                f'<div class="vb-tip">'
+                f'<div class="vb-header"><div class="vb-ico">{icon_img("icon-tip", 28, lbl)}</div>'
+                f'<span class="vb-label">{lbl}</span></div>'
+                f'<div class="vb-content">{content_html}</div></div>'
             )
-        elif any(s.upper().startswith(k) for k in FACT_KW):
+
+        elif any(s.upper().startswith(k.upper()) for k in FACT_KW):
             close_lists()
             ct = re.sub(r"^\*\*[^:]+:\*?\*?\s*", "", s)
+            items, new_i = collect_block_lines(i, ct)
+            i = new_i
             lbl = BLOCK_LABELS["fact"].get(lang, "Did You Know")
+            content_html = render_block_items(items, "fact")
             out.append(
-                f'<div class="vblock vb-fact"><div class="vb-ico">{icon_img("icon-federation", 28, lbl)}</div>'
-                f'<div><span class="vb-label">{lbl}</span><p>{inline(ct)}</p></div></div>'
+                f'<div class="vb-fact">'
+                f'<div class="vb-header"><div class="vb-ico">{icon_img("icon-federation", 28, lbl)}</div>'
+                f'<span class="vb-label">{lbl}</span></div>'
+                f'<div class="vb-content">{content_html}</div></div>'
             )
-        elif any(s.upper().startswith(k) for k in EXP_KW):
+
+        elif any(s.upper().startswith(k.upper()) for k in EXP_KW):
             close_lists()
             ct = re.sub(r"^\*\*[^:]*:\*?\*?\s*", "", s)
+            items, new_i = collect_block_lines(i, ct)
+            i = new_i
             lbl = BLOCK_LABELS["expert"].get(lang, "From the Coaches")
+            all_text = " ".join(items).strip().strip('"').strip("\u00ab\u00bb\u201c\u201d")
             out.append(
-                f'<div class="vblock vb-expert"><div class="vb-ico">{icon_img("icon-coaching", 28, lbl)}</div>'
-                f'<div><span class="vb-label">{lbl}</span>'
-                f'<blockquote style="margin:0;font-style:italic">{inline(ct)}</blockquote></div></div>'
+                f'<div class="vb-expert">'
+                f'<div class="vb-header"><div class="vb-ico">{icon_img("icon-coaching", 28, lbl)}</div>'
+                f'<span class="vb-label">{lbl}</span></div>'
+                f'<div class="vb-content"><blockquote>{inline(all_text)}</blockquote></div></div>'
             )
-        elif any(s.upper().startswith(k) for k in NOTE_KW):
+
+        elif any(s.upper().startswith(k.upper()) for k in NOTE_KW):
             close_lists()
             ct = re.sub(r"^\*\*[^:]+:\*?\*?\s*", "", s)
+            items, new_i = collect_block_lines(i, ct)
+            i = new_i
+            content_html = render_block_items(items, "note")
             out.append(
-                f'<div class="vblock vb-note"><div class="vb-ico">{icon_img("icon-tip", 28, "Note")}</div>'
-                f'<div><span class="vb-label">Note</span><p>{inline(ct)}</p></div></div>'
+                f'<div class="vb-note">'
+                f'<div class="vb-header"><div class="vb-ico">{icon_img("icon-tip", 28, "Note")}</div>'
+                f'<span class="vb-label">Note</span></div>'
+                f'<div class="vb-content">{content_html}</div></div>'
             )
-        elif any(s.upper().startswith(k) for k in SUM_KW):
+
+        elif any(s.upper().startswith(k.upper()) for k in SUM_KW):
             close_lists()
             ct = re.sub(r"^\*\*[^:]+:\*?\*?\s*", "", s)
+            items, new_i = collect_block_lines(i, ct)
+            i = new_i
             lbl = BLOCK_LABELS["summary"].get(lang, "Key Takeaways")
+            content_html = render_block_items(items, "summary")
             out.append(
-                f'<div class="vblock vb-summary"><div class="vb-ico">{icon_img("icon-summary", 28, lbl)}</div>'
-                f'<div><span class="vb-label">{lbl}</span><p>{inline(ct)}</p></div></div>'
+                f'<div class="vb-summary">'
+                f'<div class="vb-header"><div class="vb-ico">{icon_img("icon-summary", 28, lbl)}</div>'
+                f'<span class="vb-label">{lbl}</span></div>'
+                f'<div class="vb-content">{content_html}</div></div>'
             )
-        elif any(s.upper().startswith(k) for k in CHKL_KW):
+
+        elif any(s.upper().startswith(k.upper()) for k in CHKL_KW):
             close_lists()
             ct = re.sub(r"^\*\*[^:]+:\*?\*?\s*", "", s)
+            items, new_i = collect_block_lines(i, ct)
+            i = new_i
             lbl = BLOCK_LABELS["checklist"].get(lang, "Action Checklist")
-            items = [x.strip().lstrip("-").strip() for x in ct.split(",") if x.strip()]
-            if len(items) <= 1:
-                items_html_parts = f"<p>{inline(ct)}</p>"
-            else:
-                items_html_parts = (
-                    '<ul class="checklist-items">'
-                    + "".join(
-                        f'<li>{icon_img("icon-checklist", 16, "check")} {inline(it)}</li>' for it in items
-                    )
-                    + "</ul>"
-                )
+            content_html = render_block_items(items, "checklist")
             out.append(
-                f'<div class="vblock vb-checklist"><div class="vb-ico">{icon_img("icon-checklist", 28, lbl)}</div>'
-                f'<div><span class="vb-label">{lbl}</span>{items_html_parts}</div></div>'
+                f'<div class="vb-checklist">'
+                f'<div class="vb-header"><div class="vb-ico">{icon_img("icon-checklist", 28, lbl)}</div>'
+                f'<span class="vb-label">{lbl}</span></div>'
+                f'<div class="vb-content">{content_html}</div></div>'
             )
+
         elif re.match(r"^[-*]\s", s):
             if not in_ul:
                 out.append('<ul class="prose-ul">')

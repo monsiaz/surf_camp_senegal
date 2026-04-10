@@ -81,6 +81,7 @@ LEGACY_PUBLIC_HOSTS = (
 # CONSTANTS
 # ════════════════════════════════════════════════════════════════
 LANGS    = ["en","fr","es","it","de","nl","ar"]
+LANGS_ALL = ["en","fr","es","it","de","nl","ar","pt","da"]  # all langs incl. PT/DA
 LANG_PFX = {"en":"","fr":"/fr","es":"/es","it":"/it","de":"/de","nl":"/nl","ar":"/ar","pt":"/pt","da":"/da"}
 LANG_LOCALE = {"en":"en","fr":"fr-FR","es":"es-ES","it":"it-IT","de":"de-DE","nl":"nl-NL","ar":"ar-MA","pt":"pt-PT","da":"da-DK"}
 LANG_NAMES  = {"en":"English","fr":"Français","es":"Español","it":"Italiano","de":"Deutsch","nl":"Nederlands","ar":"العربية","pt":"Português","da":"Dansk"}
@@ -201,6 +202,8 @@ BLOG_CATS = {
             "de": "insel-leben",
             "nl": "eiland-leven",
             "ar": "island-life",
+            "pt": "vida-ilha",
+            "da": "o-liv",
         },
         "name": {
             "en": "Island Life & Surf Camp",
@@ -210,6 +213,8 @@ BLOG_CATS = {
             "de": "Inselleben & Surf Camp",
             "nl": "Eilandleven & Surfcamp",
             "ar": "حياة الجزيرة ومخيم الأمواج",
+            "pt": "Vida na Ilha & Surf Camp",
+            "da": "Øliv & Surfcamp",
         },
         "desc": {
             "en": "Discover what life at Ngor Surf Camp is really like — island living, local culture, what to pack, and why Senegal is an underrated surf destination.",
@@ -219,6 +224,8 @@ BLOG_CATS = {
             "de": "Entdecke das Leben im Ngor Surf Camp — autofreie Insel, lokale Kultur, Packliste und warum Senegal ein unterschätztes Surf-Ziel ist.",
             "nl": "Ontdek hoe het leven in het Ngor Surf Camp echt is — eilandleven, lokale cultuur, wat mee te nemen en waarom Senegal een onderschat surfbestemming is.",
             "ar": "اكتشف كيف هي الحياة في مخيم نغور للأمواج — العيش على الجزيرة، الثقافة المحلية، ما تحمله، ولماذا السنغال وجهة أمواج مهمَلة.",
+            "pt": "Descubra como é a vida no Ngor Surf Camp — vida na ilha, cultura local, o que levar e porque o Senegal é um destino de surf subestimado.",
+            "da": "Oplev hvad livet på Ngor Surf Camp virkelig er — øliv, lokal kultur, hvad du skal pakke og hvorfor Senegal er en undervurderet surfdestination.",
         },
         "icon": "🏄",
     },
@@ -231,6 +238,8 @@ BLOG_CATS = {
             "de": "surf-bedingungen",
             "nl": "surf-omstandigheden",
             "ar": "surf-conditions",
+            "pt": "condicoes-surf",
+            "da": "surf-forhold",
         },
         "name": {
             "en": "Surf Conditions & Spots",
@@ -240,6 +249,8 @@ BLOG_CATS = {
             "de": "Surf-Bedingungen & Spots",
             "nl": "Surfomstandigheden & Spots",
             "ar": "ظروف الأمواج والمواقع",
+            "pt": "Condições & Spots de Surf",
+            "da": "Surfforhold & Spots",
         },
         "desc": {
             "en": "Everything about Ngor Island's waves, the best time to surf Senegal, surf season guides and detailed breakdowns of Ngor Right and Left.",
@@ -249,6 +260,8 @@ BLOG_CATS = {
             "de": "Alles über die Wellen der Insel Ngor, die beste Surfsaison in Senegal und detaillierte Guides zu Ngor Right und Left.",
             "nl": "Alles over de golven van Ngor Island, de beste tijd om te surfen in Senegal, gidsen per seizoen en gedetailleerde overzichten van Ngor Right en Left.",
             "ar": "كل شيء عن أمواج جزيرة نغور، أفضل وقت لركوب الأمواج في السنغال، أدلة موسم الأمواج والتحليل التفصيلي لـ Ngor Right وLeft.",
+            "pt": "Tudo sobre as ondas da Ilha de Ngor, a melhor época para surfar no Senegal e guias detalhados de Ngor Right e Left.",
+            "da": "Alt om bølgerne ved Ngor Island, den bedste tid at surfe i Senegal og detaljerede guides til Ngor Right og Left.",
         },
         "icon": "🌊",
     },
@@ -261,6 +274,8 @@ BLOG_CATS = {
             "de": "coaching-fortschritt",
             "nl": "coaching-progressie",
             "ar": "coaching-progression",
+            "pt": "coaching-progressao",
+            "da": "coaching-progression",
         },
         "name": {
             "en": "Coaching & Progression",
@@ -270,6 +285,8 @@ BLOG_CATS = {
             "de": "Coaching & Fortschritt",
             "nl": "Coaching & Progressie",
             "ar": "التدريب والتطور",
+            "pt": "Coaching & Progressão",
+            "da": "Coaching & Fremgang",
         },
         "desc": {
             "en": "Surf coaching guides, how to improve faster at a surf camp, video analysis, beginner tips and how to choose the best surf camp for your level.",
@@ -279,6 +296,8 @@ BLOG_CATS = {
             "de": "Surf-Coaching-Guides, wie man im Surfcamp schneller besser wird, Videoanalyse, Anfänger-Tipps und wie man das beste Surfcamp wählt.",
             "nl": "Surfcoaching-gidsen, sneller verbeteren in een surfkamp, videoanalyse, tips voor beginners en hoe je het beste surfkamp kiest.",
             "ar": "أدلة تدريب ركوب الأمواج، كيفية التحسن بشكل أسرع في مخيم الأمواج، تحليل الفيديو، نصائح للمبتدئين وكيفية اختيار أفضل مخيم ركوب أمواج.",
+            "pt": "Guias de coaching de surf, como progredir mais rápido num surf camp, análise de vídeo, dicas para iniciantes e como escolher o melhor surf camp.",
+            "da": "Surf coaching-guider, hvordan du forbedrer dig hurtigere på et surfcamp, videoanalyse, tips til begyndere og hvordan du vælger det bedste surfcamp.",
         },
         "icon": "🎯",
     },
@@ -565,7 +584,7 @@ def hreflang_tags(page_key):
         f'<link rel="alternate" hreflang="x-default" href="{SITE_URL}/{en_slug}/">',
         f'<link rel="alternate" hreflang="en" href="{SITE_URL}/{en_slug}/">',
     ]
-    for l in ["fr","es","it","de","nl","ar"]:
+    for l in [x for x in LANGS_ALL if x != "en"]:
         s = SLUG[l][page_key]
         tags.append(f'<link rel="alternate" hreflang="{LANG_LOCALE[l]}" href="{SITE_URL}/{l}/{s}/">')
     return "\n".join(tags)
@@ -694,8 +713,10 @@ GETTING_HERE_FLAG_HREF = {
     "es": "/es/como-llegar/",
     "it": "/it/come-arrivare/",
     "de": "/de/anreise/",
-    "nl": "/nl/hoe-kom-je-er/",
-    "ar": "/ar/كيف-تصل/",
+    "nl": "/nl/bereikbaarheid/",
+    "ar": "/ar/getting-here/",
+    "pt": "/pt/como-chegar/",
+    "da": "/da/getting-here/",
 }
 
 GETTING_HERE_SEGMENT = {}
@@ -972,7 +993,7 @@ def write_sitemaps_and_robots():
             )
 
     index_body = "\n".join(
-        f"  <sitemap><loc>{escape(f'{base}/sitemap-{lg}.xml')}</loc></sitemap>" for lg in LANGS
+        f"  <sitemap><loc>{escape(f'{base}/sitemap-{lg}.xml')}</loc></sitemap>" for lg in LANGS_ALL
     )
     sitemap_index_content = (
         '<?xml version="1.0" encoding="UTF-8"?>\n'
@@ -1370,14 +1391,26 @@ def build_island_guide_page(guide, lang, all_guides, guide_index):
 
     others = [g for i, g in enumerate(all_guides) if i != guide_index][:2]
     rel_cards = ""
+    _rel_imgs_dir = os.path.join(DEMO_DIR, "assets", "images")
+    _rel_gal_dir  = os.path.join(_rel_imgs_dir, "gallery")
     for og in others:
         ol = og["locales"][lang]
         ou = island_guide_href_path(lang, og)
         hb = og.get("hero_basename", og["slugs"]["en"])
         ocb = escape(fix_em(ol.get("category_label", "Island Guide")))
+        if os.path.exists(os.path.join(_rel_imgs_dir, f"bw-{hb}.webp")):
+            rel_img_src = f"/assets/images/bw-{hb}.webp"
+        elif os.path.exists(os.path.join(_rel_imgs_dir, f"{hb}.webp")):
+            rel_img_src = f"/assets/images/{hb}.webp"
+        elif os.path.exists(os.path.join(_rel_gal_dir, f"bw-{hb}.webp")):
+            rel_img_src = f"/assets/images/gallery/bw-{hb}.webp"
+        elif os.path.exists(os.path.join(_rel_gal_dir, f"{hb}.webp")):
+            rel_img_src = f"/assets/images/gallery/{hb}.webp"
+        else:
+            rel_img_src = f"/assets/images/bw-{hb}.webp"
         rel_cards += (
             f'<a href="{ou}" class="card" style="text-decoration:none">'
-            f'<img src="/assets/images/{hb}.webp" alt="{escape(fix_em(ol["h1"]))}" class="card-img" loading="lazy" width="800" height="530" decoding="async">'
+            f'<img src="{rel_img_src}" alt="{escape(fix_em(ol["h1"]))}" class="card-img" loading="lazy" width="800" height="530" decoding="async">'
             f'<div class="card-body"><span class="cat-badge island-guide-badge">{ocb}</span>'
             f'<h3 class="card-h3" style="font-size:15px;margin-top:8px">{escape(fix_em(ol["h1"]))}</h3></div></a>'
         )
@@ -1525,6 +1558,372 @@ def build_island_hub_guides_html(lang, guides):
         f'<p style="text-align:center;margin-top:28px"><a href="{blog_href}" class="btn btn-ocean">{escape({"en":"Visit the blog","fr":"Voir le blog","es":"Ver el blog","it":"Vai al blog","de":"Zum Blog"}[lang])}</a></p>'
         f"</div></section>"
     )
+
+
+def build_island_hub_bottom_sections(lang):
+    """Build the three bottom info sections for the island hub page:
+    1. Season strip (when to come)
+    2. The Breaks quick-ref cards
+    3. Essentials stat strip
+    """
+    COPY = {
+        "en": {
+            "season_lbl": "Planning",
+            "season_h2": "When to Come",
+            "season_sub": "Ngor fires consistently from November to April. Here's what each part of the season looks like.",
+            "seasons": [
+                {"months": "November", "tag": "Good Start", "tag_color": "#22c55e",
+                 "stars": 4, "swell": "Swells building, 3–5ft", "water": "22°C", "crowd": "Light", "note": "Shoulder rates, warm water"},
+                {"months": "Dec – Feb", "tag": "Peak Season", "tag_color": "var(--fire)", "peak": True,
+                 "stars": 5, "swell": "Consistent 4–7ft NW", "water": "19–22°C", "crowd": "Moderate", "note": "Offshore winds daily, book early"},
+                {"months": "Mar – Apr", "tag": "Warm & Quiet", "tag_color": "#0ea5e9",
+                 "stars": 4, "swell": "3–6ft, warming fast", "water": "22–24°C", "crowd": "Light", "note": "Best value window"},
+                {"months": "May – Oct", "tag": "Off-Season", "tag_color": "#94a3b8",
+                 "stars": 1, "swell": "Mostly flat, onshore", "water": "24–26°C", "crowd": "Minimal", "note": "Explore Dakar & culture"},
+            ],
+            "breaks_lbl": "The Waves",
+            "breaks_h2": "The Breaks at a Glance",
+            "breaks_sub": "Three breaks, three experiences. Ngor has a wave for every surfer.",
+            "breaks": [
+                {"name": "Endless Summer Right", "level": "Advanced", "level_color": "var(--fire)",
+                 "height": "3 – 8 ft", "bottom": "Lava reef", "rides": "100–200 m",
+                 "desc": "The legendary right immortalised by Bruce Brown's 1966 film. Fast, hollow walls over sharp lava rock with barrel sections on bigger swells."},
+                {"name": "Ngor Left", "level": "Intermediate", "level_color": "var(--ocean)",
+                 "height": "2 – 5 ft", "bottom": "Mixed reef", "rides": "150–300 m",
+                 "desc": "Long, forgiving lefts on the island's northwest point. Ideal for carving, progression and longboarders. Works on smaller NW swells."},
+                {"name": "Vivier (Lagoon)", "level": "Beginner", "level_color": "#22c55e",
+                 "height": "1 – 3 ft", "bottom": "Sandy", "rides": "30–60 m",
+                 "desc": "Protected inside the island's bay. Small, safe reform waves over sand — the perfect first session spot for guests learning to surf."},
+            ],
+            "stats_lbl": "Island Essentials",
+            "stats": [
+                {"icon": "boat", "val": "5–7 min", "lbl": "Pirogue crossing"},
+                {"icon": "map", "val": "400 m", "lbl": "From Dakar coast"},
+                {"icon": "calendar", "val": "Nov → Apr", "lbl": "Prime surf season"},
+                {"icon": "thermo", "val": "19–26°C", "lbl": "Water temperature"},
+                {"icon": "wallet", "val": "from 1 500 CFA", "lbl": "Pirogue return fare"},
+                {"icon": "surf", "val": "All levels", "lbl": "Surf abilities welcome"},
+            ],
+        },
+        "fr": {
+            "season_lbl": "Planification",
+            "season_h2": "Quand Venir",
+            "season_sub": "Ngor est régulière de novembre à avril. Voici ce que chaque période de la saison vous réserve.",
+            "seasons": [
+                {"months": "Novembre", "tag": "Bon Début", "tag_color": "#22c55e",
+                 "stars": 4, "swell": "Houle en hausse, 1–1,5 m", "water": "22°C", "crowd": "Peu fréquenté", "note": "Tarifs doux, eau encore chaude"},
+                {"months": "Déc – Fév", "tag": "Haute Saison", "tag_color": "var(--fire)", "peak": True,
+                 "stars": 5, "swell": "NW régulier 1–2 m", "water": "19–22°C", "crowd": "Modéré", "note": "Vents offshore quotidiens, réserver tôt"},
+                {"months": "Mars – Avr", "tag": "Doux & Calme", "tag_color": "#0ea5e9",
+                 "stars": 4, "swell": "1–2 m, eau qui se réchauffe", "water": "22–24°C", "crowd": "Peu fréquenté", "note": "Meilleur rapport qualité-prix"},
+                {"months": "Mai – Oct", "tag": "Hors Saison", "tag_color": "#94a3b8",
+                 "stars": 1, "swell": "Plat, vents de face", "water": "24–26°C", "crowd": "Quasi absent", "note": "Idéal pour explorer Dakar"},
+            ],
+            "breaks_lbl": "Les Vagues",
+            "breaks_h2": "Les Spots en un Coup d'Œil",
+            "breaks_sub": "Trois spots, trois expériences. Ngor a une vague pour chaque niveau.",
+            "breaks": [
+                {"name": "Endless Summer (droite)", "level": "Avancé", "level_color": "var(--fire)",
+                 "height": "1 – 2,5 m", "bottom": "Récif de lave", "rides": "100–200 m",
+                 "desc": "La droite légendaire immortalisée par Bruce Brown en 1966. Des walls rapides et creux sur récif de lave avec des sections tube sur les grosses houles."},
+                {"name": "Ngor Gauche", "level": "Intermédiaire", "level_color": "var(--ocean)",
+                 "height": "0,6 – 1,5 m", "bottom": "Récif mixte", "rides": "150–300 m",
+                 "desc": "Des gauches longues et généreuses sur la pointe nord-ouest. Idéal pour les turns, la progression et les longboarders. Fonctionne sur les petites houles NW."},
+                {"name": "Vivier (Lagon)", "level": "Débutant", "level_color": "#22c55e",
+                 "height": "0,3 – 1 m", "bottom": "Sable", "rides": "30–60 m",
+                 "desc": "Abrité dans la baie de l'île. Petites vagues de réforme sur fond de sable — parfait pour les premières sessions en toute sécurité."},
+            ],
+            "stats_lbl": "L'Essentiel de l'Île",
+            "stats": [
+                {"icon": "boat", "val": "5–7 min", "lbl": "Traversée en pirogue"},
+                {"icon": "map", "val": "400 m", "lbl": "Au large de Dakar"},
+                {"icon": "calendar", "val": "Nov → Avr", "lbl": "Saison principale"},
+                {"icon": "thermo", "val": "19–26°C", "lbl": "Température de l'eau"},
+                {"icon": "wallet", "val": "dès 1 500 CFA", "lbl": "Pirogue aller-retour"},
+                {"icon": "surf", "val": "Tous niveaux", "lbl": "Surf pour tous"},
+            ],
+        },
+        "es": {
+            "season_lbl": "Planificación",
+            "season_h2": "Cuándo Venir",
+            "season_sub": "Ngor rompe de forma consistente de noviembre a abril. Esto es lo que ofrece cada período de la temporada.",
+            "seasons": [
+                {"months": "Noviembre", "tag": "Buen Comienzo", "tag_color": "#22c55e",
+                 "stars": 4, "swell": "Oleaje en aumento, 1–1,5 m", "water": "22°C", "crowd": "Poca gente", "note": "Precios bajos, agua cálida"},
+                {"months": "Dic – Feb", "tag": "Temporada Alta", "tag_color": "var(--fire)", "peak": True,
+                 "stars": 5, "swell": "NW consistente 1–2 m", "water": "19–22°C", "crowd": "Moderado", "note": "Vientos offshore diarios, reservar pronto"},
+                {"months": "Mar – Abr", "tag": "Cálido & Tranquilo", "tag_color": "#0ea5e9",
+                 "stars": 4, "swell": "1–2 m, agua calentando", "water": "22–24°C", "crowd": "Poca gente", "note": "Mejor relación calidad-precio"},
+                {"months": "May – Oct", "tag": "Fuera de Temporada", "tag_color": "#94a3b8",
+                 "stars": 1, "swell": "Sin olas, viento onshore", "water": "24–26°C", "crowd": "Casi vacío", "note": "Explora la cultura de Dakar"},
+            ],
+            "breaks_lbl": "Las Olas",
+            "breaks_h2": "Los Spots de un Vistazo",
+            "breaks_sub": "Tres spots, tres experiencias. Ngor tiene una ola para cada surfista.",
+            "breaks": [
+                {"name": "Endless Summer (derecha)", "level": "Avanzado", "level_color": "var(--fire)",
+                 "height": "1 – 2,5 m", "bottom": "Arrecife de lava", "rides": "100–200 m",
+                 "desc": "La derecha legendaria inmortalizada por Bruce Brown en 1966. Paredes rápidas y huecas sobre arrecife de lava con secciones de tubo en olas grandes."},
+                {"name": "Ngor Izquierda", "level": "Intermedio", "level_color": "var(--ocean)",
+                 "height": "0,6 – 1,5 m", "bottom": "Arrecife mixto", "rides": "150–300 m",
+                 "desc": "Largas izquierdas generosas en la punta noroeste. Ideal para maniobras, progresión y longboards. Funciona con pequeños swells NW."},
+                {"name": "Vivier (Laguna)", "level": "Principiante", "level_color": "#22c55e",
+                 "height": "0,3 – 1 m", "bottom": "Arena", "rides": "30–60 m",
+                 "desc": "Protegida en la bahía de la isla. Pequeñas olas de reforma sobre fondo de arena — perfectas para las primeras sesiones con total seguridad."},
+            ],
+            "stats_lbl": "Lo Esencial de la Isla",
+            "stats": [
+                {"icon": "boat", "val": "5–7 min", "lbl": "Travesía en piragua"},
+                {"icon": "map", "val": "400 m", "lbl": "Desde la costa de Dakar"},
+                {"icon": "calendar", "val": "Nov → Abr", "lbl": "Temporada principal"},
+                {"icon": "thermo", "val": "19–26°C", "lbl": "Temperatura del agua"},
+                {"icon": "wallet", "val": "desde 1 500 CFA", "lbl": "Piragua ida y vuelta"},
+                {"icon": "surf", "val": "Todos niveles", "lbl": "Surf para todos"},
+            ],
+        },
+        "it": {
+            "season_lbl": "Pianificazione",
+            "season_h2": "Quando Venire",
+            "season_sub": "Ngor è costante da novembre ad aprile. Ecco cosa offre ogni periodo della stagione.",
+            "seasons": [
+                {"months": "Novembre", "tag": "Buon Inizio", "tag_color": "#22c55e",
+                 "stars": 4, "swell": "Onde in crescita, 1–1,5 m", "water": "22°C", "crowd": "Poca gente", "note": "Prezzi bassi, acqua calda"},
+                {"months": "Dic – Feb", "tag": "Alta Stagione", "tag_color": "var(--fire)", "peak": True,
+                 "stars": 5, "swell": "NW costante 1–2 m", "water": "19–22°C", "crowd": "Moderato", "note": "Venti offshore giornalieri, prenota presto"},
+                {"months": "Mar – Apr", "tag": "Caldo & Tranquillo", "tag_color": "#0ea5e9",
+                 "stars": 4, "swell": "1–2 m, acqua che si scalda", "water": "22–24°C", "crowd": "Poca gente", "note": "Il miglior rapporto qualità-prezzo"},
+                {"months": "Mag – Ott", "tag": "Fuori Stagione", "tag_color": "#94a3b8",
+                 "stars": 1, "swell": "Piatto, vento onshore", "water": "24–26°C", "crowd": "Quasi vuoto", "note": "Esplora la cultura di Dakar"},
+            ],
+            "breaks_lbl": "Le Onde",
+            "breaks_h2": "I Break in Sintesi",
+            "breaks_sub": "Tre spot, tre esperienze. Ngor ha un'onda per ogni surfista.",
+            "breaks": [
+                {"name": "Endless Summer (destra)", "level": "Avanzato", "level_color": "var(--fire)",
+                 "height": "1 – 2,5 m", "bottom": "Reef lavico", "rides": "100–200 m",
+                 "desc": "Il mitico diritto immortalato da Bruce Brown nel 1966. Pareti veloci e cave su reef lavico con sezioni barrel sulle onde più grandi."},
+                {"name": "Ngor Sinistra", "level": "Intermedio", "level_color": "var(--ocean)",
+                 "height": "0,6 – 1,5 m", "bottom": "Reef misto", "rides": "150–300 m",
+                 "desc": "Lunghe mancine generose sulla punta nord-ovest. Ideale per le manovre, la progressione e i longboard. Funziona con piccoli swell NW."},
+                {"name": "Vivier (Laguna)", "level": "Principiante", "level_color": "#22c55e",
+                 "height": "0,3 – 1 m", "bottom": "Sabbia", "rides": "30–60 m",
+                 "desc": "Protetta nella baia dell'isola. Piccole onde di riforma su fondale sabbioso — perfette per le prime sessioni in totale sicurezza."},
+            ],
+            "stats_lbl": "Essenziali dell'Isola",
+            "stats": [
+                {"icon": "boat", "val": "5–7 min", "lbl": "Traversata in piroga"},
+                {"icon": "map", "val": "400 m", "lbl": "Dalla costa di Dakar"},
+                {"icon": "calendar", "val": "Nov → Apr", "lbl": "Stagione principale"},
+                {"icon": "thermo", "val": "19–26°C", "lbl": "Temperatura dell'acqua"},
+                {"icon": "wallet", "val": "da 1 500 CFA", "lbl": "Piroga andata e ritorno"},
+                {"icon": "surf", "val": "Tutti i livelli", "lbl": "Surf per tutti"},
+            ],
+        },
+        "de": {
+            "season_lbl": "Reiseplanung",
+            "season_h2": "Wann Kommt Man",
+            "season_sub": "Ngor bricht von November bis April konstant. So sieht jeder Teil der Saison aus.",
+            "seasons": [
+                {"months": "November", "tag": "Guter Einstieg", "tag_color": "#22c55e",
+                 "stars": 4, "swell": "Dünung aufbauend, 1–1,5 m", "water": "22°C", "crowd": "Wenig Betrieb", "note": "Günstiger, warmes Wasser"},
+                {"months": "Dez – Feb", "tag": "Hochsaison", "tag_color": "var(--fire)", "peak": True,
+                 "stars": 5, "swell": "Konstant NW 1–2 m", "water": "19–22°C", "crowd": "Mäßig", "note": "Tägliche Offshore-Winde, frühzeitig buchen"},
+                {"months": "Mär – Apr", "tag": "Warm & Ruhig", "tag_color": "#0ea5e9",
+                 "stars": 4, "swell": "1–2 m, wärmer werdendes Wasser", "water": "22–24°C", "crowd": "Wenig Betrieb", "note": "Bestes Preis-Leistungs-Verhältnis"},
+                {"months": "Mai – Okt", "tag": "Nebensaison", "tag_color": "#94a3b8",
+                 "stars": 1, "swell": "Flach, Onshore-Winde", "water": "24–26°C", "crowd": "Kaum Betrieb", "note": "Dakar & Kultur entdecken"},
+            ],
+            "breaks_lbl": "Die Wellen",
+            "breaks_h2": "Die Breaks im Überblick",
+            "breaks_sub": "Drei Breaks, drei Erlebnisse. Ngor hat eine Welle für jeden Surfer.",
+            "breaks": [
+                {"name": "Endless Summer (Rechts)", "level": "Fortgeschritten", "level_color": "var(--fire)",
+                 "height": "1 – 2,5 m", "bottom": "Lavariff", "rides": "100–200 m",
+                 "desc": "Der legendäre Rechtsbrecher, verewigt von Bruce Brown im Jahr 1966. Schnelle, hohle Wände über scharfem Lavariff mit Barrel-Sektionen bei größeren Dünungen."},
+                {"name": "Ngor Links", "level": "Fortgeschrittene Anfänger", "level_color": "var(--ocean)",
+                 "height": "0,6 – 1,5 m", "bottom": "Gemischtes Riff", "rides": "150–300 m",
+                 "desc": "Lange, gutmütige Linksbrecher an der Nordwestspitze. Ideal für Turns, Progressionen und Longboards. Funktioniert bei kleinen NW-Dünungen."},
+                {"name": "Vivier (Lagune)", "level": "Anfänger", "level_color": "#22c55e",
+                 "height": "0,3 – 1 m", "bottom": "Sand", "rides": "30–60 m",
+                 "desc": "Geschützt in der Bucht der Insel. Kleine Reformwellen über Sandboden — perfekt für erste Sessions in völliger Sicherheit."},
+            ],
+            "stats_lbl": "Insel-Essentials",
+            "stats": [
+                {"icon": "boat", "val": "5–7 Min.", "lbl": "Pirogue-Überfahrt"},
+                {"icon": "map", "val": "400 m", "lbl": "Von Dakars Küste"},
+                {"icon": "calendar", "val": "Nov → Apr", "lbl": "Hauptsaison"},
+                {"icon": "thermo", "val": "19–26°C", "lbl": "Wassertemperatur"},
+                {"icon": "wallet", "val": "ab 1 500 CFA", "lbl": "Pirogue Hin & Zurück"},
+                {"icon": "surf", "val": "Alle Levels", "lbl": "Surf für alle"},
+            ],
+        },
+    }
+
+    STAT_ICONS = {
+        "boat": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l2-9h14l2 9"/><path d="M3 17c0 2 4 3 9 3s9-1 9-3"/><path d="M12 8V3"/><path d="M8 8h8"/></svg>',
+        "map":  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="10" r="3"/><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>',
+        "calendar": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>',
+        "thermo": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/></svg>',
+        "wallet": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M16 12h.01"/></svg>',
+        "surf":   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="2"/><path d="M5 21l7-8 7 8"/><path d="M3 17c3-3 5-5 9-5s6 2 9 5"/></svg>',
+    }
+
+    c = COPY.get(lang, COPY["en"])
+
+    def stars_html(n):
+        dots = []
+        for i in range(5):
+            color = "var(--fire)" if i < n else "#e2e8f0"
+            dots.append(f'<span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:{color};margin:0 2px"></span>')
+        return "".join(dots)
+
+    # ── Section 1: Season ──────────────────────────────────────────────
+    season_cards = []
+    for s in c["seasons"]:
+        is_peak = s.get("peak", False)
+        border = "2px solid var(--fire)" if is_peak else "1px solid rgba(10,37,64,0.09)"
+        bg = "#fff" if is_peak else "#f8fafd"
+        peak_ribbon = (
+            f'<div style="position:absolute;top:-1px;right:16px;background:var(--fire);color:#fff;'
+            f'font-size:10px;font-weight:700;letter-spacing:.08em;padding:3px 10px;border-radius:0 0 6px 6px;'
+            f'text-transform:uppercase">Best</div>'
+        ) if is_peak else ""
+        season_cards.append(
+            f'<div class="reveal" style="position:relative;background:{bg};border:{border};border-radius:14px;'
+            f'padding:28px 22px 24px;flex:1;min-width:200px;max-width:260px;box-shadow:{"0 8px 28px rgba(255,90,31,0.10)" if is_peak else "0 2px 10px rgba(10,37,64,0.06)"}">'
+            f'{peak_ribbon}'
+            f'<div style="font-size:13px;font-weight:700;color:{s["tag_color"]};text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px">{s["tag"]}</div>'
+            f'<div style="font-size:20px;font-weight:800;color:var(--navy);font-family:var(--fh);margin-bottom:12px">{s["months"]}</div>'
+            f'<div style="margin-bottom:10px">{stars_html(s["stars"])}</div>'
+            f'<div style="font-size:13px;color:var(--muted);line-height:1.6">'
+            f'<div style="margin-bottom:4px">🌊 {s["swell"]}</div>'
+            f'<div style="margin-bottom:4px">🌡️ {s["water"]}</div>'
+            f'<div style="margin-bottom:8px">👥 {s["crowd"]}</div>'
+            f'<div style="font-size:12px;color:var(--navy);font-weight:600;border-top:1px solid rgba(10,37,64,0.08);padding-top:8px">{s["note"]}</div>'
+            f'</div></div>'
+        )
+
+    season_section = (
+        f'<section class="section sec-light" id="island-season" style="padding-bottom:60px">'
+        f'<div class="container">'
+        f'<div style="text-align:center;margin-bottom:44px" class="reveal">'
+        f'<span class="s-label" style="color:var(--fire)">{escape(c["season_lbl"])}</span>'
+        f'<h2 class="s-title">{escape(c["season_h2"])}</h2>'
+        f'<p class="s-sub" style="max-width:620px;margin:10px auto 0">{escape(c["season_sub"])}</p>'
+        f'</div>'
+        f'<div style="display:flex;flex-wrap:wrap;gap:16px;justify-content:center">'
+        + "".join(season_cards) +
+        f'</div></div></section>'
+    )
+
+    # ── Section 2: The Breaks ──────────────────────────────────────────
+    WAVE_ICONS = [
+        '<svg viewBox="0 0 48 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto"><path d="M2 22 C6 10, 14 4, 22 8 C28 11, 30 18, 38 14 C42 12, 44 16, 46 22" stroke="var(--fire)" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M2 26 C8 18, 16 14, 24 18 C30 21, 34 24, 46 26" stroke="var(--fire)" stroke-width="1.2" stroke-linecap="round" fill="none" opacity=".4"/></svg>',
+        '<svg viewBox="0 0 48 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto"><path d="M46 22 C42 10, 34 4, 26 8 C20 11, 18 18, 10 14 C6 12, 4 16, 2 22" stroke="var(--ocean)" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M46 26 C40 18, 32 14, 24 18 C18 21, 14 24, 2 26" stroke="var(--ocean)" stroke-width="1.2" stroke-linecap="round" fill="none" opacity=".4"/></svg>',
+        '<svg viewBox="0 0 48 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto"><path d="M8 22 C12 16, 18 14, 24 16 C30 18, 34 20, 40 18" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M4 26 C14 22, 22 22, 32 24 C38 25, 42 26, 46 26" stroke="#22c55e" stroke-width="1.2" stroke-linecap="round" fill="none" opacity=".4"/></svg>',
+    ]
+    break_cards = []
+    for idx, b in enumerate(c["breaks"]):
+        break_cards.append(
+            f'<div class="reveal" style="background:#fff;border:1px solid rgba(10,37,64,0.09);border-radius:16px;'
+            f'padding:32px 28px;display:flex;flex-direction:column;gap:16px;box-shadow:0 2px 12px rgba(10,37,64,0.06)">'
+            f'<div style="height:52px;display:flex;align-items:center">{WAVE_ICONS[idx]}</div>'
+            f'<div>'
+            f'<span style="display:inline-block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;'
+            f'color:#fff;background:{b["level_color"]};border-radius:20px;padding:3px 12px;margin-bottom:10px">{escape(b["level"])}</span>'
+            f'<h3 style="font-size:18px;font-weight:800;color:var(--navy);font-family:var(--fh);margin:0 0 4px">{escape(b["name"])}</h3>'
+            f'</div>'
+            f'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;text-align:center">'
+            f'<div style="background:#f8fafd;border-radius:8px;padding:10px 6px">'
+            f'<div style="font-size:15px;font-weight:800;color:var(--navy)">{escape(b["height"])}</div>'
+            f'<div style="font-size:11px;color:var(--muted);margin-top:2px">Wave face</div></div>'
+            f'<div style="background:#f8fafd;border-radius:8px;padding:10px 6px">'
+            f'<div style="font-size:15px;font-weight:800;color:var(--navy)">{escape(b["rides"])}</div>'
+            f'<div style="font-size:11px;color:var(--muted);margin-top:2px">Ride length</div></div>'
+            f'<div style="background:#f8fafd;border-radius:8px;padding:10px 6px">'
+            f'<div style="font-size:13px;font-weight:700;color:var(--navy)">{escape(b["bottom"])}</div>'
+            f'<div style="font-size:11px;color:var(--muted);margin-top:2px">Bottom</div></div>'
+            f'</div>'
+            f'<p style="font-size:14px;color:var(--muted);line-height:1.7;margin:0">{escape(b["desc"])}</p>'
+            f'</div>'
+        )
+
+    breaks_section = (
+        f'<section class="section" id="island-breaks" style="background:#fff;padding-bottom:60px">'
+        f'<div class="container">'
+        f'<div style="text-align:center;margin-bottom:44px" class="reveal">'
+        f'<span class="s-label" style="color:var(--ocean)">{escape(c["breaks_lbl"])}</span>'
+        f'<h2 class="s-title">{escape(c["breaks_h2"])}</h2>'
+        f'<p class="s-sub" style="max-width:580px;margin:10px auto 0">{escape(c["breaks_sub"])}</p>'
+        f'</div>'
+        f'<div class="grid-3 reveal">{"".join(break_cards)}</div>'
+        f'</div></section>'
+    )
+
+    # ── Section 3: Essentials strip ────────────────────────────────────
+    stat_items = []
+    for st in c["stats"]:
+        ico_svg = STAT_ICONS.get(st["icon"], "")
+        stat_items.append(
+            f'<div style="display:flex;flex-direction:column;align-items:center;gap:10px;padding:20px 16px;'
+            f'flex:1;min-width:130px;max-width:190px">'
+            f'<div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;'
+            f'background:rgba(255,255,255,0.12);border-radius:50%;color:#fff">{ico_svg}</div>'
+            f'<div style="text-align:center">'
+            f'<div style="font-size:17px;font-weight:800;color:#fff;font-family:var(--fh)">{escape(st["val"])}</div>'
+            f'<div style="font-size:12px;color:rgba(255,255,255,0.65);margin-top:2px">{escape(st["lbl"])}</div>'
+            f'</div></div>'
+        )
+
+    stats_section = (
+        f'<section id="island-essentials" style="background:var(--navy);padding:48px 0">'
+        f'<div class="container">'
+        f'<div style="text-align:center;margin-bottom:32px">'
+        f'<span class="s-label" style="color:rgba(255,255,255,0.55)">{escape(c["stats_lbl"])}</span>'
+        f'</div>'
+        f'<div style="display:flex;flex-wrap:wrap;justify-content:center;gap:4px;'
+        f'border-top:1px solid rgba(255,255,255,0.10);border-bottom:1px solid rgba(255,255,255,0.10);'
+        f'padding:8px 0">'
+        + "".join(stat_items) +
+        f'</div></div></section>'
+    )
+
+    return season_section + "\n" + breaks_section + "\n" + stats_section
+
+
+def patch_island_hub_bottom_sections():
+    """Inject or replace the bottom info sections on all island hub pages."""
+    import re as _re
+    paths = [
+        ("island/index.html", "en"),
+        ("fr/ile/index.html", "fr"),
+        ("es/isla/index.html", "es"),
+        ("it/isola/index.html", "it"),
+        ("de/insel/index.html", "de"),
+    ]
+    start_m = "<!--ISLAND_BOTTOM_START-->"
+    end_m   = "<!--ISLAND_BOTTOM_END-->"
+    n = 0
+    for rel, lang in paths:
+        fp = os.path.join(DEMO_DIR, rel)
+        if not os.path.isfile(fp):
+            continue
+        with open(fp, encoding="utf-8", errors="replace") as f:
+            h = f.read()
+        # Strip any existing block
+        if start_m in h and end_m in h:
+            h = _re.sub(_re.escape(start_m) + r"[\s\S]*?" + _re.escape(end_m), "", h, count=1)
+        block = start_m + "\n" + build_island_hub_bottom_sections(lang) + "\n" + end_m
+        # Inject before cta-band
+        cta_marker = '\n<div class="cta-band">'
+        if cta_marker in h:
+            h = h.replace(cta_marker, "\n" + block + cta_marker, 1)
+            with open(fp, "w", encoding="utf-8") as f:
+                f.write(h)
+            n += 1
+        else:
+            print(f"  island bottom: cta-band marker not found in {rel}, skipping")
+    print(f"  ✅ island hub bottom sections: injected into {n} pages")
 
 
 def patch_island_hub_guides_section(guides):
@@ -1840,31 +2239,31 @@ def hreflang_paths_for_index(rel_path, island_guides):
     lang, segs = parsed
 
     if len(segs) == 0:
-        return {lg: _normalize_site_path(LANG_PFX[lg] + "/") for lg in LANGS}
+        return {lg: _normalize_site_path(LANG_PFX[lg] + "/") for lg in LANGS_ALL}
 
     if len(segs) == 1 and segs[0] == GETTING_HERE_SEGMENT.get(lang):
-        return {lg: _normalize_site_path(GETTING_HERE_FLAG_HREF[lg]) for lg in LANGS}
+        return {lg: _normalize_site_path(GETTING_HERE_FLAG_HREF[lg]) for lg in LANGS_ALL if lg in GETTING_HERE_FLAG_HREF}
 
     if len(segs) == 1:
         matched_key = None
         for key in SLUG.get("en", {}):
-            if any(SLUG[lg].get(key) == segs[0] for lg in LANGS):
+            if any(SLUG[lg].get(key) == segs[0] for lg in LANGS_ALL if lg in SLUG):
                 matched_key = key
                 break
         if matched_key:
             return {
                 lg: _normalize_site_path(f"{LANG_PFX[lg]}/{SLUG[lg][matched_key]}/")
-                for lg in LANGS
+                for lg in LANGS_ALL if lg in SLUG and matched_key in SLUG[lg]
             }
 
     if len(segs) == 1 and segs[0] == SLUG[lang]["blog"]:
-        return {lg: _normalize_site_path(f"{LANG_PFX[lg]}/{SLUG[lg]['blog']}/") for lg in LANGS}
+        return {lg: _normalize_site_path(f"{LANG_PFX[lg]}/{SLUG[lg]['blog']}/") for lg in LANGS_ALL if lg in SLUG}
 
     if len(segs) == 2 and segs[0] == SLUG[lang]["blog"]:
         slug = segs[1]
         return {
             lg: _normalize_site_path(f"{LANG_PFX[lg]}/{SLUG[lg]['blog']}/{slug}/")
-            for lg in LANGS
+            for lg in LANGS_ALL if lg in SLUG
         }
 
     if (
@@ -1879,13 +2278,13 @@ def hreflang_paths_for_index(rel_path, island_guides):
                 matched_cat_en = _cen
                 break
         if matched_cat_en:
-            return {lg: _normalize_site_path(CAT_PAGE_HREF[(matched_cat_en, lg)]) for lg in LANGS}
+            return {lg: _normalize_site_path(CAT_PAGE_HREF[(matched_cat_en, lg)]) for lg in LANGS_ALL if (matched_cat_en, lg) in CAT_PAGE_HREF}
 
     if len(segs) == 2 and segs[0] == SLUG[lang]["island"]:
         gslug = segs[1]
         for g in island_guides:
             if g.get("slugs", {}).get(lang) == gslug:
-                return {lg: island_guide_href_path(lg, g) for lg in LANGS}
+                return {lg: island_guide_href_path(lg, g) for lg in LANGS_ALL if g.get("slugs", {}).get(lg)}
 
     return None
 
@@ -1924,10 +2323,11 @@ def _render_seo_link_cluster(paths_by_lang, page_lang):
         f'<link rel="alternate" hreflang="x-default" href="{escape(en_u)}">',
         f'<link rel="alternate" hreflang="en" href="{escape(en_u)}">',
     ]
-    for lg in ["fr", "es", "it", "de", "nl", "ar"]:
-        lines.append(
-            f'<link rel="alternate" hreflang="{LANG_LOCALE[lg]}" href="{escape(full_url(paths_by_lang[lg]))}">'
-        )
+    for lg in [x for x in LANGS_ALL if x != "en"]:
+        if lg in paths_by_lang:
+            lines.append(
+                f'<link rel="alternate" hreflang="{LANG_LOCALE[lg]}" href="{escape(full_url(paths_by_lang[lg]))}">'
+            )
     return "\n".join(lines)
 
 
@@ -2035,13 +2435,13 @@ def verify_hreflang_alternate_count():
         if "rel=\"canonical\"" not in h and "rel='canonical'" not in h:
             continue
         n_alt = len(alt_n.findall(h))
-        if n_alt != 8:
+        if n_alt not in (8, 10):  # 8=original 7-lang, 10=full 9-lang
             problems.append((rel, n_alt))
     if problems:
         sample = problems[:12]
-        print(f"  hreflang verify: {len(problems)} pages without exactly 8 alternates (sample: {sample})")
+        print(f"  hreflang verify: {len(problems)} pages with unexpected alternate count (sample: {sample})")
     else:
-        print("  hreflang verify: OK (8 alternates on pages with canonical)")
+        print("  hreflang verify: OK")
 
 
 def patch_footer_bottom_pp_all():
@@ -2161,6 +2561,8 @@ BOOK_FOOTER_LABEL = {
     "de": "Buchen",
     "nl": "Boeken",
     "ar": "احجز الآن",
+    "pt": "Reservar",
+    "da": "Book Nu",
 }
 GH_FOOTER_LABEL = {
     "en": "Getting here",
@@ -2168,8 +2570,10 @@ GH_FOOTER_LABEL = {
     "es": "Cómo llegar",
     "it": "Come arrivare",
     "de": "Anreise",
-    "nl": "Hoe kom je er",
+    "nl": "Bereikbaarheid",
     "ar": "كيفية الوصول",
+    "pt": "Como chegar",
+    "da": "Sådan kommer du her",
 }
 
 
@@ -3511,7 +3915,7 @@ def patch_home_blog_preview_all():
     BLOG_LABEL = {"en":"Latest from the Blog","fr":"Derniers articles du Blog",
                   "es":"Últimos artículos del Blog","it":"Ultimi articoli dal Blog","de":"Neuestes aus dem Blog",
                   "nl":"Laatste van de Blog","ar":"أحدث المقالات"}
-    BLOG_EYEBROW = {"en":"Blog","fr":"Blog","es":"Blog","it":"Blog","de":"Blog","nl":"Blog","ar":"المدونة"}
+    BLOG_EYEBROW = {"en":"Blog","fr":"Blog","es":"Blog","it":"Blog","de":"Blog","nl":"Blog","ar":"المدونة","pt":"Blog","da":"Blog"}
     ALL_LABEL  = {"en":"All Articles","fr":"Tous les articles","es":"Todos los artículos",
                   "it":"Tutti gli articoli","de":"Alle Artikel","nl":"Alle artikelen","ar":"كل المقالات"}
     FALLBACK_IMG = "/assets/images/gallery/DSC01473_740eff92.webp"
@@ -5552,6 +5956,286 @@ def build_gallery(lang):
     return html
 
 
+def _surf_house_tribe_section(lang):
+    """Return the 'The Tribe' polaroid block for the surf-house page."""
+    TRIBE_COPY = {
+        "en": {"lbl": "Community", "h2": "The Tribe", "sub": "Good vibes, endless smiles, and memories made in the lineup and around the dinner table."},
+        "fr": {"lbl": "Communauté", "h2": "La Tribu", "sub": "Bonnes ondes, sourires sans fin et souvenirs créés au line-up et autour de la table."},
+        "es": {"lbl": "Comunidad", "h2": "La Tribu", "sub": "Buenas vibras, sonrisas infinitas y recuerdos creados en el agua y alrededor de la mesa."},
+        "it": {"lbl": "Comunità", "h2": "La Tribù", "sub": "Buone vibrazioni, sorrisi infiniti e ricordi creati in acqua e attorno al tavolo."},
+        "de": {"lbl": "Gemeinschaft", "h2": "Der Tribe", "sub": "Gute Vibes, endloses Lächeln und Erinnerungen, die im Lineup und am Esstisch entstehen."},
+        "nl": {"lbl": "Gemeenschap", "h2": "De Tribe", "sub": "Goede vibes, eindeloze glimlachen en herinneringen gemaakt in de line-up en rond de eettafel."},
+        "ar": {"lbl": "المجتمع", "h2": "القبيلة", "sub": "طاقة إيجابية، ابتسامات لا تنتهي، وذكريات تُصنع في الأمواج وحول مائدة العشاء."},
+        "pt": {"lbl": "Comunidade", "h2": "A Tribo", "sub": "Boas energias, sorrisos infinitos e memórias criadas no line-up e à volta da mesa."},
+        "da": {"lbl": "Fællesskab", "h2": "Stammen", "sub": "Gode vibes, endeløse smil og minder skabt i lineuppen og omkring middagsbordet."},
+    }
+    c = TRIBE_COPY.get(lang, TRIBE_COPY["en"])
+    return f"""
+  <!-- sh-tribe-section-start -->
+  <style>
+    .polaroid {{
+      background: #fff;
+      padding: 12px 12px 40px 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s;
+      border-radius: 2px;
+    }}
+    .polaroid img {{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: contrast(1.05) saturate(1.05);
+      border-radius: 2px;
+    }}
+    .polaroid:hover {{
+      transform: scale(1.08) rotate(0deg) !important;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2) !important;
+      z-index: 10 !important;
+    }}
+    .pin {{
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 24px;
+      height: 24px;
+      background: radial-gradient(circle at 30% 30%, #ff7b47, #d94000);
+      border-radius: 50%;
+      box-shadow: inset -2px -2px 4px rgba(0,0,0,0.3), 0 4px 6px rgba(0,0,0,0.4);
+      z-index: 3;
+    }}
+    .pin::after {{
+      content: '';
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: 6px;
+      height: 6px;
+      background: rgba(255,255,255,0.6);
+      border-radius: 50%;
+    }}
+    .tape {{
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 28px;
+      background: rgba(255, 255, 255, 0.5);
+      border: 1px solid rgba(0,0,0,0.05);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      z-index: 3;
+      backdrop-filter: blur(2px);
+    }}
+    @media(max-width:640px){{
+      .tribe-board {{ gap:12px !important; padding:8px !important; }}
+      .tribe-board .polaroid {{ width:calc(50% - 8px) !important; height:auto !important; aspect-ratio:3/4; margin-top:0 !important; transform:rotate(var(--rot,0deg)) !important; }}
+      .tribe-board .polaroid:nth-child(1){{ --rot:-2deg }}
+      .tribe-board .polaroid:nth-child(2){{ --rot:2deg }}
+      .tribe-board .polaroid:nth-child(3){{ --rot:-1.5deg }}
+      .tribe-board .polaroid:nth-child(4){{ --rot:2.5deg }}
+      .tribe-board .polaroid:nth-child(5){{ --rot:-2deg }}
+      .tribe-board .polaroid:nth-child(6){{ --rot:1.5deg }}
+      #sh-tribe {{ padding: 48px 0 56px !important; }}
+    }}
+    @media(max-width:390px){{
+      .tribe-board .polaroid {{ width:calc(50% - 6px) !important; }}
+    }}
+  </style>
+  <section class="section sec-light" id="sh-tribe" style="position:relative; overflow:hidden; padding: 80px 0 90px; background: #f8fafd;">
+    <div style="position:absolute; inset:0; opacity:0.03; background-image: url('/assets/images/wix/c2467f_a31779010ce34c4c8c61cc5868d81f31.webp'); background-size: 150px; background-repeat: repeat; mix-blend-mode: multiply; pointer-events:none;"></div>
+    <div class="container" style="position:relative; z-index:2;">
+      <div style="text-align:center; margin-bottom:52px" class="reveal">
+        <span class="s-label" style="color:var(--fire);">{c["lbl"]}</span>
+        <h2 class="s-title" style="font-family:var(--fh); font-weight:900; font-size:clamp(24px, 5vw, 44px); color:var(--navy); margin-bottom:14px;">{c["h2"]}</h2>
+        <p class="s-sub" style="max-width:560px; margin:0 auto; font-size:clamp(14px,1.6vw,17px);">{c["sub"]}</p>
+      </div>
+      <div class="tribe-board reveal" style="display:flex; flex-wrap:wrap; justify-content:center; gap:18px; max-width:960px; margin:0 auto; padding: 16px;">
+        <div class="polaroid" style="transform:rotate(-4deg); width:260px; height:300px; z-index:1;">
+          <div class="pin"></div>
+          <img src="/assets/images/gallery/79fd3518-a569-479b-9980-5af713fda22c_1c4694d0.webp" alt="Surf community" loading="lazy">
+        </div>
+        <div class="polaroid" style="transform:rotate(3deg); width:240px; height:280px; margin-top:20px; z-index:2;">
+          <div class="tape" style="transform: translateX(-50%) rotate(-5deg);"></div>
+          <img src="/assets/images/gallery/39ad26be-976a-4e14-b066-4cb96fba81ce_1__12f377dd.webp" alt="Surf community" loading="lazy">
+        </div>
+        <div class="polaroid" style="transform:rotate(-2deg); width:280px; height:320px; margin-top:-10px; z-index:3;">
+          <div class="pin" style="background: radial-gradient(circle at 30% 30%, #4facfe, #00f2fe);"></div>
+          <img src="/assets/images/gallery/00b93749-055c-4277-95e6-78e2379b8179_1__deb98e24.webp" alt="Surf community" loading="lazy">
+        </div>
+        <div class="polaroid" style="transform:rotate(5deg); width:250px; height:290px; margin-top:30px; z-index:2;">
+          <div class="tape" style="transform: translateX(-50%) rotate(8deg);"></div>
+          <img src="/assets/images/gallery/b8afa992-5659-47d2-8db3-820accb665e0_a7ebc2d6.webp" alt="Surf community" loading="lazy">
+        </div>
+        <div class="polaroid" style="transform:rotate(-6deg); width:270px; height:310px; margin-top:-20px; z-index:1;">
+          <div class="pin" style="background: radial-gradient(circle at 30% 30%, #f6d365, #fda085);"></div>
+          <img src="/assets/images/gallery/e4422547-dde7-4e6f-9a33-32697ad2d4ce_1__b0103552.webp" alt="Surf community" loading="lazy">
+        </div>
+        <div class="polaroid" style="transform:rotate(2deg); width:260px; height:300px; margin-top:10px; z-index:2;">
+          <div class="tape" style="transform: translateX(-50%) rotate(-3deg);"></div>
+          <img src="/assets/images/gallery/8a1d9617-b508-4dd0-aff1-1b99e86ef123_c7c1b40f.webp" alt="Surf community" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- sh-tribe-section-end -->"""
+
+
+_SH_NOT_INCLUDED = {
+    "title": {
+        "en": "Not Included",
+        "fr": "Non inclus",
+        "es": "No incluido",
+        "it": "Non incluso",
+        "de": "Nicht inbegriffen",
+        "nl": "Niet inbegrepen",
+        "ar": "غير مشمول",
+        "pt": "Não incluído",
+        "da": "Ikke inkluderet",
+    },
+    "subtitle": {
+        "en": "Available as optional extras",
+        "fr": "Disponibles en option",
+        "es": "Disponibles como extras opcionales",
+        "it": "Disponibili come extra opzionali",
+        "de": "Als optionale Extras verfügbar",
+        "nl": "Beschikbaar als optionele extras",
+        "ar": "متاحة كإضافات اختيارية",
+        "pt": "Disponíveis como extras opcionais",
+        "da": "Tilgængelige som valgfrie tilkøb",
+    },
+    "items": {
+        "en": [
+            ("🚐", "Airport transfer", "Direct pick-up / drop-off — ask us when booking"),
+            ("🍽️", "Lunch", "Not included in the daily package"),
+            ("🏄", "Surf coaching & lessons", "Structured coaching for all levels — beginners to advanced"),
+            ("📹", "Video analysis", "Filmed sessions reviewed with your coach"),
+            ("⛵", "Taxi boat to the island", "€1.50 per person, one way"),
+            ("🥤", "Beverages", "Soft drinks, juices & alcohol (water, coffee and tea are included)"),
+            ("🏄‍♂️", "Board rental", "Softboard or hardboard — €15 / day"),
+            ("🩱", "Wetsuit rental", "€5 / day"),
+        ],
+        "fr": [
+            ("🚐", "Transfert aéroport", "Prise en charge directe — demandez-nous lors de la réservation"),
+            ("🍽️", "Déjeuner", "Non inclus dans le forfait journalier"),
+            ("🏄", "Cours & coaching surf", "Coaching structuré tous niveaux — débutants à avancés"),
+            ("📹", "Analyse vidéo", "Séances filmées analysées avec votre coach"),
+            ("⛵", "Bateau-taxi vers l'île", "1,50 € par personne, aller simple"),
+            ("🥤", "Boissons", "Sodas, jus & alcool (eau, café et thé inclus)"),
+            ("🏄‍♂️", "Location de planche", "Softboard ou planche classique — 15 € / jour"),
+            ("🩱", "Location de combinaison", "5 € / jour"),
+        ],
+        "es": [
+            ("🚐", "Traslado al aeropuerto", "Recogida directa — consúltenos al reservar"),
+            ("🍽️", "Almuerzo", "No incluido en el paquete diario"),
+            ("🏄", "Clases y coaching de surf", "Coaching estructurado para todos los niveles"),
+            ("📹", "Análisis de vídeo", "Sesiones filmadas revisadas con tu coach"),
+            ("⛵", "Taxi-bote a la isla", "1,50 € por persona, solo ida"),
+            ("🥤", "Bebidas", "Refrescos, zumos y alcohol (agua, café y té incluidos)"),
+            ("🏄‍♂️", "Alquiler de tabla", "Softboard o tabla clásica — 15 € / día"),
+            ("🩱", "Alquiler de traje", "5 € / día"),
+        ],
+        "it": [
+            ("🚐", "Trasferimento aeroporto", "Prelievo diretto — richiedici al momento della prenotazione"),
+            ("🍽️", "Pranzo", "Non incluso nel pacchetto giornaliero"),
+            ("🏄", "Lezioni e coaching surf", "Coaching strutturato per tutti i livelli"),
+            ("📹", "Analisi video", "Sessioni filmate riviste con il tuo coach"),
+            ("⛵", "Taxi boat per l'isola", "1,50 € a persona, solo andata"),
+            ("🥤", "Bevande", "Bibite, succhi e alcolici (acqua, caffè e tè inclusi)"),
+            ("🏄‍♂️", "Noleggio tavola", "Softboard o tavola classica — 15 € / giorno"),
+            ("🩱", "Noleggio muta", "5 € / giorno"),
+        ],
+        "de": [
+            ("🚐", "Flughafentransfer", "Direkte Abholung — beim Buchen anfragen"),
+            ("🍽️", "Mittagessen", "Nicht im Tagespaket enthalten"),
+            ("🏄", "Surf-Coaching & Unterricht", "Strukturiertes Coaching für alle Levels"),
+            ("📹", "Videoanalyse", "Gefilmte Sessions mit deinem Coach besprochen"),
+            ("⛵", "Taxiboot zur Insel", "1,50 € pro Person, einfache Fahrt"),
+            ("🥤", "Getränke", "Softdrinks, Säfte & Alkohol (Wasser, Kaffee und Tee inklusive)"),
+            ("🏄‍♂️", "Boardverleih", "Softboard oder Hardboard — 15 € / Tag"),
+            ("🩱", "Neoprenanzugverleih", "5 € / Tag"),
+        ],
+        "nl": [
+            ("🚐", "Luchthavenpickup", "Directe ophaling — vraag bij boeking"),
+            ("🍽️", "Lunch", "Niet inbegrepen in het dagpakket"),
+            ("🏄", "Surfcoaching & lessen", "Gestructureerde coaching voor alle niveaus"),
+            ("📹", "Video-analyse", "Gefilmde sessies besproken met je coach"),
+            ("⛵", "Taxiboot naar het eiland", "€1,50 per persoon, enkele reis"),
+            ("🥤", "Dranken", "Frisdrank, sappen & alcohol (water, koffie en thee inbegrepen)"),
+            ("🏄‍♂️", "Boardverhuur", "Softboard of hardboard — €15 / dag"),
+            ("🩱", "Wetsuit verhuur", "€5 / dag"),
+        ],
+        "ar": [
+            ("🚐", "نقل من المطار", "التوصيل المباشر — اطلب منا عند الحجز"),
+            ("🍽️", "الغداء", "غير مشمول في الباقة اليومية"),
+            ("🏄", "دروس وتدريب ركوب الأمواج", "تدريب منظم لجميع المستويات"),
+            ("📹", "تحليل الفيديو", "جلسات مصورة تُراجع مع مدربك"),
+            ("⛵", "قارب التاكسي إلى الجزيرة", "1.50 يورو للشخص، اتجاه واحد"),
+            ("🥤", "المشروبات", "المشروبات الغازية والعصائر والكحول (الماء والقهوة والشاي مشمولون)"),
+            ("🏄‍♂️", "تأجير لوح التزلج", "15 يورو / يوم"),
+            ("🩱", "تأجير البدلة", "5 يورو / يوم"),
+        ],
+        "pt": [
+            ("🚐", "Transfer do aeroporto", "Recolha direta — peça-nos ao reservar"),
+            ("🍽️", "Almoço", "Não incluído no pacote diário"),
+            ("🏄", "Aulas e coaching de surf", "Coaching estruturado para todos os níveis"),
+            ("📹", "Análise de vídeo", "Sessões filmadas revistas com o teu coach"),
+            ("⛵", "Barco-táxi para a ilha", "1,50 € por pessoa, só ida"),
+            ("🥤", "Bebidas", "Refrigerantes, sumos e álcool (água, café e chá incluídos)"),
+            ("🏄‍♂️", "Aluguer de prancha", "Softboard ou prancha clássica — 15 € / dia"),
+            ("🩱", "Aluguer de fato", "5 € / dia"),
+        ],
+        "da": [
+            ("🚐", "Lufthavnstransport", "Direkte afhentning — spørg os ved booking"),
+            ("🍽️", "Frokost", "Ikke inkluderet i dagspakken"),
+            ("🏄", "Surfcoaching & lektioner", "Struktureret coaching for alle niveauer"),
+            ("📹", "Videoanalyse", "Filmede sessioner gennemgået med din coach"),
+            ("⛵", "Taxibåd til øen", "1,50 € pr. person, enkelttur"),
+            ("🥤", "Drikkevarer", "Sodavand, juice & alkohol (vand, kaffe og te er inkluderet)"),
+            ("🏄‍♂️", "Brætudlejning", "Softboard eller hardboard — 15 € / dag"),
+            ("🩱", "Våddragt udlejning", "5 € / dag"),
+        ],
+    },
+}
+
+
+def _surf_house_not_included_section(lang):
+    title   = _SH_NOT_INCLUDED["title"].get(lang, _SH_NOT_INCLUDED["title"]["en"])
+    subtitle = _SH_NOT_INCLUDED["subtitle"].get(lang, _SH_NOT_INCLUDED["subtitle"]["en"])
+    items   = _SH_NOT_INCLUDED["items"].get(lang, _SH_NOT_INCLUDED["items"]["en"])
+    is_rtl  = lang == "ar"
+    dir_attr = ' dir="rtl"' if is_rtl else ''
+
+    rows = ""
+    for emoji, name, desc in items:
+        rows += f"""
+        <div class="sh-ni-row">
+          <span class="sh-ni-emoji" aria-hidden="true">{emoji}</span>
+          <div class="sh-ni-text">
+            <strong class="sh-ni-name">{escape(name)}</strong>
+            <span class="sh-ni-desc">{escape(desc)}</span>
+          </div>
+        </div>"""
+
+    return f"""
+  <!-- ══ NOT INCLUDED / EXTRAS ══ -->
+  <section class="sh2-ni-section reveal"{dir_attr}>
+    <div class="container">
+      <div class="sh2-ni-inner">
+        <div class="sh2-ni-head">
+          <span class="s-label" style="color:var(--fire)">{escape(subtitle)}</span>
+          <h2 class="sh2-ni-h2">{escape(title)}</h2>
+          <p class="sh2-ni-lead">{'الخدمات التالية متاحة بتكلفة إضافية عند الطلب.' if lang == 'ar' else 'The following services are available at an additional cost on request.'}</p>
+        </div>
+        <div class="sh2-ni-grid">{rows}
+        </div>
+      </div>
+    </div>
+  </section>"""
+
+
 def build_surf_house(lang):
     C = _site_page_mod.merge_surf_house_copy(_BASE_DIR, lang, SURF_HOUSE_PAGE[lang])
     feats = SURF_HOUSE_FEATS[lang]
@@ -5663,12 +6347,14 @@ def build_surf_house(lang):
       </div>
     </div>
     <div class="sh2-split-copy reveal">
-      <span class="s-label">{pe(C["rooms_lbl"])}</span>
-      <h2 class="sh2-split-h2">{pe(C["quote_h2"])}</h2>
-      <p class="sh2-split-lead">{pe(C["quote_line1"])}</p>
-      <p class="sh2-split-accent">{pe(C["quote_line2"])}</p>
-      <p class="sh2-split-body">{pe(C["p3"])}</p>
-      <a href="{book_href}" class="btn btn-fire btn-md" style="margin-top:28px">{pe(C["book"])}</a>
+      <div class="sh2-split-copy-inner">
+        <span class="s-label">{pe(C["rooms_lbl"])}</span>
+        <h2 class="sh2-split-h2">{pe(C["quote_h2"])}</h2>
+        <p class="sh2-split-lead">{pe(C["quote_line1"])}</p>
+        <p class="sh2-split-accent">{pe(C["quote_line2"])}</p>
+        <p class="sh2-split-body">{pe(C["p3"])}</p>
+        <a href="{book_href}" class="btn btn-fire btn-md" style="margin-top:28px">{pe(C["book"])}</a>
+      </div>
     </div>
   </section>
 
@@ -5684,14 +6370,18 @@ def build_surf_house(lang):
     </div>
   </section>
 
+  {_surf_house_not_included_section(lang)}
+
   <!-- ══ POOL — image pleine largeur + superposition ══ -->
   {wave_top(_BG_NAVY, _BG_WHITE)}
   <section class="sh2-split-section sh2-split-right">
     <div class="sh2-split-copy reveal">
-      <span class="s-label">Pool &amp; Common Areas</span>
-      <h2 class="sh2-split-h2">Chill between sessions</h2>
-      <p class="sh2-split-body">Dive into our outdoor pool at the heart of the island. Rinse off, sun-dry your board and swap stories from the lineup. The terrace is yours until the next set rolls in.</p>
-      <a href="{book_href}" class="btn btn-navy btn-md" style="margin-top:28px">{pe(C["book"])}</a>
+      <div class="sh2-split-copy-inner">
+        <span class="s-label">Pool &amp; Common Areas</span>
+        <h2 class="sh2-split-h2">Chill between sessions</h2>
+        <p class="sh2-split-body">Dive into our outdoor pool at the heart of the island. Rinse off, sun-dry your board and swap stories from the lineup. The terrace is yours until the next set rolls in.</p>
+        <a href="{book_href}" class="btn btn-navy btn-md" style="margin-top:28px">{pe(C["book"])}</a>
+      </div>
     </div>
     <div class="sh2-split-media reveal">
       <div class="sh2-duo">
@@ -5719,10 +6409,12 @@ def build_surf_house(lang):
       </div>
     </div>
     <div class="sh2-meals-copy reveal">
-      <span class="s-label" style="color:var(--fire)">{pe(C["meals_lbl"])}</span>
-      <h2 class="sh2-meals-h2">{pe(C["meals_h2"])}</h2>
-      <p class="sh2-meals-p">{pe(C["meals_p"])}</p>
-      <a href="{book_href}" class="btn btn-fire btn-md" style="margin-top:28px">{pe(C["book"])}</a>
+      <div class="sh2-meals-copy-inner">
+        <span class="s-label" style="color:var(--fire)">{pe(C["meals_lbl"])}</span>
+        <h2 class="sh2-meals-h2">{pe(C["meals_h2"])}</h2>
+        <p class="sh2-meals-p">{pe(C["meals_p"])}</p>
+        <a href="{book_href}" class="btn btn-fire btn-md" style="margin-top:28px">{pe(C["book"])}</a>
+      </div>
     </div>
   </section>
 
@@ -5742,6 +6434,7 @@ def build_surf_house(lang):
     <div id="lb"><button type="button" id="lb-close" aria-label="{lb_aria}">✕</button><img id="lb-img" src="" alt=""></div>
   </section>
 
+  {_surf_house_tribe_section(lang)}
   {wave_bottom(_BG_WHITE, _BG_LIGHT)}
   {insta_section(lang, "surf-house")}
   {wave_bottom(_BG_LIGHT, _BG_NAVY)}
@@ -8028,6 +8721,8 @@ if _island_guides:
     print(f"  ✅ island guides: {len(_island_guides)} × {len(LANGS)} languages")
     patch_island_hub_guides_section(_island_guides)
     print("  ✅ island hub pages: guides section patched")
+    patch_island_hub_bottom_sections()
+
 else:
     print("  (no island_guides manifest — skip)")
 
@@ -8175,17 +8870,9 @@ patch_heading_hierarchy_all()
 write_sitemaps_and_robots()
 patch_legacy_public_host_all()
 
-# Copy FSS federation logos from content/images to assets
-_fss_logo_src = os.path.join(_BASE_DIR, "content", "images", "logo-federation.png")
-_fss_logo_dst = os.path.join(DEMO_DIR, "assets", "images", "logo-federation.png")
-if os.path.isfile(_fss_logo_src):
-    shutil.copy2(_fss_logo_src, _fss_logo_dst)
-    print("✓ logo-federation.png copied to assets/images/")
-_fss_tp_src = os.path.join(_BASE_DIR, "content", "images", "logo-fede-transparant.png")
-_fss_tp_dst = os.path.join(DEMO_DIR, "assets", "images", "logo-fede-transparant.png")
-if os.path.isfile(_fss_tp_src):
-    shutil.copy2(_fss_tp_src, _fss_tp_dst)
-    print("✓ logo-fede-transparant.png copied to assets/images/")
+# FSS logos live permanently in cloudflare-demo/assets/images/ (git-tracked)
+# logo-fede-transparant.png — used in footer across all pages
+# logo-federation.webp     — used in FSS badge block
 
 # Copy static/ folder (CMS admin, etc.) into the output
 _static_src = os.path.join(_BASE_DIR, "static")

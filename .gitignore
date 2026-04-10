@@ -1,4 +1,4 @@
-# ══ Secrets & owner docs ══════════════════════════════
+# ══ Secrets & credentials ════════════════════════════
 clesapi.txt
 .admin_api_key
 .vercel/
@@ -9,28 +9,37 @@ leafy-brace-*.json
 .env*.local
 ACCES_PROPRIÉTAIRE.txt
 
-# ══ Client feedback / large PDFs ═════════════════════
+# ══ Large PDFs & client docs ═════════════════════════
 retours/
+*.pdf
 
-# ══ Raw image archives (processed assets live in cloudflare-demo/) ═══
-content/images/*.zip
-content/images/extracted/
+# ══ Raw image / video archives (processed assets live in cloudflare-demo/) ═
+content/images/
+content/images_v2/
 
 # ══ Build / Runtime ══════════════════════════════════
 __pycache__/
+**/__pycache__/
 *.pyc
 *.pyo
 node_modules/
+.wrangler/
 
-# ══ Output / Screenshots ════════════════════════════
+# ══ Generated output & logs ══════════════════════════
 output/
 /tmp/
+*.log
+test_article_output.json
+
+# ══ Performance / audit results ══════════════════════
+sitespeed-results/
 
 # ══ Legacy (removed from tracking) ═══════════════════
 _legacy_scripts/
 content/articles/
+content/archive/
+scripts/archive/
 
 # ══ macOS ════════════════════════════════════════════
 .DS_Store
 **/.DS_Store
-sitespeed-results/

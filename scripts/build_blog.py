@@ -226,6 +226,49 @@ NEW_BLOCK_CSS = """
 }
 .vb-tip ul.block-list li::before { content: '•'; position: absolute; left: 0; color: var(--fire); font-size: 16px; line-height: 1.5; }
 .vb-fact ul.block-list li::before { content: '•'; position: absolute; left: 0; color: #0ea5e9; font-size: 16px; line-height: 1.5; }
+
+/* ── Article FAQ (island guide pages) ────────────────────────────── */
+.article-faq-section { margin-top: 48px; margin-bottom: 8px; }
+.article-faq-section > h2, .article-faq-section .faq-section-title {
+  font-size: clamp(18px,2.5vw,24px); font-weight: 800; color: var(--navy);
+  margin-bottom: 20px; font-family: var(--fh);
+}
+.article-faq-item {
+  border: 1px solid rgba(10,37,64,0.10);
+  border-radius: var(--r);
+  overflow: hidden;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 8px rgba(10,37,64,0.05);
+  transition: box-shadow var(--t), border-color var(--t);
+  background: #fff;
+}
+.article-faq-item:hover { box-shadow: var(--s-sm); border-color: rgba(10,37,64,0.18); }
+.article-faq-item.open { border-color: rgba(255,90,31,0.28); box-shadow: 0 4px 16px rgba(255,90,31,0.08); }
+.article-faq-q {
+  width: 100%; text-align: left; padding: 18px 24px;
+  display: flex; align-items: center; justify-content: space-between; gap: 14px;
+  font-weight: 600; font-size: 16px; color: var(--navy); background: transparent;
+  border: none; cursor: pointer; font-family: inherit;
+  transition: background var(--t);
+}
+.article-faq-q:hover { background: #fafbfc; }
+.faq-a-chevron {
+  color: var(--fire); flex-shrink: 0;
+  display: inline-flex; align-items: center;
+  transition: transform 0.3s var(--spring);
+}
+.article-faq-item.open .faq-a-chevron { transform: rotate(180deg); }
+.article-faq-answer {
+  display: grid; grid-template-rows: 0fr;
+  transition: grid-template-rows 0.4s var(--ease);
+  background: #fff; overflow: hidden;
+}
+.article-faq-item.open .article-faq-answer { grid-template-rows: 1fr; }
+.faq-answer-inner { min-height: 0; overflow: hidden; padding: 0 24px; }
+.article-faq-item.open .faq-answer-inner { padding-bottom: 20px; padding-top: 4px; }
+.faq-answer-inner p {
+  color: var(--muted); line-height: 1.78; font-size: 15.5px; margin: 0;
+}
 """
 
 # Update block CSS — replace existing section, never append duplicates
@@ -337,6 +380,39 @@ def normalize_url(raw_tgt, pfx=""):
     if tgt: return f"{pfx}/blog/"
     return f"{pfx}/blog/"
 
+def seo_title(t, max_len=65):
+    """Truncate at word boundary for <title> — Google renders ~580px / ~65 chars."""
+    if len(t) <= max_len:
+        return t
+    return t[:max_len].rsplit(' ', 1)[0]
+
+
+def seo_desc(t, max_len=160):
+    """Truncate meta description at sentence/word boundary."""
+    if len(t) <= max_len:
+        return t
+    trimmed = t[:max_len].rsplit(' ', 1)[0].rstrip(' .,;:')
+    return trimmed
+
+
+def clean_content_markdown(raw):
+    """Strip artefacts that should never appear in the article body:
+    • Leading # H1 (already rendered in the hero)
+    • <script>…</script> blocks (JSON-LD embedded by AI prompts)
+    • ```json … ``` / ```javascript … ``` code fences containing schema markup
+    """
+    if not raw:
+        return raw
+    # Remove embedded <script> blocks (JSON-LD schema etc.)
+    raw = re.sub(r'<script[\s\S]*?</script>', '', raw, flags=re.IGNORECASE)
+    # Remove markdown code fences (```json / ```javascript / ``` bare) — these
+    # are schema blobs or code examples that leak as prose
+    raw = re.sub(r'```[\w]*\n[\s\S]*?```', '', raw)
+    # Remove the very first # H1 line (it duplicates the hero H1)
+    raw = re.sub(r'^\s*#\s+[^\n]+\n?', '', raw, count=1)
+    return raw.strip()
+
+
 def md2html(md, lang="en", pfx=""):
     if not md: return ""
     md = fix_em(md)
@@ -434,14 +510,20 @@ def md2html(md, lang="en", pfx=""):
             out.append("</ol></nav>")
             continue
 
-        # Headings
+        # Skip horizontal rules (--- / *** / ___ separators)
+        if re.match(r'^[-*_]{3,}$', s):
+            close_lists()
+            i += 1
+            continue
+
+        # Headings — # becomes h2 in article body (h1 is already in the hero)
         if s.startswith("#### "):   close_lists(); out.append(f'<h3>{inline(s[5:])}</h3>')
         elif s.startswith("### "): close_lists(); out.append(f'<h3>{inline(s[4:])}</h3>')
         elif s.startswith("## "):
             close_lists()
             txt = inline(s[3:]); anchor = to_id(s[3:])
             out.append(f'<h2 id="{anchor}">{txt}</h2>')
-        elif s.startswith("# "): close_lists(); out.append(f'<h1>{inline(s[2:])}</h1>')
+        elif s.startswith("# "): close_lists(); out.append(f'<h2 id="{to_id(s[2:])}">{inline(s[2:])}</h2>')
 
         # Pull quote
         elif s.startswith("> "):
@@ -584,7 +666,7 @@ def flag(lang, size=22):
 
 def hrl_tags(slug):
     s = "/" + slug.strip("/") if slug.strip("/") else ""
-    return "\n".join([f'<link rel="alternate" hreflang="x-default" href="{SITE_URL}{s}/">',f'<link rel="alternate" hreflang="en" href="{SITE_URL}{s}/">']+[f'<link rel="alternate" hreflang="{LANG_LOCALE[l]}" href="{SITE_URL}/{l}{s}/">' for l in ["fr","es","it","de","nl","ar"]])
+    return "\n".join([f'<link rel="alternate" hreflang="x-default" href="{SITE_URL}{s}/">',f'<link rel="alternate" hreflang="en" href="{SITE_URL}{s}/">']+[f'<link rel="alternate" hreflang="{LANG_LOCALE[l]}" href="{SITE_URL}/{l}{s}/">' for l in ["fr","es","it","de","nl","ar","pt","da"]])
 
 def can_tag(slug, lang):
     s = "/" + slug.strip("/") if slug.strip("/") else ""
@@ -730,66 +812,34 @@ def author_card(en_art, lang):
     BY = {"en":"Written by","fr":"Écrit par","es":"Escrito por","it":"Scritto da","de":"Geschrieben von","nl":"Geschreven door","ar":"كتبه","pt":"Escrito por","da":"Skrevet af"}
     return f'<div class="author-card reveal">{img_tag}<div><div style="font-size:11px;color:#9ca3af;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px">{BY.get(lang)}</div><div class="author-name">{name}</div><div class="author-role">{role}</div><div class="author-bio-text">{bio}</div></div></div>'
 
-# Load articles
+# Load articles — source of truth is articles_v2/ only
 strategy = json.load(open(f"{CONTENT}/blog_strategy.json"))
 cats     = strategy["categories"]
-arts_en  = []
-for fname in sorted(os.listdir(f"{V1_DIR}/en")):
-    if fname.endswith(".json"):
-        a = json.load(open(f"{V1_DIR}/en/{fname}"))
-        if a and a.get("slug"):
-            v2 = None
-            v2p = f"{V2_DIR}/{fname}"
-            if os.path.exists(v2p):
-                v2 = json.load(open(v2p))
-                if v2 and v2.get("word_count_estimate",0) >= 2500: a = v2
-            arts_en.append(a)
 
 arts_by_lang = {}
 for lang in LANGS:
     arts_by_lang[lang] = {}
-    d = f"{V1_DIR}/{lang}"
-    if os.path.exists(d):
-        for fname in os.listdir(d):
-            if fname.endswith(".json") and not fname.startswith("_"):
-                art = json.load(open(f"{d}/{fname}"))
-                if art:
-                    key = art.get("original_en_slug", art.get("slug",""))
-                    # Prefer v2 translated article (has blocks) if available
-                    if lang != "en":
-                        v2p = f"{CONTENT}/articles_v2/{lang}/{fname}"
-                        if os.path.exists(v2p):
-                            v2_art = json.load(open(v2p))
-                            if v2_art and v2_art.get("content_markdown","").strip():
-                                art = v2_art
-                    arts_by_lang[lang][key] = art
-    if lang == "en":
-        for a in arts_en: arts_by_lang["en"][a["slug"]] = a
-
-# Locales without content/articles/{lang}/ (e.g. nl, ar): index articles_v2 only
-for lang in LANGS:
-    if lang == "en":
-        continue
     v2_lang_dir = os.path.join(CONTENT, "articles_v2", lang)
     if not os.path.isdir(v2_lang_dir):
         continue
     for fname in sorted(os.listdir(v2_lang_dir)):
         if not fname.endswith(".json") or fname.startswith("_"):
             continue
-        v2p = os.path.join(v2_lang_dir, fname)
         try:
-            v2_art = json.load(open(v2p, encoding="utf-8"))
+            art = json.load(open(os.path.join(v2_lang_dir, fname), encoding="utf-8"))
         except (OSError, json.JSONDecodeError):
             continue
-        if not v2_art or not str(v2_art.get("content_markdown", "")).strip():
+        if not art or not str(art.get("content_markdown", art.get("slug", ""))).strip():
             continue
         key = (
-            v2_art.get("original_en_slug")
-            or v2_art.get("hreflang_en")
-            or v2_art.get("slug")
+            art.get("original_en_slug")
+            or art.get("hreflang_en")
+            or art.get("slug")
             or fname[:-5]
         )
-        arts_by_lang[lang][key] = v2_art
+        arts_by_lang[lang][key] = art
+
+arts_en = list(arts_by_lang.get("en", {}).values())
 
 # ════════════════════════════════════════════════════════════════════════════════
 # CATEGORY DATA — per-language slugs, names, descriptions
@@ -867,23 +917,45 @@ def cat_name_for(cat_en, lang):
     return cdata["name"].get(lang, cat_en)
 
 
+_FAQ_CHEVRON = (
+    '<svg class="faq-arrow" viewBox="0 0 20 20" fill="none" aria-hidden="true" '
+    'style="width:18px;height:18px;flex-shrink:0;transition:transform 0.3s">'
+    '<path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="2" '
+    'stroke-linecap="round" stroke-linejoin="round"/></svg>'
+)
+
+
 def faq_to_accordion(content_html):
-    """Convert FAQ section into semantic accordion markup.
-    Handles both <h3 class="faq-inline-q">Q</h3><p>A</p>
-    and <p>Q?</p><p>A</p> patterns after the FAQ h2.
+    """Convert FAQ section into a clean accordion.
+
+    Handles three source patterns produced by md2html:
+      P1 — <h3 class="faq-inline-q">Q?</h3><p>A</p>   (from **Q?** markdown)
+      P2 — <h3>Q?</h3><p>A</p>                         (from ### Q? markdown)
+      P3 — alternating <p>Q?</p><p>A</p>                (plain paragraph FAQ)
     """
     faq_re = re.compile(
         r'(<h2[^>]*id=["\']faq["\'][^>]*>.*?</h2>)(.*?)(?=<h2\b|$)',
-        re.DOTALL | re.IGNORECASE
+        re.DOTALL | re.IGNORECASE,
     )
+    QUESTION_MARKS = ('?', '؟')
 
-    def build_accordion_item(q, a):
+    def _strip_tags(t):
+        return re.sub(r'<[^>]+>', '', t).strip()
+
+    def _is_question(text):
+        return _strip_tags(text).endswith(QUESTION_MARKS)
+
+    def _extract_q(text):
+        m2 = re.match(r'<strong>(.*?)</strong>\s*$', text.strip(), re.DOTALL)
+        return m2.group(1).strip() if m2 else _strip_tags(text).strip()
+
+    def build_item(q, a):
         return (
             f'<div class="faq-item" itemscope itemprop="mainEntity" '
             f'itemtype="https://schema.org/Question">'
             f'<button class="faq-q" type="button" aria-expanded="false">'
             f'<span itemprop="name">{q}</span>'
-            f'<span class="faq-arrow" aria-hidden="true">▼</span>'
+            f'{_FAQ_CHEVRON}'
             f'</button>'
             f'<div class="faq-a" itemscope itemprop="acceptedAnswer" '
             f'itemtype="https://schema.org/Answer">'
@@ -891,90 +963,59 @@ def faq_to_accordion(content_html):
             f'</div></div>\n'
         )
 
+    def wrap_accordion(items_html):
+        return (
+            f'<div class="faq-accordion" itemscope '
+            f'itemtype="https://schema.org/FAQPage">\n{items_html}</div>'
+        )
+
     def convert_section(m):
         heading = m.group(1)
-        body = m.group(2)
+        body    = m.group(2)
 
-        # Pattern 1: <h3 class="faq-inline-q">Q</h3>\s*<p>A</p>
+        # P1: <h3 class="faq-inline-q">Q</h3> + <p>A</p>
         pairs = re.findall(
-            r'<h3 class="faq-inline-q">(.*?)</h3>\s*<p>(.*?)</p>',
-            body, re.DOTALL
+            r'<h3[^>]*class="faq-inline-q"[^>]*>(.*?)</h3>\s*<p>(.*?)</p>',
+            body, re.DOTALL,
         )
         if pairs:
-            items = "".join(build_accordion_item(q, a) for q, a in pairs)
-            remaining = re.sub(
-                r'<h3 class="faq-inline-q">.*?</h3>\s*<p>.*?</p>',
-                '', body, flags=re.DOTALL
-            )
-            accordion = (
-                f'<div class="faq-accordion" itemscope '
-                f'itemtype="https://schema.org/FAQPage">\n{items}</div>'
-            )
-            return heading + "\n" + accordion + remaining
+            items = "".join(build_item(q, a) for q, a in pairs)
+            return heading + "\n" + wrap_accordion(items)
 
-        # Pattern 2: alternating <p>Question?</p><p>Answer</p>
-        # Also handles: <p><strong>Question?</strong>...</p><p>Answer</p>
-        # Also handles Arabic question mark ؟
-        QUESTION_MARKS = ('?', '؟')
+        # P2: plain <h3>Q?</h3> + <p>A</p>  (from ### Q? markdown)
+        pairs2 = re.findall(
+            r'<h3>(.*?\?)</h3>\s*<p>(.*?)</p>',
+            body, re.DOTALL,
+        )
+        if pairs2:
+            items = "".join(build_item(q, a) for q, a in pairs2)
+            return heading + "\n" + wrap_accordion(items)
 
-        def _is_question(text: str) -> bool:
-            """Check if text is a FAQ question (ends with ? or ؟, possibly inside <strong> tags)."""
-            t = re.sub(r'<[^>]+>', '', text).strip()
-            return t.endswith(QUESTION_MARKS)
-
-        def _extract_question(text: str) -> str:
-            """Extract clean question text, stripping <strong> wrapper if present."""
-            # Strip bold wrapper: <strong>Q?</strong>  → Q?
-            m2 = re.match(r'<strong>(.*?)</strong>\s*(?:<br\s*/?>)?\s*$', text.strip(), re.DOTALL)
-            if m2:
-                return m2.group(1).strip()
-            return text.strip()
-
+        # P3: alternating <p>Q?</p><p>A</p>
         p_tags = re.findall(r'<p>(.*?)</p>', body, re.DOTALL)
-        pairs2 = []
-        i = 0
-        while i < len(p_tags) - 1:
-            candidate = p_tags[i].strip()
-            answer = p_tags[i + 1].strip()
-            if _is_question(candidate) and not _is_question(answer):
-                pairs2.append((_extract_question(candidate), answer))
-                i += 2
+        pairs3, idx = [], 0
+        while idx < len(p_tags) - 1:
+            cand = p_tags[idx].strip()
+            ans  = p_tags[idx + 1].strip()
+            if _is_question(cand) and not _is_question(ans):
+                pairs3.append((_extract_q(cand), ans))
+                idx += 2
             else:
-                i += 1
+                idx += 1
 
-        if not pairs2:
+        if not pairs3:
             return m.group(0)
 
-        items = "".join(build_accordion_item(q, a) for q, a in pairs2)
-        # Remove all <p> tags from FAQ body that were converted
-        orig_questions = {p_tags[j] for j in range(0, len(p_tags)-1, 1)
-                         if _is_question(p_tags[j])}
-        orig_answers = set()
-        j = 0
-        while j < len(p_tags) - 1:
-            if _is_question(p_tags[j]) and not _is_question(p_tags[j+1]):
-                orig_answers.add(p_tags[j+1])
-                j += 2
-            else:
-                j += 1
-        used = orig_questions | orig_answers
-        remaining = re.sub(
-            r'<p>(.*?)</p>',
-            lambda mm: '' if mm.group(1).strip() in used else mm.group(0),
-            body, flags=re.DOTALL
-        )
-        accordion = (
-            f'<div class="faq-accordion" itemscope '
-            f'itemtype="https://schema.org/FAQPage">\n{items}</div>'
-        )
-        # Drop any stray paragraphs that would leak after the accordion
-        return heading + "\n" + accordion
+        items = "".join(build_item(q, a) for q, a in pairs3)
+        return heading + "\n" + wrap_accordion(items)
 
     return faq_re.sub(convert_section, content_html)
 
 
 def extract_faq_pairs_md(content_raw):
-    """Extract FAQ Q&A pairs from raw markdown content."""
+    """Extract FAQ Q&A pairs from raw markdown content.
+    Handles ### Q? headings (most common) and **Q?** bold patterns.
+    """
     pairs = []
     lines = content_raw.split('\n')
     in_faq = False
@@ -987,10 +1028,16 @@ def extract_faq_pairs_md(content_raw):
         if in_faq:
             if s.startswith('## '):
                 break
-            if s.startswith('**') and s.rstrip('* ').endswith('?'):
+            # ### Q? heading pattern (most common from AI-generated articles)
+            if s.startswith('### ') and s.rstrip().endswith('?'):
+                current_q = s[4:].strip()
+            # **Q?** bold pattern
+            elif s.startswith('**') and s.rstrip('* ').endswith('?'):
                 current_q = s.strip('*').strip()
-            elif current_q and s and not s.startswith('[LINK:'):
-                pairs.append((current_q, s))
+            elif current_q and s and not s.startswith('[LINK:') and not s.startswith('#'):
+                # Clean any markdown from the answer
+                answer = re.sub(r'\*\*(.*?)\*\*', r'\1', s)
+                pairs.append((current_q, answer))
                 current_q = None
     return pairs
 
@@ -999,7 +1046,7 @@ def build_article(en_art, lang):
     en_slug = en_art["slug"]
     art     = arts_by_lang[lang].get(en_slug, en_art) if lang!="en" else en_art
     title   = fix_em(art.get("title", en_art["title"]))
-    meta_d  = fix_em(art.get("meta_description") or en_art.get("meta_description") or "")[:155]
+    meta_d  = seo_desc(fix_em(art.get("meta_description") or en_art.get("meta_description") or ""), 160)
     cat     = en_art.get("category","")
 
     # Reading time: estimate from word count if missing or is a placeholder like "[16]"
@@ -1015,7 +1062,9 @@ def build_article(en_art, lang):
     # Content: always use translated content if available; only fall back to EN if empty
     translated_content = art.get("content_markdown","").strip()
     content_raw = translated_content if translated_content else en_art.get("content_markdown","")
-    content = md2html(content_raw, lang, pfx)
+    # Clean before md2html: strip leading H1 (already in hero) + any embedded <script> blocks
+    content_raw_clean = clean_content_markdown(content_raw)
+    content = md2html(content_raw_clean, lang, pfx)
     content = faq_to_accordion(content)
 
     _hero_p = f"{DEMO_DIR}/assets/images/blog/{en_slug}_hero.webp"
@@ -1094,7 +1143,7 @@ def build_article(en_art, lang):
         f'<span aria-hidden="true">›</span>'
         f'<a href="{cat_page_url}">{cat_display}</a>'
         f'<span aria-hidden="true">›</span>'
-        f'<span aria-current="page">{title[:45]}</span>'
+        f'<span aria-current="page">{seo_title(title, 55)}</span>'
         f'</nav>'
     )
 
@@ -1104,7 +1153,7 @@ def build_article(en_art, lang):
   {{"@type":"ListItem","position":1,"name":"{BC[lang]}","item":"{SITE_URL}{pfx}/"}},
   {{"@type":"ListItem","position":2,"name":"{BL[lang]}","item":"{SITE_URL}{pfx}/blog/"}},
   {{"@type":"ListItem","position":3,"name":"{cat_display}","item":"{SITE_URL}{cat_page_url}"}},
-  {{"@type":"ListItem","position":4,"name":"{title[:60].replace(chr(34), chr(39))}","item":"{SITE_URL}{pfx}/blog/{en_slug}/"}}
+  {{"@type":"ListItem","position":4,"name":"{seo_title(title,65).replace(chr(34), chr(39))}","item":"{SITE_URL}{pfx}/blog/{en_slug}/"}}
 ]}}
 </script>'''
 
@@ -1123,7 +1172,7 @@ def build_article(en_art, lang):
         <div class="related-grid">{rel_html}</div>
       </div>'''
 
-    html = head_html(title[:60], meta_d, lang, can_tag(f"/blog/{en_slug}",lang), hrl_tags(f"/blog/{en_slug}"), img, og_alt=title)
+    html = head_html(seo_title(title, 65), meta_d, lang, can_tag(f"/blog/{en_slug}",lang), hrl_tags(f"/blog/{en_slug}"), img, og_alt=title)
 
     # ── Article JSON-LD ──────────────────────────────────────────────────────
     _safe_title = title.replace('"', "'")
@@ -1146,7 +1195,7 @@ def build_article(en_art, lang):
 </script>'''
 
     # ── FAQPage JSON-LD (if FAQ section present) ─────────────────────────────
-    faq_pairs   = extract_faq_pairs_md(content_raw)
+    faq_pairs   = extract_faq_pairs_md(content_raw_clean)
     faqpage_ld  = ""
     if faq_pairs:
         qa_items = ",\n  ".join([
