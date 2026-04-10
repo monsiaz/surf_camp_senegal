@@ -1,6 +1,18 @@
 {
   "outputDirectory": "cloudflare-demo",
   "buildCommand": "python3 build.py",
+  "redirects": [
+    {
+      "source": "/blog/:slug.html",
+      "destination": "/blog/:slug/",
+      "permanent": true
+    },
+    {
+      "source": "/:lang(fr|es|it|de|nl|ar|pt|da)/blog/:slug.html",
+      "destination": "/:lang/blog/:slug/",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/:lang(fr|es|it|de|nl|ar|pt|da)/admin/config.yml",

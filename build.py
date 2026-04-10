@@ -763,7 +763,9 @@ def build_footer(lang, flag_href_override=None):
                      "it":"Federazione Senegalese di Surf",
                      "de":"Senegalesischer Surfverband",
                      "nl":"Senegalese Surfbond",
-                     "ar":"الاتحاد السنغالي للسرف"}
+                     "ar":"الاتحاد السنغالي للسرف",
+                     "pt":"Federação Senegalesa de Surf",
+                     "da":"Senegalesisk Surf Forbund"}
     CERT_H4 = {"en":"Accreditation","fr":"Accréditation","es":"Acreditación","it":"Accreditamento","de":"Akkreditierung","nl":"Accreditatie","ar":"الاعتماد"}
     GMB_REVIEWS_LBL = {"en":"reviews on Google","fr":"avis sur Google","es":"reseñas en Google",
                         "it":"recensioni su Google","de":"Bewertungen auf Google",
@@ -822,19 +824,19 @@ def build_footer(lang, flag_href_override=None):
         <a href="https://wa.me/221789257025" target="_blank">{escape(ui_chrome("wa", lang))}: +221 78 925 70 25</a>
         <a href="mailto:info@surfcampsenegal.com">info@surfcampsenegal.com</a>
       </div>
-      <div class="footer-col">
+      <div class="footer-col footer-col-follow">
         <p class="footer-col-title">{FOL[lang]}</p>
         <a href="https://www.instagram.com/ngorsurfcampteranga" target="_blank">Instagram</a>
         <a href="https://www.tiktok.com/@ngor.surfcampteranga" target="_blank">TikTok</a>
         <a href="https://wa.me/221789257025" target="_blank">{escape(ui_chrome("wa", lang))}</a>
+        <div class="footer-fss-badge footer-fss-in-col" role="img" aria-label="{FSS_LBL[lang]}">
+          <span class="footer-fss-logo-wrap"><img src="/assets/images/logo-fss-badge.webp" alt="FSS" width="32" height="32" loading="lazy"></span>
+          <span class="footer-fss-text"><span class="footer-fss-title">{FSS_LBL[lang]}</span><span class="footer-fss-sub">{FSS_CERT_SUB.get(lang, FSS_CERT_SUB["en"])}</span></span>
+        </div>
       </div>
     </div>
     <div class="footer-bottom">
       <p>{COPY[lang]} &nbsp;·&nbsp; <a href="{pp_href}" class="footer-pp-link">{PP_LBL[lang]}</a></p>
-      <div class="footer-fss-badge footer-fss-bottom" role="img" aria-label="{FSS_LBL[lang]}">
-        <span class="footer-fss-logo-wrap"><img src="/assets/images/logo-fss-badge.webp" alt="FSS" width="32" height="32" loading="lazy"></span>
-        <span class="footer-fss-text"><span class="footer-fss-title">{FSS_LBL[lang]}</span><span class="footer-fss-sub">Fédération Sénégalaise de Surf</span></span>
-      </div>
       <div class="footer-flags" aria-label="{escape(ui_chrome('lang_versions', lang))}">{flags_html}</div>
     </div>
   </div>
@@ -6171,7 +6173,7 @@ def build_surfing(lang):
     html += build_nav("surfing", lang)
     html += f"""
 <main>
-  <header class="main-hero" style="background-image:url('{IMGS["surf_hero"]}')" role="banner">
+  <header class="main-hero" style="background-image:url('{IMGS["surf_hero"]}');background-position:center center" role="banner">
     <div class="main-hero-inner">
       <div class="main-hero-eyebrow">
         <span class="main-hero-dot"></span>
