@@ -5621,7 +5621,7 @@ def build_surf_house(lang):
 
   <!-- ══ HERO — vue mer plein écran ══ -->
   <header class="sh2-hero" role="banner">
-    <div class="sh2-hero-bg" style="background-image:url('/assets/images/gallery/CAML1113_c1a068bf.webp')"></div>
+    <div class="sh2-hero-bg" style="background-image:url('/assets/images/wix/df99f9_2ec6248367cd4e21a5e6c26c2b0a1c35.webp')"></div>
     <div class="sh2-hero-overlay"></div>
     <div class="sh2-hero-content">
       <span class="sh2-hero-eyebrow">{pe(C["hero_kicker"])}</span>
@@ -5655,10 +5655,10 @@ def build_surf_house(lang):
     <div class="sh2-split-media reveal">
       <div class="sh2-duo">
         <div class="sh2-duo-main sh2-img-hover">
-          <img src="/assets/images/gallery/CAML1098_9e61ecbe.webp" alt="{pe(C['rooms_lbl'])}" width="720" height="520" loading="lazy" decoding="async">
+          <img src="/assets/images/gallery/CAML1100_3a5f7e17.webp" alt="{pe(C['rooms_lbl'])}" width="720" height="520" loading="lazy" decoding="async">
         </div>
         <div class="sh2-duo-over sh2-img-hover">
-          <img src="/assets/images/gallery/CAML1099_8e5f6217.webp" alt="{pe(C['rooms_lbl'])}" width="360" height="280" loading="lazy" decoding="async">
+          <img src="/assets/images/gallery/CAML1113_c1a068bf.webp" alt="{pe(C['rooms_lbl'])}" width="360" height="280" loading="lazy" decoding="async">
         </div>
       </div>
     </div>
@@ -5696,7 +5696,7 @@ def build_surf_house(lang):
     <div class="sh2-split-media reveal">
       <div class="sh2-duo">
         <div class="sh2-duo-main sh2-img-hover">
-          <img src="/assets/images/gallery/CAML1133_c4e634ba.webp" alt="Pool at Ngor Surf House" width="720" height="520" loading="lazy" decoding="async">
+          <img src="/assets/images/gallery/CAML1073_7222f5f3.webp" alt="Pool at Ngor Surf House" width="720" height="520" loading="lazy" decoding="async">
         </div>
         <div class="sh2-duo-over sh2-duo-over--bl sh2-img-hover">
           <img src="/assets/images/gallery/CAML1075_2701da06.webp" alt="Pool terrace" width="360" height="280" loading="lazy" decoding="async">
