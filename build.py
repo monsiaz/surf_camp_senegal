@@ -8009,6 +8009,24 @@ if _island_guides:
 else:
     print("  (no island_guides manifest — skip)")
 
+# Patch island discover cards: replace sunset card image across all hub pages
+def _patch_island_discover_sunset():
+    _old = "/assets/images/gallery/4Y4A1362_9a9e7582.webp"
+    _new = "/assets/images/gallery/sunset_b334d55a.webp"
+    _files = [
+        "island/index.html", "fr/ile/index.html", "es/isla/index.html",
+        "it/isola/index.html", "de/insel/index.html",
+    ]
+    for _rel in _files:
+        _fp = os.path.join(DEMO_DIR, _rel)
+        if not os.path.isfile(_fp):
+            continue
+        _html = open(_fp, encoding="utf-8", errors="replace").read()
+        if _old in _html:
+            open(_fp, "w", encoding="utf-8").write(_html.replace(_old, _new))
+
+_patch_island_discover_sunset()
+
 # Keep legacy NL/AR island links valid when localized hub pages are not generated.
 wp("/nl/eiland/", make_redirect("/island/"))
 wp("/ar/ngor-island/", make_redirect("/island/"))
