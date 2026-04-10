@@ -324,7 +324,8 @@ def generate_hero_image(slug, hero_prompt):
     tp(f"  🎨 [{slug}] Generating B&W hero image...")
     full_prompt = (
         f"{hero_prompt}. "
-        "Style: dramatic black-and-white photography, high contrast, film grain texture. "
+        "Style: PURE TRUE BLACK AND WHITE photography — absolutely no color, no sepia, no warm tones, no yellow tint, no brown tint. "
+        "Pure monochrome grayscale only. High contrast, deep blacks, bright whites, silver halide film grain texture. "
         "NO text, NO watermark, NO logo. Cinematic composition, 16:9 crop."
     )
 
@@ -346,9 +347,10 @@ def generate_hero_image(slug, hero_prompt):
     try:
         from PIL import Image
         import io
-        img = Image.open(io.BytesIO(img_bytes))
+        # Force true grayscale to strip any color/sepia/warm tint from DALL-E output
+        img = Image.open(io.BytesIO(img_bytes)).convert("L").convert("RGB")
         img.save(str(img_path), "WEBP", quality=88)
-        tp(f"  ✅ [{slug}] hero saved as WebP")
+        tp(f"  ✅ [{slug}] hero saved as true B&W WebP")
     except Exception:
         png_path = IMG_DIR / f"{slug}_hero.png"
         png_path.write_bytes(img_bytes)

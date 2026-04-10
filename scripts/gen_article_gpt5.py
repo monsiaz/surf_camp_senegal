@@ -266,7 +266,8 @@ def generate_hero_image(art_def, hero_prompt):
     print(f"  Generating hero image for: {slug}...")
     full_prompt = (
         f"{hero_prompt}. "
-        "Style: dramatic black-and-white photography, high contrast, film grain texture. "
+        "Style: PURE TRUE BLACK AND WHITE photography — absolutely no color, no sepia, no warm tones, no yellow tint, no brown tint. "
+        "Pure monochrome grayscale only. High contrast, deep blacks, bright whites, silver halide film grain texture. "
         "NO text, NO watermark, NO logo. Cinematic composition, 16:9 crop."
     )
     resp = client.images.generate(
@@ -280,21 +281,19 @@ def generate_hero_image(art_def, hero_prompt):
     img_b64 = resp.data[0].b64_json
     img_bytes = base64.b64decode(img_b64)
 
-    # Save as PNG first, we store as webp filename (build handles conversion)
     IMG_DIR.mkdir(parents=True, exist_ok=True)
-    png_path = IMG_DIR / f"{slug}_hero.png"
-    png_path.write_bytes(img_bytes)
 
-    # Convert to WebP using PIL
+    # Convert to WebP using PIL — force true grayscale to strip any color/sepia tint
     try:
         from PIL import Image
         import io
-        img = Image.open(io.BytesIO(img_bytes))
+        img = Image.open(io.BytesIO(img_bytes)).convert("L").convert("RGB")
         img.save(str(img_path), "WEBP", quality=88)
-        png_path.unlink()
-        print(f"  Hero saved as WebP: {img_path.name}")
+        print(f"  Hero saved as WebP (true B&W): {img_path.name}")
     except Exception:
         # Fallback: keep as PNG
+        png_path = IMG_DIR / f"{slug}_hero.png"
+        png_path.write_bytes(img_bytes)
         png_path.rename(img_path.with_suffix(".png"))
         return f"/assets/images/blog/{slug}_hero.png"
 
