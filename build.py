@@ -6459,13 +6459,8 @@ def build_surf_house(lang):
         </div>
       </div>
       <div class="sh2-split-media reveal">
-        <div class="sh2-duo">
-          <div class="sh2-duo-main sh2-img-hover">
-            <img src="/assets/images/gallery/CAML1073_7222f5f3.webp" alt="Pool at Ngor Surf House" width="720" height="520" loading="lazy" decoding="async">
-          </div>
-          <div class="sh2-duo-over sh2-duo-over--bl sh2-img-hover">
-            <img src="/assets/images/gallery/CAML1075_2701da06.webp" alt="Pool terrace" width="360" height="280" loading="lazy" decoding="async">
-          </div>
+        <div class="sh2-img-hover" style="border-radius:16px;overflow:hidden;height:100%;min-height:360px">
+          <img src="/assets/images/gallery/CAML1133_c4e634ba.webp" alt="Pool at Ngor Surf House" width="720" height="520" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;object-position:center center;display:block">
         </div>
       </div>
     </div>
@@ -6505,7 +6500,7 @@ def build_surf_house(lang):
         <h2 class="s-title">{pe(C["gal_h2"])}</h2>
       </div>
       <div class="gallery-masonry sh-house-gallery" role="list">{gal_items}</div>
-      <div style="text-align:center;margin-top:40px" class="reveal">
+      <div style="text-align:center;margin-top:48px;padding-bottom:8px">
         <button class="btn btn-ocean btn-lg" onclick="sessionStorage.setItem('ngor_gallery_filter','surf_house');window.location='{gal_href}'">{explore_gal_lbl}<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
       </div>
     </div>
