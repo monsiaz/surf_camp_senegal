@@ -1280,18 +1280,18 @@ def build_island_guide_page(guide, lang, all_guides, guide_index):
     deck = (L.get("deck") or "").strip()
     cat = escape(fix_em(L.get("category_label", "Island Guide")))
     hero_base = guide.get("hero_basename", guide["slugs"]["en"])
-    
-    import os
-    hero_rel = f"/assets/images/{hero_base}.webp"
-    # Check standard assets/images directory
-    if os.path.exists(f"/Users/simonazoulay/SurfCampSenegal/cloudflare-demo/assets/images/bw-{hero_base}.webp"):
+    _imgs_dir = os.path.join(DEMO_DIR, "assets", "images")
+    _gal_dir  = os.path.join(_imgs_dir, "gallery")
+    if os.path.exists(os.path.join(_imgs_dir, f"bw-{hero_base}.webp")):
         hero_rel = f"/assets/images/bw-{hero_base}.webp"
-    elif not os.path.exists(f"/Users/simonazoulay/SurfCampSenegal/cloudflare-demo/assets/images/{hero_base}.webp"):
-        # If neither exists in standard dir, check gallery dir
-        if os.path.exists(f"/Users/simonazoulay/SurfCampSenegal/cloudflare-demo/assets/images/gallery/bw-{hero_base}.webp"):
-            hero_rel = f"/assets/images/gallery/bw-{hero_base}.webp"
-        elif os.path.exists(f"/Users/simonazoulay/SurfCampSenegal/cloudflare-demo/assets/images/gallery/{hero_base}.webp"):
-            hero_rel = f"/assets/images/gallery/{hero_base}.webp"
+    elif os.path.exists(os.path.join(_imgs_dir, f"{hero_base}.webp")):
+        hero_rel = f"/assets/images/{hero_base}.webp"
+    elif os.path.exists(os.path.join(_gal_dir, f"bw-{hero_base}.webp")):
+        hero_rel = f"/assets/images/gallery/bw-{hero_base}.webp"
+    elif os.path.exists(os.path.join(_gal_dir, f"{hero_base}.webp")):
+        hero_rel = f"/assets/images/gallery/{hero_base}.webp"
+    else:
+        hero_rel = f"/assets/images/bw-{hero_base}.webp"
             
     hero_abs = f"{SITE_URL.rstrip('/')}{hero_rel}"
     path_here = island_guide_href_path(lang, guide)
@@ -1471,19 +1471,18 @@ def build_island_hub_guides_html(lang, guides):
         L = g["locales"][lang]
         u = island_guide_href_path(lang, g)
         hb = g.get("hero_basename", g["slugs"]["en"])
-        # Try to use bw- version if the color one doesn't exist
-        img_src = f"/assets/images/{hb}.webp"
-        import os
-        
-        # Check standard assets/images directory
-        if os.path.exists(f"/Users/simonazoulay/SurfCampSenegal/cloudflare-demo/assets/images/bw-{hb}.webp"):
+        _imgs_dir = os.path.join(DEMO_DIR, "assets", "images")
+        _gal_dir  = os.path.join(_imgs_dir, "gallery")
+        if os.path.exists(os.path.join(_imgs_dir, f"bw-{hb}.webp")):
             img_src = f"/assets/images/bw-{hb}.webp"
-        elif not os.path.exists(f"/Users/simonazoulay/SurfCampSenegal/cloudflare-demo/assets/images/{hb}.webp"):
-            # If neither exists in standard dir, check gallery dir
-            if os.path.exists(f"/Users/simonazoulay/SurfCampSenegal/cloudflare-demo/assets/images/gallery/bw-{hb}.webp"):
-                img_src = f"/assets/images/gallery/bw-{hb}.webp"
-            elif os.path.exists(f"/Users/simonazoulay/SurfCampSenegal/cloudflare-demo/assets/images/gallery/{hb}.webp"):
-                img_src = f"/assets/images/gallery/{hb}.webp"
+        elif os.path.exists(os.path.join(_imgs_dir, f"{hb}.webp")):
+            img_src = f"/assets/images/{hb}.webp"
+        elif os.path.exists(os.path.join(_gal_dir, f"bw-{hb}.webp")):
+            img_src = f"/assets/images/gallery/bw-{hb}.webp"
+        elif os.path.exists(os.path.join(_gal_dir, f"{hb}.webp")):
+            img_src = f"/assets/images/gallery/{hb}.webp"
+        else:
+            img_src = f"/assets/images/bw-{hb}.webp"
         
         cards.append(
             f'<a href="{u}" class="card island-guide-card" style="text-decoration:none">'
