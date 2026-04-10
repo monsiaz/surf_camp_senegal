@@ -6439,15 +6439,15 @@ def build_surf_house(lang):
     <div class="sh2-split-grid">
       <div class="sh2-split-copy reveal">
         <div class="sh2-split-copy-inner">
-          <span class="s-label">Pool &amp; Common Areas</span>
-          <h2 class="sh2-split-h2">Chill between sessions</h2>
-          <p class="sh2-split-body">Dive into our outdoor pool at the heart of the island. Rinse off, sun-dry your board and swap stories from the lineup. The terrace is yours until the next set rolls in.</p>
+          <span class="s-label">{pe(C["pool_lbl"])}</span>
+          <h2 class="sh2-split-h2">{pe(C["pool_h2"])}</h2>
+          <p class="sh2-split-body">{pe(C["pool_p"])}</p>
           <a href="{book_href}" class="btn btn-navy btn-md" style="margin-top:28px">{pe(C["book"])}</a>
         </div>
       </div>
       <div class="sh2-split-media reveal">
         <div class="sh2-img-hover" style="border-radius:16px;overflow:hidden;height:100%;min-height:360px">
-          <img src="/assets/images/gallery/CAML1133_c4e634ba.webp" alt="Pool at Ngor Surf House" width="720" height="520" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;object-position:center center;display:block">
+          <img src="/assets/images/gallery/CAML1133_c4e634ba.webp" alt="{pe(C['pool_img_alt'])}" width="720" height="520" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;object-position:center center;display:block">
         </div>
       </div>
     </div>
@@ -6481,13 +6481,13 @@ def build_surf_house(lang):
   <!-- ══ INTRO STRIP — chiffres clés ══ -->
   <section class="sh2-stats-strip">
     <div class="sh2-stats-inner">
-      <div class="sh2-stat"><span class="sh2-stat-num">Ngor</span><span class="sh2-stat-lbl">Island</span></div>
+      <div class="sh2-stat"><span class="sh2-stat-num">Ngor</span><span class="sh2-stat-lbl">{pe(C["stat_island"])}</span></div>
       <div class="sh2-stat-sep"></div>
       <div class="sh2-stat"><span class="sh2-stat-num">4.7★</span><span class="sh2-stat-lbl">Google</span></div>
       <div class="sh2-stat-sep"></div>
-      <div class="sh2-stat"><span class="sh2-stat-num">2 min</span><span class="sh2-stat-lbl">from the wave</span></div>
+      <div class="sh2-stat"><span class="sh2-stat-num">2 min</span><span class="sh2-stat-lbl">{pe(C["stat_from_wave"])}</span></div>
       <div class="sh2-stat-sep"></div>
-      <div class="sh2-stat"><span class="sh2-stat-num">All in</span><span class="sh2-stat-lbl">meals · surf · guiding</span></div>
+      <div class="sh2-stat"><span class="sh2-stat-num">All in</span><span class="sh2-stat-lbl">{pe(C["stat_all_in"])}</span></div>
     </div>
   </section>
 
