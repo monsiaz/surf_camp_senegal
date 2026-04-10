@@ -394,23 +394,38 @@ BLOCK_LABELS = {
     "note":     {"en":"Note","fr":"Note","es":"Nota","it":"Nota","de":"Hinweis","nl":"Noot","ar":"ملاحظة","pt":"Nota","da":"Note"},
 }
 
-PAGE_URL_MAP = {
-    "surf":"pfx/surfing/","surfing":"pfx/surfing/","coaching":"pfx/surfing/",
-    "ngor-right":"pfx/surfing/","ngor-left":"pfx/surfing/","waves":"pfx/surfing/",
-    "island":"pfx/island/","ngor-island":"pfx/island/","ile-de-ngor":"pfx/island/",
-    "surf-house":"pfx/surf-house/","accommodation":"pfx/surf-house/","rooms":"pfx/surf-house/",
-    "book":"pfx/booking/","booking":"pfx/booking/","reserve":"pfx/booking/",
-    "gallery":"pfx/gallery/","photos":"pfx/gallery/",
-    "faq":"pfx/faq/","blog":"pfx/blog/",
+# Maps wiki-link dest keywords → page key in PAGE_SLUG (uses localized slug per language)
+_WIKI_KEY_MAP = {
+    "surf": "surfing", "surfing": "surfing", "coaching": "surfing",
+    "ngor-right": "surfing", "ngor-left": "surfing", "waves": "surfing",
+    "island": "island", "ngor-island": "island", "ile-de-ngor": "island",
+    "ile": "island", "ilha": "island", "isola": "island", "insel": "island",
+    "eiland": "island", "oe": "island",
+    "surf-house": "surf-house", "accommodation": "surf-house", "rooms": "surf-house",
+    "book": "booking", "booking": "booking", "reserve": "booking", "reservar": "booking",
+    "prenota": "booking", "buchen": "booking", "boeken": "booking",
+    "gallery": "gallery", "galerie": "gallery", "galeria": "gallery",
+    "galleria": "gallery", "galerij": "gallery", "photos": "gallery",
+    "faq": "faq", "blog": "blog",
 }
 
-def normalize_url(raw_tgt, pfx=""):
-    tgt = raw_tgt.strip().strip("/").lower().replace(" ","-")
-    for key, val in PAGE_URL_MAP.items():
-        if key in tgt:
-            return val.replace("pfx", pfx)
-    if tgt: return f"{pfx}/blog/"
-    return f"{pfx}/blog/"
+def normalize_url(raw_tgt, pfx="", lang="en"):
+    """Convert a wiki-link destination keyword to a localized page URL."""
+    tgt = raw_tgt.strip().strip("/").lower().replace(" ", "-")
+    # Try exact match first, then prefix/substring match (longer keywords first)
+    page_key = _WIKI_KEY_MAP.get(tgt)
+    if page_key is None:
+        for kw, pk in sorted(_WIKI_KEY_MAP.items(), key=lambda x: -len(x[0])):
+            if kw in tgt:
+                page_key = pk
+                break
+    if page_key:
+        lang_slugs = PAGE_SLUG.get(lang, PAGE_SLUG["en"])
+        local_slug = lang_slugs.get(page_key, page_key)
+        return f"{pfx}/{local_slug}/" if pfx else f"/{local_slug}/"
+    if tgt:
+        return f"{pfx}/blog/" if pfx else "/blog/"
+    return f"{pfx}/blog/" if pfx else "/blog/"
 
 def seo_title(t, max_len=65):
     """Truncate at word boundary for <title> — Google renders ~580px / ~65 chars."""
@@ -470,11 +485,19 @@ def md2html(md, lang="en", pfx=""):
             elif "->" in inner: parts = inner.split("->",1)
             else: parts = [inner,""]
             anchor = parts[0].strip()
-            real_url = normalize_url(parts[1].strip() if len(parts)>1 else "", pfx)
+            real_url = normalize_url(parts[1].strip() if len(parts)>1 else "", pfx, lang)
             return f'<a href="{real_url}" class="ilink">{anchor}</a>'
         t = re.sub(r'\[LINK:[^\]]+\]', mk_link, t)
-        # Strip inline shorthand links [anchor->dest] — keep only the anchor text, no HTML link
-        t = re.sub(r'\\?\[([^\]]+?)\s*->[^\]]*\]', lambda m: m.group(1).strip(), t)
+        # Convert inline shorthand links [anchor->dest] to proper HTML links
+        def mk_wiki_link(m):
+            full = m.group(0).lstrip("\\")
+            inner = full[1:-1]  # strip [ and ]
+            anchor, _, dest = inner.partition("->")
+            anchor = anchor.strip()
+            dest = dest.strip()
+            url = normalize_url(dest, pfx, lang)
+            return f'<a href="{url}" class="ilink">{anchor}</a>'
+        t = re.sub(r'\\?\[([^\]]+?)\s*->[^\]]*\]', mk_wiki_link, t)
         return t
 
     def render_block_items(items, block_type):
