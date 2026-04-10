@@ -3806,32 +3806,32 @@ def patch_home_tribe_section_all():
         
         <div class="polaroid" style="transform:rotate(-4deg); width:280px; height:320px; z-index:1;">
           <div class="pin"></div>
-          <img src="/assets/images/gallery/IMG_1664_f3d4f115.webp" alt="Community" loading="lazy">
+          <img src="/assets/images/gallery/79fd3518-a569-479b-9980-5af713fda22c_1c4694d0.webp" alt="Community" loading="lazy">
         </div>
 
         <div class="polaroid" style="transform:rotate(3deg); width:260px; height:300px; margin-top:20px; z-index:2;">
           <div class="tape" style="transform: translateX(-50%) rotate(-5deg);"></div>
-          <img src="/assets/images/gallery/IMG_1670_426b7213.webp" alt="Community" loading="lazy">
+          <img src="/assets/images/gallery/39ad26be-976a-4e14-b066-4cb96fba81ce_1__12f377dd.webp" alt="Community" loading="lazy">
         </div>
 
         <div class="polaroid" style="transform:rotate(-2deg); width:300px; height:340px; margin-top:-10px; z-index:3;">
           <div class="pin" style="background: radial-gradient(circle at 30% 30%, #4facfe, #00f2fe);"></div>
-          <img src="/assets/images/gallery/8ae8418d-ae1e-4a83-b2f0-af1ae4d2f5d5_1__6dc87679.webp" alt="Community" loading="lazy">
+          <img src="/assets/images/gallery/00b93749-055c-4277-95e6-78e2379b8179_1__deb98e24.webp" alt="Community" loading="lazy">
         </div>
 
         <div class="polaroid" style="transform:rotate(5deg); width:270px; height:310px; margin-top:30px; z-index:2;">
           <div class="tape" style="transform: translateX(-50%) rotate(8deg);"></div>
-          <img src="/assets/images/gallery/IMG_2914_b7d4f11b.webp" alt="Community" loading="lazy">
+          <img src="/assets/images/gallery/b8afa992-5659-47d2-8db3-820accb665e0_a7ebc2d6.webp" alt="Community" loading="lazy">
         </div>
 
         <div class="polaroid" style="transform:rotate(-6deg); width:290px; height:330px; margin-top:-20px; z-index:1;">
           <div class="pin" style="background: radial-gradient(circle at 30% 30%, #f6d365, #fda085);"></div>
-          <img src="/assets/images/gallery/8a1d9617-b508-4dd0-aff1-1b99e86ef123_c7c1b40f.webp" alt="Community" loading="lazy">
+          <img src="/assets/images/gallery/e4422547-dde7-4e6f-9a33-32697ad2d4ce_1__b0103552.webp" alt="Community" loading="lazy">
         </div>
 
         <div class="polaroid" style="transform:rotate(2deg); width:280px; height:320px; margin-top:10px; z-index:2;">
           <div class="tape" style="transform: translateX(-50%) rotate(-3deg);"></div>
-          <img src="/assets/images/gallery/IMG_1687_3b4e20fd.webp" alt="Community" loading="lazy">
+          <img src="/assets/images/gallery/8a1d9617-b508-4dd0-aff1-1b99e86ef123_c7c1b40f.webp" alt="Community" loading="lazy">
         </div>
 
       </div>
