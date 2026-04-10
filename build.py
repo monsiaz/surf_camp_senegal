@@ -768,7 +768,7 @@ def build_footer(lang, flag_href_override=None):
         "it":"Come arrivare","de":"Anreise","nl":"Hoe kom je er",
         "ar":"كيف تصل","pt":"Como chegar","da":"Kom hertil",
     }
-    gh_href = (flag_href_override if flag_href_override is not None else GETTING_HERE_FLAG_HREF)[lang]
+    gh_href = GETTING_HERE_FLAG_HREF[lang]
     links_html += f'\n<a href="{gh_href}">{GH_L.get(lang, GH_L["en"])}</a>'
     flag_urls = flag_href_override if flag_href_override is not None else None
     flags_html = " ".join([

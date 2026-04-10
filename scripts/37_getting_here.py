@@ -50,6 +50,10 @@ FLAGS_EXTRA = {
     "us":'<svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#B22234"/><rect y="3" width="60" height="3" fill="#fff"/><rect y="9" width="60" height="3" fill="#fff"/><rect y="15" width="60" height="3" fill="#fff"/><rect y="21" width="60" height="3" fill="#fff"/><rect y="27" width="60" height="3" fill="#fff"/><rect y="33" width="60" height="3" fill="#fff"/><rect width="24" height="21" fill="#3C3B6E"/></svg>',
     "ca":'<svg viewBox="0 0 60 40"><rect width="15" height="40" fill="#FF0000"/><rect x="15" width="30" height="40" fill="#fff"/><rect x="45" width="15" height="40" fill="#FF0000"/><text x="30" y="28" text-anchor="middle" font-size="20" fill="#FF0000">🍁</text></svg>',
     "au":'<svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#00008B"/><path d="M0,0 L30,20 M30,0 L0,20" stroke="#fff" stroke-width="4"/><path d="M0,0 L30,20 M30,0 L0,20" stroke="#C8102E" stroke-width="2.5"/><path d="M15,0 V20 M0,10 H30" stroke="#fff" stroke-width="6"/><path d="M15,0 V20 M0,10 H30" stroke="#C8102E" stroke-width="4"/></svg>',
+    "nl":'<svg viewBox="0 0 60 40"><rect width="60" height="14" fill="#AE1C28"/><rect y="13" width="60" height="14" fill="#fff"/><rect y="26" width="60" height="14" fill="#21468B"/></svg>',
+    "pt":'<svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#006600"/><rect x="20" width="40" height="40" fill="#FF0000"/></svg>',
+    "da":'<svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#C60C30"/><rect x="18" width="8" height="40" fill="#fff"/><rect y="16" width="60" height="8" fill="#fff"/></svg>',
+    "ar":'<svg viewBox="0 0 60 40"><rect width="60" height="14" fill="#006233"/><rect y="13" width="60" height="14" fill="#fff"/><rect y="26" width="60" height="14" fill="#000"/><rect x="0" width="16" height="40" fill="#CE1126"/></svg>',
 }
 
 def flag(lang, size=22):
@@ -145,31 +149,110 @@ FLIGHT_DATA = {
         "tips_de": "Australien nach Senegal ist eine lange Reise — 24–30 Stunden mit 2 Verbindungen. Emirates via Dubai oder Qatar Airways via Doha sind die komfortabelsten Optionen.",
         "search_url": "https://www.google.com/travel/flights/search?q=Sydney+to+Dakar+flights",
     },
+    "nl": {
+        "flag": "nl",
+        "name_en": "Netherlands", "name_fr": "Pays-Bas", "name_es": "Países Bajos", "name_it": "Paesi Bassi", "name_de": "Niederlande",
+        "hub": "Amsterdam AMS / Rotterdam RTM",
+        "duration": "~8–9h",
+        "price_range": "€300–650",
+        "airlines": ["KLM","Brussels Airlines","Air France"],
+        "direct": False,
+        "connection": "Brussels or Paris",
+        "tips_en": "From Amsterdam, the shortest connection to Dakar is via Brussels with Brussels Airlines or via Paris with Air France. KLM sometimes offers connecting options via other European hubs. Total journey time: 8–9 hours.",
+        "tips_fr": "Depuis Amsterdam, la connexion la plus rapide vers Dakar passe par Bruxelles (Brussels Airlines) ou Paris (Air France). KLM propose parfois des options de correspondance via d'autres hubs européens. Durée totale : 8–9h.",
+        "tips_es": "Desde Ámsterdam, la conexión más rápida a Dakar es vía Bruselas (Brussels Airlines) o París (Air France). KLM también ofrece opciones de conexión. Tiempo total: 8-9h.",
+        "tips_it": "Da Amsterdam, la connessione più rapida per Dakar è via Bruxelles (Brussels Airlines) o Parigi (Air France). KLM offre talvolta opzioni di connessione. Durata totale: 8-9h.",
+        "tips_de": "Von Amsterdam ist die schnellste Verbindung nach Dakar über Brüssel (Brussels Airlines) oder Paris (Air France). KLM bietet manchmal Verbindungsoptionen über andere europäische Hubs. Gesamtreisezeit: 8–9 Stunden.",
+        "search_url": "https://www.google.com/travel/flights/search?q=Amsterdam+to+Dakar+flights",
+    },
+    "pt": {
+        "flag": "pt",
+        "name_en": "Portugal", "name_fr": "Portugal", "name_es": "Portugal", "name_it": "Portogallo", "name_de": "Portugal",
+        "hub": "Lisbon LIS / Porto OPO",
+        "duration": "~6–8h",
+        "price_range": "€250–600",
+        "airlines": ["TAP Air Portugal","Royal Air Maroc","Air France"],
+        "direct": False,
+        "connection": "Casablanca or Paris",
+        "tips_en": "Portugal is one of the closest European countries to Senegal. TAP Air Portugal and Royal Air Maroc offer connections via Casablanca. Lisbon (LIS) is the main hub — occasionally TAP or Air Sénégal run direct Lisbon–Dakar flights. Check seasonal schedules for direct services. Journey time: 6–8 hours.",
+        "tips_fr": "Le Portugal est l'un des pays européens les plus proches du Sénégal. TAP Air Portugal et Royal Air Maroc proposent des connexions via Casablanca. Lisbonne (LIS) est le hub principal — des vols directs Lisbonne–Dakar sont parfois disponibles. Durée : 6–8h.",
+        "tips_es": "Portugal es uno de los países europeos más cercanos a Senegal. TAP Air Portugal y Royal Air Maroc ofrecen conexiones vía Casablanca. Lisboa (LIS) es el hub principal — a veces hay vuelos directos Lisboa–Dakar. Tiempo de viaje: 6-8h.",
+        "tips_it": "Il Portogallo è uno dei paesi europei più vicini al Senegal. TAP Air Portugal e Royal Air Maroc offrono connessioni via Casablanca. Lisbona (LIS) è l'hub principale — a volte ci sono voli diretti Lisbona–Dakar. Durata: 6-8h.",
+        "tips_de": "Portugal ist eines der dem Senegal nächstgelegenen europäischen Länder. TAP Air Portugal und Royal Air Maroc bieten Verbindungen über Casablanca. Lissabon (LIS) ist der Hauptknotenpunkt — gelegentlich gibt es Direktflüge Lissabon–Dakar. Reisezeit: 6–8 Stunden.",
+        "search_url": "https://www.google.com/travel/flights/search?q=Lisbon+to+Dakar+flights",
+    },
+    "da": {
+        "flag": "da",
+        "name_en": "Denmark", "name_fr": "Danemark", "name_es": "Dinamarca", "name_it": "Danimarca", "name_de": "Dänemark",
+        "hub": "Copenhagen CPH / Billund BLL",
+        "duration": "~10–12h",
+        "price_range": "€500–900",
+        "airlines": ["SAS","Brussels Airlines","Air France"],
+        "direct": False,
+        "connection": "Brussels, Paris or Amsterdam",
+        "tips_en": "From Denmark, connect to Dakar via Brussels (Brussels Airlines), Paris (Air France) or Amsterdam. SAS often codeshares on these routes. Total journey: 10–12 hours. Book early in the season — Dakar is a popular destination for Scandinavian surfers.",
+        "tips_fr": "Depuis le Danemark, rejoignez Dakar via Bruxelles (Brussels Airlines), Paris (Air France) ou Amsterdam. SAS propose souvent des codeshares sur ces routes. Durée totale : 10–12h. Réservez tôt — Dakar est très prisé des surfeurs scandinaves.",
+        "tips_es": "Desde Dinamarca, conecta a Dakar vía Bruselas (Brussels Airlines), París (Air France) o Ámsterdam. SAS ofrece a menudo codeshares en estas rutas. Tiempo total: 10-12h. Reserva con antelación.",
+        "tips_it": "Dalla Danimarca, collegati a Dakar via Bruxelles (Brussels Airlines), Parigi (Air France) o Amsterdam. SAS offre spesso codeshare su queste rotte. Durata totale: 10-12h.",
+        "tips_de": "Von Dänemark verbinden Sie sich mit Dakar über Brüssel (Brussels Airlines), Paris (Air France) oder Amsterdam. SAS bietet oft Codeshares auf diesen Strecken. Gesamtreisezeit: 10–12 Stunden.",
+        "search_url": "https://www.google.com/travel/flights/search?q=Copenhagen+to+Dakar+flights",
+    },
+    "ar": {
+        "flag": "ar",
+        "name_en": "Morocco / Gulf", "name_fr": "Maroc / Golfe", "name_es": "Marruecos / Golfo", "name_it": "Marocco / Golfo", "name_de": "Marokko / Golf",
+        "hub": "Casablanca CMN / Dubai DXB / Doha DOH",
+        "duration": "~3–10h",
+        "price_range": "MAD 800–3,000 / AED 1,200–3,500",
+        "airlines": ["Royal Air Maroc","Emirates","Qatar Airways"],
+        "direct": False,
+        "connection": "Direct from Casablanca — Via hub from Gulf",
+        "tips_en": "Royal Air Maroc flies direct Casablanca to Dakar multiple times a week — one of the most affordable and fastest routes from the Arabic-speaking world (~3h from Casablanca). From Gulf countries (UAE, Qatar, Saudi Arabia), connect via European hubs or fly Emirates/Qatar Airways with a layover. Total from the Gulf: 8–10 hours.",
+        "tips_fr": "Royal Air Maroc propose des vols directs Casablanca–Dakar plusieurs fois par semaine — l'une des routes les plus accessibles et rapides (~3h depuis Casablanca). Depuis les pays du Golfe, connectez-vous via des hubs européens ou Emirates/Qatar Airways. Total depuis le Golfe : 8–10h.",
+        "tips_es": "Royal Air Maroc vuela directo Casablanca–Dakar varias veces a la semana (~3h desde Casablanca). Desde los países del Golfo, conecta vía hubs europeos o Emirates/Qatar Airways. Total desde el Golfo: 8-10h.",
+        "tips_it": "Royal Air Maroc vola diretto Casablanca–Dakar più volte a settimana (~3h da Casablanca). Dai paesi del Golfo, collegati via hub europei o Emirates/Qatar Airways. Totale dal Golfo: 8-10h.",
+        "tips_de": "Royal Air Maroc fliegt mehrmals wöchentlich direkt Casablanca–Dakar (~3h ab Casablanca). Aus Golfstaaten verbinden Sie sich über europäische Hubs oder fliegen Emirates/Qatar Airways. Gesamtreisezeit ab Golf: 8–10 Stunden.",
+        "search_url": "https://www.google.com/travel/flights/search?q=Casablanca+to+Dakar+flights",
+    },
 }
 
 # Default country per language
 DEFAULT_COUNTRY = {"en":"uk","fr":"fr","es":"es","it":"it","de":"de"}
 # But for DE/ES/IT country, use the matching data
-FLIGHT_DATA["de_country"] = {**FLIGHT_DATA["fr"], "flag":"de",
+FLIGHT_DATA["de_country"] = {**FLIGHT_DATA["fr"],
+    "flag":"de",
+    "name_en":"Germany", "name_fr":"Allemagne", "name_es":"Alemania", "name_it":"Germania", "name_de":"Deutschland",
     "hub":"Frankfurt FRA / Munich MUC / Berlin BER", "duration":"~7h", "price_range":"€250–650",
     "airlines":["Lufthansa","Air France","Eurowings","Air Sénégal"],
     "direct":False, "connection":"Paris or Brussels",
     "tips_en":"From Germany, the best connections to Dakar are via Paris (Air France) or Brussels (Brussels Airlines). Lufthansa codeshares can also get you there via Paris or Casablanca.",
+    "tips_fr":"Depuis l'Allemagne, les meilleures connexions vers Dakar passent par Paris (Air France) ou Bruxelles (Brussels Airlines). Les codeshares Lufthansa via Paris ou Casablanca sont aussi possibles.",
+    "tips_es":"Desde Alemania, las mejores conexiones a Dakar son vía París (Air France) o Bruselas (Brussels Airlines). Los codeshares de Lufthansa también son una opción.",
+    "tips_it":"Dalla Germania, le migliori connessioni per Dakar sono via Parigi (Air France) o Bruxelles (Brussels Airlines). I codeshare Lufthansa via Parigi o Casablanca sono un'altra opzione.",
     "tips_de":"Von Deutschland sind die besten Verbindungen nach Dakar via Paris (Air France) oder Brüssel (Brussels Airlines). Auch Lufthansa-Codeshares via Paris oder Casablanca sind möglich.",
     "search_url":"https://www.google.com/travel/flights/search?q=Frankfurt+to+Dakar+flights"}
-FLIGHT_DATA["es_country"] = {**FLIGHT_DATA["fr"], "flag":"es",
-    "hub":"Madrid MAD / Barcelona BCN","duration":"~6-7h","price_range":"€200–550",
+FLIGHT_DATA["es_country"] = {**FLIGHT_DATA["fr"],
+    "flag":"es",
+    "name_en":"Spain", "name_fr":"Espagne", "name_es":"España", "name_it":"Spagna", "name_de":"Spanien",
+    "hub":"Madrid MAD / Barcelona BCN","duration":"~6–7h","price_range":"€200–550",
     "airlines":["Iberia","Air France","Volotea","Air Sénégal"],
     "direct":False,"connection":"Madrid direct (seasonal) or Paris/Casablanca",
     "tips_en":"From Spain, Iberia flies direct Madrid → Dakar seasonally. Otherwise, connect via Paris or Casablanca with Royal Air Maroc. Barcelona travelers can fly via Madrid or Paris.",
+    "tips_fr":"Depuis l'Espagne, Iberia propose des vols directs Madrid → Dakar de façon saisonnière. Sinon, connectez-vous via Paris ou Casablanca avec Royal Air Maroc.",
     "tips_es":"Desde España, Iberia vuela directo Madrid → Dakar de forma estacional. De lo contrario, conecta vía París o Casablanca con Royal Air Maroc.",
+    "tips_it":"Dalla Spagna, Iberia vola diretto Madrid → Dakar in modo stagionale. Altrimenti, collegati via Parigi o Casablanca con Royal Air Maroc.",
+    "tips_de":"Ab Spanien fliegt Iberia saisonal direkt Madrid → Dakar. Alternativ über Paris (Air France) oder Casablanca (Royal Air Maroc).",
     "search_url":"https://www.google.com/travel/flights/search?q=Madrid+to+Dakar+flights"}
-FLIGHT_DATA["it_country"] = {**FLIGHT_DATA["fr"], "flag":"it",
-    "hub":"Rome FCO / Milan MXP / Turin TRN","duration":"~7-8h","price_range":"€280–650",
+FLIGHT_DATA["it_country"] = {**FLIGHT_DATA["fr"],
+    "flag":"it",
+    "name_en":"Italy", "name_fr":"Italie", "name_es":"Italia", "name_it":"Italia", "name_de":"Italien",
+    "hub":"Rome FCO / Milan MXP / Turin TRN","duration":"~7–8h","price_range":"€280–650",
     "airlines":["ITA Airways","Air France","Neos","Air Sénégal"],
     "direct":False,"connection":"Paris, Brussels or Casablanca",
     "tips_en":"From Italy, connect via Paris (Air France) or Casablanca (Royal Air Maroc). Rome Fiumicino offers the most connections. Neos occasionally operates seasonal charters from Italian cities to Dakar.",
+    "tips_fr":"Depuis l'Italie, connectez-vous via Paris (Air France) ou Casablanca (Royal Air Maroc). Rome Fiumicino offre le plus de connexions. Neos propose parfois des charters saisonniers.",
+    "tips_es":"Desde Italia, conecta vía París (Air France) o Casablanca (Royal Air Maroc). Roma Fiumicino ofrece las mejores conexiones. Neos opera a veces chárteres estacionales.",
     "tips_it":"Dall'Italia, collegati via Parigi (Air France) o Casablanca (Royal Air Maroc). Roma Fiumicino offre le migliori connessioni. Neos opera occasionalmente charter stagionali da città italiane a Dakar.",
+    "tips_de":"Von Italien verbinden Sie sich über Paris (Air France) oder Casablanca (Royal Air Maroc). Rom Fiumicino bietet die meisten Verbindungen. Neos betreibt gelegentlich saisonale Charter.",
     "search_url":"https://www.google.com/travel/flights/search?q=Rome+to+Dakar+flights"}
 
 # ════════════════════════════════════════════════════════════════
@@ -345,8 +428,14 @@ def build_getting_here(lang):
     title = g("page_title", lang)
     meta  = g("page_meta", lang)
 
-    # Country order and default per lang
-    COUNTRY_ORDER = {"en":["uk","fr","us","ca","au"],"fr":["fr","uk","us","ca","au"],"es":["es_country","fr","uk","us","ca","au"],"it":["it_country","fr","uk","us","ca","au"],"de":["de_country","fr","uk","us","ca","au"]}
+    # Country order and default per lang — all 12 countries, home country first
+    COUNTRY_ORDER = {
+        "en": ["uk","fr","es_country","de_country","it_country","nl","pt","da","ar","us","ca","au"],
+        "fr": ["fr","uk","es_country","de_country","it_country","nl","pt","da","ar","us","ca","au"],
+        "es": ["es_country","fr","uk","de_country","it_country","nl","pt","da","ar","us","ca","au"],
+        "it": ["it_country","fr","uk","es_country","de_country","nl","pt","da","ar","us","ca","au"],
+        "de": ["de_country","fr","uk","es_country","it_country","nl","pt","da","ar","us","ca","au"],
+    }
     country_list = COUNTRY_ORDER.get(lang, ["uk","fr","us","ca","au"])
     default_country = country_list[0]
 
