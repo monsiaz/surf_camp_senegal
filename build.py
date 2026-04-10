@@ -6395,19 +6395,6 @@ def build_surf_house(lang):
     </div>
   </header>
 
-  <!-- ══ INTRO STRIP — chiffres clés ══ -->
-  <section class="sh2-stats-strip">
-    <div class="sh2-stats-inner">
-      <div class="sh2-stat"><span class="sh2-stat-num">Ngor</span><span class="sh2-stat-lbl">Island</span></div>
-      <div class="sh2-stat-sep"></div>
-      <div class="sh2-stat"><span class="sh2-stat-num">4.7★</span><span class="sh2-stat-lbl">Google</span></div>
-      <div class="sh2-stat-sep"></div>
-      <div class="sh2-stat"><span class="sh2-stat-num">2 min</span><span class="sh2-stat-lbl">from the wave</span></div>
-      <div class="sh2-stat-sep"></div>
-      <div class="sh2-stat"><span class="sh2-stat-num">All in</span><span class="sh2-stat-lbl">meals · surf · guiding</span></div>
-    </div>
-  </section>
-
   <!-- ══ ROOMS — superposition d'images ══ -->
   <section id="sh2-rooms" class="sh2-split-section sh2-split-left">
     <div class="sh2-split-grid">
@@ -6488,6 +6475,19 @@ def build_surf_house(lang):
           <a href="{book_href}" class="btn btn-fire btn-md" style="margin-top:28px">{pe(C["book"])}</a>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- ══ INTRO STRIP — chiffres clés ══ -->
+  <section class="sh2-stats-strip">
+    <div class="sh2-stats-inner">
+      <div class="sh2-stat"><span class="sh2-stat-num">Ngor</span><span class="sh2-stat-lbl">Island</span></div>
+      <div class="sh2-stat-sep"></div>
+      <div class="sh2-stat"><span class="sh2-stat-num">4.7★</span><span class="sh2-stat-lbl">Google</span></div>
+      <div class="sh2-stat-sep"></div>
+      <div class="sh2-stat"><span class="sh2-stat-num">2 min</span><span class="sh2-stat-lbl">from the wave</span></div>
+      <div class="sh2-stat-sep"></div>
+      <div class="sh2-stat"><span class="sh2-stat-num">All in</span><span class="sh2-stat-lbl">meals · surf · guiding</span></div>
     </div>
   </section>
 
