@@ -8464,3 +8464,40 @@ def _patch_pt_da_translations():
 
 _patch_pt_da_translations()
 
+# ── Final cache-bust pass ─────────────────────────────────────────────────────
+# build_blog.py rewrites ngor-surfcamp.css at the end of the build, so the hash
+# computed at module-load time (ASSET_VERSION) is stale by now.
+# Recompute the true hash from the final CSS/JS state and patch every HTML file.
+def _final_cache_bust():
+    import hashlib as _hlib, re as _reb
+    _demo = DEMO_DIR
+    _css  = os.path.join(_demo, "assets", "css", ASSET_CSS_MAIN)
+    _js   = os.path.join(_demo, "assets", "js",  ASSET_JS_MAIN)
+    _h = _hlib.md5()
+    for _p in [_css, _js]:
+        if os.path.exists(_p):
+            with open(_p, "rb") as _f:
+                _h.update(_f.read())
+    _final_ver = _h.hexdigest()[:8]
+    if _final_ver == ASSET_VERSION:
+        return  # already correct, nothing to do
+    # Replace stale version string in all HTML files
+    _old_pat = _reb.compile(re.escape(f"?v={ASSET_VERSION}"))
+    _new_str = f"?v={_final_ver}"
+    _updated = 0
+    for _root, _dirs, _files in os.walk(_demo):
+        for _fname in _files:
+            if not _fname.endswith(".html"):
+                continue
+            _fp = os.path.join(_root, _fname)
+            try:
+                _content = open(_fp, encoding="utf-8", errors="replace").read()
+                if f"?v={ASSET_VERSION}" in _content:
+                    _content = _content.replace(f"?v={ASSET_VERSION}", _new_str)
+                    open(_fp, "w", encoding="utf-8").write(_content)
+                    _updated += 1
+            except Exception:
+                pass
+    print(f"  cache-bust: CSS/JS ?v= updated to {_final_ver} across {_updated} HTML files ✅")
+
+_final_cache_bust()
