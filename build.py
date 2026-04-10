@@ -5617,98 +5617,116 @@ def build_surf_house(lang):
     html += build_nav("surf-house", lang)
     html += f"""
 <main id="main-content">
-  <header class="main-hero" style="background-image:url('/assets/images/gallery/CAML1113_c1a068bf.webp')" role="banner">
-    <div class="main-hero-inner">
-      <div class="main-hero-eyebrow">
-        <span class="main-hero-dot"></span>
-        <span>{pe(C["hero_kicker"])}</span>
-      </div>
-      <h1 class="main-hero-h1">{pe(C["h1"])}</h1>
-      <p class="main-hero-tagline">{pe(C["tagline"])}</p>
-      <div class="main-hero-actions">
+
+  <!-- ══ HERO — vue mer plein écran ══ -->
+  <header class="sh2-hero" role="banner">
+    <div class="sh2-hero-bg" style="background-image:url('/assets/images/gallery/CAML1113_c1a068bf.webp')"></div>
+    <div class="sh2-hero-overlay"></div>
+    <div class="sh2-hero-content">
+      <span class="sh2-hero-eyebrow">{pe(C["hero_kicker"])}</span>
+      <h1 class="sh2-hero-h1">{pe(C["h1"])}</h1>
+      <p class="sh2-hero-tagline">{pe(C["tagline"])}</p>
+      <div class="sh2-hero-actions">
         <a href="{book_href}" class="btn btn-fire btn-lg">{pe(C["book"])}</a>
-        <a href="#sh-logement" class="btn btn-outline-white btn-lg">&#8964;</a>
+        <a href="#sh2-rooms" class="btn btn-outline-white btn-lg">Discover ↓</a>
       </div>
     </div>
+    <a href="#sh2-rooms" class="sh2-scroll-hint" aria-hidden="true">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+    </a>
   </header>
 
-  <section id="sh-logement" class="sh-welcome">
-    <div class="container">
-      <div class="sh-welcome-grid reveal">
-        <div class="sh-welcome-left">
-          <span class="s-label">{pe(C["welcome_lbl"])}</span>
-          <h2 class="sh-welcome-h2">{pe(C["welcome_title"])}</h2>
-          <a href="{book_href}" class="sh-welcome-cta">{pe(C["book"])} &#8594;</a>
+  <!-- ══ INTRO STRIP — chiffres clés ══ -->
+  <section class="sh2-stats-strip">
+    <div class="sh2-stats-inner">
+      <div class="sh2-stat"><span class="sh2-stat-num">Ngor</span><span class="sh2-stat-lbl">Island</span></div>
+      <div class="sh2-stat-sep"></div>
+      <div class="sh2-stat"><span class="sh2-stat-num">4.7★</span><span class="sh2-stat-lbl">Google</span></div>
+      <div class="sh2-stat-sep"></div>
+      <div class="sh2-stat"><span class="sh2-stat-num">2 min</span><span class="sh2-stat-lbl">from the wave</span></div>
+      <div class="sh2-stat-sep"></div>
+      <div class="sh2-stat"><span class="sh2-stat-num">All in</span><span class="sh2-stat-lbl">meals · surf · guiding</span></div>
+    </div>
+  </section>
+
+  <!-- ══ ROOMS — superposition d'images ══ -->
+  <section id="sh2-rooms" class="sh2-split-section sh2-split-left">
+    <div class="sh2-split-media reveal">
+      <div class="sh2-duo">
+        <div class="sh2-duo-main sh2-img-hover">
+          <img src="/assets/images/gallery/CAML1098_9e61ecbe.webp" alt="{pe(C['rooms_lbl'])}" width="720" height="520" loading="lazy" decoding="async">
         </div>
-        <div class="sh-welcome-right">
-          <p class="sh-welcome-lead">{pe(C["p2"])}</p>
-          <p class="sh-welcome-body">{pe(C["p4"])}</p>
+        <div class="sh2-duo-over sh2-img-hover">
+          <img src="/assets/images/gallery/CAML1099_8e5f6217.webp" alt="{pe(C['rooms_lbl'])}" width="360" height="280" loading="lazy" decoding="async">
+        </div>
+      </div>
+    </div>
+    <div class="sh2-split-copy reveal">
+      <span class="s-label">{pe(C["rooms_lbl"])}</span>
+      <h2 class="sh2-split-h2">{pe(C["quote_h2"])}</h2>
+      <p class="sh2-split-lead">{pe(C["quote_line1"])}</p>
+      <p class="sh2-split-accent">{pe(C["quote_line2"])}</p>
+      <p class="sh2-split-body">{pe(C["p3"])}</p>
+      <a href="{book_href}" class="btn btn-fire btn-md" style="margin-top:28px">{pe(C["book"])}</a>
+    </div>
+  </section>
+
+  <!-- ══ AMENITIES DARK — cartes features ══ -->
+  {wave_bottom(_BG_WHITE, _BG_NAVY)}
+  <section class="sh2-feats-section">
+    <div class="container">
+      <div class="sh2-feats-head reveal">
+        <span class="s-label" style="color:var(--sand)">{pe(C["acc_sub"])}</span>
+        <h2 class="sh2-feats-h2">{pe(C["acc_h2"])}</h2>
+      </div>
+      <div class="sh2-feats-grid reveal">{feat_html}</div>
+    </div>
+  </section>
+
+  <!-- ══ POOL — image pleine largeur + superposition ══ -->
+  {wave_top(_BG_NAVY, _BG_WHITE)}
+  <section class="sh2-split-section sh2-split-right">
+    <div class="sh2-split-copy reveal">
+      <span class="s-label">Pool &amp; Common Areas</span>
+      <h2 class="sh2-split-h2">Chill between sessions</h2>
+      <p class="sh2-split-body">Dive into our outdoor pool at the heart of the island. Rinse off, sun-dry your board and swap stories from the lineup. The terrace is yours until the next set rolls in.</p>
+      <a href="{book_href}" class="btn btn-navy btn-md" style="margin-top:28px">{pe(C["book"])}</a>
+    </div>
+    <div class="sh2-split-media reveal">
+      <div class="sh2-duo">
+        <div class="sh2-duo-main sh2-img-hover">
+          <img src="/assets/images/gallery/CAML1133_c4e634ba.webp" alt="Pool at Ngor Surf House" width="720" height="520" loading="lazy" decoding="async">
+        </div>
+        <div class="sh2-duo-over sh2-duo-over--bl sh2-img-hover">
+          <img src="/assets/images/gallery/CAML1075_2701da06.webp" alt="Pool terrace" width="360" height="280" loading="lazy" decoding="async">
         </div>
       </div>
     </div>
   </section>
 
-  {wave_top(_BG_WHITE, _BG_LIGHT)}
-  <section class="sh-rooms-sec sec-light">
-    <div class="container">
-      <div class="sh-rooms-grid">
-        <div class="sh-rooms-mosaic reveal">
-          <div class="sh-mosaic-main">
-            <img src="/assets/images/gallery/CAML1098_9e61ecbe.webp" alt="{pe(C['quote_h2'])}" width="640" height="440" loading="lazy" decoding="async">
-          </div>
-          <div class="sh-mosaic-pair">
-            <img src="/assets/images/gallery/CAML1103_74b9018b.webp" alt="{pe(C['rooms_lbl'])}" width="380" height="210" loading="lazy" decoding="async">
-            <img src="/assets/images/gallery/CAML1109_303626ae.webp" alt="{pe(C['rooms_lbl'])}" width="380" height="210" loading="lazy" decoding="async">
-          </div>
+  <!-- ══ MEALS — grande image + petit overlap ══ -->
+  {wave_bottom(_BG_WHITE, "#1a0e05")}
+  <section class="sh2-meals-section">
+    <div class="sh2-meals-media reveal">
+      <div class="sh2-duo">
+        <div class="sh2-duo-main sh2-img-hover">
+          <img src="/assets/images/gallery/IMG_2832_meal.webp" alt="{pe(C['meals_h2'])}" width="720" height="520" loading="lazy" decoding="async">
         </div>
-        <div class="sh-rooms-copy reveal">
-          <span class="s-label">{pe(C["rooms_lbl"])}</span>
-          <h2 class="sh-rooms-h2">{pe(C["quote_h2"])}</h2>
-          <p class="sh-rooms-strong">{pe(C["quote_line1"])}</p>
-          <p class="sh-rooms-accent">{pe(C["quote_line2"])}</p>
-          <a href="{book_href}" class="btn btn-navy btn-md" style="margin-top:20px">{pe(C["book"])}</a>
+        <div class="sh2-duo-over sh2-duo-over--tr sh2-img-hover">
+          <img src="/assets/images/gallery/IMG_1670_426b7213.webp" alt="{pe(C['meals_lbl'])}" width="360" height="280" loading="lazy" decoding="async">
         </div>
       </div>
     </div>
-  </section>
-
-  {wave_bottom(_BG_LIGHT, _BG_NAVY)}
-  <section class="sh-acc sh-acc--dark">
-    <div class="container">
-      <div class="sh-acc-split">
-        <div class="sh-acc-photo-col reveal">
-          <img src="/assets/images/gallery/CAML1150_c1f8abfe.webp" alt="{pe(C["acc_h2"])}" width="600" height="460" loading="lazy" decoding="async" class="sh-acc-img--1">
-          <img src="/assets/images/gallery/CAML1133_c4e634ba.webp" alt="Piscine Ngor Surf House" width="400" height="260" loading="lazy" decoding="async" class="sh-acc-img--2">
-          <span class="sh-acc-photo-badge">Ngor Surf House · Île de Ngor</span>
-        </div>
-        <div class="sh-acc-feats-col reveal">
-          <header class="sh-acc-head">
-            <h2 class="sh-acc-title">{pe(C["acc_h2"])}</h2>
-            <p class="sh-acc-sub">{pe(C["acc_sub"])}</p>
-          </header>
-          <div class="sh-feat-grid">{feat_html}</div>
-        </div>
-      </div>
+    <div class="sh2-meals-copy reveal">
+      <span class="s-label" style="color:var(--fire)">{pe(C["meals_lbl"])}</span>
+      <h2 class="sh2-meals-h2">{pe(C["meals_h2"])}</h2>
+      <p class="sh2-meals-p">{pe(C["meals_p"])}</p>
+      <a href="{book_href}" class="btn btn-fire btn-md" style="margin-top:28px">{pe(C["book"])}</a>
     </div>
   </section>
 
-  {wave_top(_BG_WHITE, _BG_NAVY)}
-  <section class="sh-meals">
-    <div class="container">
-      <div class="sh-meals-grid reveal">
-        <div class="sh-meals-copy">
-          <span class="s-label" style="color:var(--fire)">{pe(C["meals_lbl"])}</span>
-          <h2 class="sh-meals-h2">{pe(C["meals_h2"])}</h2>
-          <p class="sh-meals-p">{pe(C["meals_p"])}</p>
-        </div>
-        <div class="sh-meals-photo sh-meals-photos">
-          <img src="{meals_thumb}" alt="{pe(C["meals_h2"])}" width="640" height="320" loading="lazy" decoding="async" class="sh-meals-img sh-meals-img--1">
-          <img src="/assets/images/gallery/8b638f24-081a-4488-a5ac-dc71e7bd42de_25694964.webp" alt="{pe(C['meals_lbl'])}" width="640" height="260" loading="lazy" decoding="async" class="sh-meals-img sh-meals-img--2">
-        </div>
-      </div>
-    </div>
-  </section>
-
+  <!-- ══ GALLERY MASONRY ══ -->
+  {wave_top("#1a0e05", _BG_WHITE)}
   <section class="section sh-gallery-sec">
     <div class="container">
       <div style="text-align:center;margin-bottom:40px" class="reveal">

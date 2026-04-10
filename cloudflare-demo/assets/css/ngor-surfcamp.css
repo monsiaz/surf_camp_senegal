@@ -48947,6 +48947,305 @@ img{max-width:100%;height:auto}
    VISUAL BLOCKS v2 — Premium DA
 ══════════════════════════════════════════════════════ */
 
+
+.vb-tip {
+  background: linear-gradient(135deg, #fff8f5, #fff3ee);
+  border: none;
+  border-left: none;
+  border-radius: 16px;
+  padding: 28px 32px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 20px rgba(255,90,31,0.08), inset 0 0 0 1.5px rgba(255,90,31,0.18);
+}
+.vb-tip::before {
+  content: '';
+  position: absolute; top: 0; left: 0; width: 5px; height: 100%;
+  background: linear-gradient(to bottom, var(--fire), #ff8c5a);
+  border-radius: 16px 0 0 16px;
+}
+.vb-tip .vb-header {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
+}
+.vb-tip .vb-label {
+  font-size: 11px; font-weight: 800; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--fire);
+  margin-bottom: 0;
+}
+.vb-tip .vb-ico {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: rgba(255,90,31,0.12); flex-shrink: 0;
+}
+.vb-tip p, .vb-tip li { font-size: 15.5px; color: #2d1a0e; line-height: 1.72; }
+.vb-tip strong { color: var(--fire); }
+
+/* ── FACT block ───────────────────────────────────────── */
+.vb-fact {
+  background: linear-gradient(135deg, #f0f8ff, #e8f4ff);
+  border: none;
+  border-radius: 16px;
+  padding: 28px 32px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 20px rgba(14,165,233,0.08), inset 0 0 0 1.5px rgba(14,165,233,0.18);
+}
+.vb-fact::before {
+  content: '';
+  position: absolute; top: 0; left: 0; width: 5px; height: 100%;
+  background: linear-gradient(to bottom, #0ea5e9, #38bdf8);
+  border-radius: 16px 0 0 16px;
+}
+.vb-fact .vb-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.vb-fact .vb-label { font-size: 11px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: #0284c7; margin-bottom: 0; }
+.vb-fact .vb-ico { width: 36px; height: 36px; border-radius: 10px; background: rgba(14,165,233,0.12); flex-shrink: 0; }
+.vb-fact p, .vb-fact li { font-size: 15.5px; color: #0c2a3a; line-height: 1.72; }
+
+/* ── EXPERT / COACH quote ─────────────────────────────── */
+.vb-expert {
+  background: linear-gradient(135deg, #fffbf0, #fff8e6);
+  border: none;
+  border-radius: 16px;
+  padding: 32px 36px 28px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 20px rgba(240,192,96,0.12), inset 0 0 0 1.5px rgba(240,192,96,0.30);
+}
+.vb-expert::before {
+  content: '"';
+  position: absolute; top: -12px; left: 22px;
+  font-size: 100px; line-height: 1; font-family: Georgia, serif;
+  color: rgba(240,192,96,0.25); pointer-events: none;
+  font-weight: 900;
+}
+.vb-expert::after {
+  content: '';
+  position: absolute; top: 0; left: 0; width: 5px; height: 100%;
+  background: linear-gradient(to bottom, var(--sand), #e8b840);
+  border-radius: 16px 0 0 16px;
+}
+.vb-expert .vb-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+.vb-expert .vb-label { font-size: 11px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: #92680a; margin-bottom: 0; }
+.vb-expert .vb-ico { width: 36px; height: 36px; border-radius: 10px; background: rgba(240,192,96,0.20); flex-shrink: 0; }
+.vb-expert blockquote { font-size: 17px; font-style: italic; color: #2a1d06; line-height: 1.78; font-family: var(--fh); font-weight: 500; margin: 0; border: none; padding: 0; }
+
+/* ── SUMMARY / KEY TAKEAWAYS ──────────────────────────── */
+.vb-summary {
+  background: linear-gradient(135deg, #0a2540 0%, #0d3060 60%, #0a2540 100%);
+  border: none;
+  border-radius: 20px;
+  padding: 32px 36px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(10,37,64,0.25);
+}
+.vb-summary::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--fire), var(--sand), var(--fire));
+  background-size: 200% 100%;
+  animation: shimmer 3s linear infinite;
+}
+.vb-summary::after {
+  content: '';
+  position: absolute; bottom: -30px; right: -20px;
+  width: 140px; height: 140px; border-radius: 50%;
+  background: rgba(255,255,255,0.03);
+  pointer-events: none;
+}
+.vb-summary .vb-header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+.vb-summary .vb-label { font-size: 11px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sand); margin-bottom: 0; }
+.vb-summary .vb-ico { width: 36px; height: 36px; border-radius: 10px; background: rgba(255,255,255,0.10); flex-shrink: 0; }
+.vb-summary p { color: rgba(255,255,255,0.88); font-size: 15.5px; line-height: 1.72; margin: 0; }
+.vb-summary ul { margin: 0; padding: 0; list-style: none; }
+.vb-summary li {
+  color: rgba(255,255,255,0.88); font-size: 15px; line-height: 1.68;
+  margin-bottom: 10px; padding-left: 22px; position: relative;
+}
+.vb-summary li::before {
+  content: '→'; position: absolute; left: 0;
+  color: var(--sand); font-size: 13px; top: 2px;
+}
+.vb-summary li strong { color: #fff; }
+
+/* ── CHECKLIST ────────────────────────────────────────── */
+.vb-checklist {
+  background: linear-gradient(135deg, #f0fff5, #e8fef0);
+  border: none;
+  border-radius: 16px;
+  padding: 28px 32px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 20px rgba(34,197,94,0.08), inset 0 0 0 1.5px rgba(34,197,94,0.20);
+}
+.vb-checklist::before {
+  content: '';
+  position: absolute; top: 0; left: 0; width: 5px; height: 100%;
+  background: linear-gradient(to bottom, #22c55e, #4ade80);
+  border-radius: 16px 0 0 16px;
+}
+.vb-checklist .vb-header { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
+.vb-checklist .vb-label { font-size: 11px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: #15803d; margin-bottom: 0; }
+.vb-checklist .vb-ico { width: 36px; height: 36px; border-radius: 10px; background: rgba(34,197,94,0.12); flex-shrink: 0; }
+.vb-checklist ul { list-style: none; margin: 0; padding: 0; }
+.vb-checklist li {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 15px; line-height: 1.68; color: #0f2e1a;
+  margin-bottom: 10px; padding: 0;
+}
+.vb-checklist li::before {
+  content: '✓';
+  width: 22px; height: 22px; border-radius: 50%;
+  background: #22c55e; color: #fff;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 800; flex-shrink: 0; margin-top: 1px;
+}
+
+/* ── NOTE block ───────────────────────────────────────── */
+.vb-note {
+  background: #f8fafc;
+  border: none;
+  border-radius: 16px;
+  padding: 24px 28px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1.5px rgba(10,37,64,0.12);
+}
+.vb-note::before {
+  content: '';
+  position: absolute; top: 0; left: 0; width: 5px; height: 100%;
+  background: linear-gradient(to bottom, var(--navy), #1a4a7a);
+  border-radius: 16px 0 0 16px;
+}
+.vb-note .vb-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.vb-note .vb-label { font-size: 11px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: var(--navy); margin-bottom: 0; }
+.vb-note .vb-ico { width: 36px; height: 36px; border-radius: 10px; background: rgba(10,37,64,0.08); flex-shrink: 0; }
+.vb-note p, .vb-note li { font-size: 15px; color: #1a2b3c; line-height: 1.70; }
+
+/* Shared block structural reset — only for standalone vblock, not combined with vb-* */
+.vblock:not(.vb-tip):not(.vb-fact):not(.vb-expert):not(.vb-summary):not(.vb-checklist):not(.vb-note) { display: block; padding: 0; background: none; border: none; margin: 32px 0; }
+.vb-ico { display: flex; align-items: center; justify-content: center; }
+.vb-ico img { border-radius: 6px; }
+.vb-header { position: relative; z-index: 1; }
+.vb-content { position: relative; z-index: 1; }
+
+/* List inside blocks */
+.vblock ul.block-list { list-style: none; margin: 0; padding: 0; }
+.vb-tip ul.block-list li, .vb-fact ul.block-list li, .vb-note ul.block-list li {
+  padding-left: 18px; position: relative; margin-bottom: 8px;
+}
+.vb-tip ul.block-list li::before { content: '•'; position: absolute; left: 0; color: var(--fire); font-size: 16px; line-height: 1.5; }
+.vb-fact ul.block-list li::before { content: '•'; position: absolute; left: 0; color: #0ea5e9; font-size: 16px; line-height: 1.5; }
+
+/* ══════════════════════════════════════════════════════════
+   SURF-HOUSE v2 — redesign (hero + duos + feats + meals)
+   ══════════════════════════════════════════════════════════ */
+
+/* ── Hero full-screen ───────────────────────────────────── */
+.sh2-hero{position:relative;height:100vh;min-height:600px;display:flex;align-items:flex-end;justify-content:flex-start;overflow:hidden;isolation:isolate}
+.sh2-hero-bg{position:absolute;inset:0;background-size:cover;background-position:center 30%;transition:transform 0.8s ease;will-change:transform}
+.sh2-hero-overlay{position:absolute;inset:0;background:linear-gradient(160deg,rgba(5,14,26,0.25) 0%,rgba(5,14,26,0.15) 35%,rgba(5,14,26,0.72) 75%,rgba(5,14,26,0.92) 100%)}
+.sh2-hero-content{position:relative;z-index:2;max-width:var(--max);width:100%;margin:0 auto;padding:0 40px 80px;color:#fff}
+.sh2-hero-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--sand);margin-bottom:20px;opacity:0.9}
+.sh2-hero-eyebrow::before{content:'';display:inline-block;width:28px;height:1px;background:var(--fire)}
+.sh2-hero-h1{font-size:clamp(44px,7vw,88px);font-weight:900;line-height:1.0;letter-spacing:-0.04em;margin:0 0 18px;max-width:680px;text-shadow:0 4px 32px rgba(0,0,0,0.3)}
+.sh2-hero-tagline{font-size:clamp(16px,1.8vw,20px);font-style:italic;opacity:0.8;margin:0 0 36px;line-height:1.5}
+.sh2-hero-actions{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.sh2-scroll-hint{position:absolute;bottom:32px;right:40px;z-index:2;color:rgba(255,255,255,0.5);width:44px;height:44px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.2);border-radius:50%;transition:color 0.3s,border-color 0.3s,transform 0.3s;animation:arrowBounce 2.4s ease-in-out infinite}
+.sh2-scroll-hint:hover{color:#fff;border-color:rgba(255,255,255,0.6);transform:translateX(-50%) translateY(-4px)!important}
+
+/* ── Stats strip ────────────────────────────────────────── */
+.sh2-stats-strip{background:var(--navy);padding:22px 40px}
+.sh2-stats-inner{max-width:var(--max);margin:0 auto;display:flex;align-items:center;justify-content:center;gap:0;flex-wrap:wrap}
+.sh2-stat{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 40px;text-align:center}
+.sh2-stat-num{font-size:clamp(18px,2.5vw,26px);font-weight:900;color:#fff;line-height:1;font-family:var(--fh)}
+.sh2-stat-lbl{font-size:11px;font-weight:600;color:var(--sand);letter-spacing:0.12em;text-transform:uppercase;opacity:0.85}
+.sh2-stat-sep{width:1px;height:40px;background:rgba(255,255,255,0.12);flex-shrink:0}
+
+/* ── Split sections (rooms / pool) ─────────────────────── */
+.sh2-split-section{display:grid;grid-template-columns:1fr 1fr;gap:0;align-items:center;min-height:560px}
+.sh2-split-left .sh2-split-media{order:1}
+.sh2-split-left .sh2-split-copy{order:2}
+.sh2-split-right .sh2-split-media{order:2}
+.sh2-split-right .sh2-split-copy{order:1}
+.sh2-split-copy{padding:80px 64px 80px 56px;display:flex;flex-direction:column;gap:16px;background:#fff}
+.sh2-split-right .sh2-split-copy{padding:80px 56px 80px 64px}
+.sh2-split-h2{font-size:clamp(26px,3.2vw,40px);font-weight:900;color:var(--navy);line-height:1.15;margin:0}
+.sh2-split-lead{font-size:17px;font-weight:600;color:#334155;margin:0}
+.sh2-split-accent{font-size:clamp(18px,2vw,24px);font-weight:800;font-style:italic;color:var(--fire);margin:0}
+.sh2-split-body{font-size:15.5px;line-height:1.82;color:#475569;margin:0}
+.sh2-split-media{position:relative;overflow:hidden;background:#0a1a2e}
+
+/* ── Duo overlapping images ─────────────────────────────── */
+.sh2-duo{position:relative;width:100%;height:100%;min-height:520px}
+.sh2-duo-main{position:absolute;inset:0;overflow:hidden}
+.sh2-duo-main img{width:100%;height:100%;object-fit:cover;transition:transform 0.7s cubic-bezier(0.2,0.8,0.2,1)}
+.sh2-duo-over{position:absolute;width:52%;border-radius:16px;overflow:hidden;box-shadow:0 24px 56px rgba(0,0,0,0.45);z-index:2;transition:transform 0.5s cubic-bezier(0.2,0.8,0.2,1),box-shadow 0.5s ease}
+/* default position: bottom-right */
+.sh2-duo-over{bottom:40px;right:-20px;border:5px solid #fff}
+/* top-right variant (for reversed sections) */
+.sh2-duo-over--tr{top:40px;bottom:auto;right:-20px}
+/* bottom-left variant */
+.sh2-duo-over--bl{bottom:40px;right:auto;left:-20px}
+.sh2-duo-over img{width:100%;height:100%;object-fit:cover;aspect-ratio:4/3;display:block;transition:transform 0.7s cubic-bezier(0.2,0.8,0.2,1)}
+
+/* hover magic */
+.sh2-img-hover{cursor:zoom-in}
+.sh2-split-media:hover .sh2-duo-main img{transform:scale(1.05)}
+.sh2-split-media:hover .sh2-duo-over{transform:translateY(-8px) scale(1.03);box-shadow:0 32px 64px rgba(0,0,0,0.55)}
+.sh2-split-media:hover .sh2-duo-over img{transform:scale(1.04)}
+
+/* ── Features section (dark navy) ──────────────────────── */
+.sh2-feats-section{background:var(--navy);padding:88px 0 96px}
+.sh2-feats-head{text-align:center;margin-bottom:52px}
+.sh2-feats-h2{font-size:clamp(28px,3.8vw,46px);font-weight:900;color:#fff;line-height:1.12;margin:8px 0 0;font-family:var(--fh)}
+.sh2-feats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+/* override old sh-feat-card styles inside sh2 */
+.sh2-feats-grid .sh-feat-card-inner{height:100%;padding:28px 24px 30px;border-radius:20px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);transition:background 0.35s var(--ease),transform 0.35s var(--ease),box-shadow 0.35s var(--ease);box-shadow:none}
+.sh2-feats-grid .sh-feat-card:hover .sh-feat-card-inner{background:rgba(255,255,255,0.10);transform:translateY(-6px);box-shadow:0 20px 48px rgba(0,0,0,0.3)}
+.sh2-feats-grid .sh-feat-ico{width:46px;height:46px;border-radius:14px;background:rgba(255,90,31,0.15);border:1px solid rgba(255,90,31,0.3);margin-bottom:18px}
+.sh2-feats-grid .sh-feat-title{font-size:15px;font-weight:800;margin-bottom:10px;color:#fff}
+.sh2-feats-grid .sh-feat-desc{font-size:13.5px;color:rgba(255,255,255,0.55);line-height:1.72}
+
+/* ── Meals section (warm dark) ──────────────────────────── */
+.sh2-meals-section{display:grid;grid-template-columns:1fr 1fr;gap:0;align-items:center;min-height:560px;background:#1a0e05}
+.sh2-meals-media{position:relative;overflow:hidden;min-height:560px;order:1}
+.sh2-meals-copy{padding:80px 64px 80px 56px;display:flex;flex-direction:column;gap:18px;order:2}
+.sh2-meals-h2{font-size:clamp(26px,3.2vw,40px);font-weight:900;color:#fff;line-height:1.15;margin:0;font-family:var(--fh)}
+.sh2-meals-p{font-size:15.5px;line-height:1.85;color:rgba(255,255,255,0.65);margin:0}
+.sh2-meals-section .sh2-duo{min-height:560px}
+.sh2-meals-section .sh2-duo-over{border-color:#2a1a0a}
+.sh2-meals-section:hover .sh2-duo-main img{transform:scale(1.05)}
+.sh2-meals-section:hover .sh2-duo-over{transform:translateY(-8px) scale(1.03);box-shadow:0 32px 64px rgba(0,0,0,0.6)}
+
+/* ── Mobile responsive ──────────────────────────────────── */
+@media(max-width:900px){
+  .sh2-split-section,.sh2-meals-section{grid-template-columns:1fr}
+  .sh2-split-left .sh2-split-media,.sh2-split-right .sh2-split-media{order:1}
+  .sh2-split-left .sh2-split-copy,.sh2-split-right .sh2-split-copy{order:2}
+  .sh2-split-copy,.sh2-split-right .sh2-split-copy{padding:48px 28px}
+  .sh2-duo,.sh2-meals-section .sh2-duo{min-height:380px}
+  .sh2-feats-grid{grid-template-columns:repeat(2,1fr);gap:14px}
+  .sh2-stat{padding:8px 20px}
+  .sh2-stat-sep{height:28px}
+  .sh2-meals-media{order:1;min-height:380px}
+  .sh2-meals-copy{order:2;padding:48px 28px}
+}
+@media(max-width:600px){
+  .sh2-hero-content{padding:0 24px 64px}
+  .sh2-stats-strip{padding:16px 20px}
+  .sh2-stats-inner{gap:4px}
+  .sh2-stat{padding:8px 16px}
+  .sh2-stat-sep{display:none}
+  .sh2-feats-grid{grid-template-columns:1fr}
+  .sh2-duo,.sh2-meals-section .sh2-duo{min-height:300px}
+  .sh2-duo-over{width:60%;right:-12px}
+  .sh2-duo-over--bl{left:-12px;right:auto}
+  .sh2-duo-over--tr{right:-12px;top:20px}
+}
+/* ══════════════════════════════════════════════════════
+   VISUAL BLOCKS v2 — Premium DA
+══════════════════════════════════════════════════════ */
+
 /* ── TIP block ────────────────────────────────────────── */
 .vb-tip {
   background: linear-gradient(135deg, #fff8f5, #fff3ee);
