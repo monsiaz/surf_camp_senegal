@@ -6225,20 +6225,15 @@ def build_surfing(lang):
       </div>
       <div class="surf-spots-grid reveal">
 """
+    _SPOT_ACCENTS = ["var(--fire)", "var(--ocean)", "#26a69a", "var(--navy)"]
     for i, spot in enumerate(S_SPOTS.get("spots", [])):
-        img_src = IMGS["surf"] if i % 2 == 0 else IMGS["surf2"]
-        if i == 2: img_src = IMGS["island2"]
-        if i == 3: img_src = IMGS["sunset"]
+        accent = _SPOT_ACCENTS[i % len(_SPOT_ACCENTS)]
+        num    = str(i + 1).zfill(2)
         html += f"""
-        <div class="surf-spot-card">
-          <div class="surf-spot-img-wrap">
-            <img src="{img_src}" alt="{pe(spot["name"])}" loading="lazy" width="400" height="250" class="surf-spot-img">
-            <div class="surf-spot-level">{pe(spot["level"])}</div>
-          </div>
-          <div class="surf-spot-content">
-            <h3 class="surf-spot-name">{pe(spot["name"])}</h3>
-            <p class="surf-spot-desc">{pe(spot["desc"])}</p>
-          </div>
+        <div class="surf-spot-card" style="--spot-accent:{accent}">
+          <span class="surf-spot-num">{num}</span>
+          <h3 class="surf-spot-name">{pe(spot["name"])}</h3>
+          <p class="surf-spot-desc">{pe(spot["desc"])}</p>
         </div>
         """
     html += f"""
