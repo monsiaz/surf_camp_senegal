@@ -51,7 +51,7 @@ SLUG = {
 CRITICAL_STRINGS = {
     # page_key → list of HTML strings that MUST appear
     # NOTE: class names verified against actual generated output
-    "surf-house": ["main-hero", "gallery-masonry", "footer"],
+    "surf-house": ["sh2-hero", "gallery-masonry", "footer"],
     "island":     ["main-hero", "island-discover", "footer"],
     "surfing":    ["surf-feat-grid", "footer"],          # main-hero only on MAIN_LANGS
     "gallery":    ["gallery-masonry", "gal-tag", "ngor_gallery_filter", "footer"],
