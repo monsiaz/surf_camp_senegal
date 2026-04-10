@@ -435,11 +435,12 @@ def icon_img(name, size=24):
 
 # ── Wave section dividers ──────────────────────────────────────────────
 def wave_bottom(prev_bg, next_fill):
-    """Single wave divider: section above is prev_bg, section below is next_fill.
-    The wave-bottom SVG fills the bottom portion with next_fill on a prev_bg canvas.
-    Always use this — never wave_top — to avoid double-wave overlap artifacts."""
+    """Single wave divider: only next_fill is visible (the bottom section's colour).
+    The div is transparent and overlaps the section above via margin-top:-52px in CSS,
+    so no background mismatch / 3-colour artefact is possible regardless of gradients.
+    prev_bg is kept in the signature for call-site compatibility but is intentionally unused."""
     return (
-        f'<div class="wave-bottom" style="background:{prev_bg}" aria-hidden="true">'
+        f'<div class="wave-bottom" aria-hidden="true">'
         f'<svg viewBox="0 0 1440 52" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">'
         f'<path d="M0 26 C240 2,480 50,720 24 C960 -2,1200 48,1440 26 L1440 52 L0 52Z" fill="{next_fill}"/>'
         f'</svg></div>'
@@ -456,7 +457,7 @@ def _dedup_adjacent_waves(html):
     """Remove consecutive identical wave-bottom dividers (double-wave artefact guard)."""
     import re
     pat = re.compile(
-        r'(<div class="wave-bottom" style="background:#[0-9a-fA-F]+" aria-hidden="true">'
+        r'(<div class="wave-bottom"[^>]*>'
         r'<svg[^>]*><path[^>]*/></svg></div>)'
         r'(?:\s*\1)+',
         re.DOTALL,
