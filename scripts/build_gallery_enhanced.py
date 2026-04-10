@@ -176,15 +176,18 @@ FILTER_JS = """
       tagCounts[t] = (tagCounts[t]||0)+1;
     });
   });
-  /* Inject count badges */
-  btns.forEach(function(btn){
-    var t = btn.dataset.tag||'all';
-    var badge = document.createElement('span');
-    badge.className = 'gal-tag-count';
-    badge.setAttribute('aria-hidden','true');
-    badge.textContent = tagCounts[t]||0;
-    btn.appendChild(badge);
-  });
+  /* Inject count badges (guard against bfcache double-run) */
+  if(!bar.dataset.filterInit){
+    bar.dataset.filterInit='1';
+    btns.forEach(function(btn){
+      var t = btn.dataset.tag||'all';
+      var badge = document.createElement('span');
+      badge.className = 'gal-tag-count';
+      badge.setAttribute('aria-hidden','true');
+      badge.textContent = tagCounts[t]||0;
+      btn.appendChild(badge);
+    });
+  }
   function setCount(n){
     if(countEl) countEl.textContent = n + ' ' + (countEl.dataset.unit||'photos');
   }
@@ -263,10 +266,10 @@ def inject_filter_js(html: str) -> str:
     """Inject/replace filter JS."""
     import re as _re
     new_block = FILTER_JS.strip()
-    # Replace existing script block if present
-    if "gallery tag filter" in html:
+    # Case-insensitive check for any existing gallery filter script block
+    if _re.search(r'/\*\s*gallery tag filter', html, _re.IGNORECASE):
         html = _re.sub(
-            r'/\* Gallery tag filter[^*]*\*/[\s\S]*?\}\)\(\);',
+            r'/\*\s*[Gg]allery tag filter[^*]*\*/[\s\S]*?\}\)\(\);',
             new_block,
             html, count=1
         )

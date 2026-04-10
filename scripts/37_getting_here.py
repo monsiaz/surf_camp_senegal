@@ -204,6 +204,15 @@ T = {
         "it":"Dall'aeroporto al paradiso — la tua guida completa per raggiungere l'isola di Ngor, Dakar, Senegal.",
         "de":"Vom Flughafen ins Paradies — Ihr vollständiger Reiseführer nach Ngor Island, Dakar, Senegal.",
     },
+    "video_badge": {"en":"Île de Ngor · Dakar","fr":"Île de Ngor · Dakar","es":"Isla de Ngor · Dakar","it":"Isola di Ngor · Dakar","de":"Ngor Island · Dakar"},
+    "video_title": {"en":"Pirogue Crossing","fr":"Traversée en Pirogue","es":"Travesía en Piragua","it":"Traversata in Piroga","de":"Piroge-Überfahrt"},
+    "video_sub": {
+        "en":"5 min · From the beach to Ngor Island by traditional pirogue",
+        "fr":"5 min · De la plage à l'île de Ngor en pirogue traditionnelle",
+        "es":"5 min · De la playa a la isla de Ngor en piragua tradicional",
+        "it":"5 min · Dalla spiaggia all'isola di Ngor in piroga tradizionale",
+        "de":"5 min · Vom Strand zur Ngor Island mit der traditionellen Piroge",
+    },
     "map_title": {"en":"Where is Ngor Island?","fr":"Où se trouve l'Île de Ngor ?","es":"¿Dónde está la Isla de Ngor?","it":"Dove si trova Ngor Island?","de":"Wo liegt Ngor Island?"},
     "map_sub": {
         "en":"Ngor Island sits 800 meters off the Cap-Vert peninsula in Dakar, just 20 minutes from the international airport.",
@@ -428,24 +437,16 @@ def build_getting_here(lang):
 <meta name="description" content="{meta}">
 <meta property="og:title" content="{title}">
 <meta property="og:description" content="{meta}">
-<meta property="og:image" content="{WIX}/df99f9_56b9af6efe2841eea44109b3b08b7da1~mv2.jpg">
+<meta property="og:image" content="{SITE_URL}/assets/images/gallery/island_hero.webp">
 <meta property="og:type" content="website">
 <meta name="robots" content="index,follow">
 {can}
 {hrl}
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <!-- Leaflet CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.min.css" crossorigin="">
 <link rel="stylesheet" href="/assets/css/{ASSET_CSS_MAIN}?v={ASSET_VERSION}">
 <script src="/assets/js/{ASSET_JS_MAIN}?v={ASSET_VERSION}" defer></script>
 <style>
-/* ── Getting Here Page ─────────────────────────────── */
-.gh-hero {{ background: linear-gradient(160deg,#070f1c,#0a2540 50%,#071826); color:#fff; padding:140px 28px 80px; text-align:center; position:relative; overflow:hidden; }}
-.gh-hero::before {{ content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 50% 80%,rgba(255,90,31,0.12) 0%,transparent 55%); }}
-.gh-hero h1 {{ font-size:clamp(32px,5vw,58px); margin-bottom:16px; position:relative; z-index:1; }}
-.gh-hero p {{ font-size:18px; opacity:0.78; max-width:600px; margin:0 auto; position:relative; z-index:1; line-height:1.7; }}
 /* Journey stats — light neutral strip */
 .journey-stats {{ display:flex; justify-content:center; flex-wrap:wrap; gap:40px; padding:48px 28px; background:linear-gradient(180deg,#f4f6f9 0%,#eef1f5 100%); border-top:1px solid rgba(10,37,64,0.06); border-bottom:1px solid rgba(10,37,64,0.06); }}
 .journey-stat {{ text-align:center; }}
@@ -454,9 +455,7 @@ def build_getting_here(lang):
 /* Map */
 .map-section {{ padding:80px 0 0; }}
 #ngor-map {{ height:480px; border-radius:0; position:relative; z-index:1; }}
-.leaflet-container {{ background:#e8eaed; }}
-/* Custom marker */
-.ngor-marker-icon {{ background:var(--fire,#ff5a1f); width:44px; height:44px; border-radius:50%; border:4px solid #fff; display:flex; align-items:center; justify-content:center; box-shadow:0 3px 14px rgba(10,37,64,0.18); font-size:20px; }}
+@media(max-width:640px){{#ngor-map{{height:300px;}}}}
 /* Steps */
 .steps-section {{ padding:80px 0; background:#f8fafd; }}
 .step-item {{ display:flex; align-items:flex-start; gap:20px; padding:24px; background:#fff; border-radius:16px; margin-bottom:16px; box-shadow:0 2px 12px rgba(10,37,64,0.06); transition:transform 0.2s,box-shadow 0.2s; }}
@@ -493,7 +492,6 @@ def build_getting_here(lang):
   .flight-meta {{ grid-template-columns:1fr 1fr; }}
   .country-tabs {{ gap:6px; }}
   .tab-btn {{ padding:8px 12px; font-size:12px; }}
-  #ngor-map {{ height:320px; }}
   .step-item {{ flex-direction:column; gap:12px; }}
   .journey-stats {{ gap:24px; padding:40px 20px; }}
 }}
@@ -505,15 +503,45 @@ def build_getting_here(lang):
 
 <main>
   <!-- Hero -->
-  <div class="gh-hero">
-    <h1>{g("h1",lang)}</h1>
-    <p>{g("subtitle",lang)}</p>
-  </div>
+  <header class="main-hero" style="background-image:url('/assets/images/gallery/photo-1541447237128-f4cac6138fbe.avif'); background-position: center 40%;" role="banner">
+    <div class="main-hero-inner">
+      <div class="main-hero-eyebrow">
+        <span class="main-hero-dot"></span>
+        <span>Ngor Surfcamp Teranga</span>
+      </div>
+      <h1 class="main-hero-h1">{g("h1",lang)}</h1>
+      <p class="main-hero-tagline">{g("subtitle",lang)}</p>
+      <div class="main-hero-actions">
+        <a href="#journey-stats" class="btn btn-outline-white btn-lg">&#8964;</a>
+      </div>
+    </div>
+  </header>
 
   <!-- Quick stats -->
-  <div class="journey-stats">
+  <div class="journey-stats" id="journey-stats">
     {stats_html}
   </div>
+
+  <!-- Video: pirogue crossing -->
+  <section class="gh-video-section" aria-label="{g("video_title",lang)}">
+    <div class="gh-video-card">
+      <video
+        src="/assets/video/pirogue-arrive.mp4"
+        autoplay muted loop playsinline
+        poster="/assets/images/gallery/school_ig.webp"
+        aria-label="{g("video_title",lang)}"
+        preload="metadata"
+      ></video>
+      <div class="gh-video-overlay">
+        <div class="gh-video-badge">
+          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          {g("video_badge",lang)}
+        </div>
+        <h3 class="gh-video-title">{g("video_title",lang)}</h3>
+        <p class="gh-video-sub">{g("video_sub",lang)}</p>
+      </div>
+    </div>
+  </section>
 
   <!-- Map -->
   <section class="map-section">

@@ -672,15 +672,12 @@ def build_nav(active_key, lang, lang_switcher_hrefs=None):
             continue
         if lang_switcher_hrefs and other_lang in lang_switcher_hrefs:
             href = lang_switcher_hrefs[other_lang]
-        elif other_lang in LANGS:
+        elif other_lang in LANGS or other_lang in EXTRA_LANGS:
             other_pfx = LANG_PFX[other_lang]
-            if active_key and active_key in SLUG[other_lang]:
+            if active_key and other_lang in SLUG and active_key in SLUG[other_lang]:
                 href = f"{other_pfx}/{SLUG[other_lang][active_key]}/"
             else:
                 href = f"{other_pfx}/"
-        else:
-            # EXTRA_LANGS (pt, da) — link to their home page
-            href = LANG_PFX[other_lang] + "/"
         if not href.startswith("/"):
             href = "/" + href.lstrip("/")
         opts += f'<a class="lang-dd-item" href="{href}" hreflang="{LANG_LOCALE[other_lang]}" role="menuitem">{flag(other_lang,18)} {LANG_NAMES[other_lang]}</a>'
@@ -1817,44 +1814,63 @@ def build_island_hub_bottom_sections(lang):
     )
 
     # ── Section 2: The Breaks ──────────────────────────────────────────
+    # Wave SVGs – larger viewBox, more dramatic shapes, stroke matches level color
     WAVE_ICONS = [
-        '<svg viewBox="0 0 48 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto"><path d="M2 22 C6 10, 14 4, 22 8 C28 11, 30 18, 38 14 C42 12, 44 16, 46 22" stroke="var(--fire)" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M2 26 C8 18, 16 14, 24 18 C30 21, 34 24, 46 26" stroke="var(--fire)" stroke-width="1.2" stroke-linecap="round" fill="none" opacity=".4"/></svg>',
-        '<svg viewBox="0 0 48 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto"><path d="M46 22 C42 10, 34 4, 26 8 C20 11, 18 18, 10 14 C6 12, 4 16, 2 22" stroke="var(--ocean)" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M46 26 C40 18, 32 14, 24 18 C18 21, 14 24, 2 26" stroke="var(--ocean)" stroke-width="1.2" stroke-linecap="round" fill="none" opacity=".4"/></svg>',
-        '<svg viewBox="0 0 48 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto"><path d="M8 22 C12 16, 18 14, 24 16 C30 18, 34 20, 40 18" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M4 26 C14 22, 22 22, 32 24 C38 25, 42 26, 46 26" stroke="#22c55e" stroke-width="1.2" stroke-linecap="round" fill="none" opacity=".4"/></svg>',
+        ('<svg viewBox="0 0 120 44" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">'
+         '<path d="M4 34 C14 10, 34 4, 50 14 C64 22, 68 36, 84 26 C96 18, 108 28, 116 34" stroke="var(--fire)" stroke-width="3" stroke-linecap="round" fill="none"/>'
+         '<path d="M4 40 C18 28, 36 24, 54 30 C70 36, 86 40, 116 38" stroke="var(--fire)" stroke-width="1.5" stroke-linecap="round" fill="none" opacity=".28"/>'
+         '</svg>'),
+        ('<svg viewBox="0 0 120 44" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">'
+         '<path d="M116 34 C106 10, 86 4, 70 14 C56 22, 52 36, 36 26 C24 18, 12 28, 4 34" stroke="var(--ocean)" stroke-width="3" stroke-linecap="round" fill="none"/>'
+         '<path d="M116 40 C102 28, 84 24, 66 30 C50 36, 34 40, 4 38" stroke="var(--ocean)" stroke-width="1.5" stroke-linecap="round" fill="none" opacity=".28"/>'
+         '</svg>'),
+        ('<svg viewBox="0 0 120 44" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">'
+         '<path d="M4 30 C20 22, 38 20, 60 24 C80 28, 96 30, 116 26" stroke="#22c55e" stroke-width="3" stroke-linecap="round" fill="none"/>'
+         '<path d="M4 38 C24 34, 46 34, 68 36 C90 38, 106 38, 116 36" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round" fill="none" opacity=".28"/>'
+         '</svg>'),
     ]
+    # Subtle tint for card header bg per level color
+    LEVEL_TINTS = ['rgba(255,90,31,0.06)', 'rgba(14,165,233,0.07)', 'rgba(34,197,94,0.06)']
+
     break_cards = []
     for idx, b in enumerate(c["breaks"]):
+        lc = b["level_color"]
+        tint = LEVEL_TINTS[idx]
         break_cards.append(
-            f'<div class="reveal" style="background:#fff;border:1px solid rgba(10,37,64,0.09);border-radius:16px;'
-            f'padding:32px 28px;display:flex;flex-direction:column;gap:16px;box-shadow:0 2px 12px rgba(10,37,64,0.06)">'
-            f'<div style="height:52px;display:flex;align-items:center">{WAVE_ICONS[idx]}</div>'
-            f'<div>'
-            f'<span style="display:inline-block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;'
-            f'color:#fff;background:{b["level_color"]};border-radius:20px;padding:3px 12px;margin-bottom:10px">{escape(b["level"])}</span>'
-            f'<h3 style="font-size:18px;font-weight:800;color:var(--navy);font-family:var(--fh);margin:0 0 4px">{escape(b["name"])}</h3>'
+            f'<div class="reveal" style="background:#fff;border:1px solid rgba(10,37,64,0.08);border-radius:18px;'
+            f'overflow:hidden;box-shadow:0 4px 20px rgba(10,37,64,0.07);display:flex;flex-direction:column">'
+            # Colored header with wave + badge + name
+            f'<div style="background:{tint};padding:22px 24px 16px;border-bottom:1px solid rgba(10,37,64,0.06)">'
+            f'<div style="margin-bottom:14px">{WAVE_ICONS[idx]}</div>'
+            f'<span style="display:inline-block;font-size:10px;font-weight:800;letter-spacing:.10em;text-transform:uppercase;'
+            f'color:#fff;background:{lc};border-radius:20px;padding:3px 11px;margin-bottom:8px">{escape(b["level"])}</span>'
+            f'<h3 style="font-size:19px;font-weight:800;color:var(--navy);font-family:var(--fh);margin:0;line-height:1.15">{escape(b["name"])}</h3>'
             f'</div>'
-            f'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;text-align:center">'
-            f'<div style="background:#f8fafd;border-radius:8px;padding:10px 6px">'
-            f'<div style="font-size:15px;font-weight:800;color:var(--navy)">{escape(b["height"])}</div>'
-            f'<div style="font-size:11px;color:var(--muted);margin-top:2px">Wave face</div></div>'
-            f'<div style="background:#f8fafd;border-radius:8px;padding:10px 6px">'
-            f'<div style="font-size:15px;font-weight:800;color:var(--navy)">{escape(b["rides"])}</div>'
-            f'<div style="font-size:11px;color:var(--muted);margin-top:2px">Ride length</div></div>'
-            f'<div style="background:#f8fafd;border-radius:8px;padding:10px 6px">'
-            f'<div style="font-size:13px;font-weight:700;color:var(--navy)">{escape(b["bottom"])}</div>'
-            f'<div style="font-size:11px;color:var(--muted);margin-top:2px">Bottom</div></div>'
+            # Body: compact inline stats + description
+            f'<div style="padding:18px 24px 22px;display:flex;flex-direction:column;gap:14px;flex:1">'
+            f'<div style="display:flex;gap:0;border:1px solid rgba(10,37,64,0.08);border-radius:10px;overflow:hidden">'
+            f'<div style="flex:1;padding:10px 8px;text-align:center;border-right:1px solid rgba(10,37,64,0.08)">'
+            f'<div style="font-size:14px;font-weight:800;color:var(--navy);line-height:1">{escape(b["height"])}</div>'
+            f'<div style="font-size:10px;color:var(--muted);margin-top:3px;letter-spacing:.02em">Wave face</div></div>'
+            f'<div style="flex:1;padding:10px 8px;text-align:center;border-right:1px solid rgba(10,37,64,0.08)">'
+            f'<div style="font-size:14px;font-weight:800;color:var(--navy);line-height:1">{escape(b["rides"])}</div>'
+            f'<div style="font-size:10px;color:var(--muted);margin-top:3px;letter-spacing:.02em">Ride length</div></div>'
+            f'<div style="flex:1;padding:10px 8px;text-align:center">'
+            f'<div style="font-size:13px;font-weight:700;color:var(--navy);line-height:1">{escape(b["bottom"])}</div>'
+            f'<div style="font-size:10px;color:var(--muted);margin-top:3px;letter-spacing:.02em">Bottom</div></div>'
             f'</div>'
-            f'<p style="font-size:14px;color:var(--muted);line-height:1.7;margin:0">{escape(b["desc"])}</p>'
+            f'<p style="font-size:13.5px;color:var(--muted);line-height:1.68;margin:0">{escape(b["desc"])}</p>'
+            f'</div>'
             f'</div>'
         )
 
     breaks_section = (
-        f'<section class="section" id="island-breaks" style="background:#fff;padding-bottom:60px">'
+        f'<section class="section sec-light" id="island-breaks" style="padding:56px 0">'
         f'<div class="container">'
-        f'<div style="text-align:center;margin-bottom:44px" class="reveal">'
+        f'<div style="text-align:center;margin-bottom:36px" class="reveal">'
         f'<span class="s-label" style="color:var(--ocean)">{escape(c["breaks_lbl"])}</span>'
         f'<h2 class="s-title">{escape(c["breaks_h2"])}</h2>'
-        f'<p class="s-sub" style="max-width:580px;margin:10px auto 0">{escape(c["breaks_sub"])}</p>'
+        f'<p class="s-sub" style="max-width:540px;margin:8px auto 0">{escape(c["breaks_sub"])}</p>'
         f'</div>'
         f'<div class="grid-3 reveal">{"".join(break_cards)}</div>'
         f'</div></section>'
@@ -1862,28 +1878,25 @@ def build_island_hub_bottom_sections(lang):
 
     # ── Section 3: Essentials strip ────────────────────────────────────
     stat_items = []
-    for st in c["stats"]:
+    stats_list = c["stats"]
+    for i, st in enumerate(stats_list):
         ico_svg = STAT_ICONS.get(st["icon"], "")
+        is_last = (i == len(stats_list) - 1)
+        border_r = "" if is_last else "border-right:1px solid rgba(255,255,255,0.10);"
         stat_items.append(
-            f'<div style="display:flex;flex-direction:column;align-items:center;gap:10px;padding:20px 16px;'
-            f'flex:1;min-width:130px;max-width:190px">'
-            f'<div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;'
-            f'background:rgba(255,255,255,0.12);border-radius:50%;color:#fff">{ico_svg}</div>'
-            f'<div style="text-align:center">'
-            f'<div style="font-size:17px;font-weight:800;color:#fff;font-family:var(--fh)">{escape(st["val"])}</div>'
-            f'<div style="font-size:12px;color:rgba(255,255,255,0.65);margin-top:2px">{escape(st["lbl"])}</div>'
-            f'</div></div>'
+            f'<div style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:28px 20px;'
+            f'flex:1;min-width:120px;{border_r}text-align:center">'
+            f'<div style="width:36px;height:36px;display:flex;align-items:center;justify-content:center;'
+            f'background:rgba(255,255,255,0.10);border-radius:10px;color:rgba(255,255,255,0.80)">{ico_svg}</div>'
+            f'<div style="font-size:19px;font-weight:800;color:#fff;font-family:var(--fh);line-height:1">{escape(st["val"])}</div>'
+            f'<div style="font-size:11px;color:rgba(255,255,255,0.52);letter-spacing:.04em;text-transform:uppercase">{escape(st["lbl"])}</div>'
+            f'</div>'
         )
 
     stats_section = (
-        f'<section id="island-essentials" style="background:var(--navy);padding:48px 0">'
-        f'<div class="container">'
-        f'<div style="text-align:center;margin-bottom:32px">'
-        f'<span class="s-label" style="color:rgba(255,255,255,0.55)">{escape(c["stats_lbl"])}</span>'
-        f'</div>'
-        f'<div style="display:flex;flex-wrap:wrap;justify-content:center;gap:4px;'
-        f'border-top:1px solid rgba(255,255,255,0.10);border-bottom:1px solid rgba(255,255,255,0.10);'
-        f'padding:8px 0">'
+        f'<section id="island-essentials" style="background:var(--navy);padding:0">'
+        f'<div class="container" style="padding-top:0;padding-bottom:0">'
+        f'<div style="display:flex;flex-wrap:wrap;justify-content:center">'
         + "".join(stat_items) +
         f'</div></div></section>'
     )
@@ -2032,8 +2045,15 @@ def patch_waves_all_pages():
             CTA_MARKER = '<div class="cta-band"'
             if CTA_MARKER in h:
                 idx = h.find(CTA_MARKER)
-                preceding = h[max(0, idx-400):idx]
-                if 'sec-light' in preceding:
+                preceding = h[max(0, idx-10000):idx]
+                # Detect the actual background of the section above cta-band
+                _dark_markers = ('island-essentials', 'sec-dark', 'reviews-section',
+                                 'background:var(--navy)', 'background:#0a2540',
+                                 'background:#07192e', 'background:#06111e',
+                                 'gh-teaser', 'footer-quotes', 'ISLAND_BOTTOM_END')
+                if any(m in preceding for m in _dark_markers):
+                    prev_bg = '#0a2540'
+                elif 'sec-light' in preceding or 'background:#f7fafd' in preceding:
                     prev_bg = _BG_LIGHT
                 else:
                     prev_bg = _BG_WHITE
@@ -6228,6 +6248,12 @@ def _surf_house_not_included_section(lang):
           <span class="s-label" style="color:var(--fire)">{escape(subtitle)}</span>
           <h2 class="sh2-ni-h2">{escape(title)}</h2>
           <p class="sh2-ni-lead">{'الخدمات التالية متاحة بتكلفة إضافية عند الطلب.' if lang == 'ar' else 'The following services are available at an additional cost on request.'}</p>
+          <div style="margin-top:36px;display:flex;justify-content:center">
+            <figure style="background:#fff;padding:12px 12px 44px;box-shadow:0 18px 56px rgba(0,0,0,0.22),0 4px 14px rgba(0,0,0,0.12);transform:rotate(-2deg);border-radius:2px;width:100%;max-width:320px;margin:0;transition:transform .35s ease,box-shadow .35s ease;cursor:default" onmouseover="this.style.transform='rotate(0deg) scale(1.04)';this.style.boxShadow='0 28px 64px rgba(0,0,0,0.26),0 8px 20px rgba(0,0,0,0.14)'" onmouseout="this.style.transform='rotate(-2deg)';this.style.boxShadow='0 18px 56px rgba(0,0,0,0.22),0 4px 14px rgba(0,0,0,0.12)'">
+              <img src="/assets/images/wix/df99f9_2ec6248367cd4e21a5e6c26c2b0a1c35.webp" alt="Ngor Surf House interior" width="320" height="240" loading="lazy" style="display:block;width:100%;height:240px;object-fit:cover;object-position:center 30%;border-radius:1px">
+              <figcaption style="margin:12px 0 0;text-align:center;font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:13.5px;color:#777;letter-spacing:.03em;line-height:1.4">Ngor Surf House — Dakar, Sénégal</figcaption>
+            </figure>
+          </div>
         </div>
         <div class="sh2-ni-grid">{rows}
         </div>
@@ -6303,22 +6329,20 @@ def build_surf_house(lang):
     html += f"""
 <main id="main-content">
 
-  <!-- ══ HERO — vue mer plein écran ══ -->
-  <header class="sh2-hero" role="banner">
-    <div class="sh2-hero-bg" style="background-image:url('/assets/images/wix/df99f9_2ec6248367cd4e21a5e6c26c2b0a1c35.webp')"></div>
-    <div class="sh2-hero-overlay"></div>
-    <div class="sh2-hero-content">
-      <span class="sh2-hero-eyebrow">{pe(C["hero_kicker"])}</span>
-      <h1 class="sh2-hero-h1">{pe(C["h1"])}</h1>
-      <p class="sh2-hero-tagline">{pe(C["tagline"])}</p>
-      <div class="sh2-hero-actions">
+  <!-- ══ HERO ══ -->
+  <header class="main-hero" style="background-image:url('/assets/images/gallery/CAML1113_c1a068bf.webp'); background-position: center top;" role="banner">
+    <div class="main-hero-inner">
+      <div class="main-hero-eyebrow">
+        <span class="main-hero-dot"></span>
+        <span>{pe(C["hero_kicker"])}</span>
+      </div>
+      <h1 class="main-hero-h1">{pe(C["h1"])}</h1>
+      <p class="main-hero-tagline">{pe(C["tagline"])}</p>
+      <div class="main-hero-actions">
         <a href="{book_href}" class="btn btn-fire btn-lg">{pe(C["book"])}</a>
-        <a href="#sh2-rooms" class="btn btn-outline-white btn-lg">Discover ↓</a>
+        <a href="#sh2-rooms" class="btn btn-outline-white btn-lg">&#8964;</a>
       </div>
     </div>
-    <a href="#sh2-rooms" class="sh2-scroll-hint" aria-hidden="true">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
-    </a>
   </header>
 
   <!-- ══ INTRO STRIP — chiffres clés ══ -->
@@ -6336,24 +6360,26 @@ def build_surf_house(lang):
 
   <!-- ══ ROOMS — superposition d'images ══ -->
   <section id="sh2-rooms" class="sh2-split-section sh2-split-left">
-    <div class="sh2-split-media reveal">
-      <div class="sh2-duo">
-        <div class="sh2-duo-main sh2-img-hover">
-          <img src="/assets/images/gallery/CAML1100_3a5f7e17.webp" alt="{pe(C['rooms_lbl'])}" width="720" height="520" loading="lazy" decoding="async">
-        </div>
-        <div class="sh2-duo-over sh2-img-hover">
-          <img src="/assets/images/gallery/CAML1113_c1a068bf.webp" alt="{pe(C['rooms_lbl'])}" width="360" height="280" loading="lazy" decoding="async">
+    <div class="sh2-split-grid">
+      <div class="sh2-split-media reveal">
+        <div class="sh2-duo">
+          <div class="sh2-duo-main sh2-img-hover">
+            <img src="/assets/images/gallery/CAML1100_3a5f7e17.webp" alt="{pe(C['rooms_lbl'])}" width="720" height="520" loading="lazy" decoding="async">
+          </div>
+          <div class="sh2-duo-over sh2-img-hover">
+            <img src="/assets/images/gallery/CAML1113_c1a068bf.webp" alt="{pe(C['rooms_lbl'])}" width="360" height="280" loading="lazy" decoding="async">
+          </div>
         </div>
       </div>
-    </div>
-    <div class="sh2-split-copy reveal">
-      <div class="sh2-split-copy-inner">
-        <span class="s-label">{pe(C["rooms_lbl"])}</span>
-        <h2 class="sh2-split-h2">{pe(C["quote_h2"])}</h2>
-        <p class="sh2-split-lead">{pe(C["quote_line1"])}</p>
-        <p class="sh2-split-accent">{pe(C["quote_line2"])}</p>
-        <p class="sh2-split-body">{pe(C["p3"])}</p>
-        <a href="{book_href}" class="btn btn-fire btn-md" style="margin-top:28px">{pe(C["book"])}</a>
+      <div class="sh2-split-copy reveal">
+        <div class="sh2-split-copy-inner">
+          <span class="s-label">{pe(C["rooms_lbl"])}</span>
+          <h2 class="sh2-split-h2">{pe(C["quote_h2"])}</h2>
+          <p class="sh2-split-lead">{pe(C["quote_line1"])}</p>
+          <p class="sh2-split-accent">{pe(C["quote_line2"])}</p>
+          <p class="sh2-split-body">{pe(C["p3"])}</p>
+          <a href="{book_href}" class="btn btn-fire btn-md" style="margin-top:28px">{pe(C["book"])}</a>
+        </div>
       </div>
     </div>
   </section>
@@ -6370,26 +6396,26 @@ def build_surf_house(lang):
     </div>
   </section>
 
-  {_surf_house_not_included_section(lang)}
-
   <!-- ══ POOL — image pleine largeur + superposition ══ -->
   {wave_top(_BG_NAVY, _BG_WHITE)}
   <section class="sh2-split-section sh2-split-right">
-    <div class="sh2-split-copy reveal">
-      <div class="sh2-split-copy-inner">
-        <span class="s-label">Pool &amp; Common Areas</span>
-        <h2 class="sh2-split-h2">Chill between sessions</h2>
-        <p class="sh2-split-body">Dive into our outdoor pool at the heart of the island. Rinse off, sun-dry your board and swap stories from the lineup. The terrace is yours until the next set rolls in.</p>
-        <a href="{book_href}" class="btn btn-navy btn-md" style="margin-top:28px">{pe(C["book"])}</a>
-      </div>
-    </div>
-    <div class="sh2-split-media reveal">
-      <div class="sh2-duo">
-        <div class="sh2-duo-main sh2-img-hover">
-          <img src="/assets/images/gallery/CAML1073_7222f5f3.webp" alt="Pool at Ngor Surf House" width="720" height="520" loading="lazy" decoding="async">
+    <div class="sh2-split-grid">
+      <div class="sh2-split-copy reveal">
+        <div class="sh2-split-copy-inner">
+          <span class="s-label">Pool &amp; Common Areas</span>
+          <h2 class="sh2-split-h2">Chill between sessions</h2>
+          <p class="sh2-split-body">Dive into our outdoor pool at the heart of the island. Rinse off, sun-dry your board and swap stories from the lineup. The terrace is yours until the next set rolls in.</p>
+          <a href="{book_href}" class="btn btn-navy btn-md" style="margin-top:28px">{pe(C["book"])}</a>
         </div>
-        <div class="sh2-duo-over sh2-duo-over--bl sh2-img-hover">
-          <img src="/assets/images/gallery/CAML1075_2701da06.webp" alt="Pool terrace" width="360" height="280" loading="lazy" decoding="async">
+      </div>
+      <div class="sh2-split-media reveal">
+        <div class="sh2-duo">
+          <div class="sh2-duo-main sh2-img-hover">
+            <img src="/assets/images/gallery/CAML1073_7222f5f3.webp" alt="Pool at Ngor Surf House" width="720" height="520" loading="lazy" decoding="async">
+          </div>
+          <div class="sh2-duo-over sh2-duo-over--bl sh2-img-hover">
+            <img src="/assets/images/gallery/CAML1075_2701da06.webp" alt="Pool terrace" width="360" height="280" loading="lazy" decoding="async">
+          </div>
         </div>
       </div>
     </div>
@@ -6398,22 +6424,24 @@ def build_surf_house(lang):
   <!-- ══ MEALS — grande image + petit overlap ══ -->
   {wave_bottom(_BG_WHITE, "#1a0e05")}
   <section class="sh2-meals-section">
-    <div class="sh2-meals-media reveal">
-      <div class="sh2-duo">
-        <div class="sh2-duo-main sh2-img-hover">
-          <img src="/assets/images/gallery/IMG_2832_meal.webp" alt="{pe(C['meals_h2'])}" width="720" height="520" loading="lazy" decoding="async">
-        </div>
-        <div class="sh2-duo-over sh2-duo-over--tr sh2-img-hover">
-          <img src="/assets/images/gallery/IMG_1670_426b7213.webp" alt="{pe(C['meals_lbl'])}" width="360" height="280" loading="lazy" decoding="async">
+    <div class="sh2-meals-grid">
+      <div class="sh2-meals-media reveal">
+        <div class="sh2-duo">
+          <div class="sh2-duo-main sh2-img-hover">
+            <img src="/assets/images/gallery/IMG_2832_meal.webp" alt="{pe(C['meals_h2'])}" width="720" height="520" loading="lazy" decoding="async">
+          </div>
+          <div class="sh2-duo-over sh2-duo-over--tr sh2-img-hover">
+            <img src="/assets/images/gallery/IMG_1670_426b7213.webp" alt="{pe(C['meals_lbl'])}" width="360" height="280" loading="lazy" decoding="async">
+          </div>
         </div>
       </div>
-    </div>
-    <div class="sh2-meals-copy reveal">
-      <div class="sh2-meals-copy-inner">
-        <span class="s-label" style="color:var(--fire)">{pe(C["meals_lbl"])}</span>
-        <h2 class="sh2-meals-h2">{pe(C["meals_h2"])}</h2>
-        <p class="sh2-meals-p">{pe(C["meals_p"])}</p>
-        <a href="{book_href}" class="btn btn-fire btn-md" style="margin-top:28px">{pe(C["book"])}</a>
+      <div class="sh2-meals-copy reveal">
+        <div class="sh2-meals-copy-inner">
+          <span class="s-label" style="color:var(--fire)">{pe(C["meals_lbl"])}</span>
+          <h2 class="sh2-meals-h2">{pe(C["meals_h2"])}</h2>
+          <p class="sh2-meals-p">{pe(C["meals_p"])}</p>
+          <a href="{book_href}" class="btn btn-fire btn-md" style="margin-top:28px">{pe(C["book"])}</a>
+        </div>
       </div>
     </div>
   </section>
@@ -6433,6 +6461,8 @@ def build_surf_house(lang):
     </div>
     <div id="lb"><button type="button" id="lb-close" aria-label="{lb_aria}">✕</button><img id="lb-img" src="" alt=""></div>
   </section>
+
+  {_surf_house_not_included_section(lang)}
 
   {_surf_house_tribe_section(lang)}
   {wave_bottom(_BG_WHITE, _BG_LIGHT)}

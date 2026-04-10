@@ -38,6 +38,8 @@
 .js-lbl { font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:#64748b; margin-top:8px; display:block; font-weight:600; }
 /* Map */
 .map-section { padding:80px 0 0; }
+#ngor-map { height:480px; border-radius:0; position:relative; z-index:1; }
+@media(max-width:640px){#ngor-map{height:300px;}}
 /* Steps */
 .steps-section { padding:80px 0; background:#f8fafd; }
 .step-item { display:flex; align-items:flex-start; gap:20px; padding:24px; background:#fff; border-radius:16px; margin-bottom:16px; box-shadow:0 2px 12px rgba(10,37,64,0.06); transition:transform 0.2s,box-shadow 0.2s; }
@@ -100,7 +102,7 @@
 
 <script id="gcm-consent-default">window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',functionality_storage:'granted',personalization_storage:'denied',security_storage:'granted',wait_for_update:500});</script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="/assets/css/ngor-surfcamp-consent.css?v=68ce73bd">
+<link rel="stylesheet" href="/assets/css/ngor-surfcamp-consent.css?v=c301b8ca">
 </head>
 <body>
 <div id="scroll-progress"></div>
@@ -542,11 +544,11 @@
   </div>
 </footer>
 <!-- Leaflet JS -->
-<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.min.js" crossorigin="" defer defer></script>
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.min.js" crossorigin="" defer></script>
 
 <script>
 /* ── Leaflet Map ─────────────────────────────────────── */
-(function(){
+window.addEventListener('load', function(){
   // Coordinates
   var NGOR_ISLAND  = [14.7497, -17.5218];
   var NGOR_BEACH   = [14.7458, -17.5141];
@@ -611,7 +613,18 @@
 
   // Scale
   L.control.scale({ imperial: false }).addTo(map);
-})();
+});
+
+/* ── Country tabs ────────────────────────────────────── */
+function switchCountry(key) {
+  document.querySelectorAll('.flight-panel').forEach(function(p){ p.style.display = 'none'; });
+  document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+  var panel = document.querySelector('[data-country="' + key + '"].flight-panel');
+  var btn   = document.querySelector('[data-country="' + key + '"].tab-btn');
+  if(panel) panel.style.display = 'block';
+  if(btn)   btn.classList.add('active');
+}
+
 </script>
 
 

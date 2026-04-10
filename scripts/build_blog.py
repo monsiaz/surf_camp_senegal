@@ -4,7 +4,7 @@ Fix 2: Redesign visual blocks to match the navy/sand/fire DA
 Fix 3: Rebuild all article pages with fixed parser
 """
 import importlib.util
-import json, os, re
+import json, os, re, random
 
 _BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 _site_assets_spec = importlib.util.spec_from_file_location(
@@ -29,6 +29,38 @@ LANG_LOCALE = {"en":"en","fr":"fr-FR","es":"es-ES","it":"it-IT","de":"de-DE","nl
 LANG_PREFIX = {"en":"","fr":"/fr","es":"/es","it":"/it","de":"/de","nl":"/nl","ar":"/ar","pt":"/pt","da":"/da"}
 _WIX = "/assets/images/wix"
 LOGO = f"{_WIX}/c2467f_a31779010ce34c4c8c61cc5868d81f31.webp"
+
+# ─── LOCALIZED ARTICLE SLUGS ─────────────────────────────────────────────────
+# Maps English (canonical) slug → per-language localized slug
+ARTICLE_SLUG_MAP = {
+  "dakar-surf-spots-for-every-level": {"en":"dakar-surf-spots-for-every-level","fr":"spots-surf-dakar-tous-niveaux","es":"spots-surf-dakar-todos-niveles","it":"spot-surf-dakar-tutti-livelli","de":"surfspots-dakar-alle-levels","nl":"surfspots-dakar-elk-niveau","ar":"spots-surf-dakar-kull-mustawayat","pt":"spots-surf-dakar-todos-niveis","da":"dakar-surfspots-alle-niveauer"},
+  "endless-summer-senegal-ngor": {"en":"endless-summer-senegal-ngor","fr":"ete-sans-fin-ngor-heritage-surf-senegal","es":"verano-sin-fin-ngor-senegal","it":"estate-senza-fine-ngor-senegal","de":"endloser-sommer-ngor-senegal","nl":"endless-summer-ngor-senegals-surferfgoed","ar":"sayf-bila-nihaya-ngor-senegal","pt":"verao-sem-fim-ngor-senegal","da":"den-endloese-sommer-ngor-senegal"},
+  "licensed-surf-camp-senegal": {"en":"licensed-surf-camp-senegal","fr":"surf-camp-agree-senegal","es":"campamento-surf-licenciado-senegal","it":"surf-camp-autorizzato-senegal","de":"lizenziertes-surf-camp-senegal","nl":"surfkamp-licentie-senegal","ar":"mukhayyam-surf-murajjas-senegal","pt":"surf-camp-licenciado-senegal","da":"licenseret-surfcamp-senegal"},
+  "ngor-island-waves-explained": {"en":"ngor-island-waves-explained","fr":"vagues-ile-ngor-expliquees","es":"olas-ngor-island-explicadas","it":"onde-ngor-island-spiegate","de":"wellen-ngor-island-erklaert","nl":"golven-ngor-island-uitgelegd","ar":"amwaj-jazirat-ngor-sharh","pt":"ondas-ngor-island-explicadas","da":"boelger-ngor-island-forklaret"},
+  "senegal-surf-camp-for-beginners": {"en":"senegal-surf-camp-for-beginners","fr":"surf-camp-senegal-debutants","es":"campamento-surf-senegal-principiantes","it":"surf-camp-senegal-principianti","de":"surfcamp-senegal-anfaenger","nl":"surfcamp-senegal-beginners","ar":"mukhayyam-surf-senegal-mubtadin","pt":"surfcamp-senegal-iniciantes","da":"surf-camp-senegal-begyndere"},
+  "senegal-surf-season-by-month": {"en":"senegal-surf-season-by-month","fr":"saison-surf-senegal-mois-par-mois","es":"temporada-surf-senegal-mes-a-mes","it":"stagione-surf-senegal-mese-per-mese","de":"surfsaison-senegal-monat-fuer-monat","nl":"surfseizoen-senegal-per-maand","ar":"mawsim-surf-senegal-shahr-bishahr","pt":"temporada-surf-senegal-mes-a-mes","da":"senegals-surfsaeson-maaned-for-maaned"},
+  "surf-camp-senegal-what-to-expect": {"en":"surf-camp-senegal-what-to-expect","fr":"surf-camp-senegal-quoi-attendre","es":"campamento-surf-senegal-que-esperar","it":"surf-camp-senegal-cosa-aspettarsi","de":"surfcamp-senegal-was-erwartet","nl":"surfcamp-senegal-wat-verwachten","ar":"mukhayyam-surf-senegal-matha-tatawaqqa","pt":"surf-camp-senegal-o-que-esperar","da":"surf-camp-senegal-hvad-forvente"},
+  "surf-coaching-structured-ngor-surfcamp": {"en":"surf-coaching-structured-ngor-surfcamp","fr":"coaching-surf-ngor-surfcamp","es":"coaching-surf-ngor-surfcamp","it":"surf-coaching-ngor-surfcamp","de":"surf-coaching-ngor-surfcamp","nl":"surfcoaching-ngor-surfcamp","ar":"tadrib-surf-ngor-surfcamp","pt":"coaching-surf-ngor-surfcamp","da":"surfcoaching-ngor-surfcamp"},
+  "surf-trip-to-senegal-what-to-pack": {"en":"surf-trip-to-senegal-what-to-pack","fr":"voyage-surf-senegal-liste-valise","es":"viaje-surf-senegal-equipaje","it":"surf-trip-senegal-lista-valigia","de":"surftrip-senegal-packliste","nl":"surftrip-senegal-paklijst","ar":"rihlat-surf-senegal-ma-tahmal","pt":"viagem-surf-senegal-lista","da":"surftrip-senegal-pakkelist"},
+  "surfing-ngor-left-guide": {"en":"surfing-ngor-left-guide","fr":"surfer-ngor-left-guide","es":"surfear-ngor-left-guia","it":"surf-ngor-left-guida","de":"ngor-left-surfen-guide","nl":"surfen-ngor-left-gids","ar":"surf-ngor-left-dalil","pt":"surfar-ngor-left-guia","da":"surfe-ngor-left-guide"},
+  "surfing-ngor-right-guide": {"en":"surfing-ngor-right-guide","fr":"surf-ngor-right-guide","es":"surfear-ngor-right-guia","it":"surf-ngor-right-guida","de":"ngor-right-surfen-guide","nl":"surfen-ngor-right-spotgids","ar":"surf-ngor-right-dalil","pt":"surfar-ngor-right-guia","da":"surfe-ngor-right-spotguide"},
+  "video-analysis-surf-camp-senegal": {"en":"video-analysis-surf-camp-senegal","fr":"analyse-video-surf-camp-senegal","es":"analisis-video-surf-camp-senegal","it":"analisi-video-surf-camp-senegal","de":"videoanalyse-surfcamp-senegal","nl":"videoanalyse-surfkamp-senegal","ar":"tahlil-video-mukhayyam-surf-senegal","pt":"analise-video-surf-camp-senegal","da":"videoanalyse-surf-camp-senegal"},
+  "where-to-stay-for-surfing-in-dakar": {"en":"where-to-stay-for-surfing-in-dakar","fr":"ou-sejourner-surf-dakar","es":"donde-alojarse-surf-dakar","it":"dove-soggiornare-surf-dakar","de":"surfen-dakar-insel-oder-festland","nl":"verblijven-surf-dakar-eiland","ar":"ayna-tiqam-surf-dakar","pt":"onde-ficar-surf-dakar","da":"bolig-surf-dakar-oe-fastland"},
+  "why-choose-surf-camp-senegal": {"en":"why-choose-surf-camp-senegal","fr":"pourquoi-choisir-surfcamp-senegal","es":"por-que-elegir-surf-camp-senegal","it":"perche-scegliere-surf-camp-senegal","de":"warum-surfcamp-senegal","nl":"waarom-surfkamp-senegal","ar":"limatha-mukhayyam-surf-senegal","pt":"por-que-escolher-surf-camp-senegal","da":"hvorfor-vaelge-surfcamp-senegal"},
+  "why-senegal-is-an-underrated-surf-destination": {"en":"why-senegal-is-an-underrated-surf-destination","fr":"senegal-destination-surf-sous-estimee","es":"senegal-destino-surf-infravalorado","it":"senegal-destinazione-surf-sottovalutata","de":"senegal-unterschaetztes-surfziel","nl":"senegal-onderschatte-surfbestemming","ar":"senegal-wajihat-surf-maghmura","pt":"senegal-destino-surf-subestimado","da":"senegal-undervurderet-surfdestination"},
+}
+
+def art_local_slug(en_s, lang):
+    """Return the localized slug for an article in a given language."""
+    return ARTICLE_SLUG_MAP.get(en_s, {}).get(lang, en_s)
+
+def art_url_for_lang(en_s, lang):
+    """Return the full URL for an article in a given language."""
+    pfx = LANG_PREFIX[lang]
+    ls  = art_local_slug(en_s, lang)
+    if lang == "en":
+        return f"{SITE_URL}/blog/{ls}/"
+    return f"{SITE_URL}{pfx}/blog/{ls}/"
 
 # ════════════════════════════════════════════════════════════════════════════════
 # NEW BLOCK CSS — Premium DA-matched designs
@@ -441,6 +473,8 @@ def md2html(md, lang="en", pfx=""):
             real_url = normalize_url(parts[1].strip() if len(parts)>1 else "", pfx)
             return f'<a href="{real_url}" class="ilink">{anchor}</a>'
         t = re.sub(r'\[LINK:[^\]]+\]', mk_link, t)
+        # Strip inline shorthand links [anchor->dest] — keep only the anchor text, no HTML link
+        t = re.sub(r'\\?\[([^\]]+?)\s*->[^\]]*\]', lambda m: m.group(1).strip(), t)
         return t
 
     def render_block_items(items, block_type):
@@ -664,7 +698,21 @@ def flag(lang, size=22):
     h = round(size*0.667)
     return f'<span style="width:{size}px;height:{h}px;display:inline-flex;border-radius:3px;overflow:hidden;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.22)">{FLAG_SVG.get(lang,"")}</span>'
 
-def hrl_tags(slug):
+def hrl_tags(slug, lang_urls=None):
+    """Generate hreflang alternate tags.
+    lang_urls: optional dict {lang: full_url} for article pages with localized slugs.
+    If not provided, falls back to uniform slug across all languages.
+    """
+    if lang_urls:
+        en_url = lang_urls.get("en", f"{SITE_URL}/blog/{slug.strip('/')}/")
+        tags = [
+            f'<link rel="alternate" hreflang="x-default" href="{en_url}">',
+            f'<link rel="alternate" hreflang="en" href="{en_url}">',
+        ]
+        for l in ["fr","es","it","de","nl","ar","pt","da"]:
+            url = lang_urls.get(l, f"{SITE_URL}/{l}/{slug.strip('/')}/")
+            tags.append(f'<link rel="alternate" hreflang="{LANG_LOCALE[l]}" href="{url}">')
+        return "\n".join(tags)
     s = "/" + slug.strip("/") if slug.strip("/") else ""
     return "\n".join([f'<link rel="alternate" hreflang="x-default" href="{SITE_URL}{s}/">',f'<link rel="alternate" hreflang="en" href="{SITE_URL}{s}/">']+[f'<link rel="alternate" hreflang="{LANG_LOCALE[l]}" href="{SITE_URL}/{l}{s}/">' for l in ["fr","es","it","de","nl","ar","pt","da"]])
 
@@ -1043,7 +1091,8 @@ def extract_faq_pairs_md(content_raw):
 
 def build_article(en_art, lang):
     pfx  = LANG_PREFIX[lang]
-    en_slug = en_art["slug"]
+    en_slug  = en_art["slug"]
+    art_slug = art_local_slug(en_slug, lang)  # localized slug for this language
     art     = arts_by_lang[lang].get(en_slug, en_art) if lang!="en" else en_art
     title   = fix_em(art.get("title", en_art["title"]))
     meta_d  = seo_desc(fix_em(art.get("meta_description") or en_art.get("meta_description") or ""), 160)
@@ -1100,24 +1149,21 @@ def build_article(en_art, lang):
     cat_display  = cat_name_for(cat, lang)
     cat_page_url = cat_href(cat, lang)
 
-    lang_pills = " ".join([f'<a href="{LANG_PREFIX[l]}/blog/{en_slug}/" class="lang-pill {"active" if l==lang else ""}" hreflang="{LANG_LOCALE[l]}">{flag(l,16)} {LANG_NAMES[l]}</a>' for l in LANGS])
+    lang_pills = " ".join([
+        f'<a href="{LANG_PREFIX[l]}/blog/{art_local_slug(en_slug,l)}/" class="lang-pill {"active" if l==lang else ""}" hreflang="{LANG_LOCALE[l]}">{flag(l,16)} {LANG_NAMES[l]}</a>'
+        for l in LANGS
+    ])
 
-    # Same-category articles (up to 3, excluding self)
-    same_cat = [a for a in arts_en if a.get("category")==cat and a["slug"]!=en_slug][:3]
+    # Same-category articles: random 3 from all same-cat, excluding self
+    pool = [a for a in arts_en if a.get("category")==cat and a["slug"]!=en_slug]
+    same_cat = random.sample(pool, min(3, len(pool)))
     def rel_card(r):
         r_slug = r["slug"]
         r_art  = arts_by_lang[lang].get(r_slug, r)
         r_title = fix_em(r_art.get("title", r["title"]))
-        r_bw_path  = f"{DEMO_DIR}/assets/images/{r_slug}.webp"
-        r_img_path = f"{DEMO_DIR}/assets/images/{r_slug}.webp"
-        if os.path.exists(r_bw_path):
-            r_img_src = f"/assets/images/{r_slug}.webp"
-        elif os.path.exists(r_img_path):
-            r_img_src = f"/assets/images/{r_slug}.webp"
-        else:
-            r_img_src = f"{_WIX}/df99f9_961b0768e713457f93025f4ce6fb1419.webp"
+        r_img_src = art_img(r_slug)
         return (
-            f'<a href="{pfx}/blog/{r_slug}/" class="card" style="text-decoration:none">'
+            f'<a href="{pfx}/blog/{art_local_slug(r_slug,lang)}/" class="card" style="text-decoration:none">'
             f'<img src="{r_img_src}" alt="{r_title}" class="card-img" loading="lazy" width="800" height="530" decoding="async">'
             f'<div class="card-body">'
             f'<span class="cat-badge" style="cursor:default">{cat_display}</span>'
@@ -1130,7 +1176,7 @@ def build_article(en_art, lang):
         if not a: return ""
         a2 = arts_by_lang[lang].get(a["slug"],a) if lang!="en" else a
         arrow = "→" if d=="next" else "←"; lbl = NEXT_L[lang] if d=="next" else PREV_L[lang]
-        return f'<a href="{pfx}/blog/{a["slug"]}/" class="art-nav-item {"next" if d=="next" else ""}"><span class="art-nav-dir">{arrow} {lbl}</span><span class="art-nav-title">{fix_em(a2.get("title",a["title"]))[:60]}</span></a>'
+        return f'<a href="{pfx}/blog/{art_local_slug(a["slug"],lang)}/" class="art-nav-item {"next" if d=="next" else ""}"><span class="art-nav-dir">{arrow} {lbl}</span><span class="art-nav-title">{fix_em(a2.get("title",a["title"]))[:60]}</span></a>'
 
     art_nav = f'<div class="art-nav">{pn(prev_art,"prev")}{pn(next_art,"next")}</div>' if (prev_art or next_art) else ""
 
@@ -1153,7 +1199,7 @@ def build_article(en_art, lang):
   {{"@type":"ListItem","position":1,"name":"{BC[lang]}","item":"{SITE_URL}{pfx}/"}},
   {{"@type":"ListItem","position":2,"name":"{BL[lang]}","item":"{SITE_URL}{pfx}/blog/"}},
   {{"@type":"ListItem","position":3,"name":"{cat_display}","item":"{SITE_URL}{cat_page_url}"}},
-  {{"@type":"ListItem","position":4,"name":"{seo_title(title,65).replace(chr(34), chr(39))}","item":"{SITE_URL}{pfx}/blog/{en_slug}/"}}
+  {{"@type":"ListItem","position":4,"name":"{seo_title(title,65).replace(chr(34), chr(39))}","item":"{SITE_URL}{pfx}/blog/{art_slug}/"}}
 ]}}
 </script>'''
 
@@ -1172,12 +1218,13 @@ def build_article(en_art, lang):
         <div class="related-grid">{rel_html}</div>
       </div>'''
 
-    html = head_html(seo_title(title, 65), meta_d, lang, can_tag(f"/blog/{en_slug}",lang), hrl_tags(f"/blog/{en_slug}"), img, og_alt=title)
+    _art_lang_urls = {l: art_url_for_lang(en_slug, l) for l in LANGS}
+    html = head_html(seo_title(title, 65), meta_d, lang, can_tag(f"/blog/{art_slug}",lang), hrl_tags(f"/blog/{en_slug}", lang_urls=_art_lang_urls), img, og_alt=title)
 
     # ── Article JSON-LD ──────────────────────────────────────────────────────
     _safe_title = title.replace('"', "'")
     _safe_desc  = meta_d.replace('"', "'")
-    _art_url    = f"{SITE_URL}{LANG_PREFIX[lang]}/blog/{en_slug}/"
+    _art_url    = f"{SITE_URL}{LANG_PREFIX[lang]}/blog/{art_slug}/"
     _img_url    = img if img.startswith("http") else f"{SITE_URL}{img}"
     _pub_url    = f"{SITE_URL}{LANG_PREFIX['en']}/surfing/"
     article_ld  = f'''<script type="application/ld+json">
@@ -1212,7 +1259,7 @@ def build_article(en_art, lang):
     extra_ld = crumb_ld + "\n" + article_ld + ("\n" + faqpage_ld if faqpage_ld else "")
     html = html.replace("</head>", extra_ld + "\n</head>", 1)
     fq_block = get_footer_quotes(lang)
-    html += nav_html("blog", lang, pfx, f"/blog/{en_slug}")
+    html += nav_html("blog", lang, pfx, f"/blog/{art_slug}", lang_urls=_art_lang_urls)
     html += f"""
 <main>
   <article itemscope itemtype="https://schema.org/BlogPosting">
@@ -1337,7 +1384,7 @@ def build_blog_index(lang):
         en_slug_cat  = [c["slug"] for c in cats if c["name"] == cat_en]
         en_slug_cat  = en_slug_cat[0] if en_slug_cat else cat_en.lower().replace(" & ", "-").replace(" ", "-")
         feat     = "★ " if en_art.get("type") == "hero" else ""
-        cards += f'''<a href="{pfx}/blog/{en_s}/" class="card blog-card" data-cat="{en_slug_cat}" style="text-decoration:none" aria-label="{t}">
+        cards += f'''<a href="{pfx}/blog/{art_local_slug(en_s,lang)}/" class="card blog-card" data-cat="{en_slug_cat}" style="text-decoration:none" aria-label="{t}">
       <div class="blog-card-img-wrap">
         <img src="{art_img(en_s)}" alt="{t}" class="card-img" loading="lazy" width="800" height="530" decoding="async" onerror="this.src='{FALLBACK_IMG}'">
       </div>
@@ -1454,7 +1501,7 @@ def build_category_page(cat_en, lang):
         t        = fix_em(a.get("title", en_art["title"]))[:80]
         m        = fix_em(a.get("meta_description",""))[:130]
         feat     = "★ " if en_art.get("type") == "hero" else ""
-        cards += f'''<a href="{pfx}/blog/{en_s}/" class="card blog-card" style="text-decoration:none" aria-label="{t}">
+        cards += f'''<a href="{pfx}/blog/{art_local_slug(en_s,lang)}/" class="card blog-card" style="text-decoration:none" aria-label="{t}">
       <div class="blog-card-img-wrap">
         <img src="{art_img(en_s)}" alt="{t}" class="card-img" loading="lazy" width="800" height="530" decoding="async" onerror="this.src='{FALLBACK_IMG}'">
       </div>
@@ -1592,7 +1639,8 @@ for lang in LANGS:
     pfx  = LANG_PREFIX[lang]
     spfx = f"/{lang}" if lang!="en" else ""
     for en_art in arts_en:
-        out_dir = f"{DEMO_DIR}{spfx}/blog/{en_art['slug']}"
+        _out_slug = art_local_slug(en_art['slug'], lang)
+        out_dir = f"{DEMO_DIR}{spfx}/blog/{_out_slug}"
         os.makedirs(out_dir, exist_ok=True)
         html = build_article(en_art, lang)
         with open(f"{out_dir}/index.html","w") as f: f.write(html)

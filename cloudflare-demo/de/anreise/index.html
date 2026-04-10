@@ -20,17 +20,11 @@
 <link rel="alternate" hreflang="ar-MA" href="https://surf-camp-senegal.vercel.app/ar/getting-here/">
 <link rel="alternate" hreflang="pt-PT" href="https://surf-camp-senegal.vercel.app/pt/como-chegar/">
 <link rel="alternate" hreflang="da-DK" href="https://surf-camp-senegal.vercel.app/da/getting-here/">
-
-<link rel="stylesheet" href="/assets/fonts/fonts.css">
+<!-- Leaflet CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.min.css" crossorigin="">
-<link rel="stylesheet" href="/assets/css/ngor-surfcamp.css?v=20260401c">
-<script src="/assets/js/ngor-surfcamp.js?v=20260401c" defer></script>
+<link rel="stylesheet" href="/assets/css/ngor-surfcamp.css?v=20260401d">
+<script src="/assets/js/ngor-surfcamp.js?v=20260401d" defer></script>
 <style>
-/* ── Getting Here Page ─────────────────────────────── */
-.gh-hero { background: linear-gradient(160deg,#070f1c,#0a2540 50%,#071826); color:#fff; padding:140px 28px 80px; text-align:center; position:relative; overflow:hidden; }
-.gh-hero::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 50% 80%,rgba(255,90,31,0.12) 0%,transparent 55%); }
-.gh-hero h1 { font-size:clamp(32px,5vw,58px); margin-bottom:16px; position:relative; z-index:1; }
-.gh-hero p { font-size:18px; opacity:0.78; max-width:600px; margin:0 auto; position:relative; z-index:1; line-height:1.7; }
 /* Journey stats — light neutral strip */
 .journey-stats { display:flex; justify-content:center; flex-wrap:wrap; gap:40px; padding:48px 28px; background:linear-gradient(180deg,#f4f6f9 0%,#eef1f5 100%); border-top:1px solid rgba(10,37,64,0.06); border-bottom:1px solid rgba(10,37,64,0.06); }
 .journey-stat { text-align:center; }
@@ -38,6 +32,8 @@
 .js-lbl { font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:#64748b; margin-top:8px; display:block; font-weight:600; }
 /* Map */
 .map-section { padding:80px 0 0; }
+#ngor-map { height:480px; border-radius:0; position:relative; z-index:1; }
+@media(max-width:640px){#ngor-map{height:300px;}}
 /* Steps */
 .steps-section { padding:80px 0; background:#f8fafd; }
 .step-item { display:flex; align-items:flex-start; gap:20px; padding:24px; background:#fff; border-radius:16px; margin-bottom:16px; box-shadow:0 2px 12px rgba(10,37,64,0.06); transition:transform 0.2s,box-shadow 0.2s; }
@@ -78,18 +74,16 @@
   .journey-stats { gap:24px; padding:40px 20px; }
 }
 </style>
-
+<link rel="stylesheet" href="/assets/fonts/fonts.css">
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
 <meta name="theme-color" content="#0a2540">
-
 <meta property="og:url" content="https://surf-camp-senegal.vercel.app/de/anreise/">
 <meta property="og:site_name" content="Ngor Surfcamp Teranga">
 <meta name="twitter:card" content="summary_large_image">
-
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "@id": "https://surf-camp-senegal.vercel.app/#organization", "name": "Ngor Surfcamp Teranga", "url": "https://surf-camp-senegal.vercel.app", "logo": "https://surf-camp-senegal.vercel.app/assets/images/wix/c2467f_a31779010ce34c4c8c61cc5868d81f31.webp", "telephone": "+221789257025", "aggregateRating": {"@type": "AggregateRating", "ratingValue": "4.7", "bestRating": "5", "worstRating": "1", "reviewCount": "54", "url": "https://www.google.com/maps?cid=14555894641030809667"}, "sameAs": ["https://www.instagram.com/ngor_surfcamp_teranga/", "https://www.google.com/maps?cid=14555894641030809667"]}</script>
 
 <link rel="preload" href="/assets/fonts/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7W0Q5nw.woff2" as="font" type="font/woff2" crossorigin>
@@ -100,15 +94,15 @@
 
 <script id="gcm-consent-default">window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',functionality_storage:'granted',personalization_storage:'denied',security_storage:'granted',wait_for_update:500});</script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="/assets/css/ngor-surfcamp-consent.css?v=68ce73bd">
+<link rel="stylesheet" href="/assets/css/ngor-surfcamp-consent.css?v=c301b8ca">
 </head>
 <body>
 <div id="scroll-progress"></div>
-<nav id="nav"><div class="nav-inner"><a href="/de/" class="nav-logo"><img src="/assets/images/wix/c2467f_a31779010ce34c4c8c61cc5868d81f31.webp" alt="Ngor Surfcamp Teranga" width="44" height="44" loading="eager"></a><div class="nav-links" id="nav-links"><a href="/de/" class="nav-link">Start</a><a href="/de/surf-house/" class="nav-link">Surf House</a><a href="/de/insel/" class="nav-link">Insel</a><a href="/de/surfen/" class="nav-link">Surfen</a><a href="/de/galerie/" class="nav-link">Galerie</a><a href="/de/faq/" class="nav-link">FAQ</a><a href="/de/buchen/" class="nav-link nav-cta">Buchen</a></div><div class="nav-right"><div class="lang-dd" id="lang-dd"><button class="lang-dd-btn" onclick="toggleLangDD(event)"><span style="width:20px;height:13px;display:inline-flex;border-radius:3px;overflow:hidden;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.22)"><svg viewBox="0 0 60 40"><rect width="60" height="13" fill="#000"/><rect y="13" width="60" height="14" fill="#DD0000"/><rect y="27" width="60" height="13" fill="#FFCE00"/></svg></span> DE <span style="display:inline-flex"><svg viewBox="0 0 16 16" fill="none" width="14" height="14"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button><div class="lang-dd-menu" role="menu"><a class="lang-dd-item" href="/" hreflang="en" role="menuitem"><span style="width:18px;height:12px;display:inline-flex;border-radius:3px;overflow:hidden;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.22)"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#fff" stroke-width="8"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#C8102E" stroke-width="5"/><path d="M30,0 V40 M0,20 H60" stroke="#fff" stroke-width="12"/><path d="M30,0 V40 M0,20 H60" stroke="#C8102E" stroke-width="8"/></svg></span> English</a><a class="lang-dd-item" href="/fr/" hreflang="fr-FR" role="menuitem"><span style="width:18px;height:12px;display:inline-flex;border-radius:3px;overflow:hidden;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.22)"><svg viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></span> Français</a><a class="lang-dd-item" href="/es/" hreflang="es-ES" role="menuitem"><span style="width:18px;height:12px;display:inline-flex;border-radius:3px;overflow:hidden;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.22)"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#c60b1e"/><rect y="10" width="60" height="20" fill="#ffc400"/></svg></span> Español</a><a class="lang-dd-item" href="/it/" hreflang="it-IT" role="menuitem"><span style="width:18px;height:12px;display:inline-flex;border-radius:3px;overflow:hidden;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.22)"><svg viewBox="0 0 60 40"><rect width="20" height="40" fill="#009246"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#CE2B37"/></svg></span> Italiano</a><a class="lang-dd-item" href="/nl/" hreflang="nl-NL" role="menuitem"><span style="width:18px;height:12px;display:inline-flex;border-radius:3px;overflow:hidden;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.22)"><svg viewBox="0 0 60 40"><rect width="60" height="13" fill="#AE1C28"/><rect y="13" width="60" height="14" fill="#fff"/><rect y="27" width="60" height="13" fill="#21468B"/></svg></span> Nederlands</a><a class="lang-dd-item" href="/ar/" hreflang="ar-MA" role="menuitem"><span style="width:18px;height:12px;display:inline-flex;border-radius:3px;overflow:hidden;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.22)"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#C1272D"/><path d="M30,10 L31.8,16.1 L38.5,16.1 L33,19.9 L35,26 L30,22.1 L25,26 L27,19.9 L21.5,16.1 L28.2,16.1 Z" fill="none" stroke="#006233" stroke-width="1.2"/></svg></span> العربية</a><a class="lang-dd-item" href="/pt/" hreflang="pt-PT" role="menuitem"><span style="width:18px;height:12px;display:inline-flex;border-radius:3px;overflow:hidden;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.22)"><svg viewBox="0 0 60 40"><rect width="22" height="40" fill="#006600"/><rect x="22" width="38" height="40" fill="#FF0000"/><circle cx="22" cy="20" r="8" fill="#FFD700" stroke="#006600" stroke-width="1"/></svg></span> Português</a><a class="lang-dd-item" href="/da/" hreflang="da-DK" role="menuitem"><span style="width:18px;height:12px;display:inline-flex;border-radius:3px;overflow:hidden;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.22)"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#C60C30"/><rect x="20" width="8" height="40" fill="#fff"/><rect y="16" width="60" height="8" fill="#fff"/></svg></span> Dansk</a></div></div><a href="https://wa.me/221789257025" target="_blank" rel="noopener noreferrer" class="nav-wa" aria-label="WhatsApp"><span style="display:inline-flex"><svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></span><span class="nav-wa-label">WhatsApp</span></a><button class="nav-toggle" id="nav-toggle" aria-label="Menü" onclick="toggleMenu()"><span style="display:inline-flex;color:#fff"><svg viewBox="0 0 24 24" fill="none" width="22" height="22"><path d="M3 7h18M3 12h18M3 17h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></button></div></div></nav>
+<nav id="nav"><div class="nav-inner"><a href="/de/" class="nav-logo"><img src="/assets/images/wix/c2467f_a31779010ce34c4c8c61cc5868d81f31.webp" alt="Ngor Surfcamp Teranga" width="130" height="44" loading="eager"></a><div class="nav-links" id="nav-links"><a href="/de/" class="nav-link">Start</a><a href="/de/surf-house/" class="nav-link">Surf House</a><a href="/de/insel/" class="nav-link">Insel</a><a href="/de/surfen/" class="nav-link">Surfen</a><a href="/de/blog/" class="nav-link">Blog</a><a href="/de/galerie/" class="nav-link">Galerie</a><a href="/de/faq/" class="nav-link">FAQ</a><a href="/de/buchen/" class="nav-link nav-cta">Buchen</a><a href="/de/anreise/" class="nav-link active">Anreise</a></div><div class="nav-right"><div class="lang-dd" id="lang-dd"><button class="lang-dd-btn" onclick="toggleLangDD(event)"><span style="width:20px;height:13px;display:inline-flex;border-radius:3px;overflow:hidden;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.22)"><svg viewBox="0 0 60 40"><rect width="60" height="13" fill="#000"/><rect y="13" width="60" height="14" fill="#DD0000"/><rect y="27" width="60" height="13" fill="#FFCE00"/></svg></span> DE <span style="display:inline-flex"><svg viewBox="0 0 16 16" fill="none" width="14" height="14"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button><div class="lang-dd-menu" role="menu"><a class="lang-dd-item" href="/getting-here/" hreflang="en"><span style="width:18px;height:12px;display:inline-flex;border-radius:3px;overflow:hidden;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.22)"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#fff" stroke-width="8"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#C8102E" stroke-width="5"/><path d="M30,0 V40 M0,20 H60" stroke="#fff" stroke-width="12"/><path d="M30,0 V40 M0,20 H60" stroke="#C8102E" stroke-width="8"/></svg></span> English</a><a class="lang-dd-item" href="/fr/comment-venir/" hreflang="fr-FR"><span style="width:18px;height:12px;display:inline-flex;border-radius:3px;overflow:hidden;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.22)"><svg viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></span> Français</a><a class="lang-dd-item" href="/es/como-llegar/" hreflang="es-ES"><span style="width:18px;height:12px;display:inline-flex;border-radius:3px;overflow:hidden;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.22)"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#c60b1e"/><rect y="10" width="60" height="20" fill="#ffc400"/></svg></span> Español</a><a class="lang-dd-item" href="/it/come-arrivare/" hreflang="it-IT"><span style="width:18px;height:12px;display:inline-flex;border-radius:3px;overflow:hidden;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.22)"><svg viewBox="0 0 60 40"><rect width="20" height="40" fill="#009246"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#CE2B37"/></svg></span> Italiano</a></div></div><a href="https://wa.me/221789257025" target="_blank" rel="noopener noreferrer" class="nav-wa" aria-label="WhatsApp"><span style="display:inline-flex"><svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></span><span class="nav-wa-label">WhatsApp</span></a><button class="nav-toggle" id="nav-toggle" aria-label="Menu" onclick="toggleMenu()"><span style="display:inline-flex;color:#fff"><svg viewBox="0 0 24 24" fill="none" width="22" height="22"><path d="M3 7h18M3 12h18M3 17h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></button></div></div></nav>
 
 <main>
   <!-- Hero -->
-  <header class="main-hero" style="background-image:url(\'/assets/images/gallery/photo-1541447237128-f4cac6138fbe.avif\'); background-position: center 40%;" role="banner">
+  <header class="main-hero" style="background-image:url('/assets/images/gallery/photo-1541447237128-f4cac6138fbe.avif'); background-position: center 40%;" role="banner">
     <div class="main-hero-inner">
       <div class="main-hero-eyebrow">
         <span class="main-hero-dot"></span>
@@ -124,26 +118,26 @@
 
   <!-- Quick stats -->
   <div class="journey-stats" id="journey-stats">
-    <div class="journey-stat"><span class="js-num">20 min</span><span class="js-lbl">vom Flughafen</span></div><div class="journey-stat"><span class="js-num">800m</span><span class="js-lbl">vom Festland</span></div><div class="journey-stat"><span class="js-num">5 min</span><span class="js-lbl">Pirogenfahrt</span></div><div class="journey-stat"><span class="js-num">&lt;1€</span><span class="js-lbl">um die Insel zu erreichen</span></div>
-  
+    <div class="journey-stat"><span class="js-num">20 min</span><span class="js-lbl">vom Flughafen</span></div><div class="journey-stat"><span class="js-num">800m</span><span class="js-lbl">vom Festland</span></div><div class="journey-stat"><span class="js-num">5 min</span><span class="js-lbl">Pirogenfahrt</span></div><div class="journey-stat"><span class="js-num"><1€</span><span class="js-lbl">um die Insel zu erreichen</span></div>
   </div>
-  <!-- Video: pirogue arrival -->
-  <section class="gh-video-section" aria-label="Pirogue-Überfahrt">
+
+  <!-- Video: Piroge-Überfahrt -->
+  <section class="gh-video-section" aria-label="Piroge-Überfahrt">
     <div class="gh-video-card">
       <video
         src="/assets/video/pirogue-arrive.mp4"
         autoplay muted loop playsinline
         poster="/assets/images/gallery/school_ig.webp"
-        aria-label="Pirogue-Überfahrt"
+        aria-label="Piroge-Überfahrt"
         preload="metadata"
       ></video>
       <div class="gh-video-overlay">
         <div class="gh-video-badge">
           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-          Île de Ngor · Dakar
+          Ngor Island · Dakar
         </div>
-        <h3 class="gh-video-title">Pirogue-Überfahrt</h3>
-        <p class="gh-video-sub">5 Min · Vom Strand zur Ngor-Insel im traditionellen Pirogue</p>
+        <h3 class="gh-video-title">Piroge-Überfahrt</h3>
+        <p class="gh-video-sub">5 min · Vom Strand zur Ngor Island mit der traditionellen Piroge</p>
       </div>
     </div>
   </section>
@@ -201,29 +195,41 @@
   <section class="flights-section">
     <div class="container">
       <div style="text-align:center;margin-bottom:40px">
-        <span class="s-label">Flüge aus deinem Land</span>
-        <h2 class="s-title">Flüge aus deinem Land</h2>
-        <p class="s-sub" style="margin:0 auto">Wähle dein Abflugland</p>
+        <span class="s-label">Flüge aus Ihrem Land</span>
+        <h2 class="s-title">Flüge aus Ihrem Land</h2>
+        <p class="s-sub" style="margin:0 auto">Wählen Sie Ihr Abflugland</p>
       </div>
-      <div class="country-tabs"><button class="tab-btn" onclick="switchCountry('uk')" data-country="uk"><span style="width:20px;height:13px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#fff" stroke-width="8"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#C8102E" stroke-width="5"/><path d="M30,0 V40 M0,20 H60" stroke="#fff" stroke-width="12"/><path d="M30,0 V40 M0,20 H60" stroke="#C8102E" stroke-width="8"/></svg></span> <span style="font-size:13px">Vereinigtes Königreich</span></button><button class="tab-btn" onclick="switchCountry('fr')" data-country="fr"><span style="width:20px;height:13px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></span> <span style="font-size:13px">Frankreich</span></button><button class="tab-btn" onclick="switchCountry('es')" data-country="es"><span style="width:20px;height:13px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#AA151B"/><rect y="10" width="60" height="20" fill="#F1BF00"/></svg></span> <span style="font-size:13px">Spanien</span></button><button class="tab-btn active" onclick="switchCountry('de')" data-country="de"><span style="width:20px;height:13px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="14" fill="#000"/><rect y="13" width="60" height="14" fill="#DD0000"/><rect y="26" width="60" height="14" fill="#FFCE00"/></svg></span> <span style="font-size:13px">Deutschland</span></button><button class="tab-btn" onclick="switchCountry('it')" data-country="it"><span style="width:20px;height:13px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="20" height="40" fill="#009246"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#CE2B37"/></svg></span> <span style="font-size:13px">Italien</span></button><button class="tab-btn" onclick="switchCountry('nl')" data-country="nl"><span style="width:20px;height:13px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="14" fill="#AE1C28"/><rect y="13" width="60" height="14" fill="#fff"/><rect y="26" width="60" height="14" fill="#21468B"/></svg></span> <span style="font-size:13px">Niederlande</span></button><button class="tab-btn" onclick="switchCountry('pt')" data-country="pt"><span style="width:20px;height:13px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#006600"/><rect x="20" width="40" height="40" fill="#FF0000"/></svg></span> <span style="font-size:13px">Portugal</span></button><button class="tab-btn" onclick="switchCountry('da')" data-country="da"><span style="width:20px;height:13px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#C60C30"/><rect x="18" width="8" height="40" fill="#fff"/><rect y="16" width="60" height="8" fill="#fff"/></svg></span> <span style="font-size:13px">Dänemark</span></button><button class="tab-btn" onclick="switchCountry('ar')" data-country="ar"><span style="width:20px;height:13px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="14" fill="#006233"/><rect y="13" width="60" height="14" fill="#fff"/><rect y="26" width="60" height="14" fill="#000"/><rect x="0" width="16" height="40" fill="#CE1126"/></svg></span> <span style="font-size:13px">Marokko / Golf</span></button><button class="tab-btn" onclick="switchCountry('us')" data-country="us"><span style="width:20px;height:13px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#B22234"/><rect y="3" width="60" height="3" fill="#fff"/><rect y="9" width="60" height="3" fill="#fff"/><rect y="15" width="60" height="3" fill="#fff"/><rect y="21" width="60" height="3" fill="#fff"/><rect y="27" width="60" height="3" fill="#fff"/><rect y="33" width="60" height="3" fill="#fff"/><rect width="24" height="21" fill="#3C3B6E"/></svg></span> <span style="font-size:13px">USA</span></button><button class="tab-btn" onclick="switchCountry('ca')" data-country="ca"><span style="width:20px;height:13px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="15" height="40" fill="#FF0000"/><rect x="15" width="30" height="40" fill="#fff"/><rect x="45" width="15" height="40" fill="#FF0000"/></svg></span> <span style="font-size:13px">Kanada</span></button><button class="tab-btn" onclick="switchCountry('au')" data-country="au"><span style="width:20px;height:13px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#00008B"/><path d="M0,0 L30,20 M30,0 L0,20" stroke="#fff" stroke-width="4"/><path d="M0,0 L30,20 M30,0 L0,20" stroke="#C8102E" stroke-width="2.5"/><path d="M15,0 V20 M0,10 H30" stroke="#fff" stroke-width="6"/><path d="M15,0 V20 M0,10 H30" stroke="#C8102E" stroke-width="4"/></svg></span> <span style="font-size:13px">Australien</span></button></div>
-      <div id="flight-panels"><div class="flight-panel" data-country="uk" style="display:none">
+      <div class="country-tabs"><button class="tab-btn active" onclick="switchCountry('de_country')" data-country="de_country"><span style="width:20px;height:13px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="13" fill="#000"/><rect y="13" width="60" height="14" fill="#DD0000"/><rect y="27" width="60" height="13" fill="#FFCE00"/></svg></span> <span style="font-size:13px">Frankreich</span></button><button class="tab-btn" onclick="switchCountry('fr')" data-country="fr"><span style="width:20px;height:13px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></span> <span style="font-size:13px">Frankreich</span></button><button class="tab-btn" onclick="switchCountry('uk')" data-country="uk"><span style="width:20px;height:13px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#fff" stroke-width="8"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#C8102E" stroke-width="5"/><path d="M30,0 V40 M0,20 H60" stroke="#fff" stroke-width="12"/><path d="M30,0 V40 M0,20 H60" stroke="#C8102E" stroke-width="8"/></svg></span> <span style="font-size:13px">Vereinigtes Königreich</span></button><button class="tab-btn" onclick="switchCountry('us')" data-country="us"><span style="width:20px;height:13px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#B22234"/><rect y="3" width="60" height="3" fill="#fff"/><rect y="9" width="60" height="3" fill="#fff"/><rect y="15" width="60" height="3" fill="#fff"/><rect y="21" width="60" height="3" fill="#fff"/><rect y="27" width="60" height="3" fill="#fff"/><rect y="33" width="60" height="3" fill="#fff"/><rect width="24" height="21" fill="#3C3B6E"/></svg></span> <span style="font-size:13px">USA</span></button><button class="tab-btn" onclick="switchCountry('ca')" data-country="ca"><span style="width:20px;height:13px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="15" height="40" fill="#FF0000"/><rect x="15" width="30" height="40" fill="#fff"/><rect x="45" width="15" height="40" fill="#FF0000"/><text x="30" y="28" text-anchor="middle" font-size="20" fill="#FF0000">🍁</text></svg></span> <span style="font-size:13px">Kanada</span></button><button class="tab-btn" onclick="switchCountry('au')" data-country="au"><span style="width:20px;height:13px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#00008B"/><path d="M0,0 L30,20 M30,0 L0,20" stroke="#fff" stroke-width="4"/><path d="M0,0 L30,20 M30,0 L0,20" stroke="#C8102E" stroke-width="2.5"/><path d="M15,0 V20 M0,10 H30" stroke="#fff" stroke-width="6"/><path d="M15,0 V20 M0,10 H30" stroke="#C8102E" stroke-width="4"/></svg></span> <span style="font-size:13px">Australien</span></button></div>
+      <div id="flight-panels"><div class="flight-panel" data-country="de_country" style="display:block">
   <div class="flight-header">
     <div style="display:flex;align-items:center;gap:12px">
-      <span style="width:22px;height:15px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#fff" stroke-width="8"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#C8102E" stroke-width="5"/><path d="M30,0 V40 M0,20 H60" stroke="#fff" stroke-width="12"/><path d="M30,0 V40 M0,20 H60" stroke="#C8102E" stroke-width="8"/></svg></span>
+      <span style="width:22px;height:15px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="13" fill="#000"/><rect y="13" width="60" height="14" fill="#DD0000"/><rect y="27" width="60" height="13" fill="#FFCE00"/></svg></span>
       <div>
-        <div style="font-weight:700;font-size:17px;color:var(--navy)">Vereinigtes Königreich</div>
-        <div style="font-size:13px;color:var(--muted);margin-top:2px">London LHR / LGW / STN</div>
+        <div style="font-weight:700;font-size:17px;color:var(--navy)">Frankreich</div>
+        <div style="font-size:13px;color:var(--muted);margin-top:2px">Frankfurt FRA / Munich MUC / Berlin BER</div>
       </div>
     </div>
-    <span style="padding:3px 10px;border-radius:20px;background:rgba(255,90,31,0.12);color:var(--fire);font-size:11px;font-weight:700">Via: Brüssel, Paris oder Casablanca</span>
+    <span style="padding:3px 10px;border-radius:20px;background:rgba(255,90,31,0.12);color:var(--fire);font-size:11px;font-weight:700">Via: Paris or Brussels</span>
   </div>
   <div class="flight-meta">
-    <div class="flight-meta-item"><span class="fmi-label">Flugdauer</span><span class="fmi-value">~8-10h</span></div>
-    <div class="flight-meta-item"><span class="fmi-label">Ab</span><span class="fmi-value">£350-700</span></div>
-    <div class="flight-meta-item"><span class="fmi-label">Fluggesellschaft</span><span class="fmi-value">Brussels Airlines, Air France, KLM</span></div>
+    <div class="flight-meta-item">
+      <span class="fmi-label">Flugzeit</span>
+      <span class="fmi-value">~7h</span>
+    </div>
+    <div class="flight-meta-item">
+      <span class="fmi-label">Ab</span>
+      <span class="fmi-value">€250–650</span>
+    </div>
+    <div class="flight-meta-item">
+      <span class="fmi-label">Airlines</span>
+      <span class="fmi-value">Lufthansa, Air France, Eurowings</span>
+    </div>
   </div>
-  <p style="font-size:15px;color:#374151;line-height:1.75;margin:16px 0">Keine Direktflüge von UK nach Dakar. Beste Optionen: Brussels Airlines über Brüssel oder Air France über Paris. Royal Air Maroc über Casablanca ist oft am günstigsten. Reisezeit: 8-10 Stunden.</p>
-  <a href="https://www.google.com/travel/flights/search?q=London+to+Dakar+flights" target="_blank" rel="noopener noreferrer" class="btn btn-deep btn-sm" style="display:inline-flex;align-items:center;gap:8px"><svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg> Flüge suchen</a>
+  <p style="font-size:15px;color:#374151;line-height:1.75;margin:16px 0">Von Deutschland sind die besten Verbindungen nach Dakar via Paris (Air France) oder Brüssel (Brussels Airlines). Auch Lufthansa-Codeshares via Paris oder Casablanca sind möglich.</p>
+  <a href="https://www.google.com/travel/flights/search?q=Frankfurt+to+Dakar+flights" target="_blank" rel="noopener noreferrer" class="btn btn-deep btn-sm" style="display:inline-flex;align-items:center;gap:8px">
+    <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
+    Flüge suchen
+  </a>
 </div><div class="flight-panel" data-country="fr" style="display:none">
   <div class="flight-header">
     <div style="display:flex;align-items:center;gap:12px">
@@ -233,141 +239,57 @@
         <div style="font-size:13px;color:var(--muted);margin-top:2px">Paris CDG / ORY</div>
       </div>
     </div>
-    <span style="padding:3px 10px;border-radius:20px;background:rgba(34,197,94,0.15);color:#22c55e;font-size:11px;font-weight:700">Direktflug</span>
+    <span style="padding:3px 10px;border-radius:20px;background:rgba(34,197,94,0.15);color:#22c55e;font-size:11px;font-weight:700">Direkt</span>
   </div>
   <div class="flight-meta">
-    <div class="flight-meta-item"><span class="fmi-label">Flugdauer</span><span class="fmi-value">~6h</span></div>
-    <div class="flight-meta-item"><span class="fmi-label">Ab</span><span class="fmi-value">€200-600</span></div>
-    <div class="flight-meta-item"><span class="fmi-label">Fluggesellschaft</span><span class="fmi-value">Air France, Transavia, Air Sénégal</span></div>
+    <div class="flight-meta-item">
+      <span class="fmi-label">Flugzeit</span>
+      <span class="fmi-value">~6h</span>
+    </div>
+    <div class="flight-meta-item">
+      <span class="fmi-label">Ab</span>
+      <span class="fmi-value">€200–600</span>
+    </div>
+    <div class="flight-meta-item">
+      <span class="fmi-label">Airlines</span>
+      <span class="fmi-value">Air France, Transavia, Air Sénégal</span>
+    </div>
   </div>
-  <p style="font-size:15px;color:#374151;line-height:1.75;margin:16px 0">Die am besten angebundene Route. Air France und Transavia fliegen direkt Paris-Dakar von CDG und Orly. 2-3 Monate im Voraus buchen für beste Preise.</p>
-  <a href="https://www.google.com/travel/flights/search?q=Paris+to+Dakar+flights" target="_blank" rel="noopener noreferrer" class="btn btn-deep btn-sm" style="display:inline-flex;align-items:center;gap:8px"><svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg> Flüge suchen</a>
-</div><div class="flight-panel" data-country="es" style="display:none">
+  <p style="font-size:15px;color:#374151;line-height:1.75;margin:16px 0">Die bestverbundene Route. Air France und Transavia fliegen direkt Paris → Dakar. 2–3 Monate im Voraus buchen für die besten Preise.</p>
+  <a href="https://www.google.com/travel/flights/search?q=Paris+to+Dakar+flights" target="_blank" rel="noopener noreferrer" class="btn btn-deep btn-sm" style="display:inline-flex;align-items:center;gap:8px">
+    <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
+    Flüge suchen
+  </a>
+</div><div class="flight-panel" data-country="uk" style="display:none">
   <div class="flight-header">
     <div style="display:flex;align-items:center;gap:12px">
-      <span style="width:22px;height:15px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#AA151B"/><rect y="10" width="60" height="20" fill="#F1BF00"/></svg></span>
+      <span style="width:22px;height:15px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#fff" stroke-width="8"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#C8102E" stroke-width="5"/><path d="M30,0 V40 M0,20 H60" stroke="#fff" stroke-width="12"/><path d="M30,0 V40 M0,20 H60" stroke="#C8102E" stroke-width="8"/></svg></span>
       <div>
-        <div style="font-weight:700;font-size:17px;color:var(--navy)">Spanien</div>
-        <div style="font-size:13px;color:var(--muted);margin-top:2px">Madrid MAD / Barcelona BCN</div>
+        <div style="font-weight:700;font-size:17px;color:var(--navy)">Vereinigtes Königreich</div>
+        <div style="font-size:13px;color:var(--muted);margin-top:2px">London LHR / LGW / STN</div>
       </div>
     </div>
-    <span style="padding:3px 10px;border-radius:20px;background:rgba(255,90,31,0.12);color:var(--fire);font-size:11px;font-weight:700">Via: Casablanca oder Paris</span>
+    <span style="padding:3px 10px;border-radius:20px;background:rgba(255,90,31,0.12);color:var(--fire);font-size:11px;font-weight:700">Via: Brussels, Paris, Amsterdam or Casablanca</span>
   </div>
   <div class="flight-meta">
-    <div class="flight-meta-item"><span class="fmi-label">Flugdauer</span><span class="fmi-value">~7-9h</span></div>
-    <div class="flight-meta-item"><span class="fmi-label">Ab</span><span class="fmi-value">€250-600</span></div>
-    <div class="flight-meta-item"><span class="fmi-label">Fluggesellschaft</span><span class="fmi-value">Iberia, Royal Air Maroc, Air France</span></div>
-  </div>
-  <p style="font-size:15px;color:#374151;line-height:1.75;margin:16px 0">Keine Direktflüge von Spanien nach Dakar. Royal Air Maroc über Casablanca ist die beliebteste Option ab Madrid und Barcelona. Air France über Paris ist eine ausgezeichnete Alternative.</p>
-  <a href="https://www.google.com/travel/flights/search?q=Madrid+to+Dakar+flights" target="_blank" rel="noopener noreferrer" class="btn btn-deep btn-sm" style="display:inline-flex;align-items:center;gap:8px"><svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg> Flüge suchen</a>
-</div><div class="flight-panel" data-country="de" style="display:block">
-  <div class="flight-header">
-    <div style="display:flex;align-items:center;gap:12px">
-      <span style="width:22px;height:15px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="14" fill="#000"/><rect y="13" width="60" height="14" fill="#DD0000"/><rect y="26" width="60" height="14" fill="#FFCE00"/></svg></span>
-      <div>
-        <div style="font-weight:700;font-size:17px;color:var(--navy)">Deutschland</div>
-        <div style="font-size:13px;color:var(--muted);margin-top:2px">Frankfurt FRA / Berlin BER / Munich MUC</div>
-      </div>
+    <div class="flight-meta-item">
+      <span class="fmi-label">Flugzeit</span>
+      <span class="fmi-value">~8–10h</span>
     </div>
-    <span style="padding:3px 10px;border-radius:20px;background:rgba(255,90,31,0.12);color:var(--fire);font-size:11px;font-weight:700">Via: Brüssel, Paris oder Casablanca</span>
-  </div>
-  <div class="flight-meta">
-    <div class="flight-meta-item"><span class="fmi-label">Flugdauer</span><span class="fmi-value">~9-11h</span></div>
-    <div class="flight-meta-item"><span class="fmi-label">Ab</span><span class="fmi-value">€350-800</span></div>
-    <div class="flight-meta-item"><span class="fmi-label">Fluggesellschaft</span><span class="fmi-value">Brussels Airlines, Lufthansa, Air France</span></div>
-  </div>
-  <p style="font-size:15px;color:#374151;line-height:1.75;margin:16px 0">Aus Deutschland ist Brussels Airlines über Brüssel die beliebteste Verbindung (gute Zeiten ab Frankfurt und München). Lufthansa hat Codeshare. Air France über Paris ist zuverlässig. Royal Air Maroc über Casablanca ist oft am günstigsten.</p>
-  <a href="https://www.google.com/travel/flights/search?q=Frankfurt+to+Dakar+flights" target="_blank" rel="noopener noreferrer" class="btn btn-deep btn-sm" style="display:inline-flex;align-items:center;gap:8px"><svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg> Flüge suchen</a>
-</div><div class="flight-panel" data-country="it" style="display:none">
-  <div class="flight-header">
-    <div style="display:flex;align-items:center;gap:12px">
-      <span style="width:22px;height:15px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="20" height="40" fill="#009246"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#CE2B37"/></svg></span>
-      <div>
-        <div style="font-weight:700;font-size:17px;color:var(--navy)">Italien</div>
-        <div style="font-size:13px;color:var(--muted);margin-top:2px">Rome FCO / Milan MXP</div>
-      </div>
+    <div class="flight-meta-item">
+      <span class="fmi-label">Ab</span>
+      <span class="fmi-value">£350–700</span>
     </div>
-    <span style="padding:3px 10px;border-radius:20px;background:rgba(255,90,31,0.12);color:var(--fire);font-size:11px;font-weight:700">Via: Paris oder Casablanca</span>
-  </div>
-  <div class="flight-meta">
-    <div class="flight-meta-item"><span class="fmi-label">Flugdauer</span><span class="fmi-value">~8-10h</span></div>
-    <div class="flight-meta-item"><span class="fmi-label">Ab</span><span class="fmi-value">€300-700</span></div>
-    <div class="flight-meta-item"><span class="fmi-label">Fluggesellschaft</span><span class="fmi-value">Air France, Royal Air Maroc, ITA Airways</span></div>
-  </div>
-  <p style="font-size:15px;color:#374151;line-height:1.75;margin:16px 0">Keine Direktflüge von Italien nach Dakar. Air France über Paris (von Rom oder Mailand) ist die häufigste Option. Royal Air Maroc über Casablanca oft günstiger. Reisezeit: 8-10 Stunden.</p>
-  <a href="https://www.google.com/travel/flights/search?q=Rome+to+Dakar+flights" target="_blank" rel="noopener noreferrer" class="btn btn-deep btn-sm" style="display:inline-flex;align-items:center;gap:8px"><svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg> Flüge suchen</a>
-</div><div class="flight-panel" data-country="nl" style="display:none">
-  <div class="flight-header">
-    <div style="display:flex;align-items:center;gap:12px">
-      <span style="width:22px;height:15px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="14" fill="#AE1C28"/><rect y="13" width="60" height="14" fill="#fff"/><rect y="26" width="60" height="14" fill="#21468B"/></svg></span>
-      <div>
-        <div style="font-weight:700;font-size:17px;color:var(--navy)">Niederlande</div>
-        <div style="font-size:13px;color:var(--muted);margin-top:2px">Amsterdam AMS / Rotterdam RTM</div>
-      </div>
+    <div class="flight-meta-item">
+      <span class="fmi-label">Airlines</span>
+      <span class="fmi-value">Brussels Airlines, Air France, KLM</span>
     </div>
-    <span style="padding:3px 10px;border-radius:20px;background:rgba(255,90,31,0.12);color:var(--fire);font-size:11px;font-weight:700">Via: Brüssel oder Paris</span>
   </div>
-  <div class="flight-meta">
-    <div class="flight-meta-item"><span class="fmi-label">Flugdauer</span><span class="fmi-value">~8-9h</span></div>
-    <div class="flight-meta-item"><span class="fmi-label">Ab</span><span class="fmi-value">€300-650</span></div>
-    <div class="flight-meta-item"><span class="fmi-label">Fluggesellschaft</span><span class="fmi-value">KLM, Brussels Airlines, Air France</span></div>
-  </div>
-  <p style="font-size:15px;color:#374151;line-height:1.75;margin:16px 0">Von Amsterdam ist die kürzeste Verbindung nach Dakar über Brüssel mit Brussels Airlines oder über Paris mit Air France. KLM bietet manchmal Verbindungen über andere Hubs. Gesamtreisezeit: 8-9 Stunden.</p>
-  <a href="https://www.google.com/travel/flights/search?q=Amsterdam+to+Dakar+flights" target="_blank" rel="noopener noreferrer" class="btn btn-deep btn-sm" style="display:inline-flex;align-items:center;gap:8px"><svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg> Flüge suchen</a>
-</div><div class="flight-panel" data-country="pt" style="display:none">
-  <div class="flight-header">
-    <div style="display:flex;align-items:center;gap:12px">
-      <span style="width:22px;height:15px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#006600"/><rect x="20" width="40" height="40" fill="#FF0000"/></svg></span>
-      <div>
-        <div style="font-weight:700;font-size:17px;color:var(--navy)">Portugal</div>
-        <div style="font-size:13px;color:var(--muted);margin-top:2px">Lisbon LIS / Porto OPO</div>
-      </div>
-    </div>
-    <span style="padding:3px 10px;border-radius:20px;background:rgba(255,90,31,0.12);color:var(--fire);font-size:11px;font-weight:700">Via: Casablanca oder Paris</span>
-  </div>
-  <div class="flight-meta">
-    <div class="flight-meta-item"><span class="fmi-label">Flugdauer</span><span class="fmi-value">~6-8h</span></div>
-    <div class="flight-meta-item"><span class="fmi-label">Ab</span><span class="fmi-value">€250-600</span></div>
-    <div class="flight-meta-item"><span class="fmi-label">Fluggesellschaft</span><span class="fmi-value">TAP Air Portugal, Royal Air Maroc, Air France</span></div>
-  </div>
-  <p style="font-size:15px;color:#374151;line-height:1.75;margin:16px 0">Portugal ist eines der europäischen Länder, die Senegal am nächsten sind. TAP Air Portugal und Royal Air Maroc bieten Verbindungen über Casablanca. Lissabon ist der Haupthub. Reisezeit: 6-8 Stunden.</p>
-  <a href="https://www.google.com/travel/flights/search?q=Lisbon+to+Dakar+flights" target="_blank" rel="noopener noreferrer" class="btn btn-deep btn-sm" style="display:inline-flex;align-items:center;gap:8px"><svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg> Flüge suchen</a>
-</div><div class="flight-panel" data-country="da" style="display:none">
-  <div class="flight-header">
-    <div style="display:flex;align-items:center;gap:12px">
-      <span style="width:22px;height:15px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#C60C30"/><rect x="18" width="8" height="40" fill="#fff"/><rect y="16" width="60" height="8" fill="#fff"/></svg></span>
-      <div>
-        <div style="font-weight:700;font-size:17px;color:var(--navy)">Dänemark</div>
-        <div style="font-size:13px;color:var(--muted);margin-top:2px">Copenhagen CPH / Billund BLL</div>
-      </div>
-    </div>
-    <span style="padding:3px 10px;border-radius:20px;background:rgba(255,90,31,0.12);color:var(--fire);font-size:11px;font-weight:700">Via: Brüssel, Paris oder Amsterdam</span>
-  </div>
-  <div class="flight-meta">
-    <div class="flight-meta-item"><span class="fmi-label">Flugdauer</span><span class="fmi-value">~10-12h</span></div>
-    <div class="flight-meta-item"><span class="fmi-label">Ab</span><span class="fmi-value">€500-900</span></div>
-    <div class="flight-meta-item"><span class="fmi-label">Fluggesellschaft</span><span class="fmi-value">SAS, Brussels Airlines, Air France</span></div>
-  </div>
-  <p style="font-size:15px;color:#374151;line-height:1.75;margin:16px 0">Aus Dänemark nach Dakar über Brüssel, Paris oder Amsterdam. SAS hat oft Codeshares. Gesamtreisezeit: 10-12 Stunden. Früh buchen - Dakar ist bei skandinavischen Surfern beliebt.</p>
-  <a href="https://www.google.com/travel/flights/search?q=Copenhagen+to+Dakar+flights" target="_blank" rel="noopener noreferrer" class="btn btn-deep btn-sm" style="display:inline-flex;align-items:center;gap:8px"><svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg> Flüge suchen</a>
-</div><div class="flight-panel" data-country="ar" style="display:none">
-  <div class="flight-header">
-    <div style="display:flex;align-items:center;gap:12px">
-      <span style="width:22px;height:15px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="60" height="14" fill="#006233"/><rect y="13" width="60" height="14" fill="#fff"/><rect y="26" width="60" height="14" fill="#000"/><rect x="0" width="16" height="40" fill="#CE1126"/></svg></span>
-      <div>
-        <div style="font-weight:700;font-size:17px;color:var(--navy)">Marokko / Golf</div>
-        <div style="font-size:13px;color:var(--muted);margin-top:2px">Casablanca CMN / Dubai DXB / Doha DOH</div>
-      </div>
-    </div>
-    <span style="padding:3px 10px;border-radius:20px;background:rgba(255,90,31,0.12);color:var(--fire);font-size:11px;font-weight:700">Direkt ab Casablanca — Via Hub aus dem Golf</span>
-  </div>
-  <div class="flight-meta">
-    <div class="flight-meta-item"><span class="fmi-label">Flugdauer</span><span class="fmi-value">~3-10h</span></div>
-    <div class="flight-meta-item"><span class="fmi-label">Ab</span><span class="fmi-value">MAD 800-3,000 / AED 1,200-3,500</span></div>
-    <div class="flight-meta-item"><span class="fmi-label">Fluggesellschaft</span><span class="fmi-value">Royal Air Maroc, Emirates, Qatar Airways</span></div>
-  </div>
-  <p style="font-size:15px;color:#374151;line-height:1.75;margin:16px 0">Royal Air Maroc fliegt direkt Casablanca-Dakar mehrmals wöchentlich (~3 Stunden ab Casablanca). Aus Golfstaaten über europäische Hubs oder Emirates/Qatar Airways. Gesamt vom Golf: 8-10 Stunden.</p>
-  <a href="https://www.google.com/travel/flights/search?q=Casablanca+to+Dakar+flights" target="_blank" rel="noopener noreferrer" class="btn btn-deep btn-sm" style="display:inline-flex;align-items:center;gap:8px"><svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg> Flüge suchen</a>
+  <p style="font-size:15px;color:#374151;line-height:1.75;margin:16px 0">Keine Direktflüge aus dem UK. Beste Optionen: Brussels Airlines über Brüssel oder Air France über Paris.</p>
+  <a href="https://www.google.com/travel/flights/search?q=London+to+Dakar+flights" target="_blank" rel="noopener noreferrer" class="btn btn-deep btn-sm" style="display:inline-flex;align-items:center;gap:8px">
+    <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
+    Flüge suchen
+  </a>
 </div><div class="flight-panel" data-country="us" style="display:none">
   <div class="flight-header">
     <div style="display:flex;align-items:center;gap:12px">
@@ -377,33 +299,57 @@
         <div style="font-size:13px;color:var(--muted);margin-top:2px">New York JFK / Washington IAD / Atlanta ATL</div>
       </div>
     </div>
-    <span style="padding:3px 10px;border-radius:20px;background:rgba(255,90,31,0.12);color:var(--fire);font-size:11px;font-weight:700">Via: Paris, Brüssel oder Casablanca</span>
+    <span style="padding:3px 10px;border-radius:20px;background:rgba(255,90,31,0.12);color:var(--fire);font-size:11px;font-weight:700">Via: Paris, Brussels, Casablanca or Istanbul</span>
   </div>
   <div class="flight-meta">
-    <div class="flight-meta-item"><span class="fmi-label">Flugdauer</span><span class="fmi-value">~12-15h</span></div>
-    <div class="flight-meta-item"><span class="fmi-label">Ab</span><span class="fmi-value">$600-1,300</span></div>
-    <div class="flight-meta-item"><span class="fmi-label">Fluggesellschaft</span><span class="fmi-value">Delta, Air France, Brussels Airlines</span></div>
+    <div class="flight-meta-item">
+      <span class="fmi-label">Flugzeit</span>
+      <span class="fmi-value">~12–15h</span>
+    </div>
+    <div class="flight-meta-item">
+      <span class="fmi-label">Ab</span>
+      <span class="fmi-value">$600–1,300</span>
+    </div>
+    <div class="flight-meta-item">
+      <span class="fmi-label">Airlines</span>
+      <span class="fmi-value">Delta, Air France, Brussels Airlines</span>
+    </div>
   </div>
-  <p style="font-size:15px;color:#374151;line-height:1.75;margin:16px 0">US-Reisende reisen meist über Paris, Brüssel oder Casablanca. Von der Ostküste: 12-14 Stunden. Westküste: 5-6 Stunden mehr.</p>
-  <a href="https://www.google.com/travel/flights/search?q=New+York+to+Dakar+flights" target="_blank" rel="noopener noreferrer" class="btn btn-deep btn-sm" style="display:inline-flex;align-items:center;gap:8px"><svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg> Flüge suchen</a>
+  <p style="font-size:15px;color:#374151;line-height:1.75;margin:16px 0">Die meisten US-Reisenden reisen über Paris, Brüssel oder Casablanca. Von der Ostküste ca. 12–14h gesamt.</p>
+  <a href="https://www.google.com/travel/flights/search?q=New+York+to+Dakar+flights" target="_blank" rel="noopener noreferrer" class="btn btn-deep btn-sm" style="display:inline-flex;align-items:center;gap:8px">
+    <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
+    Flüge suchen
+  </a>
 </div><div class="flight-panel" data-country="ca" style="display:none">
   <div class="flight-header">
     <div style="display:flex;align-items:center;gap:12px">
-      <span style="width:22px;height:15px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="15" height="40" fill="#FF0000"/><rect x="15" width="30" height="40" fill="#fff"/><rect x="45" width="15" height="40" fill="#FF0000"/></svg></span>
+      <span style="width:22px;height:15px;display:inline-flex;border-radius:2px;overflow:hidden"><svg viewBox="0 0 60 40"><rect width="15" height="40" fill="#FF0000"/><rect x="15" width="30" height="40" fill="#fff"/><rect x="45" width="15" height="40" fill="#FF0000"/><text x="30" y="28" text-anchor="middle" font-size="20" fill="#FF0000">🍁</text></svg></span>
       <div>
         <div style="font-weight:700;font-size:17px;color:var(--navy)">Kanada</div>
         <div style="font-size:13px;color:var(--muted);margin-top:2px">Toronto YYZ / Montréal YUL / Vancouver YVR</div>
       </div>
     </div>
-    <span style="padding:3px 10px;border-radius:20px;background:rgba(255,90,31,0.12);color:var(--fire);font-size:11px;font-weight:700">Via: Paris oder Brüssel</span>
+    <span style="padding:3px 10px;border-radius:20px;background:rgba(255,90,31,0.12);color:var(--fire);font-size:11px;font-weight:700">Via: Paris, Brussels, or Casablanca</span>
   </div>
   <div class="flight-meta">
-    <div class="flight-meta-item"><span class="fmi-label">Flugdauer</span><span class="fmi-value">~14-18h</span></div>
-    <div class="flight-meta-item"><span class="fmi-label">Ab</span><span class="fmi-value">CAD 900-1,800</span></div>
-    <div class="flight-meta-item"><span class="fmi-label">Fluggesellschaft</span><span class="fmi-value">Air France, Brussels Airlines, Air Canada</span></div>
+    <div class="flight-meta-item">
+      <span class="fmi-label">Flugzeit</span>
+      <span class="fmi-value">~14–18h</span>
+    </div>
+    <div class="flight-meta-item">
+      <span class="fmi-label">Ab</span>
+      <span class="fmi-value">CAD 900–1,800</span>
+    </div>
+    <div class="flight-meta-item">
+      <span class="fmi-label">Airlines</span>
+      <span class="fmi-value">Air France, Brussels Airlines, Air Canada</span>
+    </div>
   </div>
-  <p style="font-size:15px;color:#374151;line-height:1.75;margin:16px 0">Von Montréal bietet Air France über Paris die natürlichste Verbindung. Von Toronto Brussels Airlines über Brüssel. Von Vancouver: über 18 Stunden.</p>
-  <a href="https://www.google.com/travel/flights/search?q=Toronto+to+Dakar+flights" target="_blank" rel="noopener noreferrer" class="btn btn-deep btn-sm" style="display:inline-flex;align-items:center;gap:8px"><svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg> Flüge suchen</a>
+  <p style="font-size:15px;color:#374151;line-height:1.75;margin:16px 0">Ab Montreal ist Air France via Paris die beste Verbindung. Ab Toronto bietet Brussels Airlines via Brüssel eine gute Option.</p>
+  <a href="https://www.google.com/travel/flights/search?q=Toronto+to+Dakar+flights" target="_blank" rel="noopener noreferrer" class="btn btn-deep btn-sm" style="display:inline-flex;align-items:center;gap:8px">
+    <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
+    Flüge suchen
+  </a>
 </div><div class="flight-panel" data-country="au" style="display:none">
   <div class="flight-header">
     <div style="display:flex;align-items:center;gap:12px">
@@ -413,15 +359,27 @@
         <div style="font-size:13px;color:var(--muted);margin-top:2px">Sydney SYD / Melbourne MEL / Brisbane BNE</div>
       </div>
     </div>
-    <span style="padding:3px 10px;border-radius:20px;background:rgba(255,90,31,0.12);color:var(--fire);font-size:11px;font-weight:700">Via: Dubai, Doha oder europäischen Hub</span>
+    <span style="padding:3px 10px;border-radius:20px;background:rgba(255,90,31,0.12);color:var(--fire);font-size:11px;font-weight:700">Via: Dubai, Doha or European hub</span>
   </div>
   <div class="flight-meta">
-    <div class="flight-meta-item"><span class="fmi-label">Flugdauer</span><span class="fmi-value">~24-30h</span></div>
-    <div class="flight-meta-item"><span class="fmi-label">Ab</span><span class="fmi-value">AUD 1,800-3,500</span></div>
-    <div class="flight-meta-item"><span class="fmi-label">Fluggesellschaft</span><span class="fmi-value">Emirates, Qatar Airways, Air France</span></div>
+    <div class="flight-meta-item">
+      <span class="fmi-label">Flugzeit</span>
+      <span class="fmi-value">~24–30h</span>
+    </div>
+    <div class="flight-meta-item">
+      <span class="fmi-label">Ab</span>
+      <span class="fmi-value">AUD 1,800–3,500</span>
+    </div>
+    <div class="flight-meta-item">
+      <span class="fmi-label">Airlines</span>
+      <span class="fmi-value">Emirates, Qatar Airways, Air France</span>
+    </div>
   </div>
-  <p style="font-size:15px;color:#374151;line-height:1.75;margin:16px 0">Australien nach Senegal: 24-30 Stunden mit 2 Verbindungen. Am bequemsten: Emirates über Dubai oder Qatar Airways über Doha, dann Verbindung nach Dakar.</p>
-  <a href="https://www.google.com/travel/flights/search?q=Sydney+to+Dakar+flights" target="_blank" rel="noopener noreferrer" class="btn btn-deep btn-sm" style="display:inline-flex;align-items:center;gap:8px"><svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg> Flüge suchen</a>
+  <p style="font-size:15px;color:#374151;line-height:1.75;margin:16px 0">Australien nach Senegal ist eine lange Reise — 24–30 Stunden mit 2 Verbindungen. Emirates via Dubai oder Qatar Airways via Doha sind die komfortabelsten Optionen.</p>
+  <a href="https://www.google.com/travel/flights/search?q=Sydney+to+Dakar+flights" target="_blank" rel="noopener noreferrer" class="btn btn-deep btn-sm" style="display:inline-flex;align-items:center;gap:8px">
+    <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
+    Flüge suchen
+  </a>
 </div></div>
     </div>
   </section>
@@ -489,11 +447,9 @@
 </main>
 
 <!-- Footer -->
-<div class="footer-quotes" aria-label="Surf quotes" aria-live="polite">
+<div class="footer-quotes" id="fq-quotes-block" aria-label="Surf quotes" aria-live="polite">
   <div class="footer-quotes-inner">
-    <div class="fq-icon" aria-hidden="true">&ldquo;</div>
-    <div class="fq-text-wrap" id="fq-wrap-de"><span class="fq-phrase active" data-idx="0">Der Ozean kümmert sich nicht um dein Level. Nur um deine Anwesenheit.</span><span class="fq-phrase" data-idx="1">Keine Autos. Kein Lärm. Nur das Rauschen der Wellen bei Ngor.</span><span class="fq-phrase" data-idx="2">Fortschritt beim Surfen wird in Lächeln gemessen, nicht nur in Kurven.</span><span class="fq-phrase" data-idx="3">Ngor Right ruft Surfer seit 1964. Du bist dran.</span><span class="fq-phrase" data-idx="4">Der beste Surf-Trip ist der, bei dem du vergisst, dein Handy zu checken.</span><span class="fq-phrase" data-idx="5">Westafrikas bestgehütetes Surf-Geheimnis? Nicht mehr lange.</span><span class="fq-phrase" data-idx="6">Eine Pirogenfahrt trennt Dakar vom Paradies.</span><span class="fq-phrase" data-idx="7">Besser surfen. Langsamer leben. Den Unterschied spüren.</span><span class="fq-phrase" data-idx="8">Teranga: die senegalesische Kunst, jeden Gast wie zuhause zu empfangen.</span><span class="fq-phrase" data-idx="9">Ngor Left lehrt Geduld. Ngor Right belohnt sie.</span><span class="fq-phrase" data-idx="10">Der Atlantik ist hier warm. Der Empfang noch wärmer.</span><span class="fq-phrase" data-idx="11">Sechs Tage, sechs Sessions, ein Surf-Camp, das alles verändert.</span><span class="fq-phrase" data-idx="12">Echtes Coaching beginnt, wo Komfortzonen enden.</span><span class="fq-phrase" data-idx="13">Manche kommen eine Woche nach Ngor. Viele kommen jedes Jahr zurück.</span><span class="fq-phrase" data-idx="14"><strong>Der Endless Summer begann hier. Wo beginnt deiner?</strong></span></div>
-    <div class="fq-dots" aria-hidden="true" id="fq-dots-de"><div class="fq-dot active" data-dot="0"></div><div class="fq-dot " data-dot="1"></div><div class="fq-dot " data-dot="2"></div><div class="fq-dot " data-dot="3"></div><div class="fq-dot " data-dot="4"></div></div>
+    <div class="fq-text-wrap" id="fq-wrap-de"></div>
   </div>
 </div>
 <footer>
@@ -540,9 +496,8 @@
       <div class="footer-flags" aria-label="Sprachversionen"><a href="/" class="footer-flag-link" hreflang="en" title="English"><span style="width:22px;height:15px;display:inline-flex;border-radius:3px;overflow:hidden;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.22)"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#fff" stroke-width="8"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#C8102E" stroke-width="5"/><path d="M30,0 V40 M0,20 H60" stroke="#fff" stroke-width="12"/><path d="M30,0 V40 M0,20 H60" stroke="#C8102E" stroke-width="8"/></svg></span></a> <a href="/fr/" class="footer-flag-link" hreflang="fr-FR" title="Français"><span style="width:22px;height:15px;display:inline-flex;border-radius:3px;overflow:hidden;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.22)"><svg viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></span></a> <a href="/es/" class="footer-flag-link" hreflang="es-ES" title="Español"><span style="width:22px;height:15px;display:inline-flex;border-radius:3px;overflow:hidden;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.22)"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#c60b1e"/><rect y="10" width="60" height="20" fill="#ffc400"/></svg></span></a> <a href="/it/" class="footer-flag-link" hreflang="it-IT" title="Italiano"><span style="width:22px;height:15px;display:inline-flex;border-radius:3px;overflow:hidden;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.22)"><svg viewBox="0 0 60 40"><rect width="20" height="40" fill="#009246"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#CE2B37"/></svg></span></a> <a href="/de/" class="footer-flag-link" hreflang="de-DE" title="Deutsch"><span style="width:22px;height:15px;display:inline-flex;border-radius:3px;overflow:hidden;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.22)"><svg viewBox="0 0 60 40"><rect width="60" height="13" fill="#000"/><rect y="13" width="60" height="14" fill="#DD0000"/><rect y="27" width="60" height="13" fill="#FFCE00"/></svg></span></a> <a href="/nl/" class="footer-flag-link" hreflang="nl-NL" title="Nederlands"><span style="width:22px;height:15px;display:inline-flex;border-radius:3px;overflow:hidden;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.22)"><svg viewBox="0 0 60 40"><rect width="60" height="13" fill="#AE1C28"/><rect y="13" width="60" height="14" fill="#fff"/><rect y="27" width="60" height="13" fill="#21468B"/></svg></span></a> <a href="/ar/" class="footer-flag-link" hreflang="ar-MA" title="العربية"><span style="width:22px;height:15px;display:inline-flex;border-radius:3px;overflow:hidden;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.22)"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#C1272D"/><path d="M30,10 L31.8,16.1 L38.5,16.1 L33,19.9 L35,26 L30,22.1 L25,26 L27,19.9 L21.5,16.1 L28.2,16.1 Z" fill="none" stroke="#006233" stroke-width="1.2"/></svg></span></a> <a href="/da/" class="footer-flag-link" hreflang="da-DK" title="Dansk"><span style="width:22px;height:15px;display:inline-flex;border-radius:3px;overflow:hidden;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.22)"><svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#C60C30"/><rect x="20" width="8" height="40" fill="#fff"/><rect y="16" width="60" height="8" fill="#fff"/></svg></span></a> <a href="/pt/" class="footer-flag-link" hreflang="pt-PT" title="Português"><span style="width:22px;height:15px;display:inline-flex;border-radius:3px;overflow:hidden;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.22)"><svg viewBox="0 0 60 40"><rect width="22" height="40" fill="#006600"/><rect x="22" width="38" height="40" fill="#FF0000"/><circle cx="22" cy="20" r="8" fill="#FFD700" stroke="#006600" stroke-width="1"/></svg></span></a></div>
     </div>
   </div>
-</footer>
-<!-- Leaflet JS -->
-<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.min.js" crossorigin="" defer defer></script>
+</footer><!-- Leaflet JS -->
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 
 <script>
 /* ── Leaflet Map ─────────────────────────────────────── */
@@ -612,6 +567,27 @@
   // Scale
   L.control.scale({ imperial: false }).addTo(map);
 })();
+
+/* ── Country tabs ────────────────────────────────────── */
+function switchCountry(key) {
+  document.querySelectorAll('.flight-panel').forEach(p => p.style.display = 'none');
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  var panel = document.querySelector('[data-country="' + key + '"].flight-panel');
+  var btn   = document.querySelector('[data-country="' + key + '"].tab-btn');
+  if(panel) panel.style.display = 'block';
+  if(btn)   btn.classList.add('active');
+}
+
+/* ── Animations ──────────────────────────────────────── */
+function toggleLangDD(e) { e.stopPropagation(); document.getElementById('lang-dd').classList.toggle('open'); }
+document.addEventListener('click', e => { var d=document.getElementById('lang-dd'); if(d&&!d.contains(e.target)) d.classList.remove('open'); });
+function toggleMenu() { document.getElementById('nav-links').classList.toggle('open'); }
+document.addEventListener('DOMContentLoaded', () => {
+  const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('up');}),{threshold:0.08});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+  const nav=document.getElementById('nav');
+  if(nav) window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>30),{passive:true});
+});
 </script>
 
 
