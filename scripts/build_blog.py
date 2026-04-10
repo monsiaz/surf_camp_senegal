@@ -1018,11 +1018,11 @@ def build_article(en_art, lang):
     content = md2html(content_raw, lang, pfx)
     content = faq_to_accordion(content)
 
+    _hero_p = f"{DEMO_DIR}/assets/images/blog/{en_slug}_hero.webp"
     _bw_p  = f"{DEMO_DIR}/assets/images/{en_slug}.webp"
-    _col_p = f"{DEMO_DIR}/assets/images/{en_slug}.webp"
-    if os.path.exists(_bw_p):
-        img = f"/assets/images/{en_slug}.webp"
-    elif os.path.exists(_col_p):
+    if os.path.exists(_hero_p):
+        img = f"/assets/images/blog/{en_slug}_hero.webp"
+    elif os.path.exists(_bw_p):
         img = f"/assets/images/{en_slug}.webp"
     else:
         img = f"{_WIX}/df99f9_961b0768e713457f93025f4ce6fb1419.webp"
@@ -1211,8 +1211,8 @@ FALLBACK_IMG = "/assets/images/wix/df99f9_961b0768e713457f93025f4ce6fb1419.webp"
 
 def art_img(slug):
     """Return best available image src for an article (B&W preferred for card/preview style)."""
-    if os.path.exists(f"{DEMO_DIR}/assets/images/{slug}.webp"):
-        return f"/assets/images/{slug}.webp"
+    if os.path.exists(f"{DEMO_DIR}/assets/images/blog/{slug}_hero.webp"):
+        return f"/assets/images/blog/{slug}_hero.webp"
     if os.path.exists(f"{DEMO_DIR}/assets/images/{slug}.webp"):
         return f"/assets/images/{slug}.webp"
     return FALLBACK_IMG
