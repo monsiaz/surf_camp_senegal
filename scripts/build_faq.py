@@ -38,7 +38,7 @@ IMGS = {
     "surf5":  f"{_WIX}/df99f9_796b6115065145eabddfe3ae32b8f4d5.webp",
     "surf6":  f"{_WIX}/df99f9_04a8bba9fda34e22b7b5feae890d79cf.webp",
     "coach":  f"{_WIX}/df99f9_9e239b5550f949e998b00f8e16417fa8.webp",
-    "island": f"{_WIX}/df99f9_56b9af6efe2841eea44109b3b08b7da1.webp",
+    "island": f"{_GAL}/island_hero.webp",
     "ngor_r": f"{_WIX}/11062b_7f89d2db0ace4027ac4a00928a6aca08.webp",
     "airport":f"{_WIX}/df99f9_d6e404dd3cf74396b6ea874cb7021a27.webp",
     "boat":   f"{_WIX}/df99f9_4edccd3c01ca4f8ba06ed25c80e1eccb.webp",

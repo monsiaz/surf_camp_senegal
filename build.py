@@ -306,7 +306,7 @@ IMGS = {
     "house":   f"{_WIX}/df99f9_2ec6248367cd4e21a5e6c26c2b0a1c35.webp",
     "house2":  f"{_WIX}/df99f9_eba4c24ec6a746b58d60a975b8d20946.webp",
     "house3":  f"{_WIX}/df99f9_d8e77cf4807249f6953119f18be64166.webp",
-    "island":  f"{_WIX}/df99f9_56b9af6efe2841eea44109b3b08b7da1.webp",
+    "island":  f"{_GAL}/island_hero.webp",
     "island2":    "/assets/images/gallery/Surfing_1_39b1d748.webp",
     "surf_hero":  "/assets/images/gallery/0a_hero.webp",
     "surf":       "/assets/images/gallery/79fd3518-a569-479b-9980-5af713fda22c_1c4694d0.webp",
