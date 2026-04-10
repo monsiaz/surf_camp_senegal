@@ -37224,19 +37224,15 @@ body{max-width:100vw;overflow-x:hidden}
 .island-discover-card { display: flex; flex-direction: column; }
 .island-discover-card .card-img { height: 210px; flex-shrink: 0; object-fit: cover; object-position: center; width: 100%; }
 
-/* FSS certification badge in footer (column “Follow us”) */
-.footer-fss-badge{display:flex;align-items:center;gap:10px;padding:7px 14px 7px 8px;background:rgba(255,255,255,0.06);border:1px solid rgba(240,192,96,0.25);border-radius:40px;box-sizing:border-box;max-width:100%}
-.footer-col-follow .footer-fss-in-col{margin-top:22px}
-.footer-fss-in-col{flex-wrap:wrap}
-.footer-fss-logo-wrap{flex-shrink:0;display:flex;align-items:center;justify-content:center;width:36px;height:36px;background:#fff;border-radius:50%;overflow:hidden;padding:2px}
-.footer-fss-logo-wrap img{width:32px;height:32px;object-fit:contain;display:block}
-.footer-fss-text{display:flex;flex-direction:column;gap:1px;min-width:0}
-.footer-fss-title{font-size:12px;font-weight:700;color:#fff;letter-spacing:0.02em;white-space:nowrap}
-.footer-fss-sub{font-size:10px;color:var(--sand);opacity:0.9;line-height:1.25}
-@media(max-width:380px){
-  .footer-fss-in-col .footer-fss-title,.footer-fss-in-col .footer-fss-sub{white-space:normal}
-}
-[dir="rtl"] .footer-fss-in-col{flex-direction:row-reverse}
+/* FSS certification badge in footer (column "Follow us") */
+.footer-fss-badge{display:inline-flex;align-items:center;gap:12px;padding:12px 18px 12px 12px;background:rgba(255,255,255,0.06);border:1px solid rgba(240,192,96,0.30);border-radius:14px;box-sizing:border-box;width:100%;max-width:100%}
+.footer-col-follow .footer-fss-in-col{margin-top:24px}
+.footer-fss-logo-wrap{flex-shrink:0;display:flex;align-items:center;justify-content:center;width:48px;height:48px;background:#fff;border-radius:50%;overflow:hidden;padding:3px}
+.footer-fss-logo-wrap img{width:42px;height:42px;object-fit:contain;display:block}
+.footer-fss-text{display:flex;flex-direction:column;gap:3px;min-width:0}
+.footer-fss-title{font-size:12px;font-weight:800;color:#fff;letter-spacing:0.04em;text-transform:uppercase;line-height:1.2;white-space:nowrap}
+.footer-fss-sub{font-size:11px;color:var(--sand);opacity:0.85;line-height:1.35;white-space:normal}
+[dir="rtl"] .footer-fss-badge{flex-direction:row-reverse}
 [dir="rtl"] .footer-fss-text{text-align:right}
 /* ══════════════════════════════════════════════════════
    VISUAL BLOCKS v2 — Premium DA
