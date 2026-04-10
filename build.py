@@ -349,14 +349,18 @@ def build_gallery_thumb_buttons(urls, alt_raw, pe, thumb_w=560, eager_first=Fals
 
 
 SURF_HOUSE_SHOTS = [
-    f"{_GAL}/CAML1124_73024503.webp",
-    f"{_GAL}/CAML1129_2323b4f6.webp",
-    f"{_GAL}/CAML1133_c4e634ba.webp",
-    f"{_GAL}/CAML1136_7887aa9f.webp",
-    f"{_GAL}/CAML1138_615df811.webp",
-    f"{_GAL}/CAML1142_092a767e.webp",
-    f"{_GAL}/CAML1150_c1f8abfe.webp",
-    f"{_GAL}/CAML1100_3a5f7e17.webp",
+    f"{_GAL}/CAML1113_c1a068bf.webp",   # terrasse vue mer
+    f"{_GAL}/CAML1121_6be3e857.webp",   # terrasse assise
+    f"{_GAL}/CAML1133_c4e634ba.webp",   # piscine
+    f"{_GAL}/CAML1075_2701da06.webp",   # piscine 2
+    f"{_GAL}/CAML1142_092a767e.webp",   # façade
+    f"{_GAL}/CAML1099_8e5f6217.webp",   # chambre
+    f"{_GAL}/CAML1124_73024503.webp",   # intérieur
+    f"{_GAL}/CAML1129_2323b4f6.webp",   # salon
+    f"{_GAL}/CAML1138_615df811.webp",   # planches stockage
+    f"{_GAL}/CAML1100_3a5f7e17.webp",   # couloir/détail
+    f"{_GAL}/CAML1150_c1f8abfe.webp",   # mosaïque déco
+    f"{_GAL}/CAML1136_7887aa9f.webp",   # combinaisons
 ]
 
 SURF_ACTION_SHOTS = [
@@ -5629,9 +5633,14 @@ def build_surf_house(lang):
   <section class="sh-rooms-sec sec-light">
     <div class="container">
       <div class="sh-rooms-grid">
-        <div class="sh-rooms-visual sh-rooms-photos reveal">
-          <img src="/assets/images/gallery/CAML1098_9e61ecbe.webp" alt="{pe(C['quote_h2'])}" width="640" height="380" loading="lazy" decoding="async" class="sh-rooms-img sh-rooms-img--1">
-          <img src="/assets/images/gallery/CAML1103_74b9018b.webp" alt="{pe(C['rooms_lbl'])}" width="400" height="260" loading="lazy" decoding="async" class="sh-rooms-img sh-rooms-img--2">
+        <div class="sh-rooms-mosaic reveal">
+          <div class="sh-mosaic-main">
+            <img src="/assets/images/gallery/CAML1098_9e61ecbe.webp" alt="{pe(C['quote_h2'])}" width="640" height="440" loading="lazy" decoding="async">
+          </div>
+          <div class="sh-mosaic-pair">
+            <img src="/assets/images/gallery/CAML1103_74b9018b.webp" alt="{pe(C['rooms_lbl'])}" width="380" height="210" loading="lazy" decoding="async">
+            <img src="/assets/images/gallery/CAML1109_303626ae.webp" alt="{pe(C['rooms_lbl'])}" width="380" height="210" loading="lazy" decoding="async">
+          </div>
         </div>
         <div class="sh-rooms-copy reveal">
           <span class="s-label">{pe(C["rooms_lbl"])}</span>
@@ -5683,9 +5692,12 @@ def build_surf_house(lang):
 
   <section class="section sh-gallery-sec">
     <div class="container">
-      <h2 class="s-title reveal" style="text-align:center;margin-bottom:32px">{pe(C["gal_h2"])}</h2>
-      <div class="gallery-masonry" role="list">{gal_items}</div>
-      <div style="text-align:center;margin-top:36px" class="reveal">
+      <div style="text-align:center;margin-bottom:40px" class="reveal">
+        <span class="s-label">{pe(C["gal_h2"])}</span>
+        <h2 class="s-title">{pe(C["gal_h2"])}</h2>
+      </div>
+      <div class="gallery-masonry sh-house-gallery" role="list">{gal_items}</div>
+      <div style="text-align:center;margin-top:40px" class="reveal">
         <button class="btn btn-ocean btn-lg" onclick="sessionStorage.setItem('ngor_gallery_filter','surf_house');window.location='{gal_href}'">{explore_gal_lbl}<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
       </div>
     </div>
