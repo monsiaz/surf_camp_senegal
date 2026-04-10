@@ -435,12 +435,13 @@ def icon_img(name, size=24):
 
 # ── Wave section dividers ──────────────────────────────────────────────
 def wave_bottom(prev_bg, next_fill):
-    """Single wave divider: only next_fill is visible (the bottom section's colour).
-    The div is transparent and overlaps the section above via margin-top:-52px in CSS,
-    so no background mismatch / 3-colour artefact is possible regardless of gradients.
-    prev_bg is kept in the signature for call-site compatibility but is intentionally unused."""
+    """Single wave divider: prev_bg fills the background (area above path),
+    next_fill fills the SVG path (area below wave curve).
+    Using explicit prev_bg prevents white/body-background bleed when the wave
+    div is rendered outside the section above it."""
+    bg = prev_bg if prev_bg else "transparent"
     return (
-        f'<div class="wave-bottom" aria-hidden="true">'
+        f'<div class="wave-bottom" aria-hidden="true" style="background:{bg}">'
         f'<svg viewBox="0 0 1440 52" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">'
         f'<path d="M0 26 C240 2,480 50,720 24 C960 -2,1200 48,1440 26 L1440 52 L0 52Z" fill="{next_fill}"/>'
         f'</svg></div>'
