@@ -1625,7 +1625,7 @@ def patch_waves_all_pages():
                         prev_bg = _BG_LIGHT
                     else:
                         prev_bg = _BG_WHITE
-                    wave_html = '\n' + wave_bottom(prev_bg, "#000") + '\n'
+                    wave_html = '\n' + wave_bottom(prev_bg, "#06111e") + '\n'
                     h = h.replace(FQ_MARKER, wave_html + FQ_MARKER, 1)
                     changed = True
 
