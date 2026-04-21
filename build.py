@@ -489,7 +489,7 @@ def wave_bottom(prev_bg, next_fill):
     return (
         f'<div class="wave-bottom" aria-hidden="true" style="background:{bg}">'
         f'<svg viewBox="0 0 1440 52" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">'
-        f'<path d="M0 26 C240 2,480 50,720 24 C960 -2,1200 48,1440 26 L1440 52 L0 52Z" fill="{next_fill}"/>'
+        f'<path d="M0 0 C360 52,1080 52,1440 0 L1440 52 L0 52Z" fill="{next_fill}"/>'
         f'</svg></div>'
     )
 
