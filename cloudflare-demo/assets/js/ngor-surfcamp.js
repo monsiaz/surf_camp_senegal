@@ -244,3 +244,11 @@ bindTrack(document.getElementById('reviews-inner'));bindTrack(document.getElemen
   var legacy=document.getElementById('fc-widget');
   if(legacy&&!legacy.classList.contains('fc-widget'))runWidget(legacy);
 })();
+
+/* Auto-update copyright year */
+(function(){
+  var currentYear = new Date().getFullYear().toString();
+  document.querySelectorAll('.footer-bottom p').forEach(function(el){
+    el.innerHTML = el.innerHTML.replace(/© \d{4}/, '© ' + currentYear);
+  });
+})();
