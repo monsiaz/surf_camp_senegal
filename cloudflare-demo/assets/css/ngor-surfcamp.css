@@ -72173,3 +72173,21 @@ img{max-width:100%;height:auto}
 .page-header + .section.sec-light { padding-top: 64px; }
 .blog-hub-header + .section,
 .blog-hub-header + .section.sec-light { padding-top: 64px; }
+
+/* Surf House: no wave between feats (navy) and pool split — cut dead air */
+.sh2-feats-section:has(+ .sh2-split-section) {
+  padding-bottom: 56px;
+}
+.sh2-feats-section + .sh2-split-section .sh2-split-copy-inner {
+  padding-top: 28px;
+}
+@media (max-width: 960px) {
+  .sh2-feats-section + .sh2-split-section .sh2-split-copy-inner {
+    padding-top: 22px;
+  }
+}
+@media (max-width: 640px) {
+  .sh2-feats-section + .sh2-split-section .sh2-split-copy-inner {
+    padding-top: 18px;
+  }
+}
