@@ -481,23 +481,12 @@ def icon_img(name, size=24):
 
 # ── Wave section dividers ──────────────────────────────────────────────
 def wave_bottom(prev_bg, next_fill):
-    """Single wave divider: prev_bg fills the background (area above path),
-    next_fill fills the SVG path (area below wave curve).
-    Using explicit prev_bg prevents white/body-background bleed when the wave
-    div is rendered outside the section above it."""
-    bg = prev_bg if prev_bg else "transparent"
-    return (
-        f'<div class="wave-bottom" aria-hidden="true" style="background:{bg}">'
-        f'<svg viewBox="0 0 1440 52" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">'
-        f'<path d="M0 0 C360 52,1080 52,1440 0 L1440 52 L0 52Z" fill="{next_fill}"/>'
-        f'</svg></div>'
-    )
+    """Straight section boundaries only — no curved SVG dividers."""
+    return ""
 
 def wave_top(next_bg, prev_fill):
-    """Deprecated alias — redirects to wave_bottom with swapped args.
-    wave_top(X, Y) == wave_bottom(Y, X) visually; using only wave_bottom everywhere
-    prevents double-wave artifacts when both were placed at the same boundary."""
-    return wave_bottom(prev_fill, next_bg)
+    """Straight section boundaries only — no curved SVG dividers."""
+    return ""
 
 
 def _dedup_adjacent_waves(html):
@@ -2064,9 +2053,11 @@ def patch_waves_all_pages():
                         prev_bg = _BG_LIGHT
                     else:
                         prev_bg = _BG_WHITE
-                    wave_html = '\n' + wave_bottom(prev_bg, "#06111e") + '\n'
-                    h = h.replace(FQ_MARKER, wave_html + FQ_MARKER, 1)
-                    changed = True
+                    wb = wave_bottom(prev_bg, "#06111e")
+                    if wb:
+                        wave_html = '\n' + wb + '\n'
+                        h = h.replace(FQ_MARKER, wave_html + FQ_MARKER, 1)
+                        changed = True
 
             # ── Rule 2: insert wave_bottom before .cta-band ──────────────
             CTA_MARKER = '<div class="cta-band"'
@@ -2093,9 +2084,11 @@ def patch_waves_all_pages():
                     prev_bg = _BG_LIGHT
                 else:
                     prev_bg = _BG_WHITE
-                wave_html = '\n' + wave_bottom(prev_bg, "#070f1c") + '\n'
-                h = h.replace(CTA_MARKER, wave_html + CTA_MARKER, 1)
-                changed = True
+                wb = wave_bottom(prev_bg, "#070f1c")
+                if wb:
+                    wave_html = '\n' + wb + '\n'
+                    h = h.replace(CTA_MARKER, wave_html + CTA_MARKER, 1)
+                    changed = True
 
             # ── Rule 3: waves between alternating white/sec-light sections ──
             # Find all <section ...> tags and insert waves between colour changes
@@ -2113,9 +2106,11 @@ def patch_waves_all_pages():
                     if prev_bg == curr_bg or curr_bg == _BG_NAVY:
                         continue  # same bg or going to navy (handled elsewhere)
                     pos = sec_tags[i].start()
-                    wave_html = wave_bottom(prev_bg, curr_bg) + '\n  '
-                    h = h[:pos] + wave_html + h[pos:]
-                    changed = True
+                    wh = wave_bottom(prev_bg, curr_bg)
+                    if wh:
+                        wave_html = wh + '\n  '
+                        h = h[:pos] + wave_html + h[pos:]
+                        changed = True
 
             if changed:
                 h = _dedup_adjacent_waves(h)

@@ -817,8 +817,8 @@ def nav_html(active, lang, pfx, page_slug="", lang_urls=None):
         ])
     return f'<nav id="nav"><div class="nav-inner"><a href="{pfx}/" class="nav-logo"><img src="{LOGO}" alt="Ngor Surfcamp Teranga" width="130" height="44" loading="eager"></a><div class="nav-links" id="nav-links">{items}</div><div class="nav-right"><div class="lang-dd" id="lang-dd"><button class="lang-dd-btn" onclick="toggleLangDD(event)">{flag(lang,20)} {lang.upper()} <span style="display:inline-flex">{CHEV_ICO}</span></button><div class="lang-dd-menu" role="menu">{opts}</div></div><a href="https://wa.me/221789257025" target="_blank" rel="noopener" class="nav-wa" aria-label="WhatsApp"><span style="display:inline-flex">{WA_ICO}</span><span class="nav-wa-label">WhatsApp</span></a><button class="nav-toggle" id="nav-toggle" aria-label="Menu" onclick="toggleMenu()"><span style="display:inline-flex;color:#fff">{MENU_ICO}</span></button></div></div></nav>'
 
-WAVE_DARK_TO_WHITE = '<div class="wave-top" style="background:#fff;margin-top:-2px" aria-hidden="true"><svg viewBox="0 0 1440 52" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0 26 C240 50,480 2,720 28 C960 54,1200 4,1440 26 L1440 0 L0 0Z" fill="#07192e"/></svg></div>'
-WAVE_WHITE_TO_DARK = '<div class="wave-bottom" style="background:#fff;margin-bottom:-2px" aria-hidden="true"><svg viewBox="0 0 1440 52" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0 26 C240 2,480 50,720 24 C960 -2,1200 48,1440 26 L1440 52 L0 52Z" fill="#000"/></svg></div>'
+WAVE_DARK_TO_WHITE = ""
+WAVE_WHITE_TO_DARK = ""
 
 def get_footer_quotes(lang):
     """Extract footer-quotes block from the home page (built by build.py)."""
@@ -1445,7 +1445,6 @@ def build_blog_index(lang):
       <h1 style="font-size:clamp(26px,4.5vw,50px);margin:0 0 14px;line-height:1.1;color:#fff;font-weight:900">{TITLE[lang]}</h1>
       <p style="font-size:16px;color:rgba(255,255,255,0.76);max-width:500px;margin:0 auto;line-height:1.6">{SUB[lang]}</p>
     </div>
-    <div class="wave-bottom" aria-hidden="true"><svg viewBox="0 0 1440 52" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0 0 C360 52,1080 52,1440 0 L1440 52 L0 52Z" fill="#fff8ec"/></svg></div>
   </header>
 
   <!-- All Articles with filter -->
@@ -1600,7 +1599,6 @@ def build_category_page(cat_en, lang):
       <h1 style="font-size:clamp(24px,4vw,44px);margin:8px 0 12px;color:#fff;line-height:1.1;font-weight:900">{c_name}</h1>
       <p style="font-size:15px;color:rgba(255,255,255,0.76);max-width:520px;margin:0 auto;line-height:1.6">{c_desc[:160]}</p>
     </div>
-    <div class="wave-bottom" aria-hidden="true"><svg viewBox="0 0 1440 52" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0 0 C360 52,1080 52,1440 0 L1440 52 L0 52Z" fill="#f9fafb"/></svg></div>
   </header>
 
   <!-- Breadcrumb + article count -->
