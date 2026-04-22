@@ -72201,6 +72201,24 @@ img{max-width:100%;height:auto}
   }
 }
 
+/* Surf House: pool split should not leave a large empty block under text */
+.sh2-split-section.sh2-split-right {
+  min-height: 0;
+}
+.sh2-split-section.sh2-split-right .sh2-split-grid {
+  align-items: start;
+}
+.sh2-split-section.sh2-split-right .sh2-split-copy {
+  justify-content: flex-start;
+}
+.sh2-split-section.sh2-split-right .sh2-split-media {
+  min-height: 0;
+}
+.sh2-split-section.sh2-split-right .sh2-img-hover {
+  min-height: 0 !important;
+  aspect-ratio: 4 / 3;
+}
+
 /* Surf House: gallery strip → Not Included — reduce stacked vertical padding */
 .sh-gallery-sec:has(+ .sh2-ni-section) .container > div:last-of-type {
   margin-top: 28px !important;
