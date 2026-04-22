@@ -2071,6 +2071,13 @@ def patch_waves_all_pages():
             # ── Rule 2: insert wave_bottom before .cta-band ──────────────
             CTA_MARKER = '<div class="cta-band"'
             if CTA_MARKER in h:
+                rel = os.path.relpath(path, DEMO_DIR).replace("\\", "/")
+                if rel == "surf-house/index.html" or "/surf-house/" in rel:
+                    if changed:
+                        with open(path, "w", encoding="utf-8") as f:
+                            f.write(h)
+                        n += 1
+                    continue
                 idx = h.find(CTA_MARKER)
                 preceding = h[max(0, idx-10000):idx]
                 # Detect the actual background of the section above cta-band
@@ -6516,7 +6523,6 @@ def build_surf_house(lang):
   {_surf_house_tribe_section(lang)}
   {wave_bottom(_BG_WHITE, _BG_LIGHT)}
   {insta_section(lang, "surf-house")}
-  {wave_bottom(_BG_LIGHT, _BG_NAVY)}
   <div class="cta-band">
     <div class="container">
       <h2>{pe(C["cta_h2"])}</h2>
