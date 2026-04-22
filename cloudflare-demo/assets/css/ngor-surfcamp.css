@@ -72238,3 +72238,19 @@ img{max-width:100%;height:auto}
     padding-top: 24px;
   }
 }
+
+/* Reviews section: restore bottom padding lost by responsive overrides
+   so "View all on Google" / "Leave a review" buttons breathe under them */
+.reviews-cta {
+  padding-bottom: 56px;
+}
+@media (max-width: 900px) {
+  .reviews-cta {
+    padding-bottom: 48px;
+  }
+}
+@media (max-width: 640px) {
+  .reviews-cta {
+    padding-bottom: 40px;
+  }
+}
