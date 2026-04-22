@@ -520,7 +520,7 @@ _BG_WHITE   = "#ffffff"
 _BG_LIGHT   = "#f7fafd"      # .sec-light
 _BG_NAVY    = "#07192e"      # .sec-dark / reviews-section
 _BG_SAND    = "#fff8ec"      # .sec-sand (sand3 start)
-_BG_BLUE    = "#f0f8ff"      # .gh-teaser
+_BG_BLUE    = "#ffffff"      # .gh-teaser
 
 HOME_WAVE_PATCHES = [
     # (search_before, wave_html)
@@ -553,6 +553,8 @@ HOME_PAGES = [
     "de/index.html",
     "nl/index.html",
     "ar/index.html",
+    "pt/index.html",
+    "da/index.html",
 ]
 
 def patch_home_waves_all():
@@ -2075,8 +2077,10 @@ def patch_waves_all_pages():
                 _dark_markers = ('island-essentials', 'sec-dark', 'reviews-section',
                                  'background:var(--navy)', 'background:#0a2540',
                                  'background:#07192e', 'background:#06111e',
-                                 'gh-teaser', 'footer-quotes', 'ISLAND_BOTTOM_END')
-                if any(m in preceding for m in _dark_markers):
+                                 'footer-quotes', 'ISLAND_BOTTOM_END')
+                if 'gh-teaser' in preceding:
+                    prev_bg = _BG_WHITE
+                elif any(m in preceding for m in _dark_markers):
                     prev_bg = '#0a2540'
                 elif 'sec-light' in preceding or 'background:#f7fafd' in preceding:
                     prev_bg = _BG_LIGHT
