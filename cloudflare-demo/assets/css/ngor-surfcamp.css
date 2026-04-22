@@ -72174,21 +72174,30 @@ img{max-width:100%;height:auto}
 .blog-hub-header + .section,
 .blog-hub-header + .section.sec-light { padding-top: 64px; }
 
-/* Surf House: no wave between feats (navy) and pool split — cut dead air */
+/* Surf House: no wave between feats (navy) and pool split — keep transition tight */
 .sh2-feats-section:has(+ .sh2-split-section) {
-  padding-bottom: 56px;
+  padding-bottom: 12px;
+}
+.sh2-feats-section + .sh2-split-section {
+  margin-top: -1px;
 }
 .sh2-feats-section + .sh2-split-section .sh2-split-copy-inner {
-  padding-top: 28px;
+  padding-top: 8px;
 }
 @media (max-width: 960px) {
+  .sh2-feats-section:has(+ .sh2-split-section) {
+    padding-bottom: 8px;
+  }
   .sh2-feats-section + .sh2-split-section .sh2-split-copy-inner {
-    padding-top: 22px;
+    padding-top: 6px;
   }
 }
 @media (max-width: 640px) {
+  .sh2-feats-section:has(+ .sh2-split-section) {
+    padding-bottom: 6px;
+  }
   .sh2-feats-section + .sh2-split-section .sh2-split-copy-inner {
-    padding-top: 18px;
+    padding-top: 4px;
   }
 }
 
