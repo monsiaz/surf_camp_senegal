@@ -72191,3 +72191,23 @@ img{max-width:100%;height:auto}
     padding-top: 18px;
   }
 }
+
+/* Surf House: gallery strip → Not Included — reduce stacked vertical padding */
+.sh-gallery-sec:has(+ .sh2-ni-section) .container > div:last-of-type {
+  margin-top: 28px !important;
+  padding-bottom: 0 !important;
+}
+.sh-gallery-sec:has(+ .sh2-ni-section) {
+  padding-bottom: 36px;
+}
+.sh-gallery-sec + .sh2-ni-section {
+  padding-top: 32px;
+}
+@media (max-width: 640px) {
+  .sh-gallery-sec:has(+ .sh2-ni-section) {
+    padding-bottom: 24px;
+  }
+  .sh-gallery-sec + .sh2-ni-section {
+    padding-top: 24px;
+  }
+}
