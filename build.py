@@ -717,7 +717,7 @@ def build_nav(active_key, lang, lang_switcher_hrefs=None):
         f'<a href="https://wa.me/221789257025" target="_blank" rel="noopener" class="nav-wa" aria-label="{escape(ui_chrome("wa", lang))}">'
         f'<span style="display:inline-flex">{WA_ICO}</span>'
         f'<span class="nav-wa-label">{escape(ui_chrome("wa", lang))}</span></a>'
-        f'<button class="nav-toggle" id="nav-toggle" aria-label="{escape(ui_chrome("nav_menu", lang))}" onclick="toggleMenu()">'
+        f'<button type="button" class="nav-toggle" id="nav-toggle" aria-label="{escape(ui_chrome("nav_menu", lang))}" aria-expanded="false" aria-controls="nav-links">'
         f'<span style="display:inline-flex;color:#fff">{MENU_ICO}</span></button>'
         f'</div></div></nav>'
     )
