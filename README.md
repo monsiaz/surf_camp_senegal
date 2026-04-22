@@ -74,8 +74,36 @@ The `_final_cache_bust()` function at the end of `build.py` uses a regex (`\?v=[
 - Redirects first-time visitors to their locale root (`/fr/`, `/de/`, etc.)
 - Skips redirect for bots, static assets, and already-localised paths
 
+### Back-office (`/admin/`)
+
+A fully custom private back-office, accessible at `/admin/`, built without any third-party admin framework.
+
+**Authentication — two-layer security:**
+- Login screen with username/password validated against a `ADMIN_USERS` env var (bcrypt-hashed, stored as JSON on Vercel)
+- All admin API endpoints protected by `Authorization: Bearer <token>` with `crypto.timingSafeEqual()` to prevent timing attacks
+- GitHub OAuth flow (`api/auth.js` + `api/callback.js`) for Decap CMS integration
+- All admin pages served with `noindex, nofollow` — invisible to search engines
+
+**Bookings panel (`/admin/bookings.html`):**
+- Fetches reservations from Neon Postgres via `GET /api/admin-bookings`
+- Displays status, guest info, dates, room type, pricing
+- CRUD operations on booking records
+
+**Availability & pricing panel (`/admin/availability.html`):**
+- Manager view of bed/room availability per date range
+- Reads from `GET /api/availability` + writes via `POST /api/admin-availability`
+- Real-time update of available capacity and rates
+
+**User management panel (`/admin/users/`):**
+- `GET /api/admin-users` — list users (passwords never exposed)
+- `POST` — add user with hashed password
+- `PUT` — change password
+- `DELETE` — revoke access
+- User store updated in-place via Vercel API (`VERCEL_TOKEN`) — no external user database needed
+
 ### Booking API
 - Serverless function (`api/booking.js`) validates form, writes to Neon Postgres
+- `api/_db.js` — shared Neon Postgres client (pooled, edge-compatible)
 - Edge-side CORS + rate limiting headers in `vercel.json`
 - Environment-gated: `DATABASE_URL` required only in production
 
@@ -116,7 +144,22 @@ The `_final_cache_bust()` function at the end of `build.py` uses a regex (`\?v=[
 ├── translations/               # UI string maps per language
 │
 ├── api/                        # Vercel serverless functions
-│   └── booking.js              # Booking form → Neon Postgres
+│   ├── _db.js                  # Shared Neon Postgres client
+│   ├── booking.js              # Public booking form → Neon Postgres
+│   ├── availability.js         # Public availability query
+│   ├── auth.js                 # GitHub OAuth initiation (Decap CMS)
+│   ├── callback.js             # GitHub OAuth callback
+│   ├── password-login.js       # Admin password auth
+│   ├── token-relay.js          # Token relay for CMS
+│   ├── admin-bookings.js       # Protected: read/manage bookings
+│   ├── admin-availability.js   # Protected: update availability & pricing
+│   └── admin-users.js          # Protected: full user CRUD via Vercel API
+│
+├── cloudflare-demo/admin/      # Private back-office (noindex)
+│   ├── index.html              # Login + dashboard
+│   ├── bookings.html           # Bookings management panel
+│   ├── availability.html       # Availability & pricing panel
+│   └── users/index.html        # User management panel
 │
 ├── static/                     # Files copied verbatim into output
 │
@@ -184,6 +227,9 @@ npm run deploy
 | `VERCEL_PROJECT_ID` | CI | Vercel project ID |
 | `DATABASE_URL` | API functions | Neon Postgres connection string |
 | `PUBLIC_SITE_URL` | Optional | Override canonical origin (default: Vercel URL) |
+| `ADMIN_API_KEY` | Admin API | Protects `/api/admin-bookings` |
+| `ADMIN_USERS` | Admin API | JSON array of hashed user credentials |
+| `ADMIN_USERS_API_TOKEN` | Admin API | Bearer token for `/api/admin-users` |
 
 ---
 
