@@ -9278,6 +9278,17 @@ _patch_pt_da_translations()
 # computed at module-load time (ASSET_VERSION) is stale by now.
 # Recompute the true hash from the final CSS/JS state and patch every HTML file.
 def _final_cache_bust():
+    """Rewrite every ?v=<hex> query string in generated HTML to match the
+    current MD5 of the CSS+JS bundle.
+
+    Also migrates any lingering ngor-surfcamp-v2.css references to the
+    canonical ngor-surfcamp.css so that all pages share a single cached
+    asset and benefit from proper cache-busting.
+
+    Uses a regex on the hash so it handles any pre-existing hash length
+    (including stray trailing characters from previous naive str.replace
+    passes such as the historic "07a276bbc" incident).
+    """
     import hashlib as _hlib, re as _reb
     _demo = DEMO_DIR
     _css  = os.path.join(_demo, "assets", "css", ASSET_CSS_MAIN)
@@ -9288,11 +9299,14 @@ def _final_cache_bust():
             with open(_p, "rb") as _f:
                 _h.update(_f.read())
     _final_ver = _h.hexdigest()[:8]
-    if _final_ver == ASSET_VERSION:
-        return  # already correct, nothing to do
-    # Replace stale version string in all HTML files
-    _old_pat = _reb.compile(re.escape(f"?v={ASSET_VERSION}"))
-    _new_str = f"?v={_final_ver}"
+    _new_str   = f"?v={_final_ver}"
+    # Regex replaces ANY ?v=<hex-chars> (any length) — prevents stray-char accumulation
+    _v_pat  = _reb.compile(r'\?v=[0-9a-f]+')
+    # Legacy alias: ngor-surfcamp-v2.css (with or without ?v=) → canonical CSS
+    _v2_pat = _reb.compile(
+        r'/assets/css/ngor-surfcamp-v2\.css(?:\?v=[0-9a-f]*)?'
+    )
+    _v2_new = f"/assets/css/{ASSET_CSS_MAIN}{_new_str}"
     _updated = 0
     for _root, _dirs, _files in os.walk(_demo):
         for _fname in _files:
@@ -9300,13 +9314,16 @@ def _final_cache_bust():
                 continue
             _fp = os.path.join(_root, _fname)
             try:
-                _content = open(_fp, encoding="utf-8", errors="replace").read()
-                if f"?v={ASSET_VERSION}" in _content:
-                    _content = _content.replace(f"?v={ASSET_VERSION}", _new_str)
-                    open(_fp, "w", encoding="utf-8").write(_content)
+                _c = open(_fp, encoding="utf-8", errors="replace").read()
+                # 1. Migrate v2 alias → canonical CSS
+                _c = _v2_pat.sub(_v2_new, _c)
+                # 2. Normalise all ?v= hashes to the current version
+                _c2 = _v_pat.sub(_new_str, _c)
+                if _c2 != open(_fp, encoding="utf-8", errors="replace").read():
+                    open(_fp, "w", encoding="utf-8").write(_c2)
                     _updated += 1
             except Exception:
                 pass
-    print(f"  cache-bust: CSS/JS ?v= updated to {_final_ver} across {_updated} HTML files ✅")
+    print(f"  cache-bust: CSS/JS ?v= → {_final_ver}; v2.css aliases → canonical; {_updated} HTML files ✅")
 
 _final_cache_bust()
