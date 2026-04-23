@@ -72233,7 +72233,14 @@ img{max-width:100%;height:auto}
 }
 .sh2-split-section.sh2-split-right .sh2-img-hover {
   min-height: 0 !important;
-  aspect-ratio: 4 / 3;
+  height: auto !important;
+  aspect-ratio: 1 / 1;
+}
+.sh2-split-section.sh2-split-right .sh2-img-hover img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+  display: block;
 }
 
 /* Surf House: gallery strip → Not Included — reduce stacked vertical padding */
