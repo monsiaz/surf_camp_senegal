@@ -241,4 +241,10 @@ bindTrack(document.getElementById('reviews-inner'));bindTrack(document.getElemen
   document.querySelectorAll('.footer-bottom p').forEach(function(el){
     el.innerHTML = el.innerHTML.replace(/© \d{4}/, '© ' + currentYear);
   });
+  // Service Worker: auto-reload when a new version activates
+  if('serviceWorker' in navigator){
+    navigator.serviceWorker.addEventListener('message', function(e){
+      if(e.data && e.data.type === 'SW_UPDATED') window.location.reload();
+    });
+  }
 })();

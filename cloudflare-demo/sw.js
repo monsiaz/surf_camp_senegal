@@ -6,7 +6,7 @@
      everything else → Network-first with cache fallback
    ───────────────────────────────────────────────────────────────────────── */
 
-const CACHE_VERSION = 'e082327c'; // replaced by build.py on each build
+const CACHE_VERSION = '43abf0f4'; // replaced by build.py on each build
 const CACHE_ASSETS  = `ngor-assets-${CACHE_VERSION}`;
 const CACHE_PAGES   = `ngor-pages-${CACHE_VERSION}`;
 const CACHE_MAX_AGE = 7 * 24 * 60 * 60 * 1000; // 7 days for pages
@@ -28,16 +28,18 @@ self.addEventListener('install', event => {
   );
 });
 
-// ── Activate: purge stale caches ───────────────────────────────────────────
+// ── Activate: purge stale caches + notify clients to reload ────────────────
 self.addEventListener('activate', event => {
   event.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(
+    caches.keys()
+      .then(keys => Promise.all(
         keys
           .filter(k => k !== CACHE_ASSETS && k !== CACHE_PAGES)
           .map(k => caches.delete(k))
-      )
-    ).then(() => self.clients.claim())
+      ))
+      .then(() => self.clients.claim())
+      .then(() => self.clients.matchAll({ type: 'window' }))
+      .then(clients => clients.forEach(client => client.postMessage({ type: 'SW_UPDATED' })))
   );
 });
 
