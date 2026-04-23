@@ -9307,6 +9307,9 @@ def _final_cache_bust():
         r'/assets/css/ngor-surfcamp-v2\.css(?:\?v=[0-9a-f]*)?'
     )
     _v2_new = f"/assets/css/{ASSET_CSS_MAIN}{_new_str}"
+    # Legacy Maps URL: ?cid= format causes "invalid coord" on iOS → replace with /place/ URL
+    _maps_cid_pat = _reb.compile(r'https://www\.google\.com/maps\?cid=\d+')
+    _maps_cid_new = "https://www.google.com/maps/place/Ngor+Surfcamp+Teranga/@14.7469,-17.5139,17z"
     _updated = 0
     for _root, _dirs, _files in os.walk(_demo):
         for _fname in _files:
@@ -9317,7 +9320,9 @@ def _final_cache_bust():
                 _c = open(_fp, encoding="utf-8", errors="replace").read()
                 # 1. Migrate v2 alias → canonical CSS
                 _c = _v2_pat.sub(_v2_new, _c)
-                # 2. Normalise all ?v= hashes to the current version
+                # 2. Fix legacy Maps ?cid= URL → /place/ URL (fixes "invalid coord" on iOS)
+                _c = _maps_cid_pat.sub(_maps_cid_new, _c)
+                # 3. Normalise all ?v= hashes to the current version
                 _c2 = _v_pat.sub(_new_str, _c)
                 if _c2 != open(_fp, encoding="utf-8", errors="replace").read():
                     open(_fp, "w", encoding="utf-8").write(_c2)
