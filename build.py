@@ -3272,7 +3272,7 @@ def patch_getting_here_footers():
 # BOOKING PAGE — Google rating + review slider (sidebar)
 # ════════════════════════════════════════════════════════════════
 BOOKING_GOOGLE_MAPS = "https://www.google.com/maps/search/?api=1&query=Ngor+Surfcamp+Teranga+Dakar+Senegal"
-BOOKING_GOOGLE_REVIEW = "https://www.google.com/search?q=Ngor+Surfcamp+Teranga&kgmid=/g/11zjkpzzzd#lrd=/g/11zjkpzzzd,1,,,,"
+BOOKING_GOOGLE_REVIEW = "https://g.page/r/CVmHR89yd1XuEBM/review"
 
 BOOKING_SOCIAL_L10N = {
     "en": {
@@ -9345,6 +9345,9 @@ def _final_cache_bust():
     # Legacy Maps URLs (?cid= or /place/@coord) cause "invalid coord" on iOS → use simple q= search URL
     _maps_cid_pat = _reb.compile(r'https://www\.google\.com/maps(?:\?cid=\d+|/place/[^"\']+)')
     _maps_cid_new = "https://www.google.com/maps/search/?api=1&query=Ngor+Surfcamp+Teranga+Dakar+Senegal"
+    # Safeguard: replace any old "Leave a review" google search URLs with the direct g.page link
+    _review_old_pat = _reb.compile(r'https://www\.google\.com/search\?q=Ngor[^"\']*lrd=[^"\']*')
+    _review_new = "https://g.page/r/CVmHR89yd1XuEBM/review"
     _updated = 0
     for _root, _dirs, _files in os.walk(_demo):
         for _fname in _files:
@@ -9357,7 +9360,9 @@ def _final_cache_bust():
                 _c = _v2_pat.sub(_v2_new, _c)
                 # 2. Fix legacy Maps ?cid= URL → /place/ URL (fixes "invalid coord" on iOS)
                 _c = _maps_cid_pat.sub(_maps_cid_new, _c)
-                # 3. Normalise all ?v= hashes to the current version
+                # 3. Fix legacy "Leave a review" google search URLs → direct g.page link
+                _c = _review_old_pat.sub(_review_new, _c)
+                # 4. Normalise all ?v= hashes to the current version
                 _c2 = _v_pat.sub(_new_str, _c)
                 if _c2 != open(_fp, encoding="utf-8", errors="replace").read():
                     open(_fp, "w", encoding="utf-8").write(_c2)
