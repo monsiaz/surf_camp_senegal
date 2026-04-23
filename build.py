@@ -9224,6 +9224,23 @@ def _patch_faq_in_nav():
 
 _patch_faq_in_nav()
 
+# ── Remove stray Blog link from any nav (must come AFTER _patch_faq_in_nav) ──
+def _remove_blog_from_nav():
+    import re as _re, glob as _glob
+    _pat = _re.compile(r'<a\s[^>]*href="[^"]*/?blog/?[^"]*"[^>]*class="nav-link[^"]*"[^>]*>[^<]+</a>')
+    _pat2 = _re.compile(r'<a\s[^>]*class="nav-link[^"]*"[^>]*href="[^"]*/?blog/?[^"]*"[^>]*>[^<]+</a>')
+    _n = 0
+    for _fp in _glob.glob(os.path.join(DEMO_DIR, "**", "*.html"), recursive=True):
+        _h = open(_fp, encoding="utf-8", errors="replace").read()
+        _h2 = _pat.sub("", _pat2.sub("", _h))
+        if _h2 != _h:
+            open(_fp, "w", encoding="utf-8").write(_h2)
+            _n += 1
+    if _n:
+        print(f"  nav: Blog link removed from {_n} pages ✅")
+
+_remove_blog_from_nav()
+
 # ── Fix PT/DA untranslated content (footer + UI strings) ─────────────────────
 def _patch_pt_da_translations():
     import re as _re
