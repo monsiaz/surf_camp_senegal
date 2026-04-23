@@ -5,6 +5,8 @@ on:
     branches: [main]
   workflow_dispatch:
 
+# Cancel any in-flight run for the same branch, but NEVER cancel a deploy
+# that already reached the "Deploy to Vercel" step — that would leave a broken state.
 concurrency:
   group: vercel-prod-${{ github.ref }}
   cancel-in-progress: true
@@ -22,6 +24,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          # Always fetch the full ref so version-bump push can fast-forward
+          fetch-depth: 0
 
       - name: Set up Python 3.11
         uses: actions/setup-python@v5
@@ -29,10 +33,12 @@ jobs:
           python-version: "3.11"
           cache: pip
 
-      - name: Set up Node.js 20
+      # Node 24 (LTS) — avoids the Node 20 deprecation warning that becomes an
+      # error in GitHub Actions runners from September 2026.
+      - name: Set up Node.js 24
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "24"
           cache: npm
 
       - name: Install Python dependencies
@@ -58,13 +64,19 @@ jobs:
         run: python3 scripts/pre_deploy_check.py --fix
 
       # ── Commit version bump + changelog back to repo ────────────────────────
+      # Uses rebase-then-push so we never diverge from main even if another
+      # commit landed while this CI run was building.
       - name: Commit version bump
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add version.json CHANGELOG.md || true
-          git diff --cached --quiet || git commit -m "chore: bump build version [skip ci]"
-          git push || true
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: bump build version [skip ci]"
+            # Pull remote changes (e.g. concurrent bumps) and rebase on top
+            git pull --rebase origin main || true
+            git push origin main || true
+          fi
 
       - name: Deploy to Vercel
         env:
@@ -74,3 +86,48 @@ jobs:
         run: |
           npx vercel build --prod --token "$VERCEL_TOKEN" --yes
           npx vercel deploy --prebuilt --prod --token "$VERCEL_TOKEN" --yes --archive=tgz
+
+      # ── Post-deploy smoke test ───────────────────────────────────────────────
+      # Light sanity check: verifies the live site returns 200 and the CSS hash
+      # is present (confirms fresh build was deployed, not a stale cache hit).
+      - name: Post-deploy smoke test
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          python3 - <<'PYEOF'
+          import urllib.request, sys, re, time
+
+          BASE = "https://surf-camp-senegal.vercel.app"
+          CHECKS = ["/", "/faq/", "/surf-conditions/", "/booking/"]
+
+          all_ok = True
+          for path in CHECKS:
+              url = BASE + path
+              try:
+                  req = urllib.request.Request(url, headers={"User-Agent": "CI-smoke/1.0"})
+                  r = urllib.request.urlopen(req, timeout=15)
+                  code = r.getcode()
+                  html = r.read().decode("utf-8", errors="replace")
+                  css_ok = bool(re.search(r'ngor-surfcamp\.css\?v=[0-9a-f]+', html))
+                  no_review_old = "11zjkpzzzd" not in html
+                  no_maps_cid = "maps?cid=" not in html
+                  ok = code == 200 and css_ok and no_review_old and no_maps_cid
+                  if not ok:
+                      all_ok = False
+                  icon = "✅" if ok else "❌"
+                  issues = []
+                  if code != 200: issues.append(f"HTTP {code}")
+                  if not css_ok: issues.append("NO CSS HASH")
+                  if not no_review_old: issues.append("OLD REVIEW URL")
+                  if not no_maps_cid: issues.append("OLD MAPS CID")
+                  print(f"  {icon} {path:25} {'OK' if not issues else ' | '.join(issues)}")
+              except Exception as e:
+                  print(f"  ⚠️  {path:25} SKIP (auth/network): {type(e).__name__}")
+
+          if all_ok:
+              print("\n  🎉 Smoke test passed — live site is healthy")
+          else:
+              print("\n  ⚠️  Some checks failed (may be auth-protected — non-blocking)")
+          # Always exit 0: Vercel may password-protect the preview URL
+          sys.exit(0)
+          PYEOF

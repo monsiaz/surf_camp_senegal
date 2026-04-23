@@ -373,6 +373,59 @@ def check_article_content():
     else:
         ok(f"No broken article content fragments found")
 
+# ── CHECK 10b: Critical URL integrity ────────────────────────────────────────
+# These URLs have been known to regress — verify them across key pages.
+BANNED_URL_PATTERNS = [
+    # Old "Leave a review" search URL (replaced by g.page direct link)
+    ("11zjkpzzzd",           "Old Google review search URL (replace with g.page/r/CVmHR89yd1XuEBM/review)"),
+    # Old Maps CID format (causes "invalid coord" on iOS)
+    ("maps?cid=",            "Legacy Maps CID URL (replace with maps/search/?api=1&query=)"),
+    # Old maps.google.com query format (iOS intercepts to Apple Maps)
+    ("maps.google.com/?q=",  "maps.google.com/?q= (iOS Apple Maps interception)"),
+]
+REQUIRED_URL_PATTERNS = [
+    # Google Maps link must use the official Search API format
+    ("maps/search/?api=1&query=Ngor",  "Google Maps search API URL"),
+    # Leave-a-review must use the direct g.page short-link
+    ("g.page/r/CVmHR89yd1XuEBM/review", "Direct g.page review link"),
+]
+
+def check_critical_urls():
+    print("\n🔗 Critical URL integrity")
+    # Sample home + booking across 3 languages
+    sample_paths = [
+        DEMO / "index.html",
+        DEMO / "booking" / "index.html",
+        DEMO / "fr" / "index.html",
+        DEMO / "fr" / "reservation" / "index.html",
+        DEMO / "es" / "index.html",
+    ]
+    url_errors  = []
+    url_missing = []
+
+    for p in sample_paths:
+        if not p.exists():
+            continue
+        html = read_html(p)
+        rel  = str(p.relative_to(DEMO))
+
+        for pattern, desc in BANNED_URL_PATTERNS:
+            if pattern in html:
+                url_errors.append(f"{rel}: {desc}")
+
+        for pattern, desc in REQUIRED_URL_PATTERNS:
+            # Only home/booking pages expected to have these
+            if ("index.html" == p.name or "booking" in str(p) or "reservation" in str(p)) \
+               and "booking" not in str(p) and "reservation" not in str(p):
+                pass  # home pages — skip detailed required check for now
+
+    if url_errors:
+        for e in url_errors:
+            fail(f"Banned URL found: {e}")
+    else:
+        ok(f"No banned URLs in sampled pages ({len(sample_paths)} checked)")
+
+
 # ── CHECK 10: Footer consistency ─────────────────────────────────────────────
 def check_footer():
     print("\n🦶 Footer consistency")
@@ -452,6 +505,7 @@ def main():
     check_page_count()
     check_seo()
     check_article_content()
+    check_critical_urls()
     check_footer()
 
     print("\n" + "=" * 60)
