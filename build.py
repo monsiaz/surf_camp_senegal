@@ -4281,6 +4281,20 @@ def patch_home_tribe_section_all():
           z-index: 3;
           backdrop-filter: blur(2px);
         }}
+        /* Mobile: 2 colonnes, hauteur fixe, marges annulées */
+        @media (max-width: 767px) {{
+          .tribe-board {{
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 18px !important;
+            padding: 16px 12px !important;
+          }}
+          .tribe-board .polaroid {{
+            width: 100% !important;
+            height: 200px !important;
+            margin-top: 0 !important;
+          }}
+        }}
       </style>
 
       <div class="tribe-board reveal" style="display:flex; flex-wrap:wrap; justify-content:center; gap:20px; max-width:1100px; margin:0 auto; padding: 20px;">
@@ -6452,7 +6466,7 @@ def build_surf_house(lang):
         </div>
       </div>
       <div class="sh2-split-media reveal">
-          <div class="sh2-img-hover" style="border-radius:16px;overflow:hidden">
+          <div class="sh2-img-hover" style="border-radius:0;overflow:hidden">
           <img src="/assets/images/gallery/CAML1133_c4e634ba.webp" alt="{pe(C['pool_img_alt'])}" width="720" height="520" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;object-position:center center;display:block">
         </div>
       </div>
