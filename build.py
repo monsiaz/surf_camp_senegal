@@ -863,11 +863,11 @@ def build_footer(lang, flag_href_override=None):
         <a href="https://www.instagram.com/ngorsurfcampteranga" target="_blank">Instagram</a>
         <a href="https://www.tiktok.com/@ngor.surfcampteranga" target="_blank">TikTok</a>
         <a href="https://wa.me/221789257025" target="_blank">{escape(ui_chrome("wa", lang))}</a>
-        <div class="footer-fss-badge footer-fss-in-col" role="img" aria-label="{FSS_LBL[lang]}">
-          <span class="footer-fss-logo-wrap"><img src="/assets/images/logo-fss-badge.webp" alt="FSS" width="32" height="32" loading="lazy"></span>
-          <span class="footer-fss-text"><span class="footer-fss-title">{FSS_LBL[lang]}</span><span class="footer-fss-sub">{FSS_CERT_SUB.get(lang, FSS_CERT_SUB["en"])}</span></span>
-        </div>
       </div>
+    </div>
+    <div class="footer-accred" role="img" aria-label="{FSS_LBL[lang]}">
+      <span class="footer-fss-logo-wrap"><img src="/assets/images/logo-fss-badge.webp" alt="FSS" width="32" height="32" loading="lazy"></span>
+      <span class="footer-fss-text"><span class="footer-fss-title">{FSS_LBL[lang]}</span><span class="footer-fss-sub">{FSS_CERT_SUB.get(lang, FSS_CERT_SUB["en"])}</span></span>
     </div>
     <div class="footer-bottom">
       <p>{COPY[lang]} &nbsp;·&nbsp; <a href="{pp_href}" class="footer-pp-link">{PP_LBL[lang]}</a></p>

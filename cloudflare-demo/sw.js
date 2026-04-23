@@ -6,7 +6,7 @@
      everything else → Network-first with cache fallback
    ───────────────────────────────────────────────────────────────────────── */
 
-const CACHE_VERSION = 'a8f099ab'; // replaced by build.py on each build
+const CACHE_VERSION = 'e082327c'; // replaced by build.py on each build
 const CACHE_ASSETS  = `ngor-assets-${CACHE_VERSION}`;
 const CACHE_PAGES   = `ngor-pages-${CACHE_VERSION}`;
 const CACHE_MAX_AGE = 7 * 24 * 60 * 60 * 1000; // 7 days for pages
