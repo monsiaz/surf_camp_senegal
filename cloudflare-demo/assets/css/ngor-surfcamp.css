@@ -16226,6 +16226,16 @@
   margin: 0;
 }
 
+/* ══ Surf Level Cards Grid ══ */
+.surf-level-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+@media (max-width: 900px) {
+  .surf-level-grid { grid-template-columns: 1fr; gap: 20px; }
+}
+
 /* ══ Surf Forecast Widget ══ */
 /* ══ Surf Forecast Widget ══ */
 .forecast-widget {
