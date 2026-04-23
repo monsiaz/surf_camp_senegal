@@ -810,15 +810,15 @@ def build_footer(lang, flag_href_override=None):
         "pt": "Licenciado &amp; Certificado",
         "da": "Licenseret &amp; Certificeret",
     }
-    COPY  = {"en":"© 2025 Ngor Surfcamp Teranga. All rights reserved.",
-             "fr":"© 2025 Ngor Surfcamp Teranga. Tous droits réservés.",
-             "es":"© 2025 Ngor Surfcamp Teranga. Todos los derechos reservados.",
-             "it":"© 2025 Ngor Surfcamp Teranga. Tutti i diritti riservati.",
-             "de":"© 2025 Ngor Surfcamp Teranga. Alle Rechte vorbehalten.",
-             "nl":"© 2025 Ngor Surfcamp Teranga. Alle rechten voorbehouden.",
-             "ar":"© 2025 Ngor Surfcamp Teranga. جميع الحقوق محفوظة.",
-             "pt":"© 2025 Ngor Surfcamp Teranga. Todos os direitos reservados.",
-             "da":"© 2025 Ngor Surfcamp Teranga. Alle rettigheder forbeholdes."}
+    COPY  = {"en":"© 2026 Ngor Surfcamp Teranga. All rights reserved.",
+             "fr":"© 2026 Ngor Surfcamp Teranga. Tous droits réservés.",
+             "es":"© 2026 Ngor Surfcamp Teranga. Todos los derechos reservados.",
+             "it":"© 2026 Ngor Surfcamp Teranga. Tutti i diritti riservati.",
+             "de":"© 2026 Ngor Surfcamp Teranga. Alle Rechte vorbehalten.",
+             "nl":"© 2026 Ngor Surfcamp Teranga. Alle rechten voorbehouden.",
+             "ar":"© 2026 Ngor Surfcamp Teranga. جميع الحقوق محفوظة.",
+             "pt":"© 2026 Ngor Surfcamp Teranga. Todos os direitos reservados.",
+             "da":"© 2026 Ngor Surfcamp Teranga. Alle rettigheder forbeholdes."}
     PP_LBL = {"en":"Privacy Policy","fr":"Politique de confidentialité",
               "es":"Política de privacidad","it":"Informativa sulla privacy",
               "de":"Datenschutzrichtlinie","nl":"Privacybeleid","ar":"سياسة الخصوصية",
@@ -8408,6 +8408,24 @@ def patch_head_all_pages():
             if 'twitter:card' not in h and 'og:title' in h and '</head>' in h:
                 h = h.replace('</head>', '<meta name="twitter:card" content="summary_large_image">\n</head>', 1)
                 changed = True
+            # Inject preconnect hints for CDN resources (if page uses cdn.jsdelivr.net)
+            if 'cdn.jsdelivr.net' in h and 'preconnect" href="https://cdn.jsdelivr.net"' not in h:
+                _pc = (
+                    '<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>\n'
+                    '<link rel="dns-prefetch" href="https://www.googletagmanager.com">\n'
+                    '<link rel="dns-prefetch" href="https://www.google-analytics.com">\n'
+                )
+                # Insert right before the first <link rel="stylesheet">
+                _ins = h.find('<link rel="stylesheet"')
+                if _ins > 0:
+                    h = h[:_ins] + _pc + h[_ins:]
+                else:
+                    h = h.replace('</head>', _pc + '</head>', 1)
+                changed = True
+            # Fix copyright year
+            if '© 2025 Ngor' in h:
+                h = h.replace('© 2025 Ngor', '© 2026 Ngor')
+                changed = True
             # Clean up excessive blank lines in <head>
             while '\n\n\n' in h:
                 h = h.replace('\n\n\n', '\n\n')
@@ -9171,10 +9189,17 @@ body{max-width:100vw;overflow-x:hidden}
                     _html = new_html
                     _mod = True
 
-            # Hero LCP preload — main-hero / blog-hub-header background images
-            _m = _re.search(r'class="(?:main-hero|blog-hub-header)[^"]*"\s+style="background-image:url\([\'"]?([^\'")\s]+)[\'"]?\)"', _html)
+            # Hero LCP preload — various hero/header background images
+            _HERO_CLASSES = r'(?:main-hero|blog-hub-header|article-hero|island-guide-hero|page-hero|booking-hero|sh2-hero|surf-hero)'
+            _m = _re.search(
+                r'class="' + _HERO_CLASSES + r'[^"]*"\s+style="background-image:url\([\'"]?([^\'")\s]+)[\'"]?\)"',
+                _html
+            )
             if not _m:
-                _m = _re.search(r'style="background-image:url\([\'"]?([^\'")\s]+)[\'"]?\)"\s[^>]*class="(?:main-hero|blog-hub-header)', _html)
+                _m = _re.search(
+                    r'style="background-image:url\([\'"]?([^\'")\s]+)[\'"]?\)"\s[^>]*class="' + _HERO_CLASSES,
+                    _html
+                )
             if _m and 'rel="preload"' not in _html:
                 _tag = f'<link rel="preload" as="image" href="{_m.group(1)}" fetchpriority="high">\n'
                 _html = _html.replace("</head>", _tag + "</head>", 1)
@@ -9367,7 +9392,28 @@ def _final_cache_bust():
     # Safeguard: replace any old "Leave a review" google search URLs with the direct g.page link
     _review_old_pat = _reb.compile(r'https://www\.google\.com/search\?q=Ngor[^"\']*lrd=[^"\']*')
     _review_new = "https://g.page/r/CVmHR89yd1XuEBM/review"
+    # ── Stamp Service Worker with the current build version ──────────────────
+    _sw_path = os.path.join(_demo, "sw.js")
+    if os.path.exists(_sw_path):
+        try:
+            _sw_src = open(_sw_path, encoding="utf-8").read()
+            _sw_src2 = _reb.sub(
+                r"(const CACHE_VERSION\s*=\s*)'[^']*'",
+                rf"\1'{_final_ver}'",
+                _sw_src
+            )
+            if _sw_src2 != _sw_src:
+                open(_sw_path, "w", encoding="utf-8").write(_sw_src2)
+        except Exception:
+            pass
+
     _updated = 0
+    # SW registration snippet (injected once before </body>)
+    _sw_reg = (
+        '<script>if("serviceWorker"in navigator){'
+        'navigator.serviceWorker.register("/sw.js",{scope:"/"}).catch(()=>{});'
+        '}</script>'
+    )
     for _root, _dirs, _files in os.walk(_demo):
         for _fname in _files:
             if not _fname.endswith(".html"):
@@ -9382,7 +9428,11 @@ def _final_cache_bust():
                 # 3. Fix legacy "Leave a review" google search URLs → direct g.page link
                 _c = _review_old_pat.sub(_review_new, _c)
                 # 4. Normalise all ?v= hashes to the current version
-                _c2 = _v_pat.sub(_new_str, _c)
+                _c = _v_pat.sub(_new_str, _c)
+                # 5. Inject SW registration once (before </body>)
+                if 'serviceWorker' not in _c and '</body>' in _c:
+                    _c = _c.replace('</body>', _sw_reg + '\n</body>', 1)
+                _c2 = _c
                 if _c2 != open(_fp, encoding="utf-8", errors="replace").read():
                     open(_fp, "w", encoding="utf-8").write(_c2)
                     _updated += 1
