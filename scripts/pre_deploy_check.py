@@ -220,11 +220,18 @@ def check_css():
         fail("No CSS files found in assets/css/")
         return
     
+    # Prefer ngor-surfcamp.css (exact) over consent/v2 variants
     main_css = None
-    for f in css_files:
-        if "ngor" in f.name or "main" in f.name:
-            main_css = f
+    for candidate in ["ngor-surfcamp.css", "ngor-surfcamp-v2.css"]:
+        p = DEMO / "assets" / "css" / candidate
+        if p.exists():
+            main_css = p
             break
+    if main_css is None:
+        for f in sorted(css_files, key=lambda x: x.stat().st_size, reverse=True):
+            if "ngor" in f.name or "main" in f.name:
+                main_css = f
+                break
     main_css = main_css or css_files[0]
     
     css_text = main_css.read_text(errors="replace")
