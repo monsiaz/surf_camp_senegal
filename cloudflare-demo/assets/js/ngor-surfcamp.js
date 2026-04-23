@@ -241,8 +241,28 @@ bindTrack(document.getElementById('reviews-inner'));bindTrack(document.getElemen
   document.querySelectorAll('.footer-bottom p').forEach(function(el){
     el.innerHTML = el.innerHTML.replace(/© \d{4}/, '© ' + currentYear);
   });
-  // Service Worker: register only (no version-check reload loop)
+  // Service Worker: unregister all SWs + clear caches (kill switch active)
   if('serviceWorker' in navigator){
-    navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(function(){});
+    navigator.serviceWorker.addEventListener('message', function(e){
+      if(e.data && e.data.type === 'SW_KILL'){
+        navigator.serviceWorker.getRegistrations().then(function(regs){
+          regs.forEach(function(r){ r.unregister(); });
+        });
+      }
+    });
+    // Register the kill-switch SW, then unregister everything
+    navigator.serviceWorker.register('/sw.js', { scope: '/' })
+      .then(function(reg){
+        reg.addEventListener('updatefound', function(){
+          var sw = reg.installing;
+          if(sw) sw.addEventListener('statechange', function(){
+            if(sw.state === 'activated'){
+              navigator.serviceWorker.getRegistrations().then(function(regs){
+                regs.forEach(function(r){ r.unregister(); });
+              });
+            }
+          });
+        });
+      }).catch(function(){});
   }
 })();
