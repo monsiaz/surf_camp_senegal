@@ -834,7 +834,7 @@ def build_footer(lang, flag_href_override=None):
 
     return f"""<footer>
   <div class="container">
-    <div class="footer-grid">
+    <div class="footer-top">
       <div class="footer-brand">
         <a href="{LANG_PFX[lang]}/" class="footer-brand-mark" aria-label="{escape(ui_chrome('footer_home', lang))}">
           <img src="{LOGO}" alt="" width="152" height="52" class="footer-brand-logo" loading="lazy">
@@ -852,17 +852,19 @@ def build_footer(lang, flag_href_override=None):
           <span class="footer-gmb-count">· 54 {GMB_REVIEWS_LBL[lang]}</span>
         </a>
       </div>
-      <div class="footer-col"><p class="footer-col-title">{EXP[lang]}</p>{links_html}</div>
-      <div class="footer-col">
-        <p class="footer-col-title">{CON[lang]}</p>
-        <a href="https://wa.me/221789257025" target="_blank">{escape(ui_chrome("wa", lang))}: +221 78 925 70 25</a>
-        <a href="mailto:info@surfcampsenegal.com">info@surfcampsenegal.com</a>
-      </div>
-      <div class="footer-col footer-col-follow">
-        <p class="footer-col-title">{FOL[lang]}</p>
-        <a href="https://www.instagram.com/ngorsurfcampteranga" target="_blank">Instagram</a>
-        <a href="https://www.tiktok.com/@ngor.surfcampteranga" target="_blank">TikTok</a>
-        <a href="https://wa.me/221789257025" target="_blank">{escape(ui_chrome("wa", lang))}</a>
+      <div class="footer-links-row">
+        <div class="footer-col"><p class="footer-col-title">{EXP[lang]}</p>{links_html}</div>
+        <div class="footer-col">
+          <p class="footer-col-title">{CON[lang]}</p>
+          <a href="https://wa.me/221789257025" target="_blank">{escape(ui_chrome("wa", lang))}: +221 78 925 70 25</a>
+          <a href="mailto:info@surfcampsenegal.com">info@surfcampsenegal.com</a>
+        </div>
+        <div class="footer-col footer-col-follow">
+          <p class="footer-col-title">{FOL[lang]}</p>
+          <a href="https://www.instagram.com/ngorsurfcampteranga" target="_blank">Instagram</a>
+          <a href="https://www.tiktok.com/@ngor.surfcampteranga" target="_blank">TikTok</a>
+          <a href="https://wa.me/221789257025" target="_blank">{escape(ui_chrome("wa", lang))}</a>
+        </div>
       </div>
     </div>
     <div class="footer-accred" role="img" aria-label="{FSS_LBL[lang]}">
