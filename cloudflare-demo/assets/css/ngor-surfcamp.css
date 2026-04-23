@@ -29080,6 +29080,11 @@
 .gal-tag:hover{border-color:var(--clr-brand);color:var(--clr-brand)}
 .gal-tag.active{background:var(--clr-navy);border-color:var(--clr-navy);color:#fff}
 .gal-tag-count{display:inline-block;margin-left:5px;font-size:11px;opacity:.6}
+@media(max-width:900px){
+  .gallery-tag-btns{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;-ms-overflow-style:none;padding-bottom:2px}
+  .gallery-tag-btns::-webkit-scrollbar{display:none}
+  .gal-tag{flex-shrink:0}
+}
 .gallery-item.gal-hidden{display:none!important}
 .gallery-item.gal-visible{display:block}
 .gallery-item[hidden]{display:none!important}
