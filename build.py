@@ -360,7 +360,7 @@ IMGS = {
     "surf3":   "/assets/images/gallery/4Y4A1346_463ff1cc.webp",
     "ngor_r":  "/assets/images/gallery/4Y4A1354_b7dabb94.webp",
     "sunset":  "/assets/images/gallery/DSC01473_740eff92.webp",
-    "art":     f"{_WIX}/df99f9_d81668a18a9d49d1b5ebb0ea3a0abbc7.webp",
+    "art":     f"{_GAL}/DSC01421_a10e8955.webp",
     "food":    f"{_WIX}/df99f9_753890483d8e4cca8e2051a13f9c558e.webp",
     "pool":    f"{_WIX}/df99f9_a18d512828d9487e9a4987b9903960e0.webp",
     "review":  f"{_WIX}/df99f9_961b0768e713457f93025f4ce6fb1419.webp",
@@ -8808,10 +8808,23 @@ if _island_guides:
 else:
     print("  (no island_guides manifest — skip)")
 
-# Patch island discover cards: replace sunset card image across all hub pages
+# Patch island discover cards: ensure the 3 feature cards use quality images
+# sunset_b334d55a.webp = heart-hands stock photo (bad quality) → replace everywhere in these cards
 def _patch_island_discover_sunset():
-    _old = "/assets/images/gallery/4Y4A1362_9a9e7582.webp"
-    _new = "/assets/images/gallery/sunset_b334d55a.webp"
+    _card_replacements = {
+        # heart-hands stock used as "Legendary Surf" → actual surf wave at Ngor Right
+        '/assets/images/gallery/sunset_b334d55a.webp" alt="Legendary Surf: Ngor Right"':
+            '/assets/images/gallery/4Y4A1354_b7dabb94.webp" alt="Legendary Surf: Ngor Right"',
+        # heart-hands stock used as "Magical Sunsets" → real DSC sunset photo
+        '/assets/images/gallery/sunset_b334d55a.webp" alt="Magical Sunsets Ngor Island"':
+            '/assets/images/gallery/DSC01473_740eff92.webp" alt="Magical Sunsets Ngor Island"',
+        # surfers-on-boat used as "Bohemian Spirit" → island life DSC photo
+        '/assets/images/gallery/7c18de23-45c3-4109-bfef-f8cbba64a09b_a03ce03d.webp" alt="Bohemian Spirit"':
+            '/assets/images/gallery/DSC01421_a10e8955.webp" alt="Bohemian Spirit"',
+        # legacy fallback: old 4Y4A1362 heart-hands image (should not appear anymore)
+        "/assets/images/gallery/4Y4A1362_9a9e7582.webp":
+            "/assets/images/gallery/DSC01473_740eff92.webp",
+    }
     _files = [
         "island/index.html", "fr/ile/index.html", "es/isla/index.html",
         "it/isola/index.html", "de/insel/index.html",
@@ -8821,8 +8834,13 @@ def _patch_island_discover_sunset():
         if not os.path.isfile(_fp):
             continue
         _html = open(_fp, encoding="utf-8", errors="replace").read()
-        if _old in _html:
-            open(_fp, "w", encoding="utf-8").write(_html.replace(_old, _new))
+        _changed = False
+        for _old, _new in _card_replacements.items():
+            if _old in _html:
+                _html = _html.replace(_old, _new)
+                _changed = True
+        if _changed:
+            open(_fp, "w", encoding="utf-8").write(_html)
 
 _patch_island_discover_sunset()
 
