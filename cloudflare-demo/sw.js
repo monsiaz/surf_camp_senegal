@@ -1,34 +1,31 @@
 /* ─────────────────────────────────────────────────────────────────────────
-   Ngor Surfcamp Teranga — Service Worker
-   Strategy:
-     /assets/**   → Cache-first  (hashed filenames, immutable)
-     navigation   → Stale-while-revalidate  (instant load, bg refresh)
-     everything else → Network-first with cache fallback
+   Ngor Surfcamp Teranga — Service Worker  v2
+   Stamped by build.py on every deploy (CACHE_VERSION = CSS+JS MD5 hash).
+
+   Strategy (by request type):
+     /assets/**   → Cache-first   (hashed filenames = immutable)
+     HTML pages   → Network-first → cache only as offline fallback
+     Everything else → Network-first → cache fallback
+
+   This guarantees HTML is ALWAYS fresh after a deployment.
+   The offline fallback still works when there's no network at all.
    ───────────────────────────────────────────────────────────────────────── */
 
-const CACHE_VERSION = '43abf0f4'; // replaced by build.py on each build
+const CACHE_VERSION = 'af75f89a'; // replaced by build.py on each build
 const CACHE_ASSETS  = `ngor-assets-${CACHE_VERSION}`;
 const CACHE_PAGES   = `ngor-pages-${CACHE_VERSION}`;
-const CACHE_MAX_AGE = 7 * 24 * 60 * 60 * 1000; // 7 days for pages
 
-// Warm-up: pre-cache only the absolute critical assets so install is fast
-const PRECACHE = [
-  '/',
-  '/offline.html',
-];
-
-// ── Install: pre-cache critical shell ──────────────────────────────────────
+// ── Install: pre-cache the offline fallback only ───────────────────────────
 self.addEventListener('install', event => {
-  self.skipWaiting();
+  self.skipWaiting(); // activate immediately, don't wait for old tabs to close
   event.waitUntil(
-    caches.open(CACHE_PAGES).then(cache =>
-      cache.addAll(PRECACHE.map(url => new Request(url, { cache: 'reload' })))
-        .catch(() => {/* offline during install — ignore */})
-    )
+    caches.open(CACHE_PAGES)
+      .then(c => c.add(new Request('/offline.html', { cache: 'reload' })))
+      .catch(() => {/* offline during install — ignore */})
   );
 });
 
-// ── Activate: purge stale caches + notify clients to reload ────────────────
+// ── Activate: purge ALL stale caches, take control immediately ─────────────
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys()
@@ -38,9 +35,29 @@ self.addEventListener('activate', event => {
           .map(k => caches.delete(k))
       ))
       .then(() => self.clients.claim())
-      .then(() => self.clients.matchAll({ type: 'window' }))
-      .then(clients => clients.forEach(client => client.postMessage({ type: 'SW_UPDATED' })))
   );
+});
+
+// ── Version check message from page JS ─────────────────────────────────────
+// Pages embed <meta name="x-build" content="HASH">.
+// On load, JS asks the SW: "is your version the same as mine?"
+// If not → SW tells the page to reload → guarantees version sync.
+self.addEventListener('message', event => {
+  if (!event.data) return;
+
+  if (event.data.type === 'CHECK_VERSION') {
+    if (event.data.version !== CACHE_VERSION) {
+      // Our version is different → tell the page to reload so it gets fresh HTML
+      if (event.source) {
+        event.source.postMessage({ type: 'VERSION_MISMATCH' });
+      }
+    }
+  }
+
+  // Manual skip-waiting trigger (optional, for future use)
+  if (event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
 });
 
 // ── Fetch ───────────────────────────────────────────────────────────────────
@@ -52,31 +69,35 @@ self.addEventListener('fetch', event => {
 
   const url = new URL(request.url);
 
-  // Skip cross-origin (CDN, GA, …) — let the browser & its own cache handle
+  // Skip cross-origin (CDN, GA, Maps…) — browser handles its own caching
   if (url.origin !== self.location.origin) return;
 
-  // Skip admin / API routes
+  // Skip admin routes
   if (url.pathname.startsWith('/admin')) return;
 
-  // ── /assets/** → Cache-first (immutable, hashed names) ─────────────────
+  // ── /assets/** → Cache-first (immutable hashed filenames) ──────────────
   if (url.pathname.startsWith('/assets/')) {
     event.respondWith(cacheFirst(request, CACHE_ASSETS));
     return;
   }
 
-  // ── HTML navigation → Stale-while-revalidate ────────────────────────────
+  // ── HTML navigation → Network-first, offline fallback ──────────────────
+  // HTML is NEVER served stale from cache — always goes to network.
+  // The Vercel edge CDN (s-maxage=3600) handles performance; the SW just
+  // ensures the browser always sees the freshest deployment.
   if (request.mode === 'navigate' ||
-      request.headers.get('accept')?.includes('text/html')) {
-    event.respondWith(staleWhileRevalidate(request, CACHE_PAGES));
+      (request.headers.get('accept') || '').includes('text/html')) {
+    event.respondWith(networkFirstHtml(request));
     return;
   }
 
-  // ── Everything else (fonts.css, sw.js, favicons…) → Network-first ───────
+  // ── Everything else (fonts.css, favicons…) → Network-first ─────────────
   event.respondWith(networkFirst(request, CACHE_PAGES));
 });
 
 // ── Strategy helpers ────────────────────────────────────────────────────────
 
+/** Cache-first: instant for hashed assets. Fetches + caches on first miss. */
 async function cacheFirst(request, cacheName) {
   const cached = await caches.match(request);
   if (cached) return cached;
@@ -88,38 +109,33 @@ async function cacheFirst(request, cacheName) {
     }
     return response;
   } catch {
-    return new Response('Offline', { status: 503 });
+    return new Response('Asset unavailable offline', { status: 503 });
   }
 }
 
-async function staleWhileRevalidate(request, cacheName) {
-  const cache   = await caches.open(cacheName);
-  const cached  = await cache.match(request);
-
-  // Kick off a background network fetch regardless
-  const networkFetch = fetch(request).then(response => {
-    if (response.ok) cache.put(request, response.clone());
+/** Network-first for HTML: always try network; cache only as offline backup. */
+async function networkFirstHtml(request) {
+  const cache = await caches.open(CACHE_PAGES);
+  try {
+    const response = await fetch(request);
+    if (response.ok) {
+      // Save a copy for offline use (overwrite old stale version)
+      cache.put(request, response.clone());
+    }
     return response;
-  }).catch(() => null);
-
-  // Return cached immediately if fresh enough; else await network
-  if (cached) {
-    const cachedDate = cached.headers.get('sw-cached-at');
-    const age = cachedDate ? Date.now() - Number(cachedDate) : 0;
-    if (age < CACHE_MAX_AGE) return cached;
+  } catch {
+    // No network → serve cached version (offline)
+    const cached = await cache.match(request);
+    if (cached) return cached;
+    const offline = await caches.match('/offline.html');
+    return offline || new Response(
+      '<!DOCTYPE html><html><body><h1>You are offline</h1><p><a href="/">Retry</a></p></body></html>',
+      { status: 503, headers: { 'Content-Type': 'text/html' } }
+    );
   }
-
-  // No fresh cache — wait for network
-  const net = await networkFetch;
-  if (net) return net;
-  if (cached) return cached;
-  return caches.match('/offline.html') ||
-    new Response('<h1>Offline</h1>', {
-      status: 503,
-      headers: { 'Content-Type': 'text/html' }
-    });
 }
 
+/** Network-first for misc resources. */
 async function networkFirst(request, cacheName) {
   try {
     const response = await fetch(request);
@@ -130,6 +146,6 @@ async function networkFirst(request, cacheName) {
     return response;
   } catch {
     const cached = await caches.match(request);
-    return cached || new Response('Offline', { status: 503 });
+    return cached || new Response('Unavailable offline', { status: 503 });
   }
 }

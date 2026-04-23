@@ -8408,6 +8408,21 @@ def patch_head_all_pages():
             if 'twitter:card' not in h and 'og:title' in h and '</head>' in h:
                 h = h.replace('</head>', '<meta name="twitter:card" content="summary_large_image">\n</head>', 1)
                 changed = True
+            # Inject <meta name="x-build"> for SW version check (idempotent)
+            if 'name="x-build"' not in h and '</head>' in h:
+                h = h.replace('</head>',
+                    f'<meta name="x-build" content="{new_v}">\n</head>', 1)
+                changed = True
+            elif 'name="x-build"' in h:
+                import re as _re2
+                _h2 = _re2.sub(
+                    r'<meta name="x-build" content="[^"]*">',
+                    f'<meta name="x-build" content="{new_v}">',
+                    h
+                )
+                if _h2 != h:
+                    h = _h2
+                    changed = True
             # Inject preconnect hints for CDN resources (if page uses cdn.jsdelivr.net)
             if 'cdn.jsdelivr.net' in h and 'preconnect" href="https://cdn.jsdelivr.net"' not in h:
                 _pc = (
