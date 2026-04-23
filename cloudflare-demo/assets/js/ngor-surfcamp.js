@@ -241,25 +241,8 @@ bindTrack(document.getElementById('reviews-inner'));bindTrack(document.getElemen
   document.querySelectorAll('.footer-bottom p').forEach(function(el){
     el.innerHTML = el.innerHTML.replace(/© \d{4}/, '© ' + currentYear);
   });
-  // Service Worker: version-check guard — reloads if SW is out of sync with the page
+  // Service Worker: register only (no version-check reload loop)
   if('serviceWorker' in navigator){
-    var _reloading = false;
-    // Listen for VERSION_MISMATCH from the SW
-    navigator.serviceWorker.addEventListener('message', function(e){
-      if(e.data && e.data.type === 'VERSION_MISMATCH' && !_reloading){
-        _reloading = true;
-        // Unregister the stale SW then reload so the fresh HTML + new SW are loaded
-        navigator.serviceWorker.getRegistration().then(function(reg){
-          if(reg) return reg.unregister();
-        }).then(function(){ window.location.reload(true); });
-      }
-    });
-    // On page load: ask the active SW for a version check
-    navigator.serviceWorker.ready.then(function(reg){
-      var meta = document.querySelector('meta[name="x-build"]');
-      if(meta && reg.active){
-        reg.active.postMessage({ type: 'CHECK_VERSION', version: meta.content });
-      }
-    });
+    navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(function(){});
   }
 })();

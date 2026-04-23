@@ -9444,9 +9444,7 @@ def _final_cache_bust():
                 _c = _review_old_pat.sub(_review_new, _c)
                 # 4. Normalise all ?v= hashes to the current version
                 _c = _v_pat.sub(_new_str, _c)
-                # 5. Inject SW registration once (before </body>)
-                if 'serviceWorker' not in _c and '</body>' in _c:
-                    _c = _c.replace('</body>', _sw_reg + '\n</body>', 1)
+                # 5. SW registration is in the JS bundle — no inline injection needed
                 _c2 = _c
                 if _c2 != open(_fp, encoding="utf-8", errors="replace").read():
                     open(_fp, "w", encoding="utf-8").write(_c2)
