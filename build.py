@@ -845,7 +845,7 @@ def build_footer(lang, flag_href_override=None):
           <a href="https://www.instagram.com/ngorsurfcampteranga" target="_blank" class="soc-btn ig" aria-label="Instagram"><span style="display:inline-flex">{IG_ICO}</span></a>
           <a href="https://www.tiktok.com/@ngor.surfcampteranga" target="_blank" class="soc-btn tt" aria-label="TikTok"><span style="display:inline-flex">{TT_ICO}</span></a>
         </div>
-        <a href="https://maps.google.com/?q=Ngor+Surfcamp+Teranga+Ngor+Island+Dakar+Senegal" target="_blank" rel="noopener" class="footer-gmb-badge" aria-label="4.7 — 54 {GMB_REVIEWS_LBL[lang]}">
+        <a href="https://www.google.com/maps/search/?api=1&query=Ngor+Surfcamp+Teranga+Dakar+Senegal" target="_blank" rel="noopener" class="footer-gmb-badge" aria-label="4.7 — 54 {GMB_REVIEWS_LBL[lang]}">
           <span class="footer-gmb-logo"><svg viewBox="0 0 24 24" width="16" height="16" xmlns="http://www.w3.org/2000/svg"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg></span>
           <span class="footer-gmb-stars" aria-hidden="true">★★★★★</span>
           <span class="footer-gmb-score">4.7</span>
@@ -3271,7 +3271,7 @@ def patch_getting_here_footers():
 # ════════════════════════════════════════════════════════════════
 # BOOKING PAGE — Google rating + review slider (sidebar)
 # ════════════════════════════════════════════════════════════════
-BOOKING_GOOGLE_MAPS = "https://maps.google.com/?q=Ngor+Surfcamp+Teranga+Ngor+Island+Dakar+Senegal"
+BOOKING_GOOGLE_MAPS = "https://www.google.com/maps/search/?api=1&query=Ngor+Surfcamp+Teranga+Dakar+Senegal"
 BOOKING_GOOGLE_REVIEW = "https://www.google.com/search?q=Ngor+Surfcamp+Teranga&kgmid=/g/11zjkpzzzd#lrd=/g/11zjkpzzzd,1,,,,"
 
 BOOKING_SOCIAL_L10N = {
@@ -8456,7 +8456,7 @@ def inject_homepage_jsonld():
                         "bestRating": "5",
                         "worstRating": "1",
                         "reviewCount": "54",
-                        "url": "https://maps.google.com/?q=Ngor+Surfcamp+Teranga+Ngor+Island+Dakar+Senegal"
+                        "url": "https://www.google.com/maps/search/?api=1&query=Ngor+Surfcamp+Teranga+Dakar+Senegal"
                     },
                     "review": {
                         "@type": "Review",
@@ -8467,7 +8467,7 @@ def inject_homepage_jsonld():
                     },
                     "sameAs": [
                         "https://www.instagram.com/ngor_surfcamp_teranga/",
-                        "https://maps.google.com/?q=Ngor+Surfcamp+Teranga+Ngor+Island+Dakar+Senegal"
+                        "https://www.google.com/maps/search/?api=1&query=Ngor+Surfcamp+Teranga+Dakar+Senegal"
                     ]
                 },
                 {
@@ -8557,11 +8557,11 @@ def inject_nonblog_org_schema():
             "bestRating": "5",
             "worstRating": "1",
             "reviewCount": "54",
-            "url": "https://maps.google.com/?q=Ngor+Surfcamp+Teranga+Ngor+Island+Dakar+Senegal"
+            "url": "https://www.google.com/maps/search/?api=1&query=Ngor+Surfcamp+Teranga+Dakar+Senegal"
         },
         "sameAs": [
             "https://www.instagram.com/ngor_surfcamp_teranga/",
-            "https://maps.google.com/?q=Ngor+Surfcamp+Teranga+Ngor+Island+Dakar+Senegal"
+            "https://www.google.com/maps/search/?api=1&query=Ngor+Surfcamp+Teranga+Dakar+Senegal"
         ]
     }, ensure_ascii=False)
     tag = f'<script type="application/ld+json">{ORG_LD}</script>\n'
@@ -9327,7 +9327,7 @@ def _final_cache_bust():
     _v2_new = f"/assets/css/{ASSET_CSS_MAIN}{_new_str}"
     # Legacy Maps URLs (?cid= or /place/@coord) cause "invalid coord" on iOS → use simple q= search URL
     _maps_cid_pat = _reb.compile(r'https://www\.google\.com/maps(?:\?cid=\d+|/place/[^"\']+)')
-    _maps_cid_new = "https://maps.google.com/?q=Ngor+Surfcamp+Teranga+Ngor+Island+Dakar+Senegal"
+    _maps_cid_new = "https://www.google.com/maps/search/?api=1&query=Ngor+Surfcamp+Teranga+Dakar+Senegal"
     _updated = 0
     for _root, _dirs, _files in os.walk(_demo):
         for _fname in _files:
