@@ -4788,7 +4788,7 @@ def build_booking(lang):
             {incl_items}
           </div>
           <div style="display:inline-flex;flex-direction:row;align-items:center;background:#0a2540;border:1.5px solid #c9a227;border-radius:50px;padding:6px 18px 6px 6px;gap:12px;box-shadow:0 4px 14px rgba(0,0,0,0.18);max-width:100%;box-sizing:border-box">
-            <div style="width:44px;height:44px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1.5px solid #c9a227;flex-shrink:0">
+            <div style="width:44px;height:44px;background:#e8e8e0;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1.5px solid #c9a227;flex-shrink:0">
               <img src="{FSS_LOGO}" alt="Fédération Sénégalaise de Surf" width="32" height="32" loading="lazy" style="object-fit:contain;width:32px;height:32px">
             </div>
             <div style="display:flex;flex-direction:column;text-align:left">
@@ -6452,7 +6452,7 @@ def build_surf_house(lang):
         </div>
       </div>
       <div class="sh2-split-media reveal">
-        <div class="sh2-img-hover" style="border-radius:16px;overflow:hidden;height:100%;min-height:360px">
+          <div class="sh2-img-hover" style="border-radius:16px;overflow:hidden">
           <img src="/assets/images/gallery/CAML1133_c4e634ba.webp" alt="{pe(C['pool_img_alt'])}" width="720" height="520" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;object-position:center center;display:block">
         </div>
       </div>
@@ -7106,7 +7106,7 @@ def build_surfing(lang):
         <span class="s-label">{pe(C["lvl_lbl"])}</span>
         <h2 class="s-title">{pe(C["lvl_h2"])}</h2>
       </div>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px" class="reveal">
+      <div class="surf-level-grid reveal">
         <div style="border-radius:18px;overflow:hidden;box-shadow:0 8px 32px rgba(7,25,46,0.12);background:#fff;border-top:4px solid #29b6f6">
           <img src="/assets/images/gallery/school_4583f4a6.webp" alt="{pe(C["beg_t"])}" style="width:100%;height:220px;object-fit:cover;display:block" loading="lazy" width="460" height="220">
           <div style="padding:22px 20px">
@@ -7585,7 +7585,7 @@ def build_surf_conditions_page(lang):
 
     function mkOpts(y1lbl,y2lbl){{
       return {{
-        responsive:true,maintainAspectRatio:true,
+        responsive:true,maintainAspectRatio:true,aspectRatio:3,
         interaction:{{mode:'index',intersect:false}},
         plugins:{{
           legend:{{position:'top',labels:{{font:baseFont,color:NAVY,boxWidth:12,padding:16}}}},
