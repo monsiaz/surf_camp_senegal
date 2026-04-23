@@ -32,8 +32,8 @@
 <link rel="alternate" hreflang="da-DK" href="https://surf-camp-senegal.vercel.app/da/surf-forhold/">
 
 <noscript></noscript>
-<link rel="stylesheet" href="/assets/css/ngor-surfcamp.css?v=1acd40c9">
-<script src="/assets/js/ngor-surfcamp.js?v=1acd40c9" defer></script>
+<link rel="stylesheet" href="/assets/css/ngor-surfcamp.css?v=5438e039">
+<script src="/assets/js/ngor-surfcamp.js?v=5438e039" defer></script>
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -44,7 +44,7 @@
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "@id": "https://surf-camp-senegal.vercel.app/#organization", "name": "Ngor Surfcamp Teranga", "url": "https://surf-camp-senegal.vercel.app", "logo": "https://surf-camp-senegal.vercel.app/assets/images/wix/c2467f_a31779010ce34c4c8c61cc5868d81f31.webp", "telephone": "+221789257025", "aggregateRating": {"@type": "AggregateRating", "ratingValue": "4.7", "bestRating": "5", "worstRating": "1", "reviewCount": "54", "url": "https://www.google.com/maps/search/?api=1&query=Ngor+Surfcamp+Teranga+Dakar+Senegal"}, "sameAs": ["https://www.instagram.com/ngor_surfcamp_teranga/", "https://www.google.com/maps/search/?api=1&query=Ngor+Surfcamp+Teranga+Dakar+Senegal"]}</script>
 <script id="gcm-consent-default">window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',functionality_storage:'granted',personalization_storage:'denied',security_storage:'granted',wait_for_update:500});</script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="/assets/css/ngor-surfcamp-consent.css?v=1acd40c9">
+<link rel="stylesheet" href="/assets/css/ngor-surfcamp-consent.css?v=5438e039">
 <link rel="preload" href="/assets/fonts/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7W0Q5nw.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/1Ptug8zYS_SKggPNyC0IT4ttDfA.woff2" as="font" type="font/woff2" crossorigin>
 </head>
@@ -326,15 +326,20 @@
     var tempD  =keys.map(function(k){return HIST[k].temp;});
     var NAVY='#0a2540',FIRE='#ff5a1f',OCEAN='#0ea5e9',AMBER='#f59e0b',GRID='rgba(10,37,64,0.08)';
     var FF="'Raleway','Inter',system-ui,sans-serif";
-    var baseFont={family:FF,size:12};
-    var tickOpts={font:baseFont,color:NAVY};
+    var isMobile=window.innerWidth<768;
+    var baseFont={family:FF,size:isMobile?10:12};
+    var tickOpts={font:baseFont,color:NAVY,maxRotation:0};
 
     function mkOpts(y1lbl,y2lbl){
       return {
-        responsive:true,maintainAspectRatio:true,aspectRatio:3,
+        responsive:true,maintainAspectRatio:true,
+        aspectRatio:isMobile?1.4:3,
         interaction:{mode:'index',intersect:false},
         plugins:{
-          legend:{position:'top',labels:{font:baseFont,color:NAVY,boxWidth:12,padding:16}},
+          legend:{
+            position:'top',
+            labels:{font:{family:FF,size:isMobile?9:12},color:NAVY,boxWidth:isMobile?8:12,padding:isMobile?8:16}
+          },
           tooltip:{backgroundColor:NAVY,titleFont:{family:FF,weight:'bold'},bodyFont:{family:FF},padding:10,cornerRadius:8}
         },
         scales:{

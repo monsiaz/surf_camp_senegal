@@ -7594,15 +7594,20 @@ def build_surf_conditions_page(lang):
     var tempD  =keys.map(function(k){{return HIST[k].temp;}});
     var NAVY='#0a2540',FIRE='#ff5a1f',OCEAN='#0ea5e9',AMBER='#f59e0b',GRID='rgba(10,37,64,0.08)';
     var FF="'Raleway','Inter',system-ui,sans-serif";
-    var baseFont={{family:FF,size:12}};
-    var tickOpts={{font:baseFont,color:NAVY}};
+    var isMobile=window.innerWidth<768;
+    var baseFont={{family:FF,size:isMobile?10:12}};
+    var tickOpts={{font:baseFont,color:NAVY,maxRotation:0}};
 
     function mkOpts(y1lbl,y2lbl){{
       return {{
-        responsive:true,maintainAspectRatio:true,aspectRatio:3,
+        responsive:true,maintainAspectRatio:true,
+        aspectRatio:isMobile?1.4:3,
         interaction:{{mode:'index',intersect:false}},
         plugins:{{
-          legend:{{position:'top',labels:{{font:baseFont,color:NAVY,boxWidth:12,padding:16}}}},
+          legend:{{
+            position:'top',
+            labels:{{font:{{family:FF,size:isMobile?9:12}},color:NAVY,boxWidth:isMobile?8:12,padding:isMobile?8:16}}
+          }},
           tooltip:{{backgroundColor:NAVY,titleFont:{{family:FF,weight:'bold'}},bodyFont:{{family:FF}},padding:10,cornerRadius:8}}
         }},
         scales:{{
